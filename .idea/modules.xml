@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/aggregator-core-service/aggregator-core-service.iml" filepath="$PROJECT_DIR$/aggregator-core-service/aggregator-core-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aggregator-lib/aggregator-lib.iml" filepath="$PROJECT_DIR$/aggregator-lib/aggregator-lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aggregator-microservices.iml" filepath="$PROJECT_DIR$/aggregator-microservices.iml" />
+      <module fileurl="file://$PROJECT_DIR$/temperature-service/temperature-service.iml" filepath="$PROJECT_DIR$/temperature-service/temperature-service.iml" />
+    </modules>
+  </component>
+</project>

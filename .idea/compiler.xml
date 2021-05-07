@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="temperature-service" />
+        <module name="aggregator-core-service" />
+        <module name="aggregator-lib" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="aggregator-core-service" target="14" />
+      <module name="aggregator-lib" target="14" />
+      <module name="aggregator-microservices" target="1.5" />
+      <module name="temperature-service" target="14" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="aggregator-core-service" options="-parameters" />
+      <module name="aggregator-lib" options="-parameters" />
+      <module name="temperature-service" options="-parameters" />
+    </option>
+  </component>
+</project>
