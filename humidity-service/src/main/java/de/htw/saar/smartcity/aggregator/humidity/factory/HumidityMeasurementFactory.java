@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.temperature.factory;
+package de.htw.saar.smartcity.aggregator.humidity.factory;
 
 import de.htw.saar.smartcity.aggregator.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.factory.MeasurementFactory;
@@ -9,16 +9,17 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-public class TemperatureMeasurementFactory implements MeasurementFactory {
-    @Override
-    public Measurement<Double> create(Sensor sensor, String measurement) {
+public class HumidityMeasurementFactory implements MeasurementFactory {
 
-        Double temperatureValue = Double.valueOf(measurement);
+    @Override
+    public Measurement create(Sensor sensor, String measurement) {
+
+        Double humidityValue = Double.valueOf(measurement);
 
         BaseMeasurement<Double> m = new BaseMeasurement<>();
         m.setSensor(sensor);
         m.setTime(LocalDateTime.now());
-        m.setValue(temperatureValue);
+        m.setValue(humidityValue);
         return m;
     }
 }

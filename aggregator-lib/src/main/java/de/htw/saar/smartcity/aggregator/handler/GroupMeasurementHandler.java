@@ -14,9 +14,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
-public abstract class GroupMeasurementHandler<T> {
+public abstract class GroupMeasurementHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GroupMeasurementHandler.class);
 
@@ -54,15 +53,10 @@ public abstract class GroupMeasurementHandler<T> {
                 Measurement m = measurementFactory.create(sensor, measurement);
                 groupMeasurement.getSensorNameMeasurementMap().putIfAbsent(sensorName, m);
             }
-            groupMeasurement.setCombinator(combinator.getFunction());
-            groupMeasurement.setAggregateName(combinator.getName());
+            groupMeasurement.setCombinator(combinator);
             groupMeasurement.combine();
 
             storageWrapper.putMeasurement(groupMeasurement);
         }
     }
-
-
-
-
 }

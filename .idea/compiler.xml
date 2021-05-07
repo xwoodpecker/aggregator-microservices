@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="humidity-service" />
         <module name="temperature-service" />
         <module name="aggregator-core-service" />
         <module name="aggregator-lib" />
@@ -15,6 +16,7 @@
       <module name="aggregator-core-service" target="14" />
       <module name="aggregator-lib" target="14" />
       <module name="aggregator-microservices" target="1.5" />
+      <module name="humidity-service" target="14" />
       <module name="temperature-service" target="14" />
     </bytecodeTargetLevel>
   </component>
@@ -22,6 +24,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="aggregator-core-service" options="-parameters" />
       <module name="aggregator-lib" options="-parameters" />
+      <module name="humidity-service" options="-parameters" />
       <module name="temperature-service" options="-parameters" />
     </option>
   </component>

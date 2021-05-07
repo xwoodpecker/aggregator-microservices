@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/aggregator-core-service/aggregator-core-service.iml" filepath="$PROJECT_DIR$/aggregator-core-service/aggregator-core-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/aggregator-lib/aggregator-lib.iml" filepath="$PROJECT_DIR$/aggregator-lib/aggregator-lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/aggregator-microservices.iml" filepath="$PROJECT_DIR$/aggregator-microservices.iml" />
+      <module fileurl="file://$PROJECT_DIR$/humidity-service/humidity-service.iml" filepath="$PROJECT_DIR$/humidity-service/humidity-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/temperature-service/temperature-service.iml" filepath="$PROJECT_DIR$/temperature-service/temperature-service.iml" />
     </modules>
   </component>

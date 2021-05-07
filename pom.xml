@@ -11,6 +11,7 @@
         <module>aggregator-lib</module>
         <module>aggregator-core-service</module>
         <module>temperature-service</module>
+        <module>humidity-service</module>
     </modules>
 
 

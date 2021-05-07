@@ -18,18 +18,10 @@ public class GroupMeasurement<T> extends Measurement implements Serializable {
     @JsonIgnore
     private Map<String, Measurement<T>> sensorNameMeasurementMap = new HashMap<>();
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime time;
-
     private String groupName;
 
-    private String aggregateName;
-
-
-    //todo: use combinator class
     @JsonIgnore
-    private Function<List<Measurement<T>>, T> combinator;
+    private Combinator combinator;
 
 
     public Map<String, Measurement<T>> getSensorNameMeasurementMap() {
@@ -40,13 +32,6 @@ public class GroupMeasurement<T> extends Measurement implements Serializable {
         this.sensorNameMeasurementMap = sensorNameMeasurementMap;
     }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
 
 
     public String getGroupName() {
@@ -58,33 +43,27 @@ public class GroupMeasurement<T> extends Measurement implements Serializable {
     }
 
     public String getAggregateName() {
-        return aggregateName;
+        return combinator.getName();
     }
 
-    public void setAggregateName(String aggregateName) {
-        this.aggregateName = aggregateName;
-    }
-
-    public Function<List<Measurement<T>>, T> getCombinator() {
+    public Combinator getCombinator() {
         return combinator;
     }
 
-    public void setCombinator(Function<List<Measurement<T>>, T> combinator) {
+    public void setCombinator(Combinator combinator) {
         this.combinator = combinator;
     }
 
     public void combine() {
-        value = combinator.apply(sensorNameMeasurementMap.values().stream().collect(Collectors.toList()));
+        value = combinator.getFunction().apply(sensorNameMeasurementMap.values().stream().collect(Collectors.toList()));
     }
-
 
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("GroupMeasurement{");
-        sb.append("sensorNameMeasurementMap=").append(sensorNameMeasurementMap);
-        sb.append(", time=").append(time);
-        sb.append(", combinator=").append(combinator);
+        sb.append("groupName='").append(groupName).append('\'');
+        sb.append(", aggregateName='").append(getAggregateName()).append('\'');
         sb.append(", value=").append(value);
         sb.append(", time=").append(time);
         sb.append('}');
