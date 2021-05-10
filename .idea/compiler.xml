@@ -10,12 +10,14 @@
         <module name="temperature-service" />
         <module name="aggregator-core-service" />
         <module name="aggregator-lib" />
+        <module name="dewpoint-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="aggregator-core-service" target="14" />
       <module name="aggregator-lib" target="14" />
       <module name="aggregator-microservices" target="1.5" />
+      <module name="dewpoint-service" target="14" />
       <module name="humidity-service" target="14" />
       <module name="temperature-service" target="14" />
     </bytecodeTargetLevel>
@@ -24,6 +26,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="aggregator-core-service" options="-parameters" />
       <module name="aggregator-lib" options="-parameters" />
+      <module name="dewpoint-service" options="-parameters" />
       <module name="humidity-service" options="-parameters" />
       <module name="temperature-service" options="-parameters" />
     </option>

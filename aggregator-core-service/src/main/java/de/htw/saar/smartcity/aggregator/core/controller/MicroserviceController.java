@@ -1,10 +1,7 @@
 package de.htw.saar.smartcity.aggregator.core.controller;
 
-import de.htw.saar.smartcity.aggregator.entity.Group;
-import de.htw.saar.smartcity.aggregator.entity.GroupMember;
-import de.htw.saar.smartcity.aggregator.entity.Microservice;
-import de.htw.saar.smartcity.aggregator.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.service.MicroserviceService;
+import de.htw.saar.smartcity.aggregator.lib.entity.Microservice;
+import de.htw.saar.smartcity.aggregator.lib.service.MicroserviceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

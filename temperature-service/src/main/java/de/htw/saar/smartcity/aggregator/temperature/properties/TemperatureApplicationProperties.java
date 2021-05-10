@@ -1,11 +1,11 @@
 package de.htw.saar.smartcity.aggregator.temperature.properties;
 
-import de.htw.saar.smartcity.aggregator.properties.MicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.BaseMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class TemperatureApplicationProperties  extends MicroserviceApplicationProperties {
+public class TemperatureApplicationProperties  extends BaseMicroserviceApplicationProperties {
 
     @Override
     @Value("${TEMPERATURE_MICROSERVICE_NAME}")
@@ -37,6 +37,13 @@ public class TemperatureApplicationProperties  extends MicroserviceApplicationPr
     @Value("${TEMPERATURE_BUCKET}")
     public void setMicroserviceBucket(String microserviceBucket) {
         this.microserviceBucket = microserviceBucket;
+    }
+
+
+    @Override
+    @Value("${TEMPERATURE_SENSOR_TYPE}")
+    public void setMicroserviceSensorType(String microserviceSensorType) {
+        this.microserviceSensorType = microserviceSensorType;
     }
 
 

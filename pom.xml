@@ -12,6 +12,7 @@
         <module>aggregator-core-service</module>
         <module>temperature-service</module>
         <module>humidity-service</module>
+        <module>dewpoint-service</module>
     </modules>
 
 

@@ -1,12 +1,12 @@
 package de.htw.saar.smartcity.aggregator.humidity.properties;
 
-import de.htw.saar.smartcity.aggregator.properties.MicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.BaseMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class HumidityApplicationProperties extends MicroserviceApplicationProperties {
+public class HumidityApplicationProperties extends BaseMicroserviceApplicationProperties {
 
     @Override
     @Value("${HUMIDITY_MICROSERVICE_NAME}")
@@ -36,5 +36,11 @@ public class HumidityApplicationProperties extends MicroserviceApplicationProper
     @Value("${HUMIDITY_BUCKET}")
     public void setMicroserviceBucket(String microserviceBucket) {
         this.microserviceBucket = microserviceBucket;
+    }
+
+    @Override
+    @Value("${HUMIDITY_SENSOR_TYPE}")
+    public void setMicroserviceSensorType(String microserviceSensorType) {
+        this.microserviceSensorType = microserviceSensorType;
     }
 }

@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication(scanBasePackages = "de.htw.saar.smartcity.aggregator")
-@EntityScan("de.htw.saar.smartcity.aggregator")
-@EnableJpaRepositories("de.htw.saar.smartcity.aggregator")
+@EntityScan("de.htw.saar.smartcity.aggregator.lib")
+@EnableJpaRepositories("de.htw.saar.smartcity.aggregator.lib")
 public class CoreApplication {
 
     public static void main(String[] args) {

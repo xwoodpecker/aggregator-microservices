@@ -1,7 +1,7 @@
 package de.htw.saar.smartcity.aggregator.core.controller;
 
-import de.htw.saar.smartcity.aggregator.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.service.SensorService;
+import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
+import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

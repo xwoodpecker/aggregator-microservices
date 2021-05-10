@@ -1,9 +1,9 @@
 package de.htw.saar.smartcity.aggregator.temperature.factory;
 
-import de.htw.saar.smartcity.aggregator.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.factory.MeasurementFactory;
-import de.htw.saar.smartcity.aggregator.model.BaseMeasurement;
-import de.htw.saar.smartcity.aggregator.model.Measurement;
+import de.htw.saar.smartcity.aggregator.lib.factory.MeasurementFactory;
+import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
+import de.htw.saar.smartcity.aggregator.lib.model.BaseMeasurement;
+import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

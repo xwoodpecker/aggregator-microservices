@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "de.htw.saar.smartcity.aggregator")
-@EntityScan("de.htw.saar.smartcity.aggregator")
-@EnableJpaRepositories("de.htw.saar.smartcity.aggregator")
+@EntityScan("de.htw.saar.smartcity.aggregator.lib")
+@EnableJpaRepositories("de.htw.saar.smartcity.aggregator.lib")
 public class TemperatureApplication {
 
     public static void main(String[] args) {

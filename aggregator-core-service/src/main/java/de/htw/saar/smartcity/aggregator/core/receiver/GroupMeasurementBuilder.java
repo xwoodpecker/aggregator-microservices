@@ -1,12 +1,10 @@
 package de.htw.saar.smartcity.aggregator.core.receiver;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.htw.saar.smartcity.aggregator.core.properties.CoreApplicationProperties;
-import de.htw.saar.smartcity.aggregator.entity.Group;
-import de.htw.saar.smartcity.aggregator.entity.Microservice;
-import de.htw.saar.smartcity.aggregator.model.SensorGroupMeasurement;
-import de.htw.saar.smartcity.aggregator.model.SensorMeasurement;
+import de.htw.saar.smartcity.aggregator.lib.entity.Microservice;
+import de.htw.saar.smartcity.aggregator.lib.model.SensorGroupMeasurement;
+import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
+import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

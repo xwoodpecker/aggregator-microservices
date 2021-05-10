@@ -2,18 +2,17 @@ package de.htw.saar.smartcity.aggregator.core.receiver;
 
 import com.rabbitmq.client.*;
 import de.htw.saar.smartcity.aggregator.core.properties.CoreApplicationProperties;
-import de.htw.saar.smartcity.aggregator.entity.Group;
-import de.htw.saar.smartcity.aggregator.entity.GroupMember;
-import de.htw.saar.smartcity.aggregator.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.model.SensorMeasurement;
-import de.htw.saar.smartcity.aggregator.receiver.ReceiverConnection;
-import de.htw.saar.smartcity.aggregator.service.GroupService;
+import de.htw.saar.smartcity.aggregator.lib.receiver.ReceiverConnection;
+import de.htw.saar.smartcity.aggregator.lib.entity.Group;
+import de.htw.saar.smartcity.aggregator.lib.entity.GroupMember;
+import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
+import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
+import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 @Component
 public class GroupsReceiver extends ReceiverConnection {

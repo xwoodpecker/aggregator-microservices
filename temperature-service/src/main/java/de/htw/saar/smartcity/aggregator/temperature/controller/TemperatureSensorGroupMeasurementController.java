@@ -1,7 +1,7 @@
 package de.htw.saar.smartcity.aggregator.temperature.controller;
 
-import de.htw.saar.smartcity.aggregator.controller.SensorGroupMeasurementController;
-import de.htw.saar.smartcity.aggregator.temperature.handler.TemperatureGroupMeasurementHandler;
+import de.htw.saar.smartcity.aggregator.lib.controller.SensorGroupMeasurementController;
+import de.htw.saar.smartcity.aggregator.lib.handler.BaseGroupMeasurementHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/temperatureGroupMeasurements")
 public class TemperatureSensorGroupMeasurementController extends SensorGroupMeasurementController {
 
-    public TemperatureSensorGroupMeasurementController(TemperatureGroupMeasurementHandler temperatureGroupMeasurementHandler) {
-        super(temperatureGroupMeasurementHandler);
-    }
 
+    public TemperatureSensorGroupMeasurementController(BaseGroupMeasurementHandler baseGroupMeasurementHandler) {
+        super(baseGroupMeasurementHandler);
+    }
 }
