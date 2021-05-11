@@ -16,7 +16,7 @@ public class AggregateMeasurement extends Measurement implements Serializable {
     private String groupName;
 
     @JsonIgnore
-    private GroupCombinator groupCombinator;
+    private BaseGroupCombinator baseGroupCombinator;
 
 
     public Map<String, Measurement> getSensorNameMeasurementMap() {
@@ -38,19 +38,19 @@ public class AggregateMeasurement extends Measurement implements Serializable {
     }
 
     public String getAggregateName() {
-        return groupCombinator.getName();
+        return baseGroupCombinator.getName();
     }
 
-    public GroupCombinator getCombinator() {
-        return groupCombinator;
+    public BaseGroupCombinator getCombinator() {
+        return baseGroupCombinator;
     }
 
-    public void setCombinator(GroupCombinator groupCombinator) {
-        this.groupCombinator = groupCombinator;
+    public void setCombinator(BaseGroupCombinator baseGroupCombinator) {
+        this.baseGroupCombinator = baseGroupCombinator;
     }
 
     public void combine() {
-        value = groupCombinator.getFunction().apply(sensorNameMeasurementMap.values().stream().collect(Collectors.toList()));
+        value = baseGroupCombinator.getFunction().apply(sensorNameMeasurementMap.values().stream().collect(Collectors.toList()));
     }
 
 

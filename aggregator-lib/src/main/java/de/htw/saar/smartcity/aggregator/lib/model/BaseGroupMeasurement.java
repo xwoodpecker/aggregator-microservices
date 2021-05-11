@@ -5,23 +5,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
-public class MixedGroupMeasurement extends GroupMeasurement implements Serializable {
+public class BaseGroupMeasurement extends GroupMeasurement implements Serializable {
 
     @JsonIgnore
-    private Map<Long, Measurement> sensorTypeMeasurementMap = new HashMap<>();
+    private Map<String, Measurement> sensorNameMeasurementMap = new HashMap<>();
 
-    public Map<Long, Measurement> getSensorTypeMeasurementMap() {
-        return sensorTypeMeasurementMap;
+    public Map<String, Measurement> getSensorNameMeasurementMap() {
+        return sensorNameMeasurementMap;
     }
 
-    public void setSensorTypeMeasurementMap(Map<Long, Measurement> sensorTypeMeasurementMap) {
-        this.sensorTypeMeasurementMap = sensorTypeMeasurementMap;
+    public void setSensorNameMeasurementMap(Map<String, Measurement> sensorNameMeasurementMap) {
+        this.sensorNameMeasurementMap = sensorNameMeasurementMap;
     }
 
     public void combine() {
-        value = groupCombinator.getFunction().apply(sensorTypeMeasurementMap);
+        value = groupCombinator.getFunction().apply(sensorNameMeasurementMap.values().stream().collect(Collectors.toList()));
     }
 
     @Override

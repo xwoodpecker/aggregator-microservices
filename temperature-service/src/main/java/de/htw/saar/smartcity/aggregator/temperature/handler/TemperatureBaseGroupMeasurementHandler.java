@@ -17,8 +17,8 @@ public class TemperatureBaseGroupMeasurementHandler extends BaseGroupMeasurement
     @Override
     protected void addCombinators() {
 
-        groupCombinators.add(GroupCombinators.averageGroupCombinator);
-        groupCombinators.add(GroupCombinators.minimumGroupCombinator);
-        groupCombinators.add(GroupCombinators.maximumGroupCombinator);
+        baseGroupCombinators.add(GroupCombinators.averageBaseGroupCombinator);
+        baseGroupCombinators.add(GroupCombinators.minimumBaseGroupCombinator);
+        baseGroupCombinators.add(GroupCombinators.maximumBaseGroupCombinator);
     }
 }

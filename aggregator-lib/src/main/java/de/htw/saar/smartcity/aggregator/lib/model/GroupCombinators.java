@@ -26,14 +26,14 @@ public final class GroupCombinators {
     private static final String integerSumName = "sum";
 
 
-    public static GroupCombinator averageGroupCombinator = new GroupCombinator(average, averageName);
+    public static BaseGroupCombinator averageBaseGroupCombinator = new BaseGroupCombinator(average, averageName);
 
-    public static GroupCombinator minimumGroupCombinator = new GroupCombinator(minimum, minimumName);
+    public static BaseGroupCombinator minimumBaseGroupCombinator = new BaseGroupCombinator(minimum, minimumName);
 
-    public static GroupCombinator maximumGroupCombinator = new GroupCombinator(maximum, maximumName);
+    public static BaseGroupCombinator maximumBaseGroupCombinator = new BaseGroupCombinator(maximum, maximumName);
 
-    public static GroupCombinator doubleSumGroupCombinator = new GroupCombinator(doubleSum, doubleSumName);
+    public static BaseGroupCombinator doubleSumBaseGroupCombinator = new BaseGroupCombinator(doubleSum, doubleSumName);
 
-    public static GroupCombinator integerSumGroupCombinator = new GroupCombinator(integerSum, integerSumName);
+    public static BaseGroupCombinator integerSumBaseGroupCombinator = new BaseGroupCombinator(integerSum, integerSumName);
     
 }

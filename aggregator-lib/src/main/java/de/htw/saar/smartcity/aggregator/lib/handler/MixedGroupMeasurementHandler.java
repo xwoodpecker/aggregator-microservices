@@ -11,6 +11,7 @@ import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,10 @@ public abstract class MixedGroupMeasurementHandler implements GroupMeasurementHa
     public MixedGroupMeasurementHandler(StorageWrapper storageWrapper) {
         this.storageWrapper = storageWrapper;
 
+    }
+
+    @PostConstruct
+    private void init() {
         addMeasurementFactories();
         addCombinators();
     }
@@ -44,22 +49,24 @@ public abstract class MixedGroupMeasurementHandler implements GroupMeasurementHa
 
         Map<String, String> measurements = sensorGroupMeasurement.getSensorMeasurements();
 
+        MixedGroupMeasurement mixedGroupMeasurement = new MixedGroupMeasurement();
+
+        mixedGroupMeasurement.setTime(LocalDateTime.now());
+        mixedGroupMeasurement.setGroupName(groupName);
+
+        for (String sensorName : measurements.keySet()) {
+            String measurement = measurements.get(sensorName);
+            Sensor sensor = storageWrapper.getSensor(sensorName);
+            SensorType sensorType = sensor.getSensorType();
+            Long sensorTypeId = sensorType.getId();
+
+            Measurement m = sensorTypeIdMeasurementFactoryMap.get(sensorTypeId).create(sensor, measurement);
+            mixedGroupMeasurement.getSensorTypeMeasurementMap().putIfAbsent(sensorType.getId(), m);
+        }
+
         for(MixedGroupCombinator mixedGroupCombinator : mixedGroupCombinators) {
-            MixedGroupMeasurement mixedGroupMeasurement = new MixedGroupMeasurement();
 
-            mixedGroupMeasurement.setTime(LocalDateTime.now());
-            mixedGroupMeasurement.setGroupName(groupName);
-
-            for (String sensorName : measurements.keySet()) {
-                String measurement = measurements.get(sensorName);
-                Sensor sensor = storageWrapper.getSensor(sensorName);
-                SensorType sensorType = sensor.getSensorType();
-                Long sensorTypeId = sensorType.getId();
-
-                Measurement m = sensorTypeIdMeasurementFactoryMap.get(sensorTypeId).create(sensor, measurement);
-                mixedGroupMeasurement.getSensorNameMeasurementMap().putIfAbsent(sensorType, m);
-            }
-            mixedGroupMeasurement.setCombinator(mixedGroupCombinator);
+            mixedGroupMeasurement.setGroupCombinator(mixedGroupCombinator);
             mixedGroupMeasurement.combine();
 
             storageWrapper.putMeasurement(mixedGroupMeasurement);

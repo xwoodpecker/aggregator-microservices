@@ -1,25 +1,32 @@
 package de.htw.saar.smartcity.aggregator.lib.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class GroupCombinator<T> extends Combinator{
+public abstract class GroupCombinator<T extends Function> {
 
-    private Function<List<Measurement<T>>, T> function;
+    protected String name;
 
-    public GroupCombinator() { }
+    protected T function;
 
-    public GroupCombinator(Function<List<Measurement<T>>, T> function, String name) {
-        this.function = function;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Function<List<Measurement<T>>, T> getFunction() {
+
+    public T getFunction() {
         return function;
     }
 
-    public void setFunction(Function<List<Measurement<T>>, T> function) {
+    public void setFunction(T function) {
         this.function = function;
     }
-
 }

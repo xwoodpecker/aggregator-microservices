@@ -37,7 +37,7 @@ public class Group extends GroupMember {
 
     @OneToOne
     @JoinColumn(name = "group_type_id", nullable = false, table = "groups")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="name")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = GroupTypeIdResolver.class)
     @JsonIdentityReference(alwaysAsId=true)
     private GroupType groupType;
 

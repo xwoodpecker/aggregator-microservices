@@ -24,7 +24,7 @@ public class GroupType {
     @JoinTable(name = "group_type_sensor_type",
             joinColumns = @JoinColumn(name = "group_type_id"),
             inverseJoinColumns = @JoinColumn(name = "sensor_type_id"))
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id") //todo:  resolver = SensorTypeIdResolver.class ?
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     private List<SensorType> sensorTypes = new ArrayList<>();
 

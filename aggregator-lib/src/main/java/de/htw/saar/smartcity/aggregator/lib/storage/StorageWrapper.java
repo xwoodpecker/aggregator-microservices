@@ -2,6 +2,7 @@ package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
+import de.htw.saar.smartcity.aggregator.lib.model.BaseGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.GroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;

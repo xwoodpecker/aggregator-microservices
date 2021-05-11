@@ -3,7 +3,7 @@ package de.htw.saar.smartcity.aggregator.lib.model;
 import java.util.Map;
 import java.util.function.Function;
 
-public class MixedGroupCombinator<T> extends Combinator{
+public class MixedGroupCombinator<T> extends GroupCombinator<Function<Map<Long, Measurement<T>>, T>> {
 
     private Function<Map<Long, Measurement<T>>, T> function;
 
