@@ -13,7 +13,7 @@ import java.util.List;
 @SecondaryTable(name = "groups")
 public class Group extends GroupMember {
 
-    @ManyToMany(mappedBy = "groups", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -27,7 +27,9 @@ public class Group extends GroupMember {
     @JoinTable(name = "group_microservice",
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "microservice_id"))
-    @JsonIgnore
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Microservice> microservices = new ArrayList<>();
 
     @Column(table = "groups", nullable = false)
@@ -101,12 +103,7 @@ public class Group extends GroupMember {
     @JsonIgnore
     public List<Sensor> getAllSensorsRecursive() {
         List<Sensor> sensors = new ArrayList<>();
-        members.forEach(m -> {
-            if(m instanceof Sensor)
-                sensors.add((Sensor) m);
-            else
-                sensors.addAll(((Group)m).getAllSensorsRecursive());
-        });
+        members.forEach(m -> sensors.addAll(m.getAllSensorsRecursive()));
         return sensors;
     }
 
@@ -118,6 +115,18 @@ public class Group extends GroupMember {
         sb.append(", groupType=").append(groupType);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Group other = (Group) obj;
+        return id != null && id.equals(other.getId());
     }
 }
 

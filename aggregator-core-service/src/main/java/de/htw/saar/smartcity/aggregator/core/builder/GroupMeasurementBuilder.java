@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.core.receiver;
+package de.htw.saar.smartcity.aggregator.core.builder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.smartcity.aggregator.lib.entity.Microservice;

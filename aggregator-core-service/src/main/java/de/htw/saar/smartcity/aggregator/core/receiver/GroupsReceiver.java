@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.core.receiver;
 
 import com.rabbitmq.client.*;
+import de.htw.saar.smartcity.aggregator.core.builder.GroupMeasurementBuilder;
 import de.htw.saar.smartcity.aggregator.core.properties.CoreApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.receiver.ReceiverConnection;
 import de.htw.saar.smartcity.aggregator.lib.entity.Group;
@@ -83,15 +84,17 @@ public class GroupsReceiver extends ReceiverConnection {
 
 
     public void memberAddedToGroup(GroupMember member, Group group) {
-        List<Sensor> sensors = new ArrayList<>();
-        if(member instanceof Sensor) {
-            sensors.add(((Sensor) member));
-        }else if (member instanceof Group)
-        {
-            sensors = ((Group)member).getAllSensorsRecursive();
-        }
-        bindQueues(sensors, group.getName());
+
+        bindQueues(member.getAllSensorsRecursive(), group.getName());
     }
+
+
+    public void memberRemovedFromGroup(GroupMember member, Group group) {
+
+        unbindQueues(member.getAllSensorsRecursive(), group.getName());
+    }
+
+
 
 
     public void groupActivated(Group group) {
@@ -136,6 +139,20 @@ public class GroupsReceiver extends ReceiverConnection {
         });
     }
 
+
+
+    private void unbindQueues(List<Sensor> sensors, String groupName) {
+        sensors.forEach(s -> {
+        String routingKey = s.getName().replaceAll("/", ".");
+
+        try {
+            channel.queueUnbind(groupName, "amq.topic", routingKey);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    });
+    }
+
     public void groupDeactivated(Long groupId) {
         try {
             channel.basicCancel(groupIdConsumerTagMap.get(groupId));
@@ -143,4 +160,5 @@ public class GroupsReceiver extends ReceiverConnection {
             e.printStackTrace();
         }
     }
+
 }

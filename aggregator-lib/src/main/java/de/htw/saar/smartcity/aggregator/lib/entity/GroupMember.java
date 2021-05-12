@@ -48,4 +48,6 @@ public abstract class GroupMember implements Serializable {
     public void setGroups(List<Group> parents) {
         this.groups = parents;
     }
+
+    public abstract List<Sensor> getAllSensorsRecursive();
 }

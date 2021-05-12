@@ -70,4 +70,16 @@ public class GroupType {
         sb.append('}');
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GroupType other = (GroupType) obj;
+        return id != null && id.equals(other.getId());
+    }
 }

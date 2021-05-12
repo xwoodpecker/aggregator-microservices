@@ -32,4 +32,9 @@ public class SensorService {
     public List<Sensor> findAllSensors() {
         return sensorRepository.findAll();
     }
+
+    public void deleteSensor(Sensor sensor) {
+        sensor.getGroups().forEach(g -> g.getMembers().removeIf(m -> m.getId() == sensor.getId()));
+        sensorRepository.deleteById(sensor.getId());
+    }
 }

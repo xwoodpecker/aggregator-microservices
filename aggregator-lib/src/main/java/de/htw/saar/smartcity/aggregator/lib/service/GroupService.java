@@ -37,7 +37,11 @@ public class GroupService {
         return groupRepository.findAllByActiveTrue();
     }
 
-    public void deleteGroupById(Long id) {
-        groupRepository.deleteById(id);
+    public void deleteGroup(Group group) {
+        group.getMembers().forEach(m -> m.getGroups().removeIf(g -> g.getId() == group.getId()));
+        group.setMembers(null);
+        group.setMicroservices(null);
+        group.getGroups().forEach(g -> g.getMembers().removeIf(m -> m.getId() == group.getId()));
+        groupRepository.deleteById(group.getId());
     }
 }

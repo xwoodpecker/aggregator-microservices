@@ -2,9 +2,12 @@ package de.htw.saar.smartcity.aggregator.lib.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("S")
@@ -34,7 +37,7 @@ public class Sensor extends GroupMember {
 
     @OneToOne
     @JoinColumn(name = "sensor_type_id", nullable = false, table = "sensors")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="name")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = SensorTypeIdResolver.class)
     @JsonIdentityReference(alwaysAsId=true)
     private SensorType sensorType;
 
@@ -128,6 +131,13 @@ public class Sensor extends GroupMember {
         this.setSensorType(other.getSensorType());
     }
 
+    @JsonIgnore
+    public List<Sensor> getAllSensorsRecursive() {
+        List<Sensor> sensors = new ArrayList<>();
+        sensors.add(this);
+        return sensors;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Sensor{");
@@ -142,5 +152,18 @@ public class Sensor extends GroupMember {
         sb.append(", sensorType='").append(sensorType).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Sensor other = (Sensor) obj;
+        return id != null && id.equals(other.getId());
     }
 }
