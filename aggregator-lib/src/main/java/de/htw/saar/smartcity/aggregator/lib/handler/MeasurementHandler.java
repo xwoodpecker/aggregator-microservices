@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.handler;
 
+import de.htw.saar.smartcity.aggregator.lib.broker.Producer;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.entity.SensorType;
 import de.htw.saar.smartcity.aggregator.lib.factory.MeasurementFactory;
@@ -19,12 +20,19 @@ public abstract class MeasurementHandler  {
     private final SensorTypeService sensorTypeService;
     private final MeasurementFactory measurementFactory;
     private final StorageWrapper storageWrapper;
+    private final Producer producer;
 
-    public MeasurementHandler(BaseMicroserviceApplicationProperties baseMicroserviceApplicationProperties, SensorTypeService sensorTypeService, MeasurementFactory measurementFactory, StorageWrapper storageWrapper) {
+    public MeasurementHandler(BaseMicroserviceApplicationProperties baseMicroserviceApplicationProperties,
+                              SensorTypeService sensorTypeService,
+                              MeasurementFactory measurementFactory,
+                              StorageWrapper storageWrapper,
+                              Producer producer) {
+
         this.baseMicroserviceApplicationProperties = baseMicroserviceApplicationProperties;
         this.sensorTypeService = sensorTypeService;
         this.measurementFactory = measurementFactory;
         this.storageWrapper = storageWrapper;
+        this.producer = producer;
     }
 
     public void handleMessage(SensorMeasurement sensorMeasurement){
@@ -34,7 +42,9 @@ public abstract class MeasurementHandler  {
         log.info("Message arrived for sensor " + sensorName + " Measurement: " + measurement);
 
         Sensor sensor = storageWrapper.getSensor(sensorName);
+
         if(sensor == null) {
+
             sensor = new Sensor();
             sensor.setName(sensorName);
             String sensorTypeName = baseMicroserviceApplicationProperties.getMicroServiceSensorType();
@@ -43,8 +53,16 @@ public abstract class MeasurementHandler  {
             storageWrapper.putSensor(sensor);
         }
 
-       Measurement m = measurementFactory.create(sensor, measurement);
-        storageWrapper.putMeasurement(m);
+        Measurement m = measurementFactory.create(measurement);
+        final Long sensorId = sensor.getId();
+        String url = storageWrapper.putMeasurement(sensor.getName(), m);
+
+        sensor.getGroups().forEach(
+                g -> producer.publish(
+                        String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), sensorId),
+                        url
+                )
+        );
 
     }
 }

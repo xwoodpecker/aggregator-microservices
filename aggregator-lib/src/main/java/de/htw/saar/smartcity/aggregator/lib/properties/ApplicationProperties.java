@@ -12,91 +12,96 @@ import javax.annotation.PostConstruct;
 @PropertySource("classpath:application.properties")
 public abstract class ApplicationProperties  {
 
-    private String BrokerTopic;
+    private String brokerTopic;
 
-    private String BrokerAddress;
+    private String brokerAddress;
 
-    private String BrokerHost;
+    private String brokerHost;
 
-    private String BrokerPort;
+    private String brokerPort;
 
-    private String BrokerUserName;
+    private String brokerUserName;
 
-    private String BrokerPassword;
+    private String brokerPassword;
 
-    private String CaFile;
+    private String caFile;
 
-    private String ClientCertFile;
+    private String clientCertFile;
 
-    private String ClientKeyFile;
+    private String clientKeyFile;
 
-    private String MinioEndpoint;
+    private String minioEndpoint;
 
-    private String MinioAccessKey;
+    private String minioAccessKey;
 
-    private String MinioSecretKey;
+    private String minioSecretKey;
+
+    protected String microserviceQueue;
 
 
     //@Value("${BROKER_TOPIC}")
     private void setBrokerTopic(String BrokerTopic) {
-        this.BrokerTopic = BrokerTopic;
+        this.brokerTopic = BrokerTopic;
     }
 
     //@Value("${BROKER_ADDRESS}")
     private void setBrokerAddress(String BrokerAddress) {
-        this.BrokerAddress = BrokerAddress;
+        this.brokerAddress = BrokerAddress;
     }
 
 
     @Value("${BROKER_HOST}")
     private void setBrokerHost(String brokerHost) {
-        BrokerHost = brokerHost;
+        this.brokerHost = brokerHost;
     }
 
     @Value("${BROKER_PORT}")
     private void setBrokerPort(String brokerPort) {
-        BrokerPort = brokerPort;
+        this.brokerPort = brokerPort;
     }
 
     @Value("${BROKER_USERNAME}")
     private void setUserName(String BrokerUserName) {
-        this.BrokerUserName = BrokerUserName;
+        this.brokerUserName = BrokerUserName;
     }
 
     @Value("${BROKER_PASSWORD}")
     private void setPassword(String BrokerPassword) {
-        this.BrokerPassword = BrokerPassword;
+        this.brokerPassword = BrokerPassword;
     }
 
     @Value("${CA_FILE}")
     private void setCaFile(String CaFile) {
-        this.CaFile = CaFile;
+        this.caFile = CaFile;
     }
 
     @Value("${CLIENT_CERT_FILE}")
     private void setClientCertFile(String ClientCertFile) {
-        this.ClientCertFile = ClientCertFile;
+        this.clientCertFile = ClientCertFile;
     }
 
     @Value("${CLIENT_KEY_FILE}")
     private void setClientKeyFile(String ClientKeyFile) {
-        this.ClientKeyFile = ClientKeyFile;
+        this.clientKeyFile = ClientKeyFile;
     }
 
     @Value("${MINIO_ENDPOINT}")
     private void setMinioEndpoint(String minioEndpoint) {
-        MinioEndpoint = minioEndpoint;
+        this.minioEndpoint = minioEndpoint;
     }
 
     @Value("${MINIO_ACCESSKEY}")
     private void setMinioAccessKey(String minioAccessKey) {
-        MinioAccessKey = minioAccessKey;
+        this.minioAccessKey = minioAccessKey;
     }
 
     @Value("${MINIO_SECRETKEY}")
     private void setMinioSecretKey(String minioSecretKey) {
-        MinioSecretKey = minioSecretKey;
+        this.minioSecretKey = minioSecretKey;
     }
+
+
+    public abstract void setMicroserviceQueue(String microserviceQueue);
 
     /**
     public String getBrokerTopic() {
@@ -109,45 +114,48 @@ public abstract class ApplicationProperties  {
     **/
 
     public String getBrokerHost() {
-        return BrokerHost;
+        return brokerHost;
     }
 
     public String getBrokerPort() {
-        return BrokerPort;
+        return brokerPort;
     }
 
     public String getBrokerUserName() {
-        return BrokerUserName;
+        return brokerUserName;
     }
 
     public String getBrokerPassword() {
-        return BrokerPassword;
+        return brokerPassword;
     }
 
     public String getCaFile() {
-        return CaFile;
+        return caFile;
     }
 
     public String getClientCertFile() {
-        return ClientCertFile;
+        return clientCertFile;
     }
 
     public String getClientKeyFile() {
-        return ClientKeyFile;
+        return clientKeyFile;
     }
 
     public String getMinioEndpoint() {
-        return MinioEndpoint;
+        return minioEndpoint;
     }
 
     public String getMinioAccessKey() {
-        return MinioAccessKey;
+        return minioAccessKey;
     }
 
     public String getMinioSecretKey() {
-        return MinioSecretKey;
+        return minioSecretKey;
     }
 
+    public String getMicroserviceQueue() {
+        return microserviceQueue;
+    }
 
     @PostConstruct
     public void printProperties() {
@@ -156,22 +164,24 @@ public abstract class ApplicationProperties  {
 
     }
 
+
     @Override
-    public String toString()
-    {
-        return new StringBuilder()
-                .append("BrokerTopic=" + BrokerTopic)
-                .append("\tBrokerAddress=" + BrokerAddress)
-                .append("\tBrokerHost=" + BrokerHost)
-                .append("\tBrokerPort=" + BrokerPort)
-                .append("\tBrokerUserName=" + BrokerUserName)
-                .append("\tBrokerPassword=" + BrokerPassword)
-                .append("\tCaFile=" + CaFile)
-                .append("\tClientCertFile=" + ClientCertFile)
-                .append("\tClientKeyFile=" + ClientKeyFile)
-                .append("\tMinioEndpoint=" + MinioEndpoint)
-                .append("\tMinioAccessKey=" + MinioAccessKey)
-                .append("\tMinioSecretKey=" + MinioSecretKey)
-                .toString();
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ApplicationProperties{");
+        sb.append("brokerTopic='").append(brokerTopic).append('\'');
+        sb.append(", brokerAddress='").append(brokerAddress).append('\'');
+        sb.append(", brokerHost='").append(brokerHost).append('\'');
+        sb.append(", brokerPort='").append(brokerPort).append('\'');
+        sb.append(", brokerUserName='").append(brokerUserName).append('\'');
+        sb.append(", brokerPassword='").append(brokerPassword).append('\'');
+        sb.append(", caFile='").append(caFile).append('\'');
+        sb.append(", clientCertFile='").append(clientCertFile).append('\'');
+        sb.append(", clientKeyFile='").append(clientKeyFile).append('\'');
+        sb.append(", minioEndpoint='").append(minioEndpoint).append('\'');
+        sb.append(", minioAccessKey='").append(minioAccessKey).append('\'');
+        sb.append(", minioSecretKey='").append(minioSecretKey).append('\'');
+        sb.append(", microserviceQueue='").append(microserviceQueue).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

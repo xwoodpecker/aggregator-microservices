@@ -2,32 +2,38 @@ package de.htw.saar.smartcity.aggregator.dewpoint.handler;
 
 import de.htw.saar.smartcity.aggregator.dewpoint.properties.DewpointApplicationProperties;
 import de.htw.saar.smartcity.aggregator.dewpoint.storage.DewpointStorageWrapper;
-import de.htw.saar.smartcity.aggregator.humidity.factory.HumidityMeasurementFactory;
+import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.handler.MixedGroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.MixedGroupCombinator;
+import de.htw.saar.smartcity.aggregator.lib.service.GroupMemberService;
+import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorTypeService;
-import de.htw.saar.smartcity.aggregator.temperature.factory.TemperatureMeasurementFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 @Component
 public class DewpointGroupMeasurementHandler extends MixedGroupMeasurementHandler {
 
-
-    private final DewpointApplicationProperties dewpointApplicationProperties;
-    private final SensorTypeService sensorTypeService;
-
     private Long temperatureSensorTypeId;
     private Long humiditySensorTypeId;
 
+    private final SensorService sensorService;
+
     public DewpointGroupMeasurementHandler(DewpointStorageWrapper storageWrapper,
-                                           DewpointApplicationProperties dewpointApplicationProperties, SensorTypeService sensorTypeService) {
-        super(storageWrapper);
-        this.dewpointApplicationProperties = dewpointApplicationProperties;
-        this.sensorTypeService = sensorTypeService;
+                                           DewpointApplicationProperties dewpointApplicationProperties,
+                                           GroupMemberService groupMemberService,
+                                           SensorTypeService sensorTypeService,
+                                           SensorService sensorService) {
+        super(storageWrapper, groupMemberService);
+        this.sensorService = sensorService;
 
         temperatureSensorTypeId = sensorTypeService
                 .findSensorTypeByName(dewpointApplicationProperties.getTemperatureSensorTypeName()).getId();
@@ -37,20 +43,24 @@ public class DewpointGroupMeasurementHandler extends MixedGroupMeasurementHandle
     }
 
 
-    @Override
-    protected void addMeasurementFactories() {
-
-        sensorTypeIdMeasurementFactoryMap.put(temperatureSensorTypeId, new TemperatureMeasurementFactory());
-        sensorTypeIdMeasurementFactoryMap.put(humiditySensorTypeId, new HumidityMeasurementFactory());
-    }
 
 
+    //todo: refactor
     @Override
     protected void addCombinators() {
 
         Function<Map<Long, Measurement<Double>>, Double> dewpointFunction = (map) -> {
-            Double temperatureValue = map.get(temperatureSensorTypeId).getValue();
-            Double humidityValue = map.get(humiditySensorTypeId).getValue();
+
+            Map<Sensor, Measurement<Double>> newMap = map.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(e -> sensorService.findSensorById(e.getKey()).get(),
+                            e -> e.getValue()));
+
+            Sensor temperatureSensor = newMap.keySet().stream().filter(s -> s.getSensorType().getId() == temperatureSensorTypeId).findFirst().get();
+            Sensor humiditySensor = newMap.keySet().stream().filter(s -> s.getSensorType().getId() == humiditySensorTypeId).findFirst().get();
+
+            Double temperatureValue = newMap.get(temperatureSensor).getValue();
+            Double humidityValue = newMap.get(humiditySensor).getValue();
             Double b = 243.12;
             Double a = 17.62;
             Double alpha = Math.log(humidityValue/100) + a * temperatureValue / (b + temperatureValue);

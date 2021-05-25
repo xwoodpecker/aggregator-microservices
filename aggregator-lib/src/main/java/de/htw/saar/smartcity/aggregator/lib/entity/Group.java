@@ -23,14 +23,6 @@ public class Group extends GroupMember {
     @Column(table = "groups", unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "group_microservice",
-            joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "microservice_id"))
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Microservice> microservices = new ArrayList<>();
 
     @Column(table = "groups", nullable = false)
     @ColumnDefault("0")
@@ -46,10 +38,9 @@ public class Group extends GroupMember {
     public Group() {
     }
 
-    public Group(List<GroupMember> members, String name, List<Microservice> microservices, Boolean active, GroupType groupType) {
+    public Group(List<GroupMember> members, String name, Boolean active, GroupType groupType) {
         this.members = members;
         this.name = name;
-        this.microservices = microservices;
         this.active = active;
         this.groupType = groupType;
     }
@@ -68,14 +59,6 @@ public class Group extends GroupMember {
 
     public void setName(String groupName) {
         this.name = groupName;
-    }
-
-    public List<Microservice> getMicroservices() {
-        return microservices;
-    }
-
-    public void setMicroservices(List<Microservice> microservices) {
-        this.microservices = microservices;
     }
 
     public Boolean isActive() {
@@ -100,12 +83,12 @@ public class Group extends GroupMember {
         this.setGroupType(other.getGroupType());
     }
 
-    @JsonIgnore
+    /**@JsonIgnore
     public List<Sensor> getAllSensorsRecursive() {
         List<Sensor> sensors = new ArrayList<>();
         members.forEach(m -> sensors.addAll(m.getAllSensorsRecursive()));
         return sensors;
-    }
+    }**/
 
     @Override
     public String toString() {

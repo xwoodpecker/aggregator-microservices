@@ -15,12 +15,6 @@ public class DewpointApplicationProperties extends MixedGroupMicroserviceApplica
     }
 
     @Override
-    @Value("${DEWPOINT_MICROSERVICE_URL}")
-    public void setMicroserviceURL(String microserviceURL) {
-        this.microserviceURL = microserviceURL;
-    }
-
-    @Override
     @Value("${DEWPOINT_MICROSERVICE_BUCKET}")
     public void setMicroserviceBucket(String microserviceBucket) {
         this.microserviceBucket = microserviceBucket;
@@ -30,6 +24,12 @@ public class DewpointApplicationProperties extends MixedGroupMicroserviceApplica
     @Value("${DEWPOINT_MICROSERVICE_GROUP_TYPE_NAME}")
     public void setMicroserviceGroupTypeName(String microserviceGroupTypeName) {
         this.microserviceGroupTypeName = microserviceGroupTypeName;
+    }
+
+    @Override
+    @Value("${DEWPOINT_MICROSERVICE_QUEUE}")
+    public void setMicroserviceQueue(String microserviceQueue) {
+        this.microserviceQueue = microserviceQueue;
     }
 
     private String temperatureSensorTypeName;

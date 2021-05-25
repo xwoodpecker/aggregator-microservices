@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SensorTypeIdResolver implements ObjectIdResolver {
-    private SensorTypeService sensorTypeService;
+    private final SensorTypeService sensorTypeService;
 
-    public SensorTypeIdResolver(SensorTypeService sensorTypeService) {
+    public SensorTypeIdResolver(@Autowired SensorTypeService sensorTypeService) {
         this.sensorTypeService = sensorTypeService;
     }
 

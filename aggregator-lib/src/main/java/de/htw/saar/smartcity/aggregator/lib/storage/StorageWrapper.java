@@ -1,24 +1,26 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.htw.saar.smartcity.aggregator.lib.entity.GroupMember;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.lib.model.BaseGroupMeasurement;
-import de.htw.saar.smartcity.aggregator.lib.model.GroupMeasurement;
+import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
-import de.htw.saar.smartcity.aggregator.lib.model.BaseMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 import io.minio.*;
-import io.minio.errors.ErrorResponseException;
+import io.minio.errors.*;
+import io.minio.http.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 public abstract class StorageWrapper {
 
+    //todo: refactor
 
     private static final String SENSOR_INFO_FILENAME = "sensor-info";
 
@@ -67,55 +69,21 @@ public abstract class StorageWrapper {
     }
 
 
-    public void putMeasurement(Measurement m) {
-        String folderName = "";
-        if(m instanceof BaseMeasurement) {
-            folderName = ((BaseMeasurement)m).getSensor().getName();
-        } else if (m instanceof GroupMeasurement) {
-            GroupMeasurement gm = (GroupMeasurement)m;
-            folderName = gm.getGroupName() + "/" + gm.getAggregateName();
-        }
+    public String putMeasurement(String memberName, Measurement m) {
+
         String name = String.format("%s/%d/%d/%d/%d/%d:%d",
-                folderName,
+                memberName,
                 m.getTime().getYear(),
                 m.getTime().getMonthValue(),
                 m.getTime().getDayOfMonth(),
                 m.getTime().getHour(),
                 m.getTime().getMinute(),
                 m.getTime().getSecond());
+
         putObject(m, name);
 
-    }
+        return getPresignedObjectUrl(name);
 
-    /**
-    public void putBaseMeasurement(BaseMeasurement m)  {
-        String name = String.format("%s/%d/%d/%d/%d/%d:%d",
-                m.getSensor().getName(),
-                m.getTime().getYear(),
-                m.getTime().getMonthValue(),
-                m.getTime().getDayOfMonth(),
-                m.getTime().getHour(),
-                m.getTime().getMinute(),
-                m.getTime().getSecond());
-        putObject(m, name);
-    }
-
-    public void putGroupMeasurement(GroupMeasurement m)  {
-        String name = String.format("%s/%d/%d/%d/%d/%d:%d",
-                m.getGroupName(),
-                m.getTime().getYear(),
-                m.getTime().getMonthValue(),
-                m.getTime().getDayOfMonth(),
-                m.getTime().getHour(),
-                m.getTime().getMinute(),
-                m.getTime().getSecond());
-        putObject(m, name);
-    }
-     **/
-
-
-    public Measurement getMeasurement(String name)  {
-        return getObject(name, Measurement.class);
     }
 
     public void putSensor(Sensor s) {
@@ -128,7 +96,33 @@ public abstract class StorageWrapper {
         //getObject(name + "/" + SENSOR_INFO_FILENAME, Sensor.class);
     }
 
+    public void putTempGroupMeasurement(String groupName, TempGroupMeasurement tempGroupMeasurement) {
+
+        String name = groupName + "/temp";
+
+        putObject(tempGroupMeasurement, name);
+
+    }
+
+
+    public TempGroupMeasurement getTempGroupMeasurement(String groupName) {
+
+        String name = groupName + "/temp";
+
+        return getObject(name, TempGroupMeasurement.class);
+
+    }
+
+
+    public void deleteTempGroupMeasurement(String groupName) {
+
+        String name = groupName + "/temp";
+
+        deleteObject(name);
+    }
+
     private void putObject(Object o, String name) {
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -142,6 +136,7 @@ public abstract class StorageWrapper {
                             .stream(is, -1, 10485760)
                             //.contentType()
                             .build());
+
         } catch (Exception e){
             log.error("Upload failed.");
             e.printStackTrace();
@@ -149,7 +144,31 @@ public abstract class StorageWrapper {
         log.info("Upload Successful: " + o);
     }
 
+
+    private String getPresignedObjectUrl(String name) {
+
+        String url =
+                null;
+        try {
+            url = minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(applicationProperties.getMicroserviceBucket())
+                            .object(name)
+                            .expiry(2, TimeUnit.MINUTES)
+                            .build());
+        } catch (Exception e){
+            log.error("Url generation failed.");
+            e.printStackTrace();
+        }
+        log.info("Url to Object: " + url);
+
+        return url;
+    }
+
+
     private <T> T getObject(String name, Class<T> target) {
+
         T object = null;
         try {
             InputStream is = minioClient.getObject(
@@ -167,6 +186,24 @@ public abstract class StorageWrapper {
         }
         log.info("GetObject: " + object);
         return object;
+    }
+
+
+    private void deleteObject(String name) {
+
+        try {
+            minioClient.removeObject(
+                    RemoveObjectArgs.builder()
+                            .bucket(applicationProperties.getMicroserviceBucket())
+                            .object(name)
+                            .build());
+        } catch (ErrorResponseException ere) {
+            log.info("Object could not be deleted");
+        } catch (Exception e) {
+            log.error("DeleteObject failed.");
+            e.printStackTrace();
+        }
+        log.info("DeleteObject: " + name);
     }
 
 }

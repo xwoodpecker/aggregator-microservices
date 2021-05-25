@@ -131,12 +131,12 @@ public class Sensor extends GroupMember {
         this.setSensorType(other.getSensorType());
     }
 
-    @JsonIgnore
+    /**@JsonIgnore
     public List<Sensor> getAllSensorsRecursive() {
         List<Sensor> sensors = new ArrayList<>();
         sensors.add(this);
         return sensors;
-    }
+    }**/
 
     @Override
     public String toString() {

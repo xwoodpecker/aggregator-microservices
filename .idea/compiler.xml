@@ -8,13 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="humidity-service" />
         <module name="temperature-service" />
-        <module name="aggregator-core-service" />
         <module name="aggregator-lib" />
         <module name="dewpoint-service" />
+        <module name="aggregator-groups-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="aggregator-core-service" target="14" />
+      <module name="aggregator-groups-service" target="14" />
       <module name="aggregator-lib" target="14" />
       <module name="aggregator-microservices" target="1.5" />
       <module name="dewpoint-service" target="14" />
@@ -24,7 +24,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="aggregator-core-service" options="-parameters" />
+      <module name="aggregator-groups-service" options="-parameters" />
       <module name="aggregator-lib" options="-parameters" />
       <module name="dewpoint-service" options="-parameters" />
       <module name="humidity-service" options="-parameters" />

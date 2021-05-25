@@ -15,12 +15,6 @@ public class HumidityApplicationProperties extends BaseMicroserviceApplicationPr
     }
 
     @Override
-    @Value("${HUMIDITY_MICROSERVICE_URL}")
-    public void setMicroserviceURL(String microserviceURL) {
-        this.microserviceURL = microserviceURL;
-    }
-
-    @Override
     @Value("${HUMIDITY_QUEUE}")
     public void setMicroserviceQueue(String microserviceQueue) {
         this.microserviceQueue = microserviceQueue;

@@ -15,13 +15,6 @@ public class TemperatureApplicationProperties  extends BaseMicroserviceApplicati
     }
 
     @Override
-    @Value("${TEMPERATURE_MICROSERVICE_URL}")
-    public void setMicroserviceURL(String microserviceURL) {
-        this.microserviceURL = microserviceURL;
-
-    }
-
-    @Override
     @Value("${TEMPERATURE_QUEUE}")
     public void setMicroserviceQueue(String microserviceQueue) {
         this.microserviceQueue = microserviceQueue;
@@ -38,7 +31,6 @@ public class TemperatureApplicationProperties  extends BaseMicroserviceApplicati
     public void setMicroserviceBucket(String microserviceBucket) {
         this.microserviceBucket = microserviceBucket;
     }
-
 
     @Override
     @Value("${TEMPERATURE_SENSOR_TYPE}")

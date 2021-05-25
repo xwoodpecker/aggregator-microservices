@@ -5,5 +5,5 @@ import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 
 public interface MeasurementFactory {
 
-    Measurement create(Sensor sensor, String measurement);
+    Measurement create(String measurement);
 }

@@ -3,6 +3,7 @@ package de.htw.saar.smartcity.aggregator.lib.entity;
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
