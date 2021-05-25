@@ -9,28 +9,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("G")
-@SecondaryTable(name = "groups")
-public class Group extends GroupMember {
+@Table(name = "groups")
+public class Group {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<GroupMember> members = new ArrayList<>();
+    private List<Producer> producers = new ArrayList<>();
 
-
-    @Column(table = "groups", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
-
-    @Column(table = "groups", nullable = false)
+    @Column(nullable = false)
     @ColumnDefault("0")
     private Boolean active;
 
+    @OneToMany(mappedBy="group", fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Aggregator> aggregators = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "group_type_id", nullable = false, table = "groups")
+    @JoinColumn(name = "group_type_id", nullable = false)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = GroupTypeIdResolver.class)
     @JsonIdentityReference(alwaysAsId=true)
     private GroupType groupType;
@@ -38,30 +44,40 @@ public class Group extends GroupMember {
     public Group() {
     }
 
-    public Group(List<GroupMember> members, String name, Boolean active, GroupType groupType) {
-        this.members = members;
+    public Group(Long id, List<Producer> producers, String name, Boolean active, List<Aggregator> aggregators, GroupType groupType) {
+        this.id = id;
+        this.producers = producers;
         this.name = name;
         this.active = active;
+        this.aggregators = aggregators;
         this.groupType = groupType;
     }
 
-    public List<GroupMember> getMembers() {
-        return members;
+    public Long getId() {
+        return id;
     }
 
-    public void setMembers(List<GroupMember> members) {
-        this.members = members;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Producer> getProducers() {
+        return producers;
+    }
+
+    public void setProducers(List<Producer> producers) {
+        this.producers = producers;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String groupName) {
-        this.name = groupName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
@@ -77,27 +93,18 @@ public class Group extends GroupMember {
         this.groupType = groupType;
     }
 
-    public void replaceOwnAttributesWithOther(Group other) {
-        this.setName(other.getName());
-        this.setActive(other.isActive());
-        this.setGroupType(other.getGroupType());
+    public List<Aggregator> getAggregators() {
+        return aggregators;
     }
 
-    /**@JsonIgnore
-    public List<Sensor> getAllSensorsRecursive() {
-        List<Sensor> sensors = new ArrayList<>();
-        members.forEach(m -> sensors.addAll(m.getAllSensorsRecursive()));
-        return sensors;
-    }**/
+    public void setAggregators(List<Aggregator> aggregators) {
+        this.aggregators = aggregators;
+    }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Group{");
-        sb.append(", id=").append(id);
-        sb.append(", groupName='").append(name).append('\'');
-        sb.append(", groupType=").append(groupType);
-        sb.append('}');
-        return sb.toString();
+    public void replaceOwnAttributesWithOther(Group other) {
+        this.setName(other.getName());
+        this.setActive(other.getActive());
+        this.setGroupType(other.getGroupType());
     }
 
     @Override
@@ -111,5 +118,19 @@ public class Group extends GroupMember {
         Group other = (Group) obj;
         return id != null && id.equals(other.getId());
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Group{");
+        sb.append("id=").append(id);
+        sb.append(", producers=").append(producers);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", active=").append(active);
+        sb.append(", aggregators=").append(aggregators);
+        sb.append(", groupType=").append(groupType);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }
 

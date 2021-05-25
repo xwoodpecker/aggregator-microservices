@@ -3,14 +3,10 @@ package de.htw.saar.smartcity.aggregator.dewpoint.base;
 import de.htw.saar.smartcity.aggregator.dewpoint.properties.DewpointApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.base.MixedGroupSetupDataLoader;
 import de.htw.saar.smartcity.aggregator.lib.entity.GroupType;
-import de.htw.saar.smartcity.aggregator.lib.entity.SensorType;
+import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
-import de.htw.saar.smartcity.aggregator.lib.service.SensorTypeService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The type Setup data loader.
@@ -22,9 +18,9 @@ public class DewpointSetupDataLoader extends MixedGroupSetupDataLoader {
 
     public DewpointSetupDataLoader(DewpointApplicationProperties mixedGroupMicroserviceApplicationProperties,
                                    GroupTypeService groupTypeService,
-                                   SensorTypeService sensorTypeService) {
+                                   DataTypeService dataTypeService) {
 
-        super(mixedGroupMicroserviceApplicationProperties, groupTypeService, sensorTypeService);
+        super(mixedGroupMicroserviceApplicationProperties, groupTypeService, dataTypeService);
         this.dewpointApplicationProperties = mixedGroupMicroserviceApplicationProperties;
     }
 
@@ -36,10 +32,10 @@ public class DewpointSetupDataLoader extends MixedGroupSetupDataLoader {
         if(groupType == null) {
             groupType = new GroupType();
             groupType.setName(groupTypeName);
-            List<SensorType> sensorTypeList = new ArrayList<>();
+            /**List<DataType> sensorTypeList = new ArrayList<>();
             sensorTypeList.add(sensorTypeService.findSensorTypeByName(dewpointApplicationProperties.getTemperatureSensorTypeName()));
             sensorTypeList.add(sensorTypeService.findSensorTypeByName(dewpointApplicationProperties.getHumiditySensorTypeName()));
-            groupType.setSensorTypes(sensorTypeList);
+            groupType.setSensorTypes(sensorTypeList);**/
             groupTypeService.saveGroupType(groupType);
         }
         return groupType;

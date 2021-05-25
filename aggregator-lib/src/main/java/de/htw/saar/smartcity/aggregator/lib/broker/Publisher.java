@@ -6,13 +6,13 @@ import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public abstract class Producer extends BrokerConnection {
+public abstract class Publisher extends BrokerConnection {
 
     private static final String EXCHANGE_NAME = "group_exchange";
 
     private Channel channel;
 
-    public Producer(ApplicationProperties applicationProperties) {
+    public Publisher(ApplicationProperties applicationProperties) {
 
         super(applicationProperties);
 

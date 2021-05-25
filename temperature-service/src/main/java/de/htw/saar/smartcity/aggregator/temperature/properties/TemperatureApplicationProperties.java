@@ -1,11 +1,11 @@
 package de.htw.saar.smartcity.aggregator.temperature.properties;
 
-import de.htw.saar.smartcity.aggregator.lib.properties.BaseMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class TemperatureApplicationProperties  extends BaseMicroserviceApplicationProperties {
+public class TemperatureApplicationProperties  extends RawMicroserviceApplicationProperties {
 
     @Override
     @Value("${TEMPERATURE_MICROSERVICE_NAME}")

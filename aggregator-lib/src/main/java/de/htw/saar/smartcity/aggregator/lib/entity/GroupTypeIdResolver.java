@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GroupTypeIdResolver implements ObjectIdResolver {
+
     private GroupTypeService groupTypeService;
 
     public GroupTypeIdResolver(GroupTypeService groupTypeService) {

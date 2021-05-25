@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name ="group_types")
-public class GroupType {
+@Table(name ="tags")
+public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,13 +20,20 @@ public class GroupType {
     @Column(unique = true, nullable = false)
     private String name;
 
-    public GroupType() {
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Producer> producers = new ArrayList<>();
+
+    public Tag() {
 
     }
 
-    public GroupType(Long id, String name) {
+    public Tag(Long id, String name, List<Producer> producers) {
         this.id = id;
         this.name = name;
+        this.producers = producers;
     }
 
     public Long getId() {
@@ -45,14 +52,12 @@ public class GroupType {
         this.name = name;
     }
 
+    public List<Producer> getProducers() {
+        return producers;
+    }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("SensorType{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append('}');
-        return sb.toString();
+    public void setProducers(List<Producer> producers) {
+        this.producers = producers;
     }
 
     @Override
@@ -63,7 +68,17 @@ public class GroupType {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        GroupType other = (GroupType) obj;
+        Tag other = (Tag) obj;
         return id != null && id.equals(other.getId());
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Tag{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", producers=").append(producers);
+        sb.append('}');
+        return sb.toString();
     }
 }

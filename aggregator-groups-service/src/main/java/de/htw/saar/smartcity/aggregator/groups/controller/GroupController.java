@@ -1,23 +1,18 @@
 package de.htw.saar.smartcity.aggregator.groups.controller;
 
-import de.htw.saar.smartcity.aggregator.groups.exception.GroupMemberNotFoundException;
 import de.htw.saar.smartcity.aggregator.groups.exception.GroupNotFoundException;
-import de.htw.saar.smartcity.aggregator.groups.exception.IllegalGroupDefinitionException;
-import de.htw.saar.smartcity.aggregator.groups.exception.MicroserviceNotFoundException;
+import de.htw.saar.smartcity.aggregator.groups.exception.ProducerNotFoundException;
 import de.htw.saar.smartcity.aggregator.groups.properties.GroupsApplicationProperties;
-import de.htw.saar.smartcity.aggregator.lib.entity.SensorType;
-import de.htw.saar.smartcity.aggregator.lib.service.GroupMemberService;
-import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import de.htw.saar.smartcity.aggregator.lib.entity.Group;
-import de.htw.saar.smartcity.aggregator.lib.entity.GroupMember;
+import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
+import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
+import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/groups")
@@ -25,17 +20,17 @@ public class GroupController {
 
     private final GroupService groupService;
     private final SensorService sensorService;
-    private final GroupMemberService groupMemberService;
+    private final ProducerService producerService;
     private GroupsApplicationProperties groupsApplicationProperties;
 
     public GroupController(GroupService groupService,
                            SensorService sensorService,
-                           GroupMemberService groupMemberService,
+                           ProducerService producerService,
                            GroupsApplicationProperties groupsApplicationProperties) {
 
         this.groupService = groupService;
         this.sensorService = sensorService;
-        this.groupMemberService = groupMemberService;
+        this.producerService = producerService;
         this.groupsApplicationProperties = groupsApplicationProperties;
     }
 
@@ -97,14 +92,14 @@ public class GroupController {
         return new ResponseEntity(saved, HttpStatus.OK);
     }
 
-    @PutMapping("/{groupId}/members/{memberId}")
-    public ResponseEntity putGroupMember(@PathVariable Long groupId, @PathVariable Long memberId) {
+    @PutMapping("/{groupId}/producers/{producerId}")
+    public ResponseEntity putProducer(@PathVariable Long groupId, @PathVariable Long producerId) {
 
         Group group = groupService.findGroupById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException(groupId));
 
-        GroupMember groupMember = groupMemberService.findGroupMemberById(memberId)
-                .orElseThrow(() -> new GroupMemberNotFoundException(memberId));
+        Producer producer = producerService.findProducerById(producerId)
+                .orElseThrow(() -> new ProducerNotFoundException(producerId));
 
         //todo: develop & test
         /**if(group.getGroupType().getName() != groupsApplicationProperties.getBasicGroupTypeName()) {
@@ -115,25 +110,25 @@ public class GroupController {
                 throw new IllegalGroupDefinitionException();
         }**/
 
-        groupMember.getGroups().add(group);
-        group.getMembers().add(groupMember);
+        producer.getGroups().add(group);
+        group.getProducers().add(producer);
 
         group = groupService.saveGroup(group);
 
         return new ResponseEntity(group, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{groupId}/members/{memberId}")
-    public ResponseEntity deleteGroupMember(@PathVariable Long groupId, @PathVariable Long memberId) {
+    @DeleteMapping("/{groupId}/producers/{producerId}")
+    public ResponseEntity deleteProducer(@PathVariable Long groupId, @PathVariable Long producerId) {
 
         Group group = groupService.findGroupById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException(groupId));
 
-        GroupMember groupMember = groupMemberService.findGroupMemberById(memberId)
-                .orElseThrow(() -> new GroupMemberNotFoundException(memberId));
+        Producer producer = producerService.findProducerById(producerId)
+                .orElseThrow(() -> new ProducerNotFoundException(producerId));
 
-        groupMember.getGroups().remove(group);
-        group.getMembers().remove(groupMember);
+        producer.getGroups().remove(group);
+        group.getProducers().remove(producer);
 
         group = groupService.saveGroup(group);
 

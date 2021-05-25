@@ -2,17 +2,14 @@ package de.htw.saar.smartcity.aggregator.lib.entity;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;
-import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
-import de.htw.saar.smartcity.aggregator.lib.service.SensorTypeService;
+import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
-public class SensorTypeIdResolver implements ObjectIdResolver {
-    private final SensorTypeService sensorTypeService;
+public class DataTypeIdResolver implements ObjectIdResolver {
+    private final DataTypeService dataTypeService;
 
-    public SensorTypeIdResolver(@Autowired SensorTypeService sensorTypeService) {
-        this.sensorTypeService = sensorTypeService;
+    public DataTypeIdResolver(@Autowired DataTypeService dataTypeService) {
+        this.dataTypeService = dataTypeService;
     }
 
     @Override
@@ -23,7 +20,7 @@ public class SensorTypeIdResolver implements ObjectIdResolver {
     @Override
     public Object resolveId(ObjectIdGenerator.IdKey idKey) {
         if(idKey.key instanceof Long)
-            return sensorTypeService.findSensorTypeById((Long)idKey.key).get();
+            return dataTypeService.findDataTypeById((Long)idKey.key).get();
         else
             return null;
     }

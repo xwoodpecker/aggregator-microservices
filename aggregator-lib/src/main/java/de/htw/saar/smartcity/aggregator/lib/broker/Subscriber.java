@@ -1,8 +1,8 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
-import de.htw.saar.smartcity.aggregator.lib.handler.MeasurementHandler;
+import de.htw.saar.smartcity.aggregator.lib.handler.RawMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
-import de.htw.saar.smartcity.aggregator.lib.properties.BaseMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.eclipse.paho.client.mqttv3.*;
@@ -29,20 +29,20 @@ public abstract class Subscriber implements MqttCallback {
      */
     private final MqttClient mqttClient;
 
-    protected final BaseMicroserviceApplicationProperties applicationProperties;
+    protected final RawMicroserviceApplicationProperties applicationProperties;
 
-    protected final MeasurementHandler measurementHandler;
+    protected final RawMeasurementHandler rawMeasurementHandler;
 
 
 
     /**
      * Instantiates a new Mqtt subscriber.
      * @param applicationProperties
-     * @param measurementHandler
+     * @param rawMeasurementHandler
      */
-    public Subscriber(BaseMicroserviceApplicationProperties applicationProperties, MeasurementHandler measurementHandler) {
+    public Subscriber(RawMicroserviceApplicationProperties applicationProperties, RawMeasurementHandler rawMeasurementHandler) {
         this.applicationProperties = applicationProperties;
-        this.measurementHandler = measurementHandler;
+        this.rawMeasurementHandler = rawMeasurementHandler;
 
         this.mqttClient = configMqttClient(this);
 
@@ -69,7 +69,7 @@ public abstract class Subscriber implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) {
-        measurementHandler.handleMessage(new SensorMeasurement(topic, message.toString()));
+        rawMeasurementHandler.handleMessage(new SensorMeasurement(topic, message.toString()));
     }
 
 

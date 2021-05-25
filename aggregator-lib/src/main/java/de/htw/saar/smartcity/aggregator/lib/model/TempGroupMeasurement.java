@@ -28,7 +28,7 @@ public abstract class TempGroupMeasurement {
 
     public TempGroupMeasurement(Group group) {
         this.groupId = group.getId();
-        this.maximumSize = group.getMembers().size();
+        this.maximumSize = group.getProducers().size();
     }
 
     @JsonIgnore

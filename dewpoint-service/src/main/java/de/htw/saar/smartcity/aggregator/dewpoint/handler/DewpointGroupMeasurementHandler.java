@@ -3,12 +3,9 @@ package de.htw.saar.smartcity.aggregator.dewpoint.handler;
 import de.htw.saar.smartcity.aggregator.dewpoint.properties.DewpointApplicationProperties;
 import de.htw.saar.smartcity.aggregator.dewpoint.storage.DewpointStorageWrapper;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.lib.handler.MixedGroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.MixedGroupCombinator;
-import de.htw.saar.smartcity.aggregator.lib.service.GroupMemberService;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
-import de.htw.saar.smartcity.aggregator.lib.service.SensorTypeService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
+/**
 @Component
 public class DewpointGroupMeasurementHandler extends MixedGroupMeasurementHandler {
 
@@ -74,4 +71,4 @@ public class DewpointGroupMeasurementHandler extends MixedGroupMeasurementHandle
         mixedGroupCombinator.setName(dewpointFunctionName);
         mixedGroupCombinators.add(mixedGroupCombinator);
     }
-}
+} **/

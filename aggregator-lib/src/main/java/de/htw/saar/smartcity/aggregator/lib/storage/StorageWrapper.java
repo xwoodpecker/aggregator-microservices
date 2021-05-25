@@ -1,7 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.htw.saar.smartcity.aggregator.lib.entity.GroupMember;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
@@ -69,10 +68,10 @@ public abstract class StorageWrapper {
     }
 
 
-    public String putMeasurement(String memberName, Measurement m) {
+    public String putMeasurement(String name, Measurement m) {
 
-        String name = String.format("%s/%d/%d/%d/%d/%d:%d",
-                memberName,
+        String objName = String.format("%s/%d/%d/%d/%d/%d:%d",
+                name,
                 m.getTime().getYear(),
                 m.getTime().getMonthValue(),
                 m.getTime().getDayOfMonth(),
@@ -80,9 +79,9 @@ public abstract class StorageWrapper {
                 m.getTime().getMinute(),
                 m.getTime().getSecond());
 
-        putObject(m, name);
+        putObject(m, objName);
 
-        return getPresignedObjectUrl(name);
+        return getPresignedObjectUrl(objName);
 
     }
 

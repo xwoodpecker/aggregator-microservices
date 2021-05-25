@@ -1,12 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.handler;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.Group;
-import de.htw.saar.smartcity.aggregator.lib.entity.GroupMember;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.MixedGroupCombinator;
 import de.htw.saar.smartcity.aggregator.lib.model.MixedTempGroupMeasurement;
-import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
-import de.htw.saar.smartcity.aggregator.lib.service.GroupMemberService;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+/**
 public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandler{
 
     private static final Logger log = LoggerFactory.getLogger(MixedGroupMeasurementHandler.class);
@@ -63,7 +60,7 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
 
             //storageWrapper.putMeasurement(group, groupMeasurement);
         }
-    } **/
+    }
 
     public void handleMeasurement(Long groupId, Long groupMemberId, Measurement measurement) {
 
@@ -103,3 +100,4 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
         }
     }
 }
+ **/

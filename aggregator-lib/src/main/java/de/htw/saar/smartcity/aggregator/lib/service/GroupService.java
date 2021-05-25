@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
+import de.htw.saar.smartcity.aggregator.lib.repository.AggregatorRepository;
 import de.htw.saar.smartcity.aggregator.lib.repository.GroupRepository;
 import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,13 @@ import java.util.Optional;
 public class GroupService {
 
     private GroupRepository groupRepository;
+    private AggregatorRepository aggregatorRepository;
 
 
-    public GroupService(GroupRepository groupRepository) {
+    public GroupService(GroupRepository groupRepository, AggregatorRepository aggregatorRepository) {
+
         this.groupRepository = groupRepository;
+        this.aggregatorRepository = aggregatorRepository;
     }
 
     public Group saveGroup(Group group) {
@@ -38,9 +42,11 @@ public class GroupService {
     }
 
     public void deleteGroup(Group group) {
-        group.getMembers().forEach(m -> m.getGroups().removeIf(g -> g.getId() == group.getId()));
-        group.setMembers(null);
-        group.getGroups().forEach(g -> g.getMembers().removeIf(m -> m.getId() == group.getId()));
+        group.getProducers().forEach(p -> p.getGroups().removeIf(g -> g.getId() == group.getId()));
+        group.setProducers(null);
+        //todo: aggregators test, deleted y/n ?
+        group.getAggregators().forEach(a -> aggregatorRepository.deleteById(a.getId()));
+
         groupRepository.deleteById(group.getId());
     }
 }

@@ -1,12 +1,12 @@
 package de.htw.saar.smartcity.aggregator.humidity.properties;
 
-import de.htw.saar.smartcity.aggregator.lib.properties.BaseMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class HumidityApplicationProperties extends BaseMicroserviceApplicationProperties {
+public class HumidityApplicationProperties extends RawMicroserviceApplicationProperties {
 
     @Override
     @Value("${HUMIDITY_MICROSERVICE_NAME}")

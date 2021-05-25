@@ -1,38 +1,38 @@
 package de.htw.saar.smartcity.aggregator.lib.handler;
 
-import de.htw.saar.smartcity.aggregator.lib.broker.Producer;
+import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
+import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.lib.entity.SensorType;
 import de.htw.saar.smartcity.aggregator.lib.factory.MeasurementFactory;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
-import de.htw.saar.smartcity.aggregator.lib.service.SensorTypeService;
+import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
-import de.htw.saar.smartcity.aggregator.lib.properties.BaseMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class MeasurementHandler  {
+public abstract class RawMeasurementHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(MeasurementHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(RawMeasurementHandler.class);
 
-    private final BaseMicroserviceApplicationProperties baseMicroserviceApplicationProperties;
-    private final SensorTypeService sensorTypeService;
+    private final RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties;
+    private final DataTypeService dataTypeService;
     private final MeasurementFactory measurementFactory;
     private final StorageWrapper storageWrapper;
-    private final Producer producer;
+    private final Publisher publisher;
 
-    public MeasurementHandler(BaseMicroserviceApplicationProperties baseMicroserviceApplicationProperties,
-                              SensorTypeService sensorTypeService,
-                              MeasurementFactory measurementFactory,
-                              StorageWrapper storageWrapper,
-                              Producer producer) {
+    public RawMeasurementHandler(RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
+                                 DataTypeService dataTypeService,
+                                 MeasurementFactory measurementFactory,
+                                 StorageWrapper storageWrapper,
+                                 Publisher publisher) {
 
-        this.baseMicroserviceApplicationProperties = baseMicroserviceApplicationProperties;
-        this.sensorTypeService = sensorTypeService;
+        this.rawMicroserviceApplicationProperties = rawMicroserviceApplicationProperties;
+        this.dataTypeService = dataTypeService;
         this.measurementFactory = measurementFactory;
         this.storageWrapper = storageWrapper;
-        this.producer = producer;
+        this.publisher = publisher;
     }
 
     public void handleMessage(SensorMeasurement sensorMeasurement){
@@ -47,9 +47,9 @@ public abstract class MeasurementHandler  {
 
             sensor = new Sensor();
             sensor.setName(sensorName);
-            String sensorTypeName = baseMicroserviceApplicationProperties.getMicroServiceSensorType();
-            SensorType sensorType = sensorTypeService.findSensorTypeByName(sensorTypeName);
-            sensor.setSensorType(sensorType);
+            String sensorTypeName = rawMicroserviceApplicationProperties.getMicroServiceSensorType();
+            DataType dataType = dataTypeService.findDataTypeByName(sensorTypeName);
+            sensor.setDataType(dataType);
             storageWrapper.putSensor(sensor);
         }
 
@@ -58,7 +58,7 @@ public abstract class MeasurementHandler  {
         String url = storageWrapper.putMeasurement(sensor.getName(), m);
 
         sensor.getGroups().forEach(
-                g -> producer.publish(
+                g -> publisher.publish(
                         String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), sensorId),
                         url
                 )

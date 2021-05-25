@@ -3,8 +3,8 @@ package de.htw.saar.smartcity.aggregator.lib.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name ="sensor_types")
-public class SensorType {
+@Table(name ="data_types")
+public class DataType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,11 +13,11 @@ public class SensorType {
     @Column(unique = true, nullable = false)
     private String name;
 
-    public SensorType() {
+    public DataType() {
 
     }
 
-    public SensorType(Long id, String name) {
+    public DataType(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -39,16 +39,6 @@ public class SensorType {
     }
 
     @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("SensorType{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
-
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -56,7 +46,18 @@ public class SensorType {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        SensorType other = (SensorType) obj;
+        DataType other = (DataType) obj;
         return id != null && id.equals(other.getId());
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("DataType{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
+
 }
