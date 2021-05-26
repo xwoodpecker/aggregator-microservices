@@ -81,8 +81,6 @@ public class AggregatorController {
         Combinator combinator = combinatorService.findCombinatorById(combinatorId)
                 .orElseThrow(() -> new CombinatorNotFoundException(combinatorId));
 
-        //todo: develop & test
-
         combinator.getAggregators().add(aggregator);
         aggregator.setCombinator(combinator);
 

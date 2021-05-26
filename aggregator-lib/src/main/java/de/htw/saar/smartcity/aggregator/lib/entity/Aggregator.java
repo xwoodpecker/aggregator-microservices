@@ -9,17 +9,18 @@ import java.util.Objects;
 @Entity
 @DiscriminatorValue("A")
 @SecondaryTable(name = "aggregators")
+//@JsonTypeName("A")
 public class Aggregator extends Producer {
 
     @ManyToOne
-    @JoinColumn(table = "aggregators", name="group_id", nullable=false)
+    @JoinColumn(table = "aggregators", name="group_id")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Group ownerGroup;
 
     @ManyToOne
-    @JoinColumn(table = "aggregators", name="combinator_id", nullable=false)
+    @JoinColumn(table = "aggregators", name="combinator_id")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

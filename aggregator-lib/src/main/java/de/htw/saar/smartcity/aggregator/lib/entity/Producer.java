@@ -10,19 +10,20 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name ="producers")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY)
+/**@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Aggregator.class, name = "A"),
         @JsonSubTypes.Type(value = Sensor.class, name = "S") }
-)
+)**/
 public abstract class Producer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "data_type_id", nullable = false)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = DataTypeIdResolver.class)

@@ -55,6 +55,7 @@ public abstract class RawMeasurementHandler {
 
         Measurement m = measurementFactory.create(measurement);
         final Long sensorId = sensor.getId();
+
         String url = storageWrapper.putMeasurement(sensor.getName(), m);
 
         sensor.getGroups().forEach(

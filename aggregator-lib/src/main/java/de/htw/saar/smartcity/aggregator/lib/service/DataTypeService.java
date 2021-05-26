@@ -4,6 +4,7 @@ import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.repository.DataTypeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +26,9 @@ public class DataTypeService {
 
     public Optional<DataType> findDataTypeById(Long id) {
         return dataTypeRepository.findById(id);
+    }
+
+    public List<DataType> findAllDataTypes() {
+        return dataTypeRepository.findAll();
     }
 }

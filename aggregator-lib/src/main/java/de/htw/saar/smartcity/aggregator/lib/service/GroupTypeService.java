@@ -4,6 +4,7 @@ import de.htw.saar.smartcity.aggregator.lib.entity.GroupType;
 import de.htw.saar.smartcity.aggregator.lib.repository.GroupTypeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +26,9 @@ public class GroupTypeService {
 
     public Optional<GroupType> findGroupTypeById(Long id) {
         return groupTypeRepository.findById(id);
+    }
+
+    public List<GroupType> findAllGroupTypes() {
+        return groupTypeRepository.findAll();
     }
 }

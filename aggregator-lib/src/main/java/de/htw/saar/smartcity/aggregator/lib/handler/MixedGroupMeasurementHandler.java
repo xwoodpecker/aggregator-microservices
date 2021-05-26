@@ -59,12 +59,12 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
 
         for(MixedGroupCombinator mixedGroupCombinator : mixedGroupCombinators)
         {
-            createCombinatorIfNotFound(mixedGroupCombinator.getName());
+            //createCombinatorIfNotFound(mixedGroupCombinator.getName());
         }
     }
 
 
-    @Transactional
+   /** @Transactional
     Combinator createCombinatorIfNotFound(String combinatorName) {
 
         Combinator combinator = combinatorService.findCombinatorByName(combinatorName);
@@ -74,13 +74,13 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
             combinatorService.saveCombinator(combinator);
         }
         return combinator;
-    }
+    } **/
 
 
     public void handleMeasurement(Long groupId, Long producerId, Measurement measurement) {
 
         Optional<Group> optGroup = groupService.findGroupById(groupId);
-        Optional<Producer> optProducer = producerService.findProducerById(groupId);
+        Optional<Producer> optProducer = producerService.findProducerById(producerId);
 
         if(optGroup.isPresent() && optProducer.isPresent()) {
             Group group = optGroup.get();
@@ -95,12 +95,12 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
 
             if(tempGroupMeasurement.ready()) {
 
-                for (Aggregator aggregator : group.getAggregators()) {
+               /** for (Aggregator aggregator : group.getAggregators()) {
 
                     if (aggregator.getCombinator() != null) {
 
                         Optional<MixedGroupCombinator> optMixedGroupCombinator = mixedGroupCombinators.stream()
-                                .filter(c -> c.getName() == aggregator.getCombinator().getName())
+                                //.filter(c -> c.getName().equals(aggregator.getCombinator().getName()))
                                 .findFirst();
                         if (optMixedGroupCombinator.isPresent()) {
                             tempGroupMeasurement.setGroupCombinator(optMixedGroupCombinator.get());
@@ -116,9 +116,16 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
                             );
                         }
 
-                    }
+                    } **/
 
-                }
+               // }
+
+                //todo: delete or reset map ?
+                //storageWrapper.deleteTempGroupMeasurement(group.getName());
+            }
+            else {
+
+                storageWrapper.putTempGroupMeasurement(group.getName(), tempGroupMeasurement);
             }
         }
     }

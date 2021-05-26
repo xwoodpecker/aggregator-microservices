@@ -1,10 +1,12 @@
 package de.htw.saar.smartcity.aggregator.groups.controller;
 
+import de.htw.saar.smartcity.aggregator.groups.exception.AggregatorNotFoundException;
 import de.htw.saar.smartcity.aggregator.groups.exception.GroupNotFoundException;
 import de.htw.saar.smartcity.aggregator.groups.exception.ProducerNotFoundException;
-import de.htw.saar.smartcity.aggregator.groups.properties.GroupsApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
+import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
 import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
@@ -21,17 +23,16 @@ public class GroupController {
     private final GroupService groupService;
     private final SensorService sensorService;
     private final ProducerService producerService;
-    private GroupsApplicationProperties groupsApplicationProperties;
+    private final AggregatorService aggregatorService;
 
     public GroupController(GroupService groupService,
                            SensorService sensorService,
-                           ProducerService producerService,
-                           GroupsApplicationProperties groupsApplicationProperties) {
+                           ProducerService producerService, AggregatorService aggregatorService) {
 
         this.groupService = groupService;
         this.sensorService = sensorService;
         this.producerService = producerService;
-        this.groupsApplicationProperties = groupsApplicationProperties;
+        this.aggregatorService = aggregatorService;
     }
 
     @GetMapping("/")
@@ -101,14 +102,7 @@ public class GroupController {
         Producer producer = producerService.findProducerById(producerId)
                 .orElseThrow(() -> new ProducerNotFoundException(producerId));
 
-        //todo: develop & test
-        /**if(group.getGroupType().getName() != groupsApplicationProperties.getBasicGroupTypeName()) {
-            List<SensorType> currentSensorTypes = group.getMembers().stream().map(s -> s.getSensorType()).collect(Collectors.toList());
-            currentSensorTypes.addAll(groupMember.getAllSensorsRecursive().stream().map(s -> s.getSensorType()).collect(Collectors.toList()));
-            List<SensorType> sensorTypes = group.getGroupType().getSensorTypes();
-            if(currentSensorTypes.size() > sensorTypes.size() || !sensorTypes.containsAll(currentSensorTypes))
-                throw new IllegalGroupDefinitionException();
-        }**/
+        //todo: logic for correct group type definition ?
 
         producer.getGroups().add(group);
         group.getProducers().add(producer);
@@ -136,47 +130,39 @@ public class GroupController {
     }
 
 
+    @PutMapping("/{groupId}/aggregators/{aggregatorId}")
+    public ResponseEntity putAggregator(@PathVariable Long groupId, @PathVariable Long aggregatorId) {
 
-    /**@PutMapping("/{groupId}/sensors/{sensorId}")
-    public ResponseEntity putGroupSensor(@PathVariable Long groupId, @PathVariable Long sensorId) {
+        Group group = groupService.findGroupById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException(groupId));
 
-    Optional<Sensor> sensor = sensorService.findSensorById(sensorId);
-    if(!sensor.isPresent())
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No sensor with the given id found.");
+        Aggregator aggregator = aggregatorService.findAggregatorById(aggregatorId)
+                .orElseThrow(() -> new AggregatorNotFoundException(aggregatorId));
 
-    Optional<Group> group = groupService.findGroupById(groupId);
-    if(!group.isPresent())
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No group with given id found.");
+        //todo: logic for correct group type definition ?
 
-    Sensor s = sensor.get();
-    Group g = group.get();
-    s.getGroups().add(g);
-    g.getMembers().add(s);
-    g = groupService.saveGroup(g);
+        aggregator.setOwnerGroup(group);
+        group.getAggregators().add(aggregator);
 
-    groupsReceiver.memberAddedToGroup(s, g);
+        group = groupService.saveGroup(group);
 
-    return new ResponseEntity(g, HttpStatus.OK);
+        return new ResponseEntity(group, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{groupId}/aggregators/{aggregatorId}")
+    public ResponseEntity deleteAggregator(@PathVariable Long groupId, @PathVariable Long aggregatorId) {
 
-     @PutMapping("/{parentGroupId}/groups/{childGroupId}")
-     public ResponseEntity putGroupGroup(@PathVariable Long parentGroupId, @PathVariable Long childGroupId) {
+        Group group = groupService.findGroupById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException(groupId));
 
-     Optional<Group> parentGroup = groupService.findGroupById(parentGroupId);
-     Optional<Group> childGroup = groupService.findGroupById(childGroupId);
+        Aggregator aggregator = aggregatorService.findAggregatorById(aggregatorId)
+                .orElseThrow(() -> new AggregatorNotFoundException(aggregatorId));
 
-     if(!parentGroup.isPresent() || !childGroup.isPresent())
-     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No group with given id found.");
+        aggregator.setOwnerGroup(null);
+        group.getAggregators().remove(aggregator);
 
-     Group p = parentGroup.get();
-     Group c = childGroup.get();
-     c.getGroups().add(p);
-     p.getMembers().add(c);
-     p = groupService.saveGroup(p);
+        group = groupService.saveGroup(group);
 
-     groupsReceiver.memberAddedToGroup(c, p);
-
-     return new ResponseEntity(p, HttpStatus.OK);
-     } **/
+        return new ResponseEntity(group, HttpStatus.OK);
+    }
 }

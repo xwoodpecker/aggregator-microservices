@@ -39,7 +39,7 @@ public class CombinatorController {
         );
     }
 
-    @PostMapping("/")
+    /**@PostMapping("/")
     public ResponseEntity postCombinator(@RequestBody Combinator combinator) {
 
         return new ResponseEntity(combinatorService.saveCombinator(combinator), HttpStatus.OK);
@@ -64,5 +64,5 @@ public class CombinatorController {
         }
 
         return new ResponseEntity(saved, HttpStatus.OK);
-    }
+    }**/
 }
