@@ -85,22 +85,22 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
         if(optGroup.isPresent() && optProducer.isPresent()) {
             Group group = optGroup.get();
 
-            MixedTempGroupMeasurement tempGroupMeasurement = (MixedTempGroupMeasurement) storageWrapper.getTempGroupMeasurement(group.getName());
+            MixedTempGroupMeasurement tempGroupMeasurement = storageWrapper.getMixedTempGroupMeasurement(group.getName());
 
             if (tempGroupMeasurement == null) {
-                tempGroupMeasurement = new MixedTempGroupMeasurement(group);
+                tempGroupMeasurement = new MixedTempGroupMeasurement(group.getProducers().size());
             }
 
-            tempGroupMeasurement.getProducerIdMeasurementMap().put(producerId, measurement);
+            tempGroupMeasurement.putMeasurement(producerId, measurement);
 
             if(tempGroupMeasurement.ready()) {
 
-               /** for (Aggregator aggregator : group.getAggregators()) {
+               for (Aggregator aggregator : group.getAggregators()) {
 
                     if (aggregator.getCombinator() != null) {
 
                         Optional<MixedGroupCombinator> optMixedGroupCombinator = mixedGroupCombinators.stream()
-                                //.filter(c -> c.getName().equals(aggregator.getCombinator().getName()))
+                                .filter(c -> c.getName().equals(aggregator.getCombinator().getName()))
                                 .findFirst();
                         if (optMixedGroupCombinator.isPresent()) {
                             tempGroupMeasurement.setGroupCombinator(optMixedGroupCombinator.get());
@@ -116,12 +116,12 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
                             );
                         }
 
-                    } **/
+                    }
 
-               // }
+               }
 
                 //todo: delete or reset map ?
-                //storageWrapper.deleteTempGroupMeasurement(group.getName());
+                storageWrapper.deleteTempGroupMeasurement(group.getName());
             }
             else {
 

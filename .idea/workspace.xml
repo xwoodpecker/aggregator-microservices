@@ -4,30 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca41053-8f21-40ed-8ad1-782807679cb6" name="Default Changelist" comment=".">
-      <change afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/advice/TagInUseExceptionHandlerAdvice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/DataTypeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/GroupTypeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/exception/DataTypeNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/exception/GroupTypeNotFoundException.java" afterDir="false" />
+    <list default="true" id="1ca41053-8f21-40ed-8ad1-782807679cb6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/AggregatorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/AggregatorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/CombinatorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/CombinatorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/GroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/GroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/ProducerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/java/de/htw/saar/smartcity/aggregator/groups/controller/ProducerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-groups-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-groups-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/entity/Aggregator.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/entity/Aggregator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/entity/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/entity/Producer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/entity/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/entity/Sensor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/handler/MixedGroupMeasurementHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/handler/MixedGroupMeasurementHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/handler/RawMeasurementHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/handler/RawMeasurementHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/service/DataTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/service/DataTypeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/service/GroupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/service/GroupService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/service/GroupTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/service/GroupTypeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dewpoint-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/dewpoint-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/humidity-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/humidity-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temperature-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/temperature-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temperature-service/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/temperature-service/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/model/BaseTempGroupMeasurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/model/BaseTempGroupMeasurement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/model/MixedTempGroupMeasurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/model/MixedTempGroupMeasurement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/model/TempGroupMeasurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/model/TempGroupMeasurement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/storage/StorageWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/storage/StorageWrapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +97,7 @@
       <recent name="de.htw.saar.smartcity.aggregator.lib.repository" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.HumidityApplication">
+  <component name="RunManager" selected="Spring Boot.DewpointApplication">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -186,8 +169,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.HumidityApplication" />
         <item itemvalue="Spring Boot.DewpointApplication" />
+        <item itemvalue="Spring Boot.HumidityApplication" />
         <item itemvalue="Spring Boot.TemperatureApplication" />
         <item itemvalue="Spring Boot.GroupsApplication" />
         <item itemvalue="Spring Boot.DewpointApplication" />
@@ -230,7 +213,7 @@
       <workItem from="1621937758141" duration="15116000" />
       <workItem from="1622029986904" duration="6475000" />
       <workItem from="1622048683812" duration="183000" />
-      <workItem from="1622049139607" duration="965000" />
+      <workItem from="1622049139607" duration="2433000" />
     </task>
     <task id="LOCAL-00001" summary="gitignore">
       <created>1618492654065</created>
@@ -302,7 +285,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621961857997</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary=".">
+      <created>1622050294337</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1622050294337</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,10 +306,10 @@
     <MESSAGE value="humidity microservice" />
     <MESSAGE value="dewpoint logic" />
     <MESSAGE value="fixed dewpoint calculation and integration" />
-    <MESSAGE value="." />
     <MESSAGE value="pre big change" />
     <MESSAGE value="first refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="first refactoring" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -330,17 +320,17 @@
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/storage/StorageWrapper.java</url>
-          <line>139</line>
-          <option name="timeStamp" value="84" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dewpoint-service/src/main/java/de/htw/saar/smartcity/aggregator/dewpoint/handler/DewpointGroupMeasurementHandler.java</url>
           <line>47</line>
           <properties>
             <option name="lambda-ordinal" value="1" />
           </properties>
           <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/aggregator-lib/src/main/java/de/htw/saar/smartcity/aggregator/lib/model/MixedTempGroupMeasurement.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="107" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.IllegalArgumentException" package="java.lang" />

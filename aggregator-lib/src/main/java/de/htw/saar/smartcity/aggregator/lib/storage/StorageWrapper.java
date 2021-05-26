@@ -2,6 +2,7 @@ package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
+import de.htw.saar.smartcity.aggregator.lib.model.MixedTempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
@@ -109,6 +110,15 @@ public abstract class StorageWrapper {
         String name = groupName + "/temp";
 
         return getObject(name, TempGroupMeasurement.class);
+
+    }
+
+
+    public MixedTempGroupMeasurement getMixedTempGroupMeasurement(String groupName) {
+
+        String name = groupName + "/temp";
+
+        return getObject(name, MixedTempGroupMeasurement.class);
 
     }
 

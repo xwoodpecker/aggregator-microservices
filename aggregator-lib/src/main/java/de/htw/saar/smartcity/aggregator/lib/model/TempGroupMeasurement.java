@@ -19,16 +19,17 @@ public abstract class TempGroupMeasurement {
 
     protected Integer maximumSize;
 
-    @JsonIgnore
-    protected Long groupId;
+    //@JsonIgnore
+    //protected Long groupId;
 
     public TempGroupMeasurement() {
 
     }
 
-    public TempGroupMeasurement(Group group) {
-        this.groupId = group.getId();
-        this.maximumSize = group.getProducers().size();
+    public TempGroupMeasurement(Integer maximumSize) {
+        //this.groupId = group.getId();
+        //this.maximumSize = group.getProducers().size();
+        this.maximumSize = maximumSize;
     }
 
     @JsonIgnore
@@ -52,11 +53,11 @@ public abstract class TempGroupMeasurement {
         this.maximumSize = maximumSize;
     }
 
-    public Long getGroupId() {
+    /**public Long getGroupId() {
         return groupId;
     }
 
     public void setGroupId(Long groupId) {
         this.groupId = groupId;
-    }
+    }**/
 }

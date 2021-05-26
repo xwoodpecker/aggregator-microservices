@@ -12,22 +12,26 @@ import java.util.Map;
 public class MixedTempGroupMeasurement extends TempGroupMeasurement implements Serializable {
 
 
-    private Map<Long, Measurement> producerIdMeasurementMap = new HashMap<>();
+    private HashMap<Long, Measurement> producerIdMeasurementMap = new HashMap<>();
 
 
     public MixedTempGroupMeasurement() {
         super();
     }
 
-    public MixedTempGroupMeasurement(Group group) {
+    /**public MixedTempGroupMeasurement(Group group) {
         super(group);
+    }**/
+
+    public MixedTempGroupMeasurement(Integer maximumSize) {
+        this.maximumSize = maximumSize;
     }
 
-    public Map<Long, Measurement> getProducerIdMeasurementMap() {
+    public HashMap<Long, Measurement> getProducerIdMeasurementMap() {
         return producerIdMeasurementMap;
     }
 
-    public void setProducerIdMeasurementMap(Map<Long, Measurement> producerIdMeasurementMap) {
+    public void setProducerIdMeasurementMap(HashMap<Long, Measurement> producerIdMeasurementMap) {
         this.producerIdMeasurementMap = producerIdMeasurementMap;
     }
 
@@ -49,9 +53,12 @@ public class MixedTempGroupMeasurement extends TempGroupMeasurement implements S
         final StringBuffer sb = new StringBuffer("MixedGroupMeasurement{");
         sb.append("groupCombinator=").append(groupCombinator);
         sb.append(", maximumSize=").append(maximumSize);
-        sb.append(", groupId=").append(groupId);
         sb.append(", producerIdMeasurementMap=").append(producerIdMeasurementMap);
         sb.append('}');
         return sb.toString();
+    }
+
+    public void putMeasurement(Long producerId, Measurement measurement) {
+        producerIdMeasurementMap.put(producerId, measurement);
     }
 }

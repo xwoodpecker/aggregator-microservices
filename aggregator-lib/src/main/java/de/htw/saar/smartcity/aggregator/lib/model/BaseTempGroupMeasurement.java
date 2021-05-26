@@ -13,8 +13,8 @@ public class BaseTempGroupMeasurement extends TempGroupMeasurement implements Se
     @JsonIgnore
     private List<Measurement> measurements = new ArrayList<>();
 
-    public BaseTempGroupMeasurement(Group group) {
-        super(group);
+    public BaseTempGroupMeasurement(Integer maximumSize) {
+        super(maximumSize);
     }
 
     public List<Measurement> getMeasurements() {
