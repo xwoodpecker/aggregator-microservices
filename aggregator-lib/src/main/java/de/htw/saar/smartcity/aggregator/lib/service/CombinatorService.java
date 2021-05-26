@@ -4,6 +4,7 @@ import de.htw.saar.smartcity.aggregator.lib.entity.Combinator;
 import de.htw.saar.smartcity.aggregator.lib.repository.CombinatorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +26,9 @@ public class CombinatorService {
 
     public Optional<Combinator> findCombinatorById(Long id) {
         return combinatorRepository.findById(id);
+    }
+
+    public List<Combinator> findAllCombinators() {
+        return combinatorRepository.findAll();
     }
 }

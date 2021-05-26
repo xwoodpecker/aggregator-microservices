@@ -2,6 +2,7 @@ package de.htw.saar.smartcity.aggregator.dewpoint.base;
 
 import de.htw.saar.smartcity.aggregator.dewpoint.properties.DewpointApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.base.MixedGroupSetupDataLoader;
+import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.entity.GroupType;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
@@ -22,6 +23,8 @@ public class DewpointSetupDataLoader extends MixedGroupSetupDataLoader {
 
         super(mixedGroupMicroserviceApplicationProperties, groupTypeService, dataTypeService);
         this.dewpointApplicationProperties = mixedGroupMicroserviceApplicationProperties;
+
+        createDataTypeIfNotFound(mixedGroupMicroserviceApplicationProperties.getDewPointDataType());
     }
 
     @Override
@@ -39,5 +42,18 @@ public class DewpointSetupDataLoader extends MixedGroupSetupDataLoader {
             groupTypeService.saveGroupType(groupType);
         }
         return groupType;
+    }
+
+
+    @Transactional
+    DataType createDataTypeIfNotFound(String sensorTypeName) {
+
+        DataType dataType = dataTypeService.findDataTypeByName(sensorTypeName);
+        if(dataType == null) {
+            dataType = new DataType();
+            dataType.setName(sensorTypeName);
+            dataTypeService.saveDataType(dataType);
+        }
+        return dataType;
     }
 }

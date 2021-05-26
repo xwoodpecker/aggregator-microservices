@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name ="producers")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Aggregator.class, name = "A"),
 
@@ -28,7 +28,7 @@ public abstract class Producer implements Serializable {
     @JsonIdentityReference(alwaysAsId=true)
     protected DataType dataType;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "producer_tag",
             joinColumns = @JoinColumn(name = "producer_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
@@ -37,8 +37,8 @@ public abstract class Producer implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     protected List<Tag> tags = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "group_producer",
+    @ManyToMany
+    @JoinTable(name = "producer_group",
             joinColumns = @JoinColumn(name = "producer_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")

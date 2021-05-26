@@ -16,7 +16,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "groups")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -29,7 +29,7 @@ public class Group {
     @ColumnDefault("0")
     private Boolean active;
 
-    @OneToMany(mappedBy="group", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="ownerGroup")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

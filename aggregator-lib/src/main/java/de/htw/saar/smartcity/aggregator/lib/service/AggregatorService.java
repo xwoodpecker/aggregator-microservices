@@ -25,20 +25,16 @@ public class AggregatorService {
         return aggregatorRepository.findById(id);
     }
 
-    public Aggregator findAggregatorByName(String name) {
-        return aggregatorRepository.findAggregatorByName(name);
-    }
-
     public List<Aggregator> findAllAggregators() {
         return aggregatorRepository.findAll();
     }
 
     public void deleteAggregator(Aggregator aggregator) {
 
-        aggregator.getGroups().forEach(g -> g.getProducers().removeIf(a -> a.getId() == aggregator.getId()));
-        aggregator.getTags().forEach(t -> t.getProducers().removeIf(a -> a.getId() == aggregator.getId()));
-        aggregator.getCombinator().getAggregators().removeIf(a -> a.getId() == aggregator.getId());
-        aggregator.getOwnerGroup().getAggregators().removeIf(a -> a.getId() == aggregator.getId());
+        aggregator.getGroups().forEach(g -> g.getProducers().removeIf(a -> a.equals(aggregator)));
+        aggregator.getTags().forEach(t -> t.getProducers().removeIf(a -> a.equals(aggregator)));
+        aggregator.getCombinator().getAggregators().removeIf(a -> a.equals(aggregator));
+        aggregator.getOwnerGroup().getAggregators().removeIf(a -> a.equals(aggregator));
         aggregatorRepository.deleteById(aggregator.getId());
     }
 }

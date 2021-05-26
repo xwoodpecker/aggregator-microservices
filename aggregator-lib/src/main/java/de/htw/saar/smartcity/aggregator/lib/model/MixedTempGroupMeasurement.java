@@ -12,7 +12,7 @@ import java.util.Map;
 public class MixedTempGroupMeasurement extends TempGroupMeasurement implements Serializable {
 
 
-    private Map<Long, Measurement> memberIdMeasurementMap = new HashMap<>();
+    private Map<Long, Measurement> producerIdMeasurementMap = new HashMap<>();
 
 
     public MixedTempGroupMeasurement() {
@@ -23,25 +23,24 @@ public class MixedTempGroupMeasurement extends TempGroupMeasurement implements S
         super(group);
     }
 
-
-    public Map<Long, Measurement> getMemberIdMeasurementMap() {
-        return memberIdMeasurementMap;
+    public Map<Long, Measurement> getProducerIdMeasurementMap() {
+        return producerIdMeasurementMap;
     }
 
-    public void setMemberIdMeasurementMap(Map<Long, Measurement> memberIdMeasurementMap) {
-        this.memberIdMeasurementMap = memberIdMeasurementMap;
+    public void setProducerIdMeasurementMap(Map<Long, Measurement> producerIdMeasurementMap) {
+        this.producerIdMeasurementMap = producerIdMeasurementMap;
     }
 
     @JsonIgnore
     public boolean ready() {
-        return maximumSize == memberIdMeasurementMap.values().size();
+        return maximumSize == producerIdMeasurementMap.values().size();
     }
 
     @JsonIgnore
     public Measurement combine() {
         Measurement m = new Measurement();
         m.setTime(LocalDateTime.now());
-        m.setValue(groupCombinator.getFunction().apply(memberIdMeasurementMap));
+        m.setValue(groupCombinator.getFunction().apply(producerIdMeasurementMap));
         return m;
     }
 
@@ -51,7 +50,7 @@ public class MixedTempGroupMeasurement extends TempGroupMeasurement implements S
         sb.append("groupCombinator=").append(groupCombinator);
         sb.append(", maximumSize=").append(maximumSize);
         sb.append(", groupId=").append(groupId);
-        sb.append(", memberIdMeasurementMap=").append(memberIdMeasurementMap);
+        sb.append(", producerIdMeasurementMap=").append(producerIdMeasurementMap);
         sb.append('}');
         return sb.toString();
     }

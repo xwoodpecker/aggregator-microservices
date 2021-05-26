@@ -36,6 +36,8 @@ public class DewpointApplicationProperties extends MixedGroupMicroserviceApplica
 
     private String humiditySensorTypeName;
 
+    private String dewPointDataType;
+
     @Value("${TEMPERATURE_SENSOR_TYPE_NAME}")
     public void setTemperatureSensorTypeName(String temperatureSensorTypeName) {
         this.temperatureSensorTypeName = temperatureSensorTypeName;
@@ -46,6 +48,11 @@ public class DewpointApplicationProperties extends MixedGroupMicroserviceApplica
         this.humiditySensorTypeName = humiditySensorTypeName;
     }
 
+    @Value("${DEWPOINT_DATA_TYPE}")
+    public void setDewPointDataType(String dewPointDataType) {
+        this.dewPointDataType = dewPointDataType;
+    }
+
     public String getHumiditySensorTypeName() {
         return humiditySensorTypeName;
     }
@@ -54,4 +61,7 @@ public class DewpointApplicationProperties extends MixedGroupMicroserviceApplica
         return temperatureSensorTypeName;
     }
 
+    public String getDewPointDataType() {
+        return dewPointDataType;
+    }
 }

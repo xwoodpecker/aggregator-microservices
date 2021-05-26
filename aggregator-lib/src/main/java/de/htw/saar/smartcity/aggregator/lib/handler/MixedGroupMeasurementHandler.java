@@ -1,74 +1,89 @@
 package de.htw.saar.smartcity.aggregator.lib.handler;
 
-import de.htw.saar.smartcity.aggregator.lib.entity.Group;
+import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
+import de.htw.saar.smartcity.aggregator.lib.entity.*;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.MixedGroupCombinator;
 import de.htw.saar.smartcity.aggregator.lib.model.MixedTempGroupMeasurement;
+import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
+import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
+import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-/**
+
 public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandler{
 
     private static final Logger log = LoggerFactory.getLogger(MixedGroupMeasurementHandler.class);
 
 
     protected List<MixedGroupCombinator> mixedGroupCombinators = new ArrayList<>();
-    private final GroupMemberService groupMemberService;
+    private final ProducerService producerService;
+    private final GroupService groupService;
+    private final CombinatorService combinatorService;
+    private final Publisher publisher;
 
-    public MixedGroupMeasurementHandler(StorageWrapper storageWrapper, GroupMemberService groupMemberService) {
+    public MixedGroupMeasurementHandler(StorageWrapper storageWrapper,
+                                        ProducerService producerService,
+                                        GroupService groupService,
+                                        CombinatorService combinatorService,
+                                        Publisher publisher) {
+
         super(storageWrapper);
-        this.groupMemberService = groupMemberService;
+        this.producerService = producerService;
+        this.groupService = groupService;
+        this.combinatorService = combinatorService;
+        this.publisher = publisher;
     }
 
 
     @PostConstruct
     private void init() {
         addCombinators();
+        createCombinatorsIfNotFound();
     }
+
 
     protected abstract void addCombinators();
 
 
-    /**public void handleGroupMeasurement(TempGroupMeasurement groupMeasurement){
-        Group group = groupMeasurement.getGroup();
-        log.info("Message arrived for group " + group.getName() );
+    //todo: refactor
+    private void createCombinatorsIfNotFound() {
 
-        List<Measurement> measurements = groupMeasurement.getSensorTypeMeasurementMap().values().stream().collect(Collectors.toList());
-
-
-
-        for (Measurement measurement : measurements) {
-            String measurement = measurements.get(sensorName);
-            Sensor sensor = storageWrapper.getSensor(sensorName);
-            SensorType sensorType = sensor.getSensorType();
-            Long sensorTypeId = sensorType.getId();
-
-            Measurement m = sensorTypeIdMeasurementFactoryMap.get(sensorTypeId).create(sensor, measurement);
-            mixedGroupMeasurement.getSensorTypeMeasurementMap().putIfAbsent(sensorType.getId(), m);
-        }
-
-        for(MixedGroupCombinator mixedGroupCombinator : mixedGroupCombinators) {
-
-            groupMeasurement.setGroupCombinator(mixedGroupCombinator);
-            groupMeasurement.combine();
-
-            //storageWrapper.putMeasurement(group, groupMeasurement);
+        for(MixedGroupCombinator mixedGroupCombinator : mixedGroupCombinators)
+        {
+            createCombinatorIfNotFound(mixedGroupCombinator.getName());
         }
     }
 
-    public void handleMeasurement(Long groupId, Long groupMemberId, Measurement measurement) {
 
-        Optional<GroupMember> optGroup = groupMemberService.findGroupMemberById(groupId);
-        Optional<GroupMember> optGroupMember = groupMemberService.findGroupMemberById(groupMemberId);
+    @Transactional
+    Combinator createCombinatorIfNotFound(String combinatorName) {
 
-        if(optGroup.isPresent() && optGroupMember.isPresent()) {
-            Group group = (Group) optGroup.get();
+        Combinator combinator = combinatorService.findCombinatorByName(combinatorName);
+        if(combinator == null) {
+            combinator = new Combinator();
+            combinator.setName(combinatorName);
+            combinatorService.saveCombinator(combinator);
+        }
+        return combinator;
+    }
+
+
+    public void handleMeasurement(Long groupId, Long producerId, Measurement measurement) {
+
+        Optional<Group> optGroup = groupService.findGroupById(groupId);
+        Optional<Producer> optProducer = producerService.findProducerById(groupId);
+
+        if(optGroup.isPresent() && optProducer.isPresent()) {
+            Group group = optGroup.get();
 
             MixedTempGroupMeasurement tempGroupMeasurement = (MixedTempGroupMeasurement) storageWrapper.getTempGroupMeasurement(group.getName());
 
@@ -76,28 +91,37 @@ public abstract class MixedGroupMeasurementHandler extends GroupMeasurementHandl
                 tempGroupMeasurement = new MixedTempGroupMeasurement(group);
             }
 
-            tempGroupMeasurement.getMemberIdMeasurementMap().put(groupMemberId, measurement);
+            tempGroupMeasurement.getProducerIdMeasurementMap().put(producerId, measurement);
 
             if(tempGroupMeasurement.ready()) {
 
-                for(MixedGroupCombinator mixedGroupCombinator : mixedGroupCombinators) {
+                for (Aggregator aggregator : group.getAggregators()) {
 
-                    tempGroupMeasurement.setGroupCombinator(mixedGroupCombinator);
-                    Measurement m = tempGroupMeasurement.combine();
+                    if (aggregator.getCombinator() != null) {
 
-                    String url = storageWrapper.putMeasurement(group.getName() + "/" + tempGroupMeasurement.getAggregateName(), m);
+                        Optional<MixedGroupCombinator> optMixedGroupCombinator = mixedGroupCombinators.stream()
+                                .filter(c -> c.getName() == aggregator.getCombinator().getName())
+                                .findFirst();
+                        if (optMixedGroupCombinator.isPresent()) {
+                            tempGroupMeasurement.setGroupCombinator(optMixedGroupCombinator.get());
 
-                    //todo: oof
+                            Measurement m = tempGroupMeasurement.combine();
+                            String url = storageWrapper.putMeasurement(group.getName() + "/" + tempGroupMeasurement.getAggregateName(), m);
 
-                    storageWrapper.deleteTempGroupMeasurement(group.getName());
+                            aggregator.getGroups().forEach(
+                                    g -> publisher.publish(
+                                            String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), aggregator.getId()),
+                                            url
+                                    )
+                            );
+                        }
+
+                    }
+
                 }
-            } else {
-
-                storageWrapper.putTempGroupMeasurement(group.getName(), tempGroupMeasurement);
             }
-
-
         }
     }
+
+
 }
- **/

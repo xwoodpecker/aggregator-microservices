@@ -35,6 +35,7 @@ public abstract class GroupsReceiver extends BrokerConnection {
             if(applicationProperties instanceof MixedGroupMicroserviceApplicationProperties)
                 groupTypeName = ((MixedGroupMicroserviceApplicationProperties)applicationProperties).getMicroserviceGroupTypeName();
 
+
             channel.queueBind(applicationProperties.getMicroserviceQueue(), "group_exchange", groupTypeName + ".#");
 
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
@@ -45,13 +46,13 @@ public abstract class GroupsReceiver extends BrokerConnection {
                 if(parts != null & parts.length == 3) {
 
                     Long groupId = Long.valueOf(parts[1]);
-                    Long memberId = Long.valueOf(parts[2]);
+                    Long producerId = Long.valueOf(parts[2]);
 
                     InputStream is = URI.create(url).toURL().openConnection().getInputStream();
                     ObjectMapper objectMapper = new ObjectMapper();
                     Measurement measurement = objectMapper.readValue(is.readAllBytes(), Measurement.class);
 
-                    groupMeasurementHandler.handleMeasurement(groupId, memberId, measurement);
+                    groupMeasurementHandler.handleMeasurement(groupId, producerId, measurement);
                 }
 
             };

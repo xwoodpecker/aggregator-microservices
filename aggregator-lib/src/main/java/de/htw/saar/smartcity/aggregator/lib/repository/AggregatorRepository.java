@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AggregatorRepository extends JpaRepository<Aggregator, Long> {
 
-    Aggregator findAggregatorByName(String name);
 }
