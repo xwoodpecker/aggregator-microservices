@@ -1,5 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("S")
 @SecondaryTable(name = "sensors")
+@JsonTypeName("S")
 public class Sensor extends Producer {
 
     @Column(table = "sensors", unique = true, nullable = false)

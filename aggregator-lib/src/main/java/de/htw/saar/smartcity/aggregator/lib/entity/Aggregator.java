@@ -1,9 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +9,8 @@ import java.util.Objects;
 @Entity
 @DiscriminatorValue("A")
 @SecondaryTable(name = "aggregators")
-public class Aggregator extends Producer{
+@JsonTypeName("A")
+public class Aggregator extends Producer {
 
     @ManyToOne
     @JoinColumn(table = "aggregators", name="group_id", nullable=false)
