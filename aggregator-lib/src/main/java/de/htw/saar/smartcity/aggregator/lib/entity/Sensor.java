@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("S")
 @SecondaryTable(name = "sensors")
-@JsonTypeName("S")
 public class Sensor extends Producer {
 
     @Column(table = "sensors", unique = true, nullable = false)

@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity
 @DiscriminatorValue("A")
 @SecondaryTable(name = "aggregators")
-@JsonTypeName("A")
 public class Aggregator extends Producer {
 
     @ManyToOne
