@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.model;
 
+/**
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 
@@ -38,3 +39,4 @@ public class BaseTempGroupMeasurement extends TempGroupMeasurement implements Se
         return sb.toString();
     }
 }
+**/

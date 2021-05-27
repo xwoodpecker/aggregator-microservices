@@ -2,10 +2,11 @@ package de.htw.saar.smartcity.aggregator.dewpoint.handler;
 
 import de.htw.saar.smartcity.aggregator.dewpoint.properties.DewpointApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
+import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.lib.handler.MixedGroupMeasurementHandler;
+import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
-import de.htw.saar.smartcity.aggregator.lib.model.MixedGroupCombinator;
+import de.htw.saar.smartcity.aggregator.lib.model.GroupCombinator;
 import de.htw.saar.smartcity.aggregator.lib.service.*;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,8 @@ import java.util.stream.Collectors;
 
 
 @Component
-public class DewpointGroupMeasurementHandler extends MixedGroupMeasurementHandler {
+public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
 
-    private final SensorService sensorService;
     private final DewpointApplicationProperties applicationProperties;
 
     public DewpointGroupMeasurementHandler(StorageWrapper storageWrapper,
@@ -26,10 +26,9 @@ public class DewpointGroupMeasurementHandler extends MixedGroupMeasurementHandle
                                            GroupService groupService,
                                            CombinatorService combinatorService,
                                            Publisher publisher,
-                                           SensorService sensorService, DewpointApplicationProperties applicationProperties) {
+                                           DewpointApplicationProperties applicationProperties) {
 
         super(storageWrapper, producerService, groupService, combinatorService, publisher);
-        this.sensorService = sensorService;
         this.applicationProperties = applicationProperties;
 
     }
@@ -40,24 +39,24 @@ public class DewpointGroupMeasurementHandler extends MixedGroupMeasurementHandle
 
         Function<Map<Long, Measurement<Double>>, Double> dewpointFunction = (map) -> {
 
-            Map<Sensor, Measurement<Double>> newMap = map.entrySet()
+            Map<Producer, Measurement<Double>> newMap = map.entrySet()
                     .stream()
-                    .collect(Collectors.toMap(e -> sensorService.findSensorById(e.getKey()).get(),
+                    .collect(Collectors.toMap(e -> producerService.findProducerById(e.getKey()).get(),
                             e -> e.getValue()));
 
-            Sensor temperatureSensor = newMap.keySet()
+            Producer temperatureProducer = newMap.keySet()
                     .stream()
-                    .filter(s -> s.getDataType().getName().equals(applicationProperties.getTemperatureSensorTypeName()))
+                    .filter(p -> p.getDataType().getName().equals(applicationProperties.getTemperatureDataTypeName()))
                     .findFirst()
                     .get();
-            Sensor humiditySensor = newMap.keySet()
+            Producer humidityProducer = newMap.keySet()
                     .stream()
-                    .filter(s -> s.getDataType().getName().equals(applicationProperties.getHumiditySensorTypeName()))
+                    .filter(p -> p.getDataType().getName().equals(applicationProperties.getHumidityDataTypeName()))
                     .findFirst()
                     .get();
 
-            Double temperatureValue = newMap.get(temperatureSensor).getValue();
-            Double humidityValue = newMap.get(humiditySensor).getValue();
+            Double temperatureValue = newMap.get(temperatureProducer).getValue();
+            Double humidityValue = newMap.get(humidityProducer).getValue();
             Double b = 243.12;
             Double a = 17.62;
             Double alpha = Math.log(humidityValue/100) + a * temperatureValue / (b + temperatureValue);
@@ -66,9 +65,8 @@ public class DewpointGroupMeasurementHandler extends MixedGroupMeasurementHandle
         };
 
         String dewpointFunctionName = "dewpoint-combinator";
-        MixedGroupCombinator mixedGroupCombinator = new MixedGroupCombinator();
-        mixedGroupCombinator.setFunction(dewpointFunction);
-        mixedGroupCombinator.setName(dewpointFunctionName);
-        mixedGroupCombinators.add(mixedGroupCombinator);
+        GroupCombinator<Double> groupCombinator =
+                new GroupCombinator<>(dewpointFunctionName, dewpointFunction);
+        groupCombinators.add(groupCombinator);
     }
 }

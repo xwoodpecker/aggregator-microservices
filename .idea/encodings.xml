@@ -4,7 +4,9 @@
     <file url="file://$PROJECT_DIR$/aggregator-groups-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/aggregator-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dewpoint-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/heatflux-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/humidity-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/temperature-aggregator-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/temperature-service/src/main/java" charset="UTF-8" />
   </component>
 </project>

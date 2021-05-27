@@ -6,7 +6,7 @@ import com.rabbitmq.client.DeliverCallback;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
-import de.htw.saar.smartcity.aggregator.lib.properties.MixedGroupMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.GroupMicroserviceApplicationProperties;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,8 +32,8 @@ public abstract class GroupsReceiver extends BrokerConnection {
 
             //todo refactor
             String groupTypeName = null;
-            if(applicationProperties instanceof MixedGroupMicroserviceApplicationProperties)
-                groupTypeName = ((MixedGroupMicroserviceApplicationProperties)applicationProperties).getMicroserviceGroupTypeName();
+            if(applicationProperties instanceof GroupMicroserviceApplicationProperties)
+                groupTypeName = ((GroupMicroserviceApplicationProperties)applicationProperties).getMicroserviceGroupTypeName();
 
 
             channel.queueBind(applicationProperties.getMicroserviceQueue(), "group_exchange", groupTypeName + ".#");

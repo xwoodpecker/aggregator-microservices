@@ -24,18 +24,18 @@ public abstract class RawSetupDataLoader extends SetupDataLoader {
         if(alreadySetup)
             return;
 
-        createDataTypeIfNotFound(rawMicroserviceApplicationProperties.getMicroServiceSensorType());
+        createDataTypeIfNotFound(rawMicroserviceApplicationProperties.getMicroServiceDataType());
 
         alreadySetup = true;
     }
 
     @Transactional
-    DataType createDataTypeIfNotFound(String sensorTypeName) {
+    DataType createDataTypeIfNotFound(String dataTypeName) {
 
-        DataType dataType = dataTypeService.findDataTypeByName(sensorTypeName);
+        DataType dataType = dataTypeService.findDataTypeByName(dataTypeName);
         if(dataType == null) {
             dataType = new DataType();
-            dataType.setName(sensorTypeName);
+            dataType.setName(dataTypeName);
             dataTypeService.saveDataType(dataType);
         }
         return dataType;

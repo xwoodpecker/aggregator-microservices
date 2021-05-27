@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {"de.htw.saar.smartcity.aggregator"})
+@SpringBootApplication(scanBasePackages = {"de.htw.saar.smartcity.aggregator.lib", "de.htw.saar.smartcity.aggregator"})
 @EntityScan("de.htw.saar.smartcity.aggregator.lib")
 @EnableJpaRepositories("de.htw.saar.smartcity.aggregator.lib")
 public class HumidityApplication {

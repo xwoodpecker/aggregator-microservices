@@ -7,25 +7,25 @@ public abstract class RawMicroserviceApplicationProperties extends MicroserviceA
 
     protected String[] microserviceTopics;
 
-    protected String microserviceSensorType;
+    protected String microserviceDataType;
 
     public abstract void setMicroserviceTopics(String[] microserviceTopics);
 
-    public abstract void setMicroserviceSensorType(String microserviceSensorType);
+    public abstract void setMicroserviceDataType(String microserviceDataType);
 
     public String[] getMicroserviceTopics() {
         return microserviceTopics;
     }
 
-    public String getMicroServiceSensorType() {
-        return microserviceSensorType;
+    public String getMicroServiceDataType() {
+        return microserviceDataType;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append("\tmicroserviceTopics:").append(microserviceTopics == null ? "null" : Arrays.asList(microserviceTopics).toString());
-        sb.append("\tmicroserviceSensorType: " + microserviceSensorType);
+        sb.append("\tmicroserviceDataType: " + microserviceDataType);
         return sb.toString();
     }
 }

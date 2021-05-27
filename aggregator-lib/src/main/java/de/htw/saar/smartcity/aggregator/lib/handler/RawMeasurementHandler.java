@@ -47,8 +47,8 @@ public abstract class RawMeasurementHandler {
 
             sensor = new Sensor();
             sensor.setName(sensorName);
-            String sensorTypeName = rawMicroserviceApplicationProperties.getMicroServiceSensorType();
-            DataType dataType = dataTypeService.findDataTypeByName(sensorTypeName);
+            String dataTypeName = rawMicroserviceApplicationProperties.getMicroServiceDataType();
+            DataType dataType = dataTypeService.findDataTypeByName(dataTypeName);
             sensor.setDataType(dataType);
             storageWrapper.putSensor(sensor);
         }

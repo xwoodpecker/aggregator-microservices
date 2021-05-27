@@ -13,6 +13,7 @@
         <module>temperature-service</module>
         <module>humidity-service</module>
         <module>dewpoint-service</module>
+        <module>heatflux-service</module>
     </modules>
 
 

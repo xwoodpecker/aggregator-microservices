@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.groups.base;
 
+/**
 import de.htw.saar.smartcity.aggregator.groups.properties.GroupsApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
 import de.htw.saar.smartcity.aggregator.lib.entity.GroupType;
@@ -47,4 +48,4 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         }
         return groupType;
     }
-}
+}**/

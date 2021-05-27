@@ -1,34 +1,27 @@
 package de.htw.saar.smartcity.aggregator.lib.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import de.htw.saar.smartcity.aggregator.lib.entity.Group;
-import org.hibernate.annotations.Type;
 
-import java.util.stream.Collectors;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 
-@JsonTypeInfo( use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = MixedTempGroupMeasurement.class, name = "m")
-})
-public abstract class TempGroupMeasurement {
+
+public class TempGroupMeasurement implements Serializable {
 
     @JsonIgnore
-    protected GroupCombinator groupCombinator;
+    private GroupCombinator groupCombinator;
 
-    protected Integer maximumSize;
+    private Integer maximumSize;
 
-    //@JsonIgnore
-    //protected Long groupId;
+    private HashMap<Long, Measurement> producerIdMeasurementMap = new HashMap<>();
+
 
     public TempGroupMeasurement() {
-
     }
 
+
     public TempGroupMeasurement(Integer maximumSize) {
-        //this.groupId = group.getId();
-        //this.maximumSize = group.getProducers().size();
         this.maximumSize = maximumSize;
     }
 
@@ -41,8 +34,8 @@ public abstract class TempGroupMeasurement {
         return groupCombinator;
     }
 
-    public void setGroupCombinator(GroupCombinator groupCombinator) {
-        this.groupCombinator = groupCombinator;
+    public void setGroupCombinator(GroupCombinator abstractGroupCombinator) {
+        this.groupCombinator = abstractGroupCombinator;
     }
 
     public Integer getMaximumSize() {
@@ -53,11 +46,39 @@ public abstract class TempGroupMeasurement {
         this.maximumSize = maximumSize;
     }
 
-    /**public Long getGroupId() {
-        return groupId;
+
+    public HashMap<Long, Measurement> getProducerIdMeasurementMap() {
+        return producerIdMeasurementMap;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }**/
+    public void setProducerIdMeasurementMap(HashMap<Long, Measurement> producerIdMeasurementMap) {
+        this.producerIdMeasurementMap = producerIdMeasurementMap;
+    }
+
+    @JsonIgnore
+    public boolean ready() {
+        return maximumSize == producerIdMeasurementMap.values().size();
+    }
+
+    @JsonIgnore
+    public Measurement combine() {
+        Measurement m = new Measurement();
+        m.setTime(LocalDateTime.now());
+        m.setValue(groupCombinator.getFunction().apply(producerIdMeasurementMap));
+        return m;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("GroupMeasurement{");
+        sb.append("groupCombinator=").append(groupCombinator);
+        sb.append(", maximumSize=").append(maximumSize);
+        sb.append(", producerIdMeasurementMap=").append(producerIdMeasurementMap);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public void putMeasurement(Long producerId, Measurement measurement) {
+        producerIdMeasurementMap.put(producerId, measurement);
+    }
 }

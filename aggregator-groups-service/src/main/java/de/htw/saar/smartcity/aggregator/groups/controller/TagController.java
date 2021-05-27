@@ -1,16 +1,8 @@
 package de.htw.saar.smartcity.aggregator.groups.controller;
 
-import de.htw.saar.smartcity.aggregator.groups.exception.GroupNotFoundException;
-import de.htw.saar.smartcity.aggregator.groups.exception.ProducerNotFoundException;
 import de.htw.saar.smartcity.aggregator.groups.exception.TagInUseException;
 import de.htw.saar.smartcity.aggregator.groups.exception.TagNotFoundException;
-import de.htw.saar.smartcity.aggregator.groups.properties.GroupsApplicationProperties;
-import de.htw.saar.smartcity.aggregator.lib.entity.Group;
-import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.entity.Tag;
-import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
-import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
-import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import de.htw.saar.smartcity.aggregator.lib.service.TagService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

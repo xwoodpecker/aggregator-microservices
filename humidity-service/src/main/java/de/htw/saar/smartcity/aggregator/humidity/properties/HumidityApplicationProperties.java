@@ -9,12 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class HumidityApplicationProperties extends RawMicroserviceApplicationProperties {
 
     @Override
-    @Value("${HUMIDITY_MICROSERVICE_NAME}")
-    public void setMicroserviceName(String microserviceName) {
-        this.microserviceName = microserviceName;
-    }
-
-    @Override
     @Value("${HUMIDITY_QUEUE}")
     public void setMicroserviceQueue(String microserviceQueue) {
         this.microserviceQueue = microserviceQueue;
@@ -34,7 +28,7 @@ public class HumidityApplicationProperties extends RawMicroserviceApplicationPro
 
     @Override
     @Value("${HUMIDITY_SENSOR_TYPE}")
-    public void setMicroserviceSensorType(String microserviceSensorType) {
-        this.microserviceSensorType = microserviceSensorType;
+    public void setMicroserviceDataType(String microserviceDataType) {
+        this.microserviceDataType = microserviceDataType;
     }
 }

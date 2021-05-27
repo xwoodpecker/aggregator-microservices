@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="humidity-service" />
-        <module name="temperature-service" />
-        <module name="aggregator-lib" />
+        <module name="temperature-aggregator-service" />
         <module name="dewpoint-service" />
         <module name="aggregator-groups-service" />
+        <module name="humidity-service" />
+        <module name="heatflux-service" />
+        <module name="temperature-service" />
+        <module name="aggregator-lib" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,7 +20,9 @@
       <module name="aggregator-lib" target="14" />
       <module name="aggregator-microservices" target="1.5" />
       <module name="dewpoint-service" target="14" />
+      <module name="heatflux-service" target="14" />
       <module name="humidity-service" target="14" />
+      <module name="temperature-aggregator-service" target="14" />
       <module name="temperature-service" target="14" />
     </bytecodeTargetLevel>
   </component>
@@ -27,7 +31,9 @@
       <module name="aggregator-groups-service" options="-parameters" />
       <module name="aggregator-lib" options="-parameters" />
       <module name="dewpoint-service" options="-parameters" />
+      <module name="heatflux-service" options="-parameters" />
       <module name="humidity-service" options="-parameters" />
+      <module name="temperature-aggregator-service" options="-parameters" />
       <module name="temperature-service" options="-parameters" />
     </option>
   </component>

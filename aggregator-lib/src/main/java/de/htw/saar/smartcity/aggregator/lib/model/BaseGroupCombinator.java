@@ -1,7 +1,8 @@
 package de.htw.saar.smartcity.aggregator.lib.model;
-
+/**
 import java.util.List;
 import java.util.function.Function;
+
 
 public class BaseGroupCombinator<T> extends GroupCombinator<Function<List<Measurement<T>>, T>> {
 
@@ -22,4 +23,4 @@ public class BaseGroupCombinator<T> extends GroupCombinator<Function<List<Measur
         this.function = function;
     }
 
-}
+}**/

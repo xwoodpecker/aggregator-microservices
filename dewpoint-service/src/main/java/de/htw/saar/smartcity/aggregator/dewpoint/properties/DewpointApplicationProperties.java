@@ -1,18 +1,12 @@
 package de.htw.saar.smartcity.aggregator.dewpoint.properties;
 
-import de.htw.saar.smartcity.aggregator.lib.properties.MixedGroupMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.GroupMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class DewpointApplicationProperties extends MixedGroupMicroserviceApplicationProperties {
-
-    @Override
-    @Value("${DEWPOINT_MICROSERVICE_NAME}")
-    public void setMicroserviceName(String microserviceName) {
-        this.microserviceName = microserviceName;
-    }
+public class DewpointApplicationProperties extends GroupMicroserviceApplicationProperties {
 
     @Override
     @Value("${DEWPOINT_MICROSERVICE_BUCKET}")
@@ -27,41 +21,39 @@ public class DewpointApplicationProperties extends MixedGroupMicroserviceApplica
     }
 
     @Override
+    @Value("${DEWPOINT_DATA_TYPE}")
+    public void setMicroserviceDataTypeName(String microserviceDataTypeName) {
+        this.microserviceDataTypeName = microserviceDataTypeName;
+
+    }
+
+    @Override
     @Value("${DEWPOINT_MICROSERVICE_QUEUE}")
     public void setMicroserviceQueue(String microserviceQueue) {
         this.microserviceQueue = microserviceQueue;
     }
 
-    private String temperatureSensorTypeName;
+    private String temperatureDataTypeName;
 
-    private String humiditySensorTypeName;
+    private String humidityDataTypeName;
 
-    private String dewPointDataType;
 
-    @Value("${TEMPERATURE_SENSOR_TYPE_NAME}")
-    public void setTemperatureSensorTypeName(String temperatureSensorTypeName) {
-        this.temperatureSensorTypeName = temperatureSensorTypeName;
+    @Value("${TEMPERATURE_DATA_TYPE_NAME}")
+    public void setTemperatureDataTypeName(String temperatureDataTypeName) {
+        this.temperatureDataTypeName = temperatureDataTypeName;
     }
 
-    @Value("${HUMIDITY_SENSOR_TYPE_NAME}")
-    public void setHumiditySensorTypeName(String humiditySensorTypeName) {
-        this.humiditySensorTypeName = humiditySensorTypeName;
+    @Value("${HUMIDITY_DATA_TYPE_NAME}")
+    public void setHumidityDataTypeName(String humidityDataTypeName) {
+        this.humidityDataTypeName = humidityDataTypeName;
     }
 
-    @Value("${DEWPOINT_DATA_TYPE}")
-    public void setDewPointDataType(String dewPointDataType) {
-        this.dewPointDataType = dewPointDataType;
+    public String getTemperatureDataTypeName() {
+        return temperatureDataTypeName;
     }
 
-    public String getHumiditySensorTypeName() {
-        return humiditySensorTypeName;
-    }
 
-    public String getTemperatureSensorTypeName() {
-        return temperatureSensorTypeName;
-    }
-
-    public String getDewPointDataType() {
-        return dewPointDataType;
+    public String getHumidityDataTypeName() {
+        return humidityDataTypeName;
     }
 }

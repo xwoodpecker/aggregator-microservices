@@ -8,13 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class TemperatureApplicationProperties  extends RawMicroserviceApplicationProperties {
 
     @Override
-    @Value("${TEMPERATURE_MICROSERVICE_NAME}")
-    public void setMicroserviceName(String microserviceName) {
-        this.microserviceName = microserviceName;
-
-    }
-
-    @Override
     @Value("${TEMPERATURE_QUEUE}")
     public void setMicroserviceQueue(String microserviceQueue) {
         this.microserviceQueue = microserviceQueue;
@@ -34,8 +27,8 @@ public class TemperatureApplicationProperties  extends RawMicroserviceApplicatio
 
     @Override
     @Value("${TEMPERATURE_SENSOR_TYPE}")
-    public void setMicroserviceSensorType(String microserviceSensorType) {
-        this.microserviceSensorType = microserviceSensorType;
+    public void setMicroserviceDataType(String microserviceDataType) {
+        this.microserviceDataType = microserviceDataType;
     }
 
 

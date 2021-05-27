@@ -6,7 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/aggregator-lib/aggregator-lib.iml" filepath="$PROJECT_DIR$/aggregator-lib/aggregator-lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/aggregator-microservices.iml" filepath="$PROJECT_DIR$/aggregator-microservices.iml" />
       <module fileurl="file://$PROJECT_DIR$/dewpoint-service/dewpoint-service.iml" filepath="$PROJECT_DIR$/dewpoint-service/dewpoint-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/heatflux-service/heatflux-service.iml" filepath="$PROJECT_DIR$/heatflux-service/heatflux-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/humidity-service/humidity-service.iml" filepath="$PROJECT_DIR$/humidity-service/humidity-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/temperature-aggregator-service/temperature-aggregator-service.iml" filepath="$PROJECT_DIR$/temperature-aggregator-service/temperature-aggregator-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/temperature-service/temperature-service.iml" filepath="$PROJECT_DIR$/temperature-service/temperature-service.iml" />
     </modules>
   </component>
