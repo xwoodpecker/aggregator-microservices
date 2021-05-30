@@ -3,8 +3,8 @@ package de.htw.saar.smartcity.aggregator.lib.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name ="data_types")
-public class DataType {
+@Table(name ="formula_items")
+public class FormulaItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,17 +13,13 @@ public class DataType {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column
-    private String unit;
-
-    public DataType() {
+    public FormulaItem() {
 
     }
 
-    public DataType(Long id, String name, String unit) {
+    public FormulaItem(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.unit = unit;
     }
 
     public Long getId() {
@@ -42,12 +38,14 @@ public class DataType {
         this.name = name;
     }
 
-    public String getUnit() {
-        return unit;
-    }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("FormulaItem{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 
     @Override
@@ -58,18 +56,7 @@ public class DataType {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        DataType other = (DataType) obj;
+        FormulaItem other = (FormulaItem) obj;
         return id != null && id.equals(other.getId());
     }
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("DataType{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
-
-
 }

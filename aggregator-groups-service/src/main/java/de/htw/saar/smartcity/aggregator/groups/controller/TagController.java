@@ -52,7 +52,7 @@ public class TagController {
         Tag tag = tagService.findTagById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
 
-        //todo: verify
+        //PRIO 2 - todo: verify
         if(tag.getProducers().isEmpty())
             tagService.deleteTag(tag);
         else

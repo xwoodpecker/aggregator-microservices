@@ -30,13 +30,14 @@ public abstract class RawSetupDataLoader extends SetupDataLoader {
     }
 
     @Transactional
-    DataType createDataTypeIfNotFound(String dataTypeName) {
+    protected DataType createDataTypeIfNotFound(String dataTypeName) {
 
         DataType dataType = dataTypeService.findDataTypeByName(dataTypeName);
         if(dataType == null) {
             dataType = new DataType();
             dataType.setName(dataTypeName);
             dataTypeService.saveDataType(dataType);
+            log.info("Created DataType " + dataTypeName);
         }
         return dataType;
     }

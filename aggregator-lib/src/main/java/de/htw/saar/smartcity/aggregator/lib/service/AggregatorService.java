@@ -33,7 +33,7 @@ public class AggregatorService {
 
         aggregator.getGroups().forEach(g -> g.getProducers().removeIf(a -> a.equals(aggregator)));
         aggregator.getTags().forEach(t -> t.getProducers().removeIf(a -> a.equals(aggregator)));
-        aggregator.getCombinator().getAggregators().removeIf(a -> a.equals(aggregator));
+        //aggregator.getCombinator().getAggregators().removeIf(a -> a.equals(aggregator));
         aggregator.getOwnerGroup().getAggregators().removeIf(a -> a.equals(aggregator));
         aggregatorRepository.deleteById(aggregator.getId());
     }

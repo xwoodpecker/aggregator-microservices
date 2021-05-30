@@ -9,7 +9,7 @@ import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.transaction.annotation.Transactional;
 
-public abstract class GroupSetupDataLoader extends SetupDataLoader{
+public abstract class GroupSetupDataLoader extends SetupDataLoader {
 
     protected final GroupMicroserviceApplicationProperties groupMicroserviceApplicationProperties;
     protected final GroupTypeService groupTypeService;
@@ -49,6 +49,7 @@ public abstract class GroupSetupDataLoader extends SetupDataLoader{
              dataTypeList.add(dataTypeService.findDataTypeByName(dewpointApplicationProperties.getHumidityDataTypeName()));
              groupType.setDataTypes(dataTypeList);**/
             groupTypeService.saveGroupType(groupType);
+            log.info("Created GroupType " + groupTypeName);
         }
         return groupType;
     }
@@ -62,6 +63,7 @@ public abstract class GroupSetupDataLoader extends SetupDataLoader{
             dataType = new DataType();
             dataType.setName(dataTypeName);
             dataTypeService.saveDataType(dataType);
+            log.info("Created DataType " + dataTypeName);
         }
         return dataType;
     }

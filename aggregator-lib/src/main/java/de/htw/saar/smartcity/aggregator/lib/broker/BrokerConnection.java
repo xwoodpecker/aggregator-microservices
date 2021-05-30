@@ -3,7 +3,10 @@ package de.htw.saar.smartcity.aggregator.lib.broker;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -21,6 +24,9 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
 public abstract class BrokerConnection {
+
+    protected static final Logger log = LoggerFactory.getLogger(BrokerConnection.class);
+
     protected final ApplicationProperties applicationProperties;
 
     protected final Connection connection;
@@ -46,6 +52,7 @@ public abstract class BrokerConnection {
             connection = factory.newConnection();
 
         } catch (Exception e) {
+            log.error("Could not connect to broker.");
             e.printStackTrace();
         }
         return connection;

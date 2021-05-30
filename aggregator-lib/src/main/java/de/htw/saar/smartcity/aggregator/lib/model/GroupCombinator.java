@@ -8,19 +8,19 @@ public class GroupCombinator<T> {
 
     private String name;
 
-    private Function<Map<Long, Measurement<T>>, T> function;
+    private CombinatorFunction<T> function;
 
 
-    public GroupCombinator(String name, Function<Map<Long, Measurement<T>>, T> function) {
+    public GroupCombinator(String name, CombinatorFunction<T> function) {
         this.name = name;
         this.function = function;
     }
 
-    public Function<Map<Long, Measurement<T>>, T> getFunction() {
+    public CombinatorFunction<T> getFunction() {
         return function;
     }
 
-    public void setFunction(Function<Map<Long, Measurement<T>>, T> function) {
+    public void setFunction(CombinatorFunction<T> function) {
         this.function = function;
     }
 

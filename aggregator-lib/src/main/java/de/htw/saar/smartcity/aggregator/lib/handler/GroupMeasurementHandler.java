@@ -2,6 +2,7 @@ package de.htw.saar.smartcity.aggregator.lib.handler;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
 import de.htw.saar.smartcity.aggregator.lib.entity.*;
+import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.GroupCombinator;
 import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
@@ -17,9 +18,10 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
-public abstract class GroupMeasurementHandler { //extends GroupMeasurementHandler{
+public abstract class GroupMeasurementHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GroupMeasurementHandler.class);
 
@@ -27,7 +29,7 @@ public abstract class GroupMeasurementHandler { //extends GroupMeasurementHandle
 
     private final StorageWrapper storageWrapper;
     protected final ProducerService producerService;
-    private final GroupService groupService;
+    protected final GroupService groupService;
     private final CombinatorService combinatorService;
     private final Publisher publisher;
 
@@ -55,7 +57,6 @@ public abstract class GroupMeasurementHandler { //extends GroupMeasurementHandle
     protected abstract void addCombinators();
 
 
-    //todo: refactor
     private void createCombinatorsIfNotFound() {
 
         for(GroupCombinator groupCombinator : groupCombinators)
@@ -65,14 +66,15 @@ public abstract class GroupMeasurementHandler { //extends GroupMeasurementHandle
     }
 
 
-   @Transactional
-    Combinator createCombinatorIfNotFound(String combinatorName) {
+    @Transactional
+    protected Combinator createCombinatorIfNotFound(String combinatorName) {
 
         Combinator combinator = combinatorService.findCombinatorByName(combinatorName);
         if(combinator == null) {
             combinator = new Combinator();
             combinator.setName(combinatorName);
             combinatorService.saveCombinator(combinator);
+            log.info("Created Combinator " + combinatorName);
         }
         return combinator;
     }
@@ -80,19 +82,24 @@ public abstract class GroupMeasurementHandler { //extends GroupMeasurementHandle
 
     public void handleMeasurement(Long groupId, Long producerId, Measurement measurement) {
 
-        Optional<Group> optGroup = groupService.findGroupById(groupId);
-        Optional<Producer> optProducer = producerService.findProducerById(producerId);
+        final Optional<Group> optGroup = groupService.findGroupById(groupId);
+        final Optional<Producer> optProducer = producerService.findProducerById(producerId);
 
         if(optGroup.isPresent() && optProducer.isPresent()) {
-            Group group = optGroup.get();
+            
 
-            TempGroupMeasurement tempGroupMeasurement = storageWrapper.getTempGroupMeasurement(group.getName());
+            final Group group = optGroup.get();
+            String groupName = group.getName();
+
+            log.info("Measurement arrived for group " + groupName + " Measurement: " + measurement);
+
+            TempGroupMeasurement tempGroupMeasurement = storageWrapper.getTempGroupMeasurement(groupName);
 
             if (tempGroupMeasurement == null) {
-                tempGroupMeasurement = new TempGroupMeasurement(group.getProducers().size());
+                tempGroupMeasurement = new TempGroupMeasurement(group.getProducers().size(), groupId);
             }
 
-            tempGroupMeasurement.putMeasurement(producerId, measurement);
+            tempGroupMeasurement.putGroupMeasurementStoreMeasurement(producerId, measurement);
 
             if(tempGroupMeasurement.ready()) {
 
@@ -103,30 +110,47 @@ public abstract class GroupMeasurementHandler { //extends GroupMeasurementHandle
                         Optional<GroupCombinator> optGroupCombinator = groupCombinators.stream()
                                 .filter(c -> c.getName().equals(aggregator.getCombinator().getName()))
                                 .findFirst();
+
                         if (optGroupCombinator.isPresent()) {
+
                             tempGroupMeasurement.setGroupCombinator(optGroupCombinator.get());
 
-                            Measurement m = tempGroupMeasurement.combine();
-                            String url = storageWrapper.putMeasurement(group.getName() + "/" + tempGroupMeasurement.getAggregateName(), m);
+                            Measurement m;
+                            try {
+                                m = tempGroupMeasurement.combine();
 
-                            aggregator.getGroups().forEach(
-                                    g -> publisher.publish(
-                                            String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), aggregator.getId()),
-                                            url
-                                    )
-                            );
+                            } catch (MeasurementException me) {
+
+                                log.error("Measurement could not be combined. Temp will be deleted...");
+                                storageWrapper.deleteTempGroupMeasurement(groupName);
+                                return;
+                            }
+
+                            final String objName = storageWrapper.putMeasurement(groupName + "/" + tempGroupMeasurement.getAggregateName(), m);
+
+                            if(objName != null) {
+
+                                final String url = storageWrapper.getPresignedObjectUrl(objName);
+
+                                List<Group> activeGroups = aggregator.getGroups().stream().filter(g -> g.getActive()).collect(Collectors.toList());
+                                if (activeGroups.size() > 0) {
+                                    activeGroups.forEach(
+                                            g -> publisher.publish(
+                                                    String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), aggregator.getId()),
+                                                    url
+                                            )
+                                    );
+                                }
+                            }
                         }
-
                     }
-
                }
 
-                //todo: delete or reset map ?
-                storageWrapper.deleteTempGroupMeasurement(group.getName());
+                storageWrapper.deleteTempGroupMeasurement(groupName);
             }
             else {
 
-                storageWrapper.putTempGroupMeasurement(group.getName(), tempGroupMeasurement);
+                storageWrapper.putTempGroupMeasurement(groupName, tempGroupMeasurement);
             }
         }
     }

@@ -46,17 +46,21 @@ public abstract class Producer implements Serializable {
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Group> groups = new ArrayList<>();
+    protected List<Group> groups = new ArrayList<>();
+
+    @Column
+    protected String objectStorePath;
 
 
     public Producer() {
     }
 
-    public Producer(Long id, DataType dataType, List<Tag> tags, List<Group> groups) {
+    public Producer(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath) {
         this.id = id;
         this.dataType = dataType;
         this.tags = tags;
         this.groups = groups;
+        this.objectStorePath = objectStorePath;
     }
 
     public Long getId() {
@@ -91,6 +95,14 @@ public abstract class Producer implements Serializable {
         this.groups = groups;
     }
 
+    public String getObjectStorePath() {
+        return objectStorePath;
+    }
+
+    public void setObjectStorePath(String objectStorePath) {
+        this.objectStorePath = objectStorePath;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -110,6 +122,7 @@ public abstract class Producer implements Serializable {
         sb.append(", dataType=").append(dataType);
         sb.append(", tags=").append(tags);
         sb.append(", groups=").append(groups);
+        sb.append(", objectStorePath='").append(objectStorePath).append('\'');
         sb.append('}');
         return sb.toString();
     }

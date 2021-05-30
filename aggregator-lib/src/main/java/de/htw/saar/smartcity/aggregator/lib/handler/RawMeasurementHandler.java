@@ -2,7 +2,9 @@ package de.htw.saar.smartcity.aggregator.lib.handler;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
 import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
+import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
+import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.factory.MeasurementFactory;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
@@ -11,6 +13,9 @@ import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class RawMeasurementHandler {
 
@@ -37,8 +42,8 @@ public abstract class RawMeasurementHandler {
 
     public void handleMessage(SensorMeasurement sensorMeasurement){
 
-        String sensorName = sensorMeasurement.getSensorName();
-        String measurement = sensorMeasurement.getMeasurement();
+        final String sensorName = sensorMeasurement.getSensorName();
+        final String measurement = sensorMeasurement.getMeasurement();
         log.info("Message arrived for sensor " + sensorName + " Measurement: " + measurement);
 
         Sensor sensor = storageWrapper.getSensor(sensorName);
@@ -51,19 +56,36 @@ public abstract class RawMeasurementHandler {
             DataType dataType = dataTypeService.findDataTypeByName(dataTypeName);
             sensor.setDataType(dataType);
             storageWrapper.putSensor(sensor);
+            log.info("Sensor saved");
         }
 
-        Measurement m = measurementFactory.create(measurement);
+        Measurement m;
+        try {
+             m = measurementFactory.create(measurement);
+
+        } catch (MeasurementException me) {
+
+            log.error("Measurement was malformed. Processing aborted.");
+            return;
+        }
+
         final Long sensorId = sensor.getId();
+        final String objName = storageWrapper.putMeasurement(sensor.getName(), m);
 
-        String url = storageWrapper.putMeasurement(sensor.getName(), m);
+        if(objName != null) {
 
-        sensor.getGroups().forEach(
-                g -> publisher.publish(
-                        String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), sensorId),
-                        url
-                )
-        );
+            final String url = storageWrapper.getPresignedObjectUrl(objName);
+
+            List<Group> activeGroups = sensor.getGroups().stream().filter(g -> g.getActive()).collect(Collectors.toList());
+            if (activeGroups.size() > 0) {
+                activeGroups.forEach(
+                        g -> publisher.publish(
+                                String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), sensorId),
+                                url
+                        )
+                );
+            }
+        }
 
     }
 }

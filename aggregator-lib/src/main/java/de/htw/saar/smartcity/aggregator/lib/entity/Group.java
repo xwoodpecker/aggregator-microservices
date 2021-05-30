@@ -16,12 +16,6 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "groups")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Producer> producers = new ArrayList<>();
-
     @Column(unique = true, nullable = false)
     private String name;
 
@@ -29,28 +23,44 @@ public class Group {
     @ColumnDefault("0")
     private Boolean active;
 
-    @OneToMany(mappedBy="ownerGroup")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Aggregator> aggregators = new ArrayList<>();
-
     @OneToOne
     @JoinColumn(name = "group_type_id", nullable = false)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = GroupTypeIdResolver.class)
     @JsonIdentityReference(alwaysAsId=true)
     private GroupType groupType;
 
+    @ManyToMany(mappedBy = "groups")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Producer> producers = new ArrayList<>();
+
+    @OneToMany(mappedBy="ownerGroup")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Aggregator> aggregators = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "group_formula_item_value",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "formula_item_value_id"))
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    protected List<FormulaItemValue> values = new ArrayList<>();
+
     public Group() {
     }
 
-    public Group(Long id, List<Producer> producers, String name, Boolean active, List<Aggregator> aggregators, GroupType groupType) {
+    public Group(Long id, String name, Boolean active, GroupType groupType, List<Producer> producers, List<Aggregator> aggregators, List<FormulaItemValue> values) {
         this.id = id;
-        this.producers = producers;
         this.name = name;
         this.active = active;
-        this.aggregators = aggregators;
         this.groupType = groupType;
+        this.producers = producers;
+        this.aggregators = aggregators;
+        this.values = values;
     }
 
     public Long getId() {
@@ -101,6 +111,14 @@ public class Group {
         this.aggregators = aggregators;
     }
 
+    public List<FormulaItemValue> getValues() {
+        return values;
+    }
+
+    public void setValues(List<FormulaItemValue> values) {
+        this.values = values;
+    }
+
     public void replaceOwnAttributesWithOther(Group other) {
         this.setName(other.getName());
         this.setActive(other.getActive());
@@ -123,14 +141,14 @@ public class Group {
     public String toString() {
         final StringBuffer sb = new StringBuffer("Group{");
         sb.append("id=").append(id);
-        sb.append(", producers=").append(producers);
         sb.append(", name='").append(name).append('\'');
         sb.append(", active=").append(active);
-        sb.append(", aggregators=").append(aggregators);
         sb.append(", groupType=").append(groupType);
+        sb.append(", producers=").append(producers);
+        sb.append(", aggregators=").append(aggregators);
+        sb.append(", values=").append(values);
         sb.append('}');
         return sb.toString();
     }
-
 }
 

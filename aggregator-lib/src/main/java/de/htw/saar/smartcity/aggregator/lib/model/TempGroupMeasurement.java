@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,15 +15,19 @@ public class TempGroupMeasurement implements Serializable {
 
     private Integer maximumSize;
 
-    private HashMap<Long, Measurement> producerIdMeasurementMap = new HashMap<>();
+    //private HashMap<Long, Measurement> producerIdMeasurementMap = new HashMap<>();
+
+    private GroupMeasurementStore groupMeasurementStore = new GroupMeasurementStore();
 
 
     public TempGroupMeasurement() {
     }
 
 
-    public TempGroupMeasurement(Integer maximumSize) {
+    public TempGroupMeasurement(Integer maximumSize, Long groupId) {
         this.maximumSize = maximumSize;
+        this.groupMeasurementStore.setGroupId(groupId);
+
     }
 
     @JsonIgnore
@@ -47,38 +52,31 @@ public class TempGroupMeasurement implements Serializable {
     }
 
 
-    public HashMap<Long, Measurement> getProducerIdMeasurementMap() {
-        return producerIdMeasurementMap;
-    }
-
-    public void setProducerIdMeasurementMap(HashMap<Long, Measurement> producerIdMeasurementMap) {
-        this.producerIdMeasurementMap = producerIdMeasurementMap;
-    }
 
     @JsonIgnore
     public boolean ready() {
-        return maximumSize == producerIdMeasurementMap.values().size();
+        return maximumSize == groupMeasurementStore.getProducerIdMeasurementMap().values().size();
     }
 
     @JsonIgnore
-    public Measurement combine() {
+    public Measurement combine() throws MeasurementException {
         Measurement m = new Measurement();
         m.setTime(LocalDateTime.now());
-        m.setValue(groupCombinator.getFunction().apply(producerIdMeasurementMap));
+        m.setValue(groupCombinator.getFunction().apply(groupMeasurementStore));
         return m;
     }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("GroupMeasurement{");
+        final StringBuffer sb = new StringBuffer("TempGroupMeasurement{");
         sb.append("groupCombinator=").append(groupCombinator);
         sb.append(", maximumSize=").append(maximumSize);
-        sb.append(", producerIdMeasurementMap=").append(producerIdMeasurementMap);
+        sb.append(", groupMeasurementStore=").append(groupMeasurementStore);
         sb.append('}');
         return sb.toString();
     }
 
-    public void putMeasurement(Long producerId, Measurement measurement) {
-        producerIdMeasurementMap.put(producerId, measurement);
+    public void putGroupMeasurementStoreMeasurement(Long producerId, Measurement measurement) {
+        groupMeasurementStore.getProducerIdMeasurementMap().put(producerId, measurement);
     }
 }

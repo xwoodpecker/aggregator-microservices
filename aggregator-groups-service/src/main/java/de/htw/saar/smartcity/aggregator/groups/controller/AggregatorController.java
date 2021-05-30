@@ -81,7 +81,7 @@ public class AggregatorController {
         Combinator combinator = combinatorService.findCombinatorById(combinatorId)
                 .orElseThrow(() -> new CombinatorNotFoundException(combinatorId));
 
-        combinator.getAggregators().add(aggregator);
+        //combinator.getAggregators().add(aggregator);
         aggregator.setCombinator(combinator);
 
         aggregator = aggregatorService.saveAggregator(aggregator);
@@ -98,7 +98,7 @@ public class AggregatorController {
         Combinator combinator = combinatorService.findCombinatorById(combinatorId)
                 .orElseThrow(() -> new CombinatorNotFoundException(combinatorId));
 
-        combinator.getAggregators().remove(aggregator);
+        //combinator.getAggregators().remove(aggregator);
         aggregator.setCombinator(null);
 
         aggregator = aggregatorService.saveAggregator(aggregator);

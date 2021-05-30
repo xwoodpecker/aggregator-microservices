@@ -2,9 +2,13 @@ package de.htw.saar.smartcity.aggregator.heatflux.handler;
 
 import de.htw.saar.smartcity.aggregator.heatflux.properties.HeatfluxApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
+import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
+import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorFunction;
 import de.htw.saar.smartcity.aggregator.lib.model.GroupCombinator;
+import de.htw.saar.smartcity.aggregator.lib.model.GroupMeasurementStore;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
@@ -37,10 +41,10 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
     protected void addCombinators() {
 
         Function<Map<Long, Measurement<Double>>, Map<Producer, Measurement<Double>>> idToProducerMapper = map ->
-            map.entrySet()
-                .stream()
-                .collect(Collectors.toMap(e -> producerService.findProducerById(e.getKey()).get(),
-                        e -> e.getValue()));
+                map.entrySet()
+                        .stream()
+                        .collect(Collectors.toMap(e -> producerService.findProducerById(e.getKey()).get(),
+                                e -> e.getValue()));
 
         Function<Map<Producer, Measurement<Double>>, Optional<Producer>> dewPointProducerGetter = map -> map.keySet()
                 .stream()
@@ -60,32 +64,36 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
                 .findFirst();
 
 
-        Function<Map<Long, Measurement<Double>>, Double> heatFluxFunction = (map) -> {
+        CombinatorFunction<Double> heatFluxFunction = (gms) -> {
 
-            Map<Producer, Measurement<Double>> producerMap = idToProducerMapper.apply(map);
+            Map<Producer, Measurement<Double>> producerMap = idToProducerMapper.apply(gms.getProducerIdMeasurementMap());
 
             Optional<Producer> dewPointProducer = dewPointProducerGetter.apply(producerMap);
 
             Optional<Producer> outsideTemperatureProducer = outsideTemperatureProducerGetter.apply(producerMap);
 
-            if(dewPointProducer.isPresent() && outsideTemperatureProducer.isPresent()) {
 
-                Double dewPointValue = producerMap.get(dewPointProducer.get()).getValue();
-                Double outerTemperatureValue = producerMap.get(outsideTemperatureProducer.get()).getValue();
-                /**
-                 * 5.0	Single-glazing
-                 * 3.0	Double-glazing
-                 * 2.2	Triple-glazing
-                 * 1.7	Double-glazing with low-e coating
-                 * 1.3	Double-glazing with low-e coating and Argon filled
-                 * 0.8	Passivhaus requirement
-                 * 0.4	Triple-glazing with multiple low-e coatings and Xenon filled
-                 */
-                Double u = 3.0; //u values could be stored on group level and polled from there
-                Double heatflux = (dewPointValue - outerTemperatureValue) * u;
-                return Math.round(heatflux * 100) / 100.0;
-            }
-            return Double.NaN;
+            Double dewPointValue = producerMap.get(dewPointProducer
+                    .orElseThrow(() -> new MeasurementException("No dewpoint value present.")))
+                    .getValue();
+            Double outsideTemperatureValue = producerMap.get(outsideTemperatureProducer
+                    .orElseThrow(() -> new MeasurementException("No outside temperature value present.")))
+                    .getValue();
+            /**
+             * 5.0	Single-glazing
+             * 3.0	Double-glazing
+             * 2.2	Triple-glazing
+             * 1.7	Double-glazing with low-e coating
+             * 1.3	Double-glazing with low-e coating and Argon filled
+             * 0.8	Passivhaus requirement
+             * 0.4	Triple-glazing with multiple low-e coatings and Xenon filled
+             */
+            Double u = 3.0; //todo: u values could be stored on group level and polled from there
+            Group group = groupService.findGroupById(gms.getGroupId())
+                    .orElseThrow(() -> new MeasurementException("No valid group set"));
+            //todo:
+            Double heatflux = (dewPointValue - outsideTemperatureValue) * u;
+            return Math.round(heatflux * 100) / 100.0;
         };
 
         String heatFluxFunctionName = "heatflux-combinator";
@@ -94,24 +102,25 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
         groupCombinators.add(groupCombinator);
 
 
-        Function<Map<Long, Measurement<Double>>, Double> shutterFunction = (map) -> {
+        CombinatorFunction<Double> shutterFunction = (gms) -> {
 
-            Map<Producer, Measurement<Double>> producerMap = idToProducerMapper.apply(map);
+            Map<Producer, Measurement<Double>> producerMap = idToProducerMapper.apply(gms.getProducerIdMeasurementMap());
 
             Optional<Producer> dewPointProducer = dewPointProducerGetter.apply(producerMap);
 
             Optional<Producer> insideTemperatureProducer = insideTemperatureProducerGetter.apply(producerMap);
 
-            if(dewPointProducer.isPresent() && insideTemperatureProducer.isPresent()) {
 
-                Double dewPointValue = producerMap.get(dewPointProducer.get()).getValue();
-                Double insideTemperatureValue = producerMap.get(insideTemperatureProducer.get()).getValue();
+            Double dewPointValue = producerMap.get(dewPointProducer
+                    .orElseThrow(() -> new MeasurementException("No dewpoint value present.")))
+                    .getValue();
+            Double insideTemperatureValue = producerMap.get(insideTemperatureProducer
+                    .orElseThrow(() -> new MeasurementException("No inside temperature value present.")))
+                    .getValue();
 
-                Double heatflux = heatFluxFunction.apply(map);
-                Double shutter = heatflux / (insideTemperatureValue - dewPointValue);
-                return Math.round(shutter * 100) / 100.0;
-            }
-            return Double.NaN;
+            Double heatflux = heatFluxFunction.apply(gms);
+            Double shutter = heatflux / (insideTemperatureValue - dewPointValue);
+            return Math.round(shutter * 100) / 100.0;
         };
 
         String shutterCombinatorName = "shutter-combinator";

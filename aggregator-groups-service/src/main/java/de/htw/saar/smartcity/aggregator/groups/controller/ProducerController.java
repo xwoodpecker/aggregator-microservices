@@ -36,7 +36,6 @@ public class ProducerController {
         Tag tag = tagService.findTagById(tagId)
                 .orElseThrow(() -> new TagNotFoundException(tagId));
 
-        //todo: develop & test
 
         tag.getProducers().add(producer);
         producer.getTags().add(tag);
@@ -55,7 +54,6 @@ public class ProducerController {
         Tag tag = tagService.findTagById(tagId)
                 .orElseThrow(() -> new TagNotFoundException(tagId));
 
-        //todo: develop & test
 
         tag.getProducers().remove(producer);
         producer.getTags().remove(tag);

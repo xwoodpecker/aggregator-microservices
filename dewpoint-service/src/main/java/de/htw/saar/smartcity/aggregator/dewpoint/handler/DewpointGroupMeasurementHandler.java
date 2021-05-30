@@ -4,7 +4,9 @@ import de.htw.saar.smartcity.aggregator.dewpoint.properties.DewpointApplicationP
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
+import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorFunction;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.GroupCombinator;
 import de.htw.saar.smartcity.aggregator.lib.service.*;
@@ -33,13 +35,12 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
 
     }
 
-    //todo: refactor
     @Override
     protected void addCombinators() {
 
-        Function<Map<Long, Measurement<Double>>, Double> dewpointFunction = (map) -> {
+        CombinatorFunction<Double> dewpointFunction = (gms) -> {
 
-            Map<Producer, Measurement<Double>> newMap = map.entrySet()
+            Map<Producer, Measurement<Double>> newMap = gms.getProducerIdMeasurementMap().entrySet()
                     .stream()
                     .collect(Collectors.toMap(e -> producerService.findProducerById(e.getKey()).get(),
                             e -> e.getValue()));
@@ -48,12 +49,12 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
                     .stream()
                     .filter(p -> p.getDataType().getName().equals(applicationProperties.getTemperatureDataTypeName()))
                     .findFirst()
-                    .get();
+                    .orElseThrow(() -> new MeasurementException("No temperature present"));
             Producer humidityProducer = newMap.keySet()
                     .stream()
                     .filter(p -> p.getDataType().getName().equals(applicationProperties.getHumidityDataTypeName()))
                     .findFirst()
-                    .get();
+                    .orElseThrow(() -> new MeasurementException("No humidity present"));
 
             Double temperatureValue = newMap.get(temperatureProducer).getValue();
             Double humidityValue = newMap.get(humidityProducer).getValue();

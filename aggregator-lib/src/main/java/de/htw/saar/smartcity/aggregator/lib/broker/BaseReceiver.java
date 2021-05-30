@@ -42,6 +42,7 @@ public abstract class BaseReceiver extends BrokerConnection {
             channel.basicConsume(applicationProperties.getMicroserviceQueue(), true, deliverCallback, consumerTag -> {});
 
         } catch (IOException e) {
+            log.error("Error during base receiver channel instantiation.");
             e.printStackTrace();
         }
     }

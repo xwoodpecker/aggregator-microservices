@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public abstract class RawMicroserviceApplicationProperties extends MicroserviceApplicationProperties {
 
-
     protected String[] microserviceTopics;
 
     protected String microserviceDataType;

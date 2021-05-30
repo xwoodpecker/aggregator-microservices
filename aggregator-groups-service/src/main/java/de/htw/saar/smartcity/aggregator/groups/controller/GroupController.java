@@ -102,7 +102,7 @@ public class GroupController {
         Producer producer = producerService.findProducerById(producerId)
                 .orElseThrow(() -> new ProducerNotFoundException(producerId));
 
-        //todo: logic for correct group type definition ?
+        //PRIO 2 - todo: logic for correct group type definition ?
 
         producer.getGroups().add(group);
         group.getProducers().add(producer);
@@ -139,7 +139,7 @@ public class GroupController {
         Aggregator aggregator = aggregatorService.findAggregatorById(aggregatorId)
                 .orElseThrow(() -> new AggregatorNotFoundException(aggregatorId));
 
-        //todo: logic for correct group type definition ?
+        //PRIO 2 - todo: logic for correct group type definition ?
 
         aggregator.setOwnerGroup(group);
         group.getAggregators().add(aggregator);

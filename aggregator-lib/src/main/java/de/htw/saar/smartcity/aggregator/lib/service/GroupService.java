@@ -44,7 +44,6 @@ public class GroupService {
     public void deleteGroup(Group group) {
         group.getProducers().forEach(p -> p.getGroups().removeIf(g -> g.equals(group)));
         group.setProducers(null);
-        //todo: aggregators test, deleted y/n ?
         //group.getAggregators().forEach(a -> aggregatorRepository.deleteById(a.getId()));
         group.setAggregators(null);
 

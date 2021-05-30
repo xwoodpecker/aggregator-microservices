@@ -20,8 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class StorageWrapper {
 
-    //todo: refactor
-
     private static final String SENSOR_INFO_FILENAME = "sensor-info";
 
     private static final Logger log = LoggerFactory.getLogger(StorageWrapper.class);
@@ -80,11 +78,31 @@ public abstract class StorageWrapper {
                 m.getTime().getMinute(),
                 m.getTime().getSecond());
 
-        putObject(m, objName);
-
-        return getPresignedObjectUrl(objName);
-
+        return putObject(m, objName) ? objName : null;
     }
+
+
+    public String getPresignedObjectUrl(String name) {
+
+        String url = null;
+        try {
+            url = minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(applicationProperties.getMicroserviceBucket())
+                            .object(name)
+                            .expiry(2, TimeUnit.MINUTES) //todo: align with message durability in queue?
+                            .build());
+
+        } catch (Exception e){
+            log.error("Url generation failed.");
+            e.printStackTrace();
+        }
+        log.info("Url to Object: " + url);
+
+        return url;
+    }
+
 
     public void putSensor(Sensor s) {
         sensorService.saveSensor(s);
@@ -96,11 +114,11 @@ public abstract class StorageWrapper {
         //getObject(name + "/" + SENSOR_INFO_FILENAME, Sensor.class);
     }
 
-    public void putTempGroupMeasurement(String groupName, TempGroupMeasurement tempGroupMeasurement) {
+    public boolean putTempGroupMeasurement(String groupName, TempGroupMeasurement tempGroupMeasurement) {
 
         String name = groupName + "/temp";
 
-        putObject(tempGroupMeasurement, name);
+        return putObject(tempGroupMeasurement, name);
 
     }
 
@@ -122,7 +140,7 @@ public abstract class StorageWrapper {
         deleteObject(name);
     }
 
-    private void putObject(Object o, String name) {
+    private boolean putObject(Object o, String name) {
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -141,31 +159,13 @@ public abstract class StorageWrapper {
         } catch (Exception e){
             log.error("Upload failed.");
             e.printStackTrace();
+            return false;
         }
         log.info("Upload Successful: " + o);
+        return true;
     }
 
 
-    private String getPresignedObjectUrl(String name) {
-
-        String url =
-                null;
-        try {
-            url = minioClient.getPresignedObjectUrl(
-                    GetPresignedObjectUrlArgs.builder()
-                            .method(Method.GET)
-                            .bucket(applicationProperties.getMicroserviceBucket())
-                            .object(name)
-                            .expiry(2, TimeUnit.MINUTES)
-                            .build());
-        } catch (Exception e){
-            log.error("Url generation failed.");
-            e.printStackTrace();
-        }
-        log.info("Url to Object: " + url);
-
-        return url;
-    }
 
 
     private <T> T getObject(String name, Class<T> target) {
@@ -179,8 +179,10 @@ public abstract class StorageWrapper {
                             .build());
             ObjectMapper objectMapper = new ObjectMapper();
             object = objectMapper.readValue(is.readAllBytes(), target);
+
         } catch (ErrorResponseException ere) {
             log.info("No Object with key found.");
+
         } catch (Exception e) {
             log.error("GetObject failed.");
             e.printStackTrace();
@@ -190,7 +192,7 @@ public abstract class StorageWrapper {
     }
 
 
-    private void deleteObject(String name) {
+    private boolean deleteObject(String name) {
 
         try {
             minioClient.removeObject(
@@ -198,13 +200,18 @@ public abstract class StorageWrapper {
                             .bucket(applicationProperties.getMicroserviceBucket())
                             .object(name)
                             .build());
+
         } catch (ErrorResponseException ere) {
             log.info("Object could not be deleted");
+            return false;
+
         } catch (Exception e) {
             log.error("DeleteObject failed.");
             e.printStackTrace();
+            return false;
         }
         log.info("DeleteObject: " + name);
+        return true;
     }
 
 }
