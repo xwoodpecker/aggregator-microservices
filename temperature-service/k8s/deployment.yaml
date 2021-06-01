@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperature-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperature-ms
+  template:
+    metadata:
+      labels:
+        app: temperature-ms
+    spec:
+      containers:
+        - name: temperature-ms
+          image: xwoodpecker/temperature-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: temperature-service
+  labels:
+    app: temperature-ms
+spec:
+  type: NodePort #todo change
+  selector:
+    app: temperature-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+

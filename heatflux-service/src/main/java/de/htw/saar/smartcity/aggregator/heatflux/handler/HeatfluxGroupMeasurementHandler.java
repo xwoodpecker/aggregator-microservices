@@ -2,6 +2,7 @@ package de.htw.saar.smartcity.aggregator.heatflux.handler;
 
 import de.htw.saar.smartcity.aggregator.heatflux.properties.HeatfluxApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
+import de.htw.saar.smartcity.aggregator.lib.entity.FormulaItemValue;
 import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
@@ -16,15 +17,27 @@ import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * 5.0	Single-glazing
+ * 3.0	Double-glazing
+ * 2.2	Triple-glazing
+ * 1.7	Double-glazing with low-e coating
+ * 1.3	Double-glazing with low-e coating and Argon filled
+ * 0.8	Passivhaus requirement
+ * 0.4	Triple-glazing with multiple low-e coatings and Xenon filled
+ */
+
 @Component
 public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
 
     private final HeatfluxApplicationProperties applicationProperties;
+
 
     public HeatfluxGroupMeasurementHandler(StorageWrapper storageWrapper,
                                            ProducerService producerService,
@@ -66,6 +79,8 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
 
         CombinatorFunction<Double> heatFluxFunction = (gms) -> {
 
+
+            log.info("Start heatflux combinator function - " + LocalDateTime.now());
             Map<Producer, Measurement<Double>> producerMap = idToProducerMapper.apply(gms.getProducerIdMeasurementMap());
 
             Optional<Producer> dewPointProducer = dewPointProducerGetter.apply(producerMap);
@@ -79,20 +94,29 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
             Double outsideTemperatureValue = producerMap.get(outsideTemperatureProducer
                     .orElseThrow(() -> new MeasurementException("No outside temperature value present.")))
                     .getValue();
-            /**
-             * 5.0	Single-glazing
-             * 3.0	Double-glazing
-             * 2.2	Triple-glazing
-             * 1.7	Double-glazing with low-e coating
-             * 1.3	Double-glazing with low-e coating and Argon filled
-             * 0.8	Passivhaus requirement
-             * 0.4	Triple-glazing with multiple low-e coatings and Xenon filled
-             */
-            Double u = 3.0; //todo: u values could be stored on group level and polled from there
+
+            Double u = 3.0;
+
             Group group = groupService.findGroupById(gms.getGroupId())
                     .orElseThrow(() -> new MeasurementException("No valid group set"));
-            //todo:
+
+            Optional<FormulaItemValue> formulaItemValue = group.getValues()
+                    .stream()
+                    .filter(g -> g.getFormulaItem().getName().equals(applicationProperties.getFormulaItemNameUValue()))
+                    .findFirst();
+
+            try {
+                if(formulaItemValue.isPresent())
+                    u = Double.valueOf(formulaItemValue.get().getValue());
+                else
+                    u = Double.valueOf(applicationProperties.getFormulaItemNameUValueDefault());
+            } catch (NumberFormatException numberFormatException) {
+                log.error("Formula item value could not be converted to a number");
+            }
+
             Double heatflux = (dewPointValue - outsideTemperatureValue) * u;
+
+            log.info("End heatflux combinator function - " + LocalDateTime.now());
             return Math.round(heatflux * 100) / 100.0;
         };
 
@@ -103,6 +127,8 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
 
 
         CombinatorFunction<Double> shutterFunction = (gms) -> {
+
+            log.info("Start shutter combinator function - " + LocalDateTime.now());
 
             Map<Producer, Measurement<Double>> producerMap = idToProducerMapper.apply(gms.getProducerIdMeasurementMap());
 
@@ -120,6 +146,8 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
 
             Double heatflux = heatFluxFunction.apply(gms);
             Double shutter = heatflux / (insideTemperatureValue - dewPointValue);
+
+            log.info("End shutter combinator function - " + LocalDateTime.now());
             return Math.round(shutter * 100) / 100.0;
         };
 
@@ -127,5 +155,6 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
         GroupCombinator<Double> groupCombinatorShutter =
                 new GroupCombinator<>(shutterCombinatorName, shutterFunction);
         groupCombinators.add(groupCombinatorShutter);
+
     }
 }

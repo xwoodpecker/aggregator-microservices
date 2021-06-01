@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: general-config
+data:
+  #BROKER
+  BROKER_HOST: "10.99.7.247"
+  BROKER_PORT: "5672"
+  CA_FILE: ""
+  CLIENT_CERT_FILE: ""
+  CLIENT_KEY_FILE: ""
+  #MINIO
+  MINIO_ENDPOINT: "http://10.104.225.251:9000"
+  #MYSQL
+  spring.datasource.url: "jdbc:mysql://10.102.69.145:3306/test"
+  #TEMPERATURE MS
+  TEMPERATURE_QUEUE: temperature
+  TEMPERATURE_TOPICS: data/aggregator/test/temperature/#, data/aggregator/temperature/#
+  TEMPERATURE_BUCKET: aggregator
+  TEMPERATURE_SENSOR_TYPE: temperature
+  #HUMIDITY MS
+  HUMIDITY_QUEUE: humidity
+  HUMIDITY_TOPICS: data/aggregator/test/humidity/#, data/aggregator/humidity/#
+  HUMIDITY_BUCKET: aggregator
+  HUMIDITY_SENSOR_TYPE: humidity
+  #TEMPERATURE AGGREGATOR
+  TEMPERATURE_AGGREGATOR_MICROSERVICE_QUEUE: temperature-group
+  TEMPERATURE_AGGREGATOR_MICROSERVICE_BUCKET: aggregator
+  TEMPERATURE_AGGREGATOR_MICROSERVICE_GROUP_TYPE_NAME: temperature-group
+  TEMPERATURE_DATA_TYPE_NAME: temperature
+
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: general-secrets
+type: Opaque
+stringData:
+  #BROKER
+  BROKER_USERNAME: guest
+  BROKER_PASSWORD: guest
+  #MINIO
+  MINIO_ACCESSKEY: IVHmtzjwBp
+  MINIO_SECRETKEY: syTX3WBrApyWTEE16snKLVzM94VMIUAncAEkPeXu
+  #MYSQL
+  spring.datasource.username: root
+  spring.datasource.password: LUKG4swv7t
+

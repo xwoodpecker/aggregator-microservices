@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperature-aggregator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperature-aggregator-ms
+  template:
+    metadata:
+      labels:
+        app: temperature-aggregator-ms
+    spec:
+      containers:
+        - name: temperature-aggregator-ms
+          image: xwoodpecker/temperature-aggregator-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: temperature-aggregator-service
+  labels:
+    app: temperature-aggregator-ms
+spec:
+  type: NodePort #todo change
+  selector:
+    app: temperature-aggregator-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+

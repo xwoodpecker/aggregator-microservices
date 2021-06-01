@@ -1,15 +1,14 @@
 package de.htw.saar.smartcity.aggregator.groups.controller;
 
 import de.htw.saar.smartcity.aggregator.groups.exception.AggregatorNotFoundException;
+import de.htw.saar.smartcity.aggregator.groups.exception.FormulaItemNotFoundException;
 import de.htw.saar.smartcity.aggregator.groups.exception.GroupNotFoundException;
 import de.htw.saar.smartcity.aggregator.groups.exception.ProducerNotFoundException;
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
+import de.htw.saar.smartcity.aggregator.lib.entity.FormulaItemValue;
 import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
-import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
-import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
-import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
-import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
+import de.htw.saar.smartcity.aggregator.lib.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +20,19 @@ import java.util.Optional;
 public class GroupController {
 
     private final GroupService groupService;
-    private final SensorService sensorService;
     private final ProducerService producerService;
     private final AggregatorService aggregatorService;
+    private final FormulaItemValueService formulaItemValueService;
 
     public GroupController(GroupService groupService,
-                           SensorService sensorService,
-                           ProducerService producerService, AggregatorService aggregatorService) {
+                           ProducerService producerService,
+                           AggregatorService aggregatorService,
+                           FormulaItemValueService formulaItemValueService) {
 
         this.groupService = groupService;
-        this.sensorService = sensorService;
         this.producerService = producerService;
         this.aggregatorService = aggregatorService;
+        this.formulaItemValueService = formulaItemValueService;
     }
 
     @GetMapping("/")
@@ -160,6 +160,40 @@ public class GroupController {
 
         aggregator.setOwnerGroup(null);
         group.getAggregators().remove(aggregator);
+
+        group = groupService.saveGroup(group);
+
+        return new ResponseEntity(group, HttpStatus.OK);
+    }
+
+
+
+    @PutMapping("/{groupId}/formulaItemValues/{formulaItemValueId}")
+    public ResponseEntity putFormulaItemValue(@PathVariable Long groupId, @PathVariable Long formulaItemValueId) {
+
+        Group group = groupService.findGroupById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException(groupId));
+
+        FormulaItemValue formulaItemValue = formulaItemValueService.findFormulaItemValueById(formulaItemValueId)
+                .orElseThrow(() -> new FormulaItemNotFoundException(formulaItemValueId));
+
+        group.getValues().add(formulaItemValue);
+
+        group = groupService.saveGroup(group);
+
+        return new ResponseEntity(group, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{groupId}/formulaItemValues/{formulaItemValueId}")
+    public ResponseEntity deleteFormulaItemValue(@PathVariable Long groupId, @PathVariable Long formulaItemValueId) {
+
+        Group group = groupService.findGroupById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException(groupId));
+
+        FormulaItemValue formulaItemValue = formulaItemValueService.findFormulaItemValueById(formulaItemValueId)
+                .orElseThrow(() -> new FormulaItemNotFoundException(formulaItemValueId));
+
+        group.getValues().remove(formulaItemValue);
 
         group = groupService.saveGroup(group);
 

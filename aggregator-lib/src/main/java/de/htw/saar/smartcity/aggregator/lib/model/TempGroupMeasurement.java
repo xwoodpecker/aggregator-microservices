@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public class TempGroupMeasurement implements Serializable {
 
     //private HashMap<Long, Measurement> producerIdMeasurementMap = new HashMap<>();
 
+    @JsonProperty("store")
     private GroupMeasurementStore groupMeasurementStore = new GroupMeasurementStore();
 
 
@@ -52,6 +54,13 @@ public class TempGroupMeasurement implements Serializable {
     }
 
 
+    public GroupMeasurementStore getGroupMeasurementStore() {
+        return groupMeasurementStore;
+    }
+
+    public void setGroupMeasurementStore(GroupMeasurementStore groupMeasurementStore) {
+        this.groupMeasurementStore = groupMeasurementStore;
+    }
 
     @JsonIgnore
     public boolean ready() {

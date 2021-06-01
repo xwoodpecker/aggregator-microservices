@@ -4,6 +4,8 @@ import de.htw.saar.smartcity.aggregator.lib.properties.GroupMicroserviceApplicat
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 public class HeatfluxApplicationProperties extends GroupMicroserviceApplicationProperties {
 
@@ -41,6 +43,12 @@ public class HeatfluxApplicationProperties extends GroupMicroserviceApplicationP
 
     private String shutterDataTypeName;
 
+    private String formulaItemNameUValue;
+
+    private List<String> formulaItemNameUValueDefaults;
+
+    private String formulaItemNameUValueDefault;
+
     @Value("${TEMPERATURE_DATA_TYPE_NAME}")
     public void setTemperatureDataTypeName(String temperatureDataTypeName) {
         this.temperatureDataTypeName = temperatureDataTypeName;
@@ -65,6 +73,21 @@ public class HeatfluxApplicationProperties extends GroupMicroserviceApplicationP
         this.shutterDataTypeName = shutterDataTypeName;
     }
 
+    @Value("${FORMULA_ITEM_NAME_U_VALUE}")
+    public void setFormulaItemNameUValue(String formulaItemNameUValue) {
+        this.formulaItemNameUValue = formulaItemNameUValue;
+    }
+
+    @Value("#{'${FORMULA_ITEM_NAME_U_VALUE_DEFAULTS}'.split(',')}")
+    public void setFormulaItemNameUValueDefaults(List<String> formulaItemNameUValueDefaults) {
+        this.formulaItemNameUValueDefaults = formulaItemNameUValueDefaults;
+    }
+
+    @Value("${FORMULA_ITEM_NAME_U_VALUE_DEFAULT}")
+    public void setFormulaItemNameUValueDefault(String formulaItemNameUValueDefault) {
+        this.formulaItemNameUValueDefault = formulaItemNameUValueDefault;
+    }
+
     public String getTemperatureDataTypeName() {
         return temperatureDataTypeName;
     }
@@ -83,5 +106,17 @@ public class HeatfluxApplicationProperties extends GroupMicroserviceApplicationP
 
     public String getShutterDataTypeName() {
         return shutterDataTypeName;
+    }
+
+    public String getFormulaItemNameUValue() {
+        return formulaItemNameUValue;
+    }
+
+    public List<String> getFormulaItemNameUValueDefaults() {
+        return formulaItemNameUValueDefaults;
+    }
+
+    public String getFormulaItemNameUValueDefault() {
+        return formulaItemNameUValueDefault;
     }
 }

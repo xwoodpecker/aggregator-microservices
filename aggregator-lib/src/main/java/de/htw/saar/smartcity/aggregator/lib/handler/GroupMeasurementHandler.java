@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 public abstract class GroupMeasurementHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(GroupMeasurementHandler.class);
+    protected static final Logger log = LoggerFactory.getLogger(GroupMeasurementHandler.class);
 
     protected List<GroupCombinator> groupCombinators = new ArrayList<>();
 
@@ -130,10 +130,11 @@ public abstract class GroupMeasurementHandler {
 
                             if(objName != null) {
 
-                                final String url = storageWrapper.getPresignedObjectUrl(objName);
-
                                 List<Group> activeGroups = aggregator.getGroups().stream().filter(g -> g.getActive()).collect(Collectors.toList());
+
                                 if (activeGroups.size() > 0) {
+
+                                    final String url = storageWrapper.getPresignedObjectUrl(objName);
                                     activeGroups.forEach(
                                             g -> publisher.publish(
                                                     String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), aggregator.getId()),

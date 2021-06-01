@@ -1,11 +1,12 @@
 package de.htw.saar.smartcity.aggregator.lib.repository;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.FormulaItem;
+import de.htw.saar.smartcity.aggregator.lib.entity.FormulaItemValue;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FormulaItemRepository extends JpaRepository<FormulaItem, Long> {
+public interface FormulaItemValueRepository extends JpaRepository<FormulaItemValue, Long> {
 
-    FormulaItem findFormulaItemByName(String formulaItemName);
+    FormulaItemValue findFormulaItemValueByValue(String value);
 }

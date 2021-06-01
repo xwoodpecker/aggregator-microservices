@@ -42,20 +42,32 @@ public abstract class GroupsReceiver extends BrokerConnection {
                 String[] parts = routingKey.split("\\.");
                 if(parts != null & parts.length == 3) {
 
+                        InputStream is;
+                        try {
+                             is = URI.create(url).toURL().openConnection().getInputStream();
+                        } catch (IOException ex) {
+                            log.error("Could not read measurement from given URL");
+                            return;
+                        }
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        Measurement measurement = objectMapper.readValue(is.readAllBytes(), Measurement.class);
+
                     try {
                         Long groupId = Long.valueOf(parts[1]);
                         Long producerId = Long.valueOf(parts[2]);
 
-                        InputStream is = URI.create(url).toURL().openConnection().getInputStream();
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        Measurement measurement = objectMapper.readValue(is.readAllBytes(), Measurement.class);
-
                         groupMeasurementHandler.handleMeasurement(groupId, producerId, measurement);
 
-                    }catch (Exception e) {
+                    } catch (NumberFormatException e) {
+                        log.error("URL not published with the correct routing key");
+
+                    }  catch (Exception e) {
                         log.error("Error during consumption of measurement");
                         e.printStackTrace();
                     }
+
+                }else {
+                    log.error("URL not published with the correct routing key");
                 }
 
             };

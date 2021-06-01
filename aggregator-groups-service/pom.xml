@@ -10,9 +10,10 @@
         <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aggregator-core-service</artifactId>
+    <artifactId>aggregator-groups-service</artifactId>
     <groupId>de.htw.saar.smartcity</groupId>
     <packaging>jar</packaging>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
@@ -38,5 +39,15 @@
         </dependency>
 
     </dependencies>
+
+
+    <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+    </build>
 
 </project>

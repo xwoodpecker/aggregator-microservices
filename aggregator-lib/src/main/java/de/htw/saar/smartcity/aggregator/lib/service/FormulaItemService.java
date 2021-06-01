@@ -6,6 +6,7 @@ import de.htw.saar.smartcity.aggregator.lib.repository.FormulaItemRepository;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,4 +23,15 @@ public class FormulaItemService {
         return formulaItemRepository.findById(id);
     }
 
+    public List<FormulaItem> findAllFormulaItems() {
+        return formulaItemRepository.findAll();
+    }
+
+    public FormulaItem saveFormulaItem(FormulaItem formulaItem) {
+        return formulaItemRepository.save(formulaItem);
+    }
+
+    public FormulaItem findFormulaItemByName(String formulaItemName) {
+        return formulaItemRepository.findFormulaItemByName(formulaItemName);
+    }
 }
