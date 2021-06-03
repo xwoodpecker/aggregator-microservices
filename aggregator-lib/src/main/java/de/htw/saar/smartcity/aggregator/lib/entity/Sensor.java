@@ -98,7 +98,7 @@ public class Sensor extends Producer {
         sb.append("id=").append(id);
         sb.append(", dataType=").append(dataType);
         sb.append(", tags=").append(tags);
-        sb.append(", groups=").append(groups);
+        //sb.append(", groups=").append(groups);
         sb.append(", name='").append(name).append('\'');
         sb.append(", x=").append(x);
         sb.append(", y=").append(y);

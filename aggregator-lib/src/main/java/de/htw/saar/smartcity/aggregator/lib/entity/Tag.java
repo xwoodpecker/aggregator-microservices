@@ -1,9 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,9 +18,10 @@ public class Tag {
     private String name;
 
     @ManyToMany(mappedBy = "tags")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    /**@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)**/
+    @JsonIgnore
     private List<Producer> producers = new ArrayList<>();
 
     public Tag() {
@@ -77,7 +75,7 @@ public class Tag {
         final StringBuffer sb = new StringBuffer("Tag{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", producers=").append(producers);
+        //sb.append(", producers=").append(producers);
         sb.append('}');
         return sb.toString();
     }

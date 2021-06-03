@@ -32,9 +32,13 @@ public class AggregatorService {
     public void deleteAggregator(Aggregator aggregator) {
 
         aggregator.getGroups().forEach(g -> g.getProducers().removeIf(a -> a.equals(aggregator)));
+        aggregator.setGroups(null);
         aggregator.getTags().forEach(t -> t.getProducers().removeIf(a -> a.equals(aggregator)));
-        //aggregator.getCombinator().getAggregators().removeIf(a -> a.equals(aggregator));
-        aggregator.getOwnerGroup().getAggregators().removeIf(a -> a.equals(aggregator));
+        aggregator.setGroups(null);
+        if(aggregator.getOwnerGroup() != null) {
+            aggregator.getOwnerGroup().getAggregators().removeIf(a -> a.equals(aggregator));
+            aggregator.setOwnerGroup(null);
+        }
         aggregatorRepository.deleteById(aggregator.getId());
     }
 }

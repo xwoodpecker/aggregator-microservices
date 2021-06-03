@@ -36,6 +36,7 @@ public class TagService {
     public void deleteTag(Tag tag) {
 
         tag.getProducers().forEach(p -> p.getTags().removeIf(t -> t.equals(tag)));
+        tag.setProducers(null);
         tagRepository.deleteById(tag.getId());
     }
 }

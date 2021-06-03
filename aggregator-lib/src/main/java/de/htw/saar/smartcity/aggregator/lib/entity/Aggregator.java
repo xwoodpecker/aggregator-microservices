@@ -54,12 +54,12 @@ public class Aggregator extends Producer {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Aggregator{");
-        sb.append("ownerGroup=").append(ownerGroup);
+        sb.append(" id=").append(id);
         sb.append(", combinator=").append(combinator);
-        sb.append(", id=").append(id);
+        //sb.append(", ownerGroup=").append(ownerGroup);
         sb.append(", dataType=").append(dataType);
         sb.append(", tags=").append(tags);
-        sb.append(", groups=").append(groups);
+        //sb.append(", groups=").append(groups);
         sb.append('}');
         return sb.toString();
     }

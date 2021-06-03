@@ -36,7 +36,9 @@ public class SensorService {
     public void deleteSensor(Sensor sensor) {
 
         sensor.getGroups().forEach(g -> g.getProducers().removeIf(s -> s.equals(sensor)));
+        sensor.setGroups(null);
         sensor.getTags().forEach(t -> t.getProducers().removeIf(s -> s.equals(sensor)));
+        sensor.setTags(null);
         sensorRepository.deleteById(sensor.getId());
     }
 }

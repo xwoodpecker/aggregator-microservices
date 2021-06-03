@@ -39,7 +39,7 @@ public class FormulaItemController {
         );
     }
 
-    @PostMapping("/")
+    /**@PostMapping("/")
     public ResponseEntity postFormulaItem(@RequestBody FormulaItem formulaItem) {
 
         return new ResponseEntity(formulaItemService.saveFormulaItem(formulaItem), HttpStatus.OK);
@@ -64,5 +64,5 @@ public class FormulaItemController {
         }
 
         return new ResponseEntity(saved, HttpStatus.OK);
-    }
+    }**/
 }

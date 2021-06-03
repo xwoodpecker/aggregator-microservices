@@ -34,7 +34,9 @@ public class ProducerService {
     /**public void deleteProducer(Producer producer) {
 
         producer.getGroups().forEach(g -> g.getProducers().removeIf(p -> p.equals(producer)));
+        producer.setGroups(null);
         producer.getTags().forEach(t -> t.getTags().removeIf(p -> p.equals(producer)));
+        producer.setTags(null);
         producerRepository.deleteById(producer.getId());
     }**/
 }

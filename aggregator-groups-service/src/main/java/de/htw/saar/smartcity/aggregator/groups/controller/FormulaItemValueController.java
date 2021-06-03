@@ -1,7 +1,11 @@
 package de.htw.saar.smartcity.aggregator.groups.controller;
 
 import de.htw.saar.smartcity.aggregator.groups.exception.FormulaItemValueNotFoundException;
+import de.htw.saar.smartcity.aggregator.groups.exception.FormulaValueItemInUseException;
+import de.htw.saar.smartcity.aggregator.groups.exception.TagInUseException;
+import de.htw.saar.smartcity.aggregator.groups.exception.TagNotFoundException;
 import de.htw.saar.smartcity.aggregator.lib.entity.FormulaItemValue;
+import de.htw.saar.smartcity.aggregator.lib.entity.Tag;
 import de.htw.saar.smartcity.aggregator.lib.service.FormulaItemValueService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,5 +69,21 @@ public class FormulaItemValueController {
         }
 
         return new ResponseEntity(saved, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteFormulaItemValue(@PathVariable Long id) {
+
+        FormulaItemValue formulaItemValue = formulaItemValueService.findFormulaItemValueById(id)
+                .orElseThrow(() -> new FormulaItemValueNotFoundException(id));
+
+        //PRIO 2 - todo: verify
+        if(formulaItemValue.getGroups().isEmpty())
+            formulaItemValueService.deleteFormulaValueItem(formulaItemValue);
+        else
+            throw new FormulaValueItemInUseException(id);
+
+        return new ResponseEntity(HttpStatus.OK);
+
     }
 }

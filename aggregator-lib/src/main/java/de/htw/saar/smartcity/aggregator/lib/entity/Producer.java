@@ -121,7 +121,7 @@ public abstract class Producer implements Serializable {
         sb.append("id=").append(id);
         sb.append(", dataType=").append(dataType);
         sb.append(", tags=").append(tags);
-        sb.append(", groups=").append(groups);
+        //sb.append(", groups=").append(groups);
         sb.append(", objectStorePath='").append(objectStorePath).append('\'');
         sb.append('}');
         return sb.toString();

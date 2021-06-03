@@ -4,6 +4,7 @@ import de.htw.saar.smartcity.aggregator.groups.exception.*;
 import de.htw.saar.smartcity.aggregator.lib.entity.*;
 import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -71,6 +72,24 @@ public class AggregatorController {
 
         return new ResponseEntity(saved, HttpStatus.OK);
     }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteAggregator(@PathVariable Long id) {
+
+        Aggregator aggregator = aggregatorService.findAggregatorById(id)
+                .orElseThrow(() -> new AggregatorNotFoundException(id));
+
+        //PRIO 2 - todo: verify
+        if(aggregator.getGroups().isEmpty() && aggregator.getOwnerGroup() == null)
+            aggregatorService.deleteAggregator(aggregator);
+        else
+            throw new AggregatorInUseException(id);
+
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
+
 
     @PutMapping("/{aggregatorId}/combinators/{combinatorId}")
     public ResponseEntity putCombinator(@PathVariable Long aggregatorId, @PathVariable Long combinatorId) {

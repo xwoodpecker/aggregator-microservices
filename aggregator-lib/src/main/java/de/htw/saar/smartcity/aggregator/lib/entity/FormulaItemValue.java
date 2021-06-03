@@ -2,9 +2,12 @@ package de.htw.saar.smartcity.aggregator.lib.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name ="formula_item_values")
@@ -23,14 +26,23 @@ public class FormulaItemValue {
     @JsonIdentityReference(alwaysAsId=true)
     private FormulaItem formulaItem;
 
+
+    @ManyToMany(mappedBy = "values")
+    /**@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+     @JsonIdentityReference(alwaysAsId=true)
+     @JsonProperty(access = JsonProperty.Access.READ_ONLY)**/
+    @JsonIgnore
+    private List<Group> groups = new ArrayList<>();
+
     public FormulaItemValue() {
 
     }
 
-    public FormulaItemValue(Long id, String value, FormulaItem formulaItem) {
+    public FormulaItemValue(Long id, String value, FormulaItem formulaItem, List<Group> groups) {
         this.id = id;
         this.value = value;
         this.formulaItem = formulaItem;
+        this.groups = groups;
     }
 
     public Long getId() {
@@ -57,6 +69,14 @@ public class FormulaItemValue {
         this.formulaItem = formulaItem;
     }
 
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -75,6 +95,7 @@ public class FormulaItemValue {
         sb.append("id=").append(id);
         sb.append(", value='").append(value).append('\'');
         sb.append(", formulaItem=").append(formulaItem);
+        //sb.append(", groups=").append(groups);
         sb.append('}');
         return sb.toString();
     }

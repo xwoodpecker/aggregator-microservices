@@ -42,10 +42,13 @@ public class GroupService {
     }
 
     public void deleteGroup(Group group) {
+
         group.getProducers().forEach(p -> p.getGroups().removeIf(g -> g.equals(group)));
         group.setProducers(null);
-        //group.getAggregators().forEach(a -> aggregatorRepository.deleteById(a.getId()));
+        group.getAggregators().forEach(a -> a.setOwnerGroup(null));
         group.setAggregators(null);
+        group.getValues().forEach(v -> v.getGroups().removeIf(g -> g.equals(group)));
+        group.setValues(null);
 
         groupRepository.deleteById(group.getId());
     }
