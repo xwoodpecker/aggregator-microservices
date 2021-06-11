@@ -1,22 +1,14 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
-import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
+import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
-import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
-import io.minio.*;
-import io.minio.errors.*;
-import io.minio.http.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 public abstract class StorageWrapper {
 
@@ -24,48 +16,36 @@ public abstract class StorageWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(StorageWrapper.class);
 
-    private final MicroserviceApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
 
     private final SensorService sensorService;
 
-    private final MinioClient minioClient;
+    private final MinioClientWrapper minioClientWrapper;
 
+    private MemcachedClientWrapper memcachedClientWrapper = null;
 
-
-    public StorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService) {
+    public StorageWrapper(ApplicationProperties applicationProperties, SensorService sensorService) {
 
         this.applicationProperties = applicationProperties;
         this.sensorService = sensorService;
+        this.minioClientWrapper = new MinioClientWrapper(applicationProperties);
 
-        this.minioClient =
-                MinioClient.builder()
-                        .endpoint(this.applicationProperties.getMinioEndpoint())
-                        .credentials(this.applicationProperties.getMinioAccessKey(), this.applicationProperties.getMinioSecretKey())
-                        .build();
-
-        // Create bucket if it does not exist.
-        boolean found;
         try {
-            found = this.minioClient.bucketExists(
-                    BucketExistsArgs.builder()
-                            .bucket(applicationProperties.getMicroserviceBucket())
-                            .build());
-            if (!found) {
-                // Create a new bucket
-                this.minioClient.makeBucket(
-                        MakeBucketArgs.builder()
-                                .bucket(applicationProperties.getMicroserviceBucket())
-                                .build());
-            } else {
-                log.info("Bucket already exists.");
-            }
-        } catch (Exception e) {
-            log.error("Bucket creation failed.");
-            e.printStackTrace();
-        }
 
+            this.memcachedClientWrapper = new MemcachedClientWrapper(applicationProperties);
+        }
+        catch (IOException exception) {
+
+            log.error("Could not initialize memcached connection!");
+        }
     }
 
+    public String putMeasurementAndCache(String name, Measurement m) {
+
+        String objectStorePath = putMeasurement(name, m);
+        cacheMeasurement(name, m);
+        return objectStorePath;
+    }
 
     public String putMeasurement(String name, Measurement m) {
 
@@ -78,31 +58,20 @@ public abstract class StorageWrapper {
                 m.getTime().getMinute(),
                 m.getTime().getSecond());
 
-        return putObject(m, objName) ? objName : null;
+        return minioClientWrapper.putObject(m, objName) ? objName : null;
     }
 
+    public boolean cacheMeasurement(String key, Measurement m) {
 
-    public String getPresignedObjectUrl(String name) {
+        if(memcachedClientWrapper!= null) {
 
-        String url = null;
-        try {
-            url = minioClient.getPresignedObjectUrl(
-                    GetPresignedObjectUrlArgs.builder()
-                            .method(Method.GET)
-                            .bucket(applicationProperties.getMicroserviceBucket())
-                            .object(name)
-                            .expiry(2, TimeUnit.MINUTES) //todo: align with message durability in queue?
-                            .build());
-
-        } catch (Exception e){
-            log.error("Url generation failed.");
-            e.printStackTrace();
+            return memcachedClientWrapper.putObject(key, m.getValue());
         }
-        log.info("Url to Object: " + url);
-
-        return url;
+        else {
+            log.warn("No memcached connection established! Caching will be skipped.");
+            return false;
+        }
     }
-
 
     public void putSensor(Sensor s) {
         sensorService.saveSensor(s);
@@ -118,100 +87,27 @@ public abstract class StorageWrapper {
 
         String name = groupName + "/temp";
 
-        return putObject(tempGroupMeasurement, name);
+        return minioClientWrapper.putObject(tempGroupMeasurement, name);
 
     }
-
 
     public TempGroupMeasurement getTempGroupMeasurement(String groupName) {
 
         String name = groupName + "/temp";
 
-        return getObject(name, TempGroupMeasurement.class);
+        return minioClientWrapper.getObject(name, TempGroupMeasurement.class);
 
     }
-
-
 
     public void deleteTempGroupMeasurement(String groupName) {
 
         String name = groupName + "/temp";
 
-        deleteObject(name);
+        minioClientWrapper.deleteObject(name);
     }
 
-    private boolean putObject(Object o, String name) {
+    public String getPresignedObjectUrl(String objName) {
 
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            objectMapper.writeValue(byteArrayOutputStream, o);
-            InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-
-            minioClient.putObject(
-                    PutObjectArgs.builder()
-                            .bucket(applicationProperties.getMicroserviceBucket())
-                            .object(name)
-                            .stream(is, -1, 10485760)
-                            //.contentType()
-                            .build());
-
-        } catch (Exception e){
-            log.error("Upload failed.");
-            e.printStackTrace();
-            return false;
-        }
-        log.info("Upload Successful: " + o);
-        return true;
+        return minioClientWrapper.getPresignedObjectUrl(objName);
     }
-
-
-
-
-    private <T> T getObject(String name, Class<T> target) {
-
-        T object = null;
-        try {
-            InputStream is = minioClient.getObject(
-                    GetObjectArgs.builder()
-                            .bucket(applicationProperties.getMicroserviceBucket())
-                            .object(name)
-                            .build());
-            ObjectMapper objectMapper = new ObjectMapper();
-            object = objectMapper.readValue(is.readAllBytes(), target);
-
-        } catch (ErrorResponseException ere) {
-            log.info("No Object with key found.");
-
-        } catch (Exception e) {
-            log.error("GetObject failed.");
-            e.printStackTrace();
-        }
-        log.info("GetObject: " + object);
-        return object;
-    }
-
-
-    private boolean deleteObject(String name) {
-
-        try {
-            minioClient.removeObject(
-                    RemoveObjectArgs.builder()
-                            .bucket(applicationProperties.getMicroserviceBucket())
-                            .object(name)
-                            .build());
-
-        } catch (ErrorResponseException ere) {
-            log.info("Object could not be deleted");
-            return false;
-
-        } catch (Exception e) {
-            log.error("DeleteObject failed.");
-            e.printStackTrace();
-            return false;
-        }
-        log.info("DeleteObject: " + name);
-        return true;
-    }
-
 }

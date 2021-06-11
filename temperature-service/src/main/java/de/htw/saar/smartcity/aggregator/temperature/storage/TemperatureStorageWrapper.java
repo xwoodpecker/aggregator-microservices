@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.temperature.storage;
 
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
+import de.htw.saar.smartcity.aggregator.lib.storage.MinioClientWrapper;
 import de.htw.saar.smartcity.aggregator.temperature.properties.TemperatureApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.springframework.stereotype.Component;

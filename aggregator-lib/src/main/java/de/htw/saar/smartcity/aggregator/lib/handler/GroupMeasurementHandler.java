@@ -126,7 +126,7 @@ public abstract class GroupMeasurementHandler {
                                 return;
                             }
 
-                            final String objName = storageWrapper.putMeasurement(groupName + "/" + tempGroupMeasurement.getAggregateName(), m);
+                            final String objName = storageWrapper.putMeasurementAndCache(groupName + "/" + tempGroupMeasurement.getAggregateName(), m);
 
                             if(objName != null) {
 

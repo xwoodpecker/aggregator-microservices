@@ -70,7 +70,7 @@ public abstract class RawMeasurementHandler {
         }
 
         final Long sensorId = sensor.getId();
-        final String objName = storageWrapper.putMeasurement(sensor.getName(), m);
+        final String objName = storageWrapper.putMeasurementAndCache(sensor.getName(), m);
 
         if(objName != null) {
 

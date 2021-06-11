@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metrics-exporter
+  template:
+    metadata:
+      labels:
+        app: metrics-exporter
+    spec:
+      containers:
+        - name: metrics-exporter
+          image: xwoodpecker/metrics-exporter
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: web
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics-exporter-service
+  labels:
+    app: metrics-exporter
+spec:
+  type: NodePort
+  selector:
+    app: metrics-exporter
+  ports:
+    - port: 8080
+      name: web
+
+---
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: metrics-exporter-service-monitor
+  labels:
+    release: my-prom
+spec:
+  selector:
+    matchLabels:
+      app: metrics-exporter
+  endpoints:
+    - port: web
+

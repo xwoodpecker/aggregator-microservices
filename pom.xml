@@ -14,6 +14,7 @@
         <module>humidity-service</module>
         <module>dewpoint-service</module>
         <module>heatflux-service</module>
+        <module>metrics-exporter-service</module>
     </modules>
 
 

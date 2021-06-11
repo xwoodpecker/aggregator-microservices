@@ -38,6 +38,11 @@ public abstract class ApplicationProperties  {
 
     protected String microserviceQueue;
 
+    protected String microserviceBucket;
+
+    protected String memcachedHost;
+
+    protected String memcachedPort;
 
     //@Value("${BROKER_TOPIC}")
     private void setBrokerTopic(String BrokerTopic) {
@@ -100,8 +105,19 @@ public abstract class ApplicationProperties  {
         this.minioSecretKey = minioSecretKey;
     }
 
+    protected abstract void setMicroserviceQueue(String microserviceQueue);
 
-    public abstract void setMicroserviceQueue(String microserviceQueue);
+    protected abstract void setMicroserviceBucket(String microserviceBucket);
+
+    @Value("${MEMCACHED_HOST}")
+    private void setMemcachedHost(String memcachedHost) {
+        this.memcachedHost = memcachedHost;
+    }
+
+    @Value("${MEMCACHED_PORT}")
+    private void setMemcachedPort(String memcachedPort) {
+        this.memcachedPort = memcachedPort;
+    }
 
     /**
     public String getBrokerTopic() {
@@ -157,13 +173,25 @@ public abstract class ApplicationProperties  {
         return microserviceQueue;
     }
 
+    public String getMicroserviceBucket() {
+        return this.microserviceBucket;
+    }
+
+
+    public String getMemcachedHost() {
+        return this.memcachedHost;
+    }
+
+    public String getMemcachedPort() {
+        return this.memcachedPort;
+    }
+
     @PostConstruct
     public void printProperties() {
         final Logger log = LoggerFactory.getLogger(ApplicationProperties.class);
         log.info(this.toString());
 
     }
-
 
     @Override
     public String toString() {
@@ -181,6 +209,9 @@ public abstract class ApplicationProperties  {
         sb.append(", minioAccessKey='").append(minioAccessKey).append('\'');
         sb.append(", minioSecretKey='").append(minioSecretKey).append('\'');
         sb.append(", microserviceQueue='").append(microserviceQueue).append('\'');
+        sb.append(", microserviceBucket='").append(microserviceBucket).append('\'');
+        sb.append(", memcachedHost='").append(memcachedHost).append('\'');
+        sb.append(", memcachedPort='").append(memcachedPort).append('\'');
         sb.append('}');
         return sb.toString();
     }
