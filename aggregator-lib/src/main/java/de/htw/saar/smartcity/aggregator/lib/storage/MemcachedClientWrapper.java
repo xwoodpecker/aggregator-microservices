@@ -10,21 +10,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 
 
 public class MemcachedClientWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(MemcachedClientWrapper.class);
 
-    private final ApplicationProperties applicationProperties;
-
     private final MemcachedClient mcc;
 
-    public MemcachedClientWrapper(ApplicationProperties applicationProperties) throws IOException {
+    public MemcachedClientWrapper(String memcachedHost, String memcachedPort) throws IOException {
 
-        this.applicationProperties = applicationProperties;
 
-        String address = this.applicationProperties.getMemcachedHost() + ":" + this.applicationProperties.getMemcachedPort();
+        String address = memcachedHost + ":" + memcachedPort;
         MemcachedClientBuilder builder = new XMemcachedClientBuilder(
                 AddrUtil.getAddresses(address));
 
@@ -57,5 +56,18 @@ public class MemcachedClientWrapper {
         }
         log.info("Retrieved cached object successfully: " + obj);
         return obj;
+    }
+
+    public <T> Map<String, T> getObjects(Collection<String> keys) {
+
+        Map<String, T> map = null;
+        try {
+            map = mcc.get(keys);
+        } catch (Exception e){
+            log.error("Retrieving cached object failed.");
+            e.printStackTrace();
+        }
+        log.info("Retrieved cached object successfully: " + map);
+        return map;
     }
 }

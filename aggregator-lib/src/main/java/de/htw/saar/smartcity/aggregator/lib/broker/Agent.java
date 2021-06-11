@@ -1,0 +1,57 @@
+package de.htw.saar.smartcity.aggregator.lib.broker;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
+
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * The type Agent.
+ */
+public abstract class Agent {
+
+    /**
+     * The Publisher
+     */
+    private MqttPublisher publisher;
+
+    /**
+     * The Sensor name.
+     */
+    private String sensorName;
+    /**
+     * The Random.
+     */
+    private Random random;
+
+    /**
+     * Instantiates a new Agent.
+     *
+     * @param sensorName the sensor name
+     */
+
+    public Agent(MqttPublisher publisher, String sensorName){
+        this.publisher = publisher;
+        this.sensorName = sensorName;
+        this.random = new Random();
+    }
+
+    /**
+     * Start.
+     */
+    public void start() {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(() -> {
+            try {
+                publisher.publish(sensorName, String.valueOf(getNextValue()));
+
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+        }, 1000, 5000, TimeUnit.MILLISECONDS);
+    }
+
+    protected abstract Object getNextValue();
+}

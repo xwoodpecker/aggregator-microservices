@@ -15,7 +15,15 @@
         <module>dewpoint-service</module>
         <module>heatflux-service</module>
         <module>metrics-exporter-service</module>
+        <module>prometheus-exporter-service</module>
+        <module>sensor-virtualization-service</module>
     </modules>
+
+
+    <properties>
+        <maven.compiler.source>14</maven.compiler.source>
+        <maven.compiler.target>14</maven.compiler.target>
+    </properties>
 
 
     <!-- todo: test this -->
