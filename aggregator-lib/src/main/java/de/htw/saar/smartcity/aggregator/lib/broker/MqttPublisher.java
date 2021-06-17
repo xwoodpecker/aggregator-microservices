@@ -80,7 +80,7 @@ public abstract class MqttPublisher {
             String clientId = MqttClient.generateClientId();
             mqttClient = new MqttClient(brokerAddress, clientId, new MemoryPersistence());
             connectionOptions.setCleanSession(true);
-            connectionOptions.setMaxInflight(1000);
+            connectionOptions.setMaxInflight(9000);
 
             if (!Utils.isBlankOrNull(applicationProperties.getBrokerUserName())) {
                 connectionOptions.setUserName(applicationProperties.getBrokerUserName());

@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;
 import de.htw.saar.smartcity.aggregator.lib.base.Constants;
@@ -23,11 +24,8 @@ public abstract class GroupsReceiver extends BrokerConnection {
         super(applicationProperties);
         this.groupMeasurementHandler = groupMeasurementHandler;
 
-        Channel channel;
 
         try {
-            channel = connection.createChannel();
-
             channel.queueDeclare(applicationProperties.getMicroserviceQueue(), true, false, false, null);
 
             String groupTypeName = applicationProperties.getMicroserviceGroupTypeName();
@@ -70,13 +68,16 @@ public abstract class GroupsReceiver extends BrokerConnection {
                     log.error("URL not published with the correct routing key");
                 }
 
+                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);  //test true to ack multiple deliveries
             };
 
-            channel.basicConsume(applicationProperties.getMicroserviceQueue(), true, deliverCallback, consumerTag -> {});
+            channel.basicConsume(applicationProperties.getMicroserviceQueue(), false, deliverCallback, consumerTag -> {});
 
         } catch (IOException e) {
             log.error("Error during groups receiver channel instantiation.");
             e.printStackTrace();
         }
     }
+
+
 }

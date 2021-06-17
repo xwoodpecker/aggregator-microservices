@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heatflux-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heatflux-ms
+  template:
+    metadata:
+      labels:
+        app: heatflux-ms
+    spec:
+      containers:
+        - name: heatflux-ms
+          image: xwoodpecker/heatflux-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: web
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: heatflux-ms-service
+  labels:
+    app: heatflux-ms
+spec:
+  type: NodePort
+  selector:
+    app: heatflux-ms
+  ports:
+    - port: 8080
+      name: web
+

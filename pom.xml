@@ -1,41 +1,66 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>de.htw.saar.smartcity</groupId>
-    <artifactId>aggregator-microservices</artifactId>
-    <version>0.1.0</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>aggregator-lib</module>
-        <module>aggregator-groups-service</module>
-        <module>temperature-service</module>
-        <module>humidity-service</module>
-        <module>dewpoint-service</module>
-        <module>heatflux-service</module>
-        <module>metrics-exporter-service</module>
-        <module>prometheus-exporter-service</module>
-        <module>sensor-virtualization-service</module>
-    </modules>
-
-
-    <properties>
-        <maven.compiler.source>14</maven.compiler.source>
-        <maven.compiler.target>14</maven.compiler.target>
-    </properties>
-
-
-    <!-- todo: test this -->
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      
+  <modelVersion>4.0.0</modelVersion>
+      
+  <groupId>de.htw.saar.smartcity</groupId>
+      
+  <artifactId>aggregator-microservices</artifactId>
+      
+  <version>0.1.0</version>
+      
+  <packaging>pom</packaging>
+      
+  <modules>
+            
+    <module>aggregator-lib</module>
+            
+    <module>aggregator-groups-service</module>
+            
+    <module>temperature-service</module>
+            
+    <module>humidity-service</module>
+            
+    <module>dewpoint-service</module>
+            
+    <module>heatflux-service</module>
+            
+    <module>prometheus-exporter-service</module>
+            
+    <module>sensor-virtualization-service</module>
+          
+    <module>benchmarking</module>
+      
+  </modules>
+      
+  <properties>
+            
+    <maven.compiler.source>14</maven.compiler.source>
+            
+    <maven.compiler.target>14</maven.compiler.target>
+        
+  </properties>
+      
+  <!-- todo: test this -->
+      
+  <build>
+            
+    <pluginManagement>
+                  
+      <plugins>
+                        
+        <plugin>
+                              
+          <groupId>org.springframework.boot</groupId>
+                              
+          <artifactId>spring-boot-maven-plugin</artifactId>
+                          
+        </plugin>
+                    
+      </plugins>
+              
+    </pluginManagement>
+        
+  </build>
+  
 </project>

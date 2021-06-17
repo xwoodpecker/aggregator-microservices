@@ -20,6 +20,8 @@ public abstract class ApplicationProperties  {
 
     private String brokerPort;
 
+    private String brokerManagementPort;
+
     private String brokerUserName;
 
     private String brokerPassword;
@@ -63,6 +65,11 @@ public abstract class ApplicationProperties  {
     @Value("${BROKER_PORT}")
     private void setBrokerPort(String brokerPort) {
         this.brokerPort = brokerPort;
+    }
+
+    @Value("${BROKER_MANAGEMENT_PORT}")
+    private void setBrokerManagementPort(String brokerManagementPort) {
+        this.brokerManagementPort = brokerManagementPort;
     }
 
     @Value("${BROKER_USERNAME}")
@@ -186,6 +193,10 @@ public abstract class ApplicationProperties  {
         return this.memcachedPort;
     }
 
+    public String getBrokerManagementPort() {
+        return this.brokerManagementPort;
+    }
+
     @PostConstruct
     public void printProperties() {
         final Logger log = LoggerFactory.getLogger(ApplicationProperties.class);
@@ -200,6 +211,7 @@ public abstract class ApplicationProperties  {
         sb.append(", brokerAddress='").append(brokerAddress).append('\'');
         sb.append(", brokerHost='").append(brokerHost).append('\'');
         sb.append(", brokerPort='").append(brokerPort).append('\'');
+        sb.append(", brokerManagementPort='").append(brokerManagementPort).append('\'');
         sb.append(", brokerUserName='").append(brokerUserName).append('\'');
         sb.append(", brokerPassword='").append(brokerPassword).append('\'');
         sb.append(", caFile='").append(caFile).append('\'');
@@ -215,4 +227,5 @@ public abstract class ApplicationProperties  {
         sb.append('}');
         return sb.toString();
     }
+
 }

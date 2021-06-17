@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prom-exporter-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prom-exporter-ms
+  template:
+    metadata:
+      labels:
+        app: prom-exporter-ms
+    spec:
+      containers:
+        - name: prom-exporter-ms
+          image: xwoodpecker/prom-exporter-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: prom-exporter-service
+  labels:
+    app: prom-exporter-ms
+spec:
+  type: NodePort #todo change
+  selector:
+    app: prom-exporter-ms
+  ports:
+    - port: 8080
+      name: http
+
+---
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prom-exporter-service-monitor
+  labels:
+    release: my-prom
+spec:
+  selector:
+    matchLabels:
+      app: prom-exporter-ms
+  endpoints:
+    - port: http
+      path: "/actuator/prometheus"
+
+
+

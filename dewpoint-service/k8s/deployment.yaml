@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: metrics-exporter
+  name: dewpoint-ms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: metrics-exporter
+      app: dewpoint-ms
   template:
     metadata:
       labels:
-        app: metrics-exporter
+        app: dewpoint-ms
     spec:
       containers:
-        - name: metrics-exporter
-          image: xwoodpecker/metrics-exporter
+        - name: dewpoint-ms
+          image: xwoodpecker/dewpoint-ms
           envFrom:
             - configMapRef:
                 name: general-config
@@ -28,29 +28,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: metrics-exporter-service
+  name: dewpoint-ms-service
   labels:
-    app: metrics-exporter
+    app: dewpoint-ms
 spec:
   type: NodePort
   selector:
-    app: metrics-exporter
+    app: dewpoint-ms
   ports:
     - port: 8080
       name: web
-
----
-
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: metrics-exporter-service-monitor
-  labels:
-    release: my-prom
-spec:
-  selector:
-    matchLabels:
-      app: metrics-exporter
-  endpoints:
-    - port: web
 

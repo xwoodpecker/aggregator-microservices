@@ -7,28 +7,58 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Aggregator service.
+ */
 @Service
 public class AggregatorService {
     
     private AggregatorRepository aggregatorRepository;
 
 
+    /**
+     * Instantiates a new Aggregator service.
+     *
+     * @param aggregatorRepository the aggregator repository
+     */
     public AggregatorService(AggregatorRepository aggregatorRepository) {
         this.aggregatorRepository = aggregatorRepository;
     }
 
+    /**
+     * Save aggregator aggregator.
+     *
+     * @param aggregator the aggregator
+     * @return the aggregator
+     */
     public Aggregator saveAggregator(Aggregator aggregator) {
         return aggregatorRepository.save(aggregator);
     }
 
+    /**
+     * Find aggregator by id optional.
+     *
+     * @param id the id
+     * @return the optional
+     */
     public Optional<Aggregator> findAggregatorById(Long id) {
         return aggregatorRepository.findById(id);
     }
 
+    /**
+     * Find all aggregators list.
+     *
+     * @return the list
+     */
     public List<Aggregator> findAllAggregators() {
         return aggregatorRepository.findAll();
     }
 
+    /**
+     * Delete aggregator.
+     *
+     * @param aggregator the aggregator
+     */
     public void deleteAggregator(Aggregator aggregator) {
 
         aggregator.getGroups().forEach(g -> g.getProducers().removeIf(a -> a.equals(aggregator)));

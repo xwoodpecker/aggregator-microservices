@@ -1,7 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;
+import com.rabbitmq.client.Delivery;
 import de.htw.saar.smartcity.aggregator.lib.handler.RawMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
@@ -19,10 +21,7 @@ public abstract class BaseReceiver extends BrokerConnection {
 
         this.rawMeasurementHandler = rawMeasurementHandler;
 
-        Channel channel;
-
         try {
-            channel = connection.createChannel();
             channel.queueDeclare(applicationProperties.getMicroserviceQueue(), true, false, false, null);
 
             for(String topic : applicationProperties.getMicroserviceTopics()) {
@@ -33,17 +32,26 @@ public abstract class BaseReceiver extends BrokerConnection {
 
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 
-                String message = new String(delivery.getBody(), "UTF-8");
-                String routingKey = delivery.getEnvelope().getRoutingKey();
-                String topic = routingKey.replaceAll("\\.", "/");
-                rawMeasurementHandler.handleMessage(new SensorMeasurement(topic, message));
+                try {
+                    String message = new String(delivery.getBody(), "UTF-8");
+                    String routingKey = delivery.getEnvelope().getRoutingKey();
+                    String topic = routingKey.replaceAll("\\.", "/");
+                    rawMeasurementHandler.handleMessage(new SensorMeasurement(topic, message));
+
+                }catch (Exception e) {
+                    log.error("Error during consumption of measurement");
+                    e.printStackTrace();
+                }
+
+                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false); //test true to ack multiple deliveries
             };
 
-            channel.basicConsume(applicationProperties.getMicroserviceQueue(), true, deliverCallback, consumerTag -> {});
+            channel.basicConsume(applicationProperties.getMicroserviceQueue(), false, deliverCallback, consumerTag -> {});
 
         } catch (IOException e) {
             log.error("Error during base receiver channel instantiation.");
             e.printStackTrace();
         }
     }
+
 }

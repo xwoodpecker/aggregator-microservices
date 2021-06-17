@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.exporter.base;
 
 
+import de.htw.saar.smartcity.aggregator.exporter.properties.ExporterApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
@@ -22,14 +23,19 @@ public class CustomCollector extends Collector {
 
     private final SensorService sensorService;
     private final AggregatorService aggregatorService;
+    private final ExporterApplicationProperties exporterApplicationProperties;
     private MemcachedClientWrapper memcachedClientWrapper = null;
 
-    public CustomCollector(SensorService sensorService, AggregatorService aggregatorService) {
+    public CustomCollector(SensorService sensorService, AggregatorService aggregatorService, ExporterApplicationProperties exporterApplicationProperties) {
         this.sensorService = sensorService;
         this.aggregatorService = aggregatorService;
+        this.exporterApplicationProperties = exporterApplicationProperties;
 
         try {
-            this.memcachedClientWrapper = new MemcachedClientWrapper("localhost", "11211");
+            this.memcachedClientWrapper =
+                    new MemcachedClientWrapper(exporterApplicationProperties.getMemcachedHost(),
+                                               exporterApplicationProperties.getMemcachedPort()
+                    );
         } catch (IOException exception) {
             exception.printStackTrace();
         }

@@ -9,34 +9,50 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Producer service.
+ */
 @Service
 public class ProducerService {
 
     private ProducerRepository producerRepository;
 
 
+    /**
+     * Instantiates a new Producer service.
+     *
+     * @param producerRepository the producer repository
+     */
     public ProducerService(ProducerRepository producerRepository) {
         this.producerRepository = producerRepository;
     }
 
+    /**
+     * Save producer producer.
+     *
+     * @param producer the producer
+     * @return the producer
+     */
     public Producer saveProducer(Producer producer) {
         return producerRepository.save(producer);
     }
 
+    /**
+     * Find producer by id optional.
+     *
+     * @param id the id
+     * @return the optional
+     */
     public Optional<Producer> findProducerById(Long id) {
         return producerRepository.findById(id);
     }
 
+    /**
+     * Find all producers list.
+     *
+     * @return the list
+     */
     public List<Producer> findAllProducers() {
         return producerRepository.findAll();
     }
-
-    /**public void deleteProducer(Producer producer) {
-
-        producer.getGroups().forEach(g -> g.getProducers().removeIf(p -> p.equals(producer)));
-        producer.setGroups(null);
-        producer.getTags().forEach(t -> t.getTags().removeIf(p -> p.equals(producer)));
-        producer.setTags(null);
-        producerRepository.deleteById(producer.getId());
-    }**/
 }

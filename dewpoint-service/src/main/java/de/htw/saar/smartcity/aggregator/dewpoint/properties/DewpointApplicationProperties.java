@@ -3,6 +3,7 @@ package de.htw.saar.smartcity.aggregator.dewpoint.properties;
 import de.htw.saar.smartcity.aggregator.lib.properties.GroupMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 
 @Configuration

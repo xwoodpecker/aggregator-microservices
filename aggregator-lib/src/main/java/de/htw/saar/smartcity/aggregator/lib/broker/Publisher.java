@@ -9,15 +9,12 @@ import java.nio.charset.StandardCharsets;
 
 public abstract class Publisher extends BrokerConnection {
 
-
-    private Channel channel;
-
     public Publisher(ApplicationProperties applicationProperties) {
 
         super(applicationProperties);
 
         try {
-            channel = connection.createChannel();
+
             channel.exchangeDeclare(Constants.GROUP_EXCHANGE, "topic");
         } catch (IOException e) {
             log.error("Error during publisher channel instantiation.");

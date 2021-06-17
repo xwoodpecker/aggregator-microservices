@@ -1,5 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
@@ -13,6 +15,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.KeyStore;
@@ -31,10 +34,18 @@ public abstract class BrokerConnection {
 
     protected final Connection connection;
 
+    protected Channel channel;
+
 
     public BrokerConnection(ApplicationProperties applicationProperties) {
         this.applicationProperties = applicationProperties;
+
         connection = configConnection();
+        try {
+            channel = connection.createChannel();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     private Connection configConnection() {
@@ -120,4 +131,5 @@ public abstract class BrokerConnection {
 
         return context;
     }
+
 }
