@@ -38,7 +38,13 @@ public class Measurement<T> implements Serializable {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Measurement{");
-        sb.append("value=").append(value);
+
+        String loggedValue = value.toString();
+        if(loggedValue.length() > 100) {
+            loggedValue = loggedValue.substring(0, 97);
+            loggedValue += "...";
+        }
+        sb.append("value=").append(loggedValue);
         sb.append(", time=").append(time);
         sb.append('}');
         return sb.toString();

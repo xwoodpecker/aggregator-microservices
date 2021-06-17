@@ -11,7 +11,9 @@ import java.util.ArrayList;
 @Component
 public class MqttPublisherImpl extends MqttPublisher {
 
-    private final String prefix = "data/aggregator";
+    private final static String PREFIX = "data/aggregator";
+
+    private final static Integer ITERATIONS = 1;
 
     /**
      * Instantiates a new Mqtt subscriber.
@@ -28,9 +30,10 @@ public class MqttPublisherImpl extends MqttPublisher {
 
             try {
                 ArrayList<Agent> agents = new ArrayList<>();
-                for(int i=1; i<=400; i++) {
-                    agents.add(new TemperatureAgent(this, prefix + "/temperature" + "/sensor" + i));
-                    //agents.add(new HumidityAgent(this, prefix + "/humidity" + "/sensor" + i));
+                for(int i=1; i<=ITERATIONS; i++) {
+                    //agents.add(new TemperatureAgent(this, PREFIX + "/temperature/sensor" + i));
+                    //agents.add(new HumidityAgent(this, PREFIX + "/humidity/sensor" + i));
+                    agents.add(new PictureAgent(this, PREFIX + "/picture/sensor" + i));
                 }
                 agents.forEach(Agent::start);
 

@@ -135,7 +135,10 @@ public abstract class GroupMeasurementHandler {
                                 log.info("Aggregator updated - ObjectStorePath set");
                             }
 
-                            final String objName = storageWrapper.putMeasurementAndCache(path, m);
+                            final String objName = storageWrapper.putMeasurement(path, m);
+
+                            if(aggregator.getExportAsMetric())
+                                storageWrapper.cacheMeasurement(path, m);
 
                             if(objName != null) {
 

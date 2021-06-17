@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: water-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: water-ms
+  template:
+    metadata:
+      labels:
+        app: water-ms
+    spec:
+      containers:
+        - name: water-ms
+          image: xwoodpecker/water-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: water-service
+  labels:
+    app: water-ms
+spec:
+  type: NodePort #todo change
+  selector:
+    app: water-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+---
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: water-service-monitor
+  labels:
+    release: my-prom
+spec:
+  selector:
+    matchLabels:
+      app: water-ms
+  endpoints:
+    - port: http
+
+

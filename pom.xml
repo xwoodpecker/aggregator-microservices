@@ -30,7 +30,9 @@
     <module>sensor-virtualization-service</module>
           
     <module>benchmarking</module>
-      
+      <module>water-service</module>
+      <module>picture-service</module>
+
   </modules>
       
   <properties>

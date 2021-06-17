@@ -67,7 +67,12 @@ public abstract class MqttPublisher {
 
         final MqttTopic mqttTopic = mqttClient.getTopic(topic);
         mqttTopic.publish(new MqttMessage(message.getBytes()));
-        log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + message);
+        String loggedMsg = message;
+        if(message.length() > 100) {
+            loggedMsg = message.substring(0, 97);
+            loggedMsg += "...";
+        }
+        log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + loggedMsg);
     }
 
 

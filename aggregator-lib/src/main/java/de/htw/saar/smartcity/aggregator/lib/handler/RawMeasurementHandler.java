@@ -45,7 +45,14 @@ public abstract class RawMeasurementHandler {
 
         final String sensorName = sensorMeasurement.getSensorName();
         final String measurement = sensorMeasurement.getMeasurement();
-        log.info("Message arrived for sensor " + sensorName + " Measurement: " + measurement);
+
+        String loggedMeasurement = measurement;
+        if(measurement.length() > 100) {
+            loggedMeasurement = measurement.substring(0, 97);
+            loggedMeasurement += "...";
+        }
+
+        log.info("Message arrived for sensor " + sensorName + " Measurement: " + loggedMeasurement);
 
         Sensor sensor = storageWrapper.getSensor(sensorName);
 
@@ -83,7 +90,10 @@ public abstract class RawMeasurementHandler {
 
         final Long sensorId = sensor.getId();
 
-        final String objName = storageWrapper.putMeasurementAndCache(path, m);
+        final String objName = storageWrapper.putMeasurement(path, m);
+
+        if(sensor.getExportAsMetric())
+            storageWrapper.cacheMeasurement(path, m);
 
         if(objName != null) {
 
