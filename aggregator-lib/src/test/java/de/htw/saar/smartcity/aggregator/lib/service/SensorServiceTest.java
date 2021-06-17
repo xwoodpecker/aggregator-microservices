@@ -37,6 +37,8 @@ class SensorServiceTest {
 
     private List<Sensor> sensors = new ArrayList<>();
 
+    private List<Sensor> sensorsToExport = new ArrayList<>();
+
     @BeforeEach
     public void init() {
         sensor = new Sensor();
@@ -47,6 +49,7 @@ class SensorServiceTest {
         dataType.setName("testDataType");
         sensor.setDataType(dataType);
         sensor.setObjectStorePath("test/path1");
+        sensor.setExportAsMetric(true);
         sensor.setLocation("here");
         sensor.setX(12.0);
         sensor.setY(15.0);
@@ -60,6 +63,7 @@ class SensorServiceTest {
         s.setName("another");
         s.setDataType(dataType);
         s.setObjectStorePath("test/path2");
+        s.setExportAsMetric(false);
         s.setLocation("here");
         s.setX(2.0);
         s.setY(5.0);
@@ -69,6 +73,8 @@ class SensorServiceTest {
 
         sensors.add(sensor);
         sensors.add(s);
+
+        sensorsToExport.add(sensor);
     }
 
 
@@ -81,6 +87,7 @@ class SensorServiceTest {
 
         Sensor saved = sensorService.saveSensor(sensor);
         assertThat(saved.getObjectStorePath()).isSameAs(sensor.getObjectStorePath());
+        assertThat(saved.getExportAsMetric()).isSameAs(sensor.getExportAsMetric());
         assertThat(saved.getDataType()).isSameAs(sensor.getDataType());
         assertThat(saved.getName()).isSameAs(sensor.getName());
         assertThat(saved.getInformation()).isSameAs(sensor.getInformation());
@@ -127,6 +134,19 @@ class SensorServiceTest {
 
         Assert.assertEquals(returned.size(), sensors.size());
         Mockito.verify(sensorRepository, Mockito.times(1)).findAll();
+        Mockito.verifyNoMoreInteractions(sensorRepository);
+    }
+
+
+    @Test
+    void findAllSensorsToExport() {
+
+        Mockito.when(sensorRepository.findAllByExportAsMetricTrue()).thenReturn(sensorsToExport);
+
+        List<Sensor> returned = sensorService.findAllSensorsToExport();
+
+        Assert.assertEquals(returned.size(), sensorsToExport.size());
+        Mockito.verify(sensorRepository, Mockito.times(1)).findAllByExportAsMetricTrue();
         Mockito.verifyNoMoreInteractions(sensorRepository);
     }
 }

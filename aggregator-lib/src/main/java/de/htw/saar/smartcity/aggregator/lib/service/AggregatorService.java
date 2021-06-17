@@ -54,6 +54,16 @@ public class AggregatorService {
         return aggregatorRepository.findAll();
     }
 
+
+    /**
+     * Find all aggregators to export list.
+     *
+     * @return the list
+     */
+    public List<Aggregator> findAllAggregatorsToExport() {
+        return aggregatorRepository.findAllByExportAsMetricTrue();
+    }
+
     /**
      * Delete aggregator.
      *
@@ -71,4 +81,5 @@ public class AggregatorService {
         }
         aggregatorRepository.deleteById(aggregator.getId());
     }
+
 }

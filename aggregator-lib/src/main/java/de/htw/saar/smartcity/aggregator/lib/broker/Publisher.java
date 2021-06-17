@@ -1,15 +1,14 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
-import com.rabbitmq.client.Channel;
 import de.htw.saar.smartcity.aggregator.lib.base.Constants;
-import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public abstract class Publisher extends BrokerConnection {
 
-    public Publisher(ApplicationProperties applicationProperties) {
+    public Publisher(MicroserviceApplicationProperties applicationProperties) {
 
         super(applicationProperties);
 

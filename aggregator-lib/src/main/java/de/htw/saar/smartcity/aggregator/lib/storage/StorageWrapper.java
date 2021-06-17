@@ -1,9 +1,11 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
+import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
-import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,18 +18,23 @@ public abstract class StorageWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(StorageWrapper.class);
 
-    private final ApplicationProperties applicationProperties;
+    private final MicroserviceApplicationProperties applicationProperties;
 
     private final SensorService sensorService;
+
+    private final AggregatorService aggregatorService;
 
     private final MinioClientWrapper minioClientWrapper;
 
     private MemcachedClientWrapper memcachedClientWrapper = null;
 
-    public StorageWrapper(ApplicationProperties applicationProperties, SensorService sensorService) {
+    public StorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) {
 
         this.applicationProperties = applicationProperties;
         this.sensorService = sensorService;
+        this.aggregatorService = aggregatorService;
+
+
         this.minioClientWrapper = new MinioClientWrapper(applicationProperties);
 
         try {
@@ -77,8 +84,12 @@ public abstract class StorageWrapper {
     }
 
     public void putSensor(Sensor s) {
-        sensorService.saveSensor(s);
+        sensorService.updateSensor(s);
         //putObject(s, s.getName() + "/" + SENSOR_INFO_FILENAME);
+    }
+
+    public void putAggregator(Aggregator a) {
+        aggregatorService.saveAggregator(a);
     }
 
     public Sensor getSensor(String name) {
@@ -113,4 +124,5 @@ public abstract class StorageWrapper {
 
         return minioClientWrapper.getPresignedObjectUrl(objName);
     }
+
 }

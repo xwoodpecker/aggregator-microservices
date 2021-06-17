@@ -1,7 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import de.htw.saar.smartcity.aggregator.lib.base.Constants;
-import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.MemcachedClientBuilder;
 import net.rubyeye.xmemcached.XMemcachedClientBuilder;

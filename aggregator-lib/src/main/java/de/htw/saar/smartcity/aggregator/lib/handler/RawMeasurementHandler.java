@@ -11,6 +11,7 @@ import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,12 +53,23 @@ public abstract class RawMeasurementHandler {
 
             sensor = new Sensor();
             sensor.setName(sensorName);
+            sensor.setObjectStorePath(sensorName);
             String dataTypeName = rawMicroserviceApplicationProperties.getMicroServiceDataType();
             DataType dataType = dataTypeService.findDataTypeByName(dataTypeName);
             sensor.setDataType(dataType);
+            sensor.setExportAsMetric(rawMicroserviceApplicationProperties.getExportSensorDataAsMetric());
             storageWrapper.putSensor(sensor);
             log.info("Sensor saved");
         }
+
+        String path = sensor.getObjectStorePath();
+        if(Utils.isBlankOrNull(path)) {
+            path = sensorName;
+            sensor.setObjectStorePath(path);
+            storageWrapper.putSensor(sensor);
+            log.info("Sensor updated - ObjectStorePath set");
+        }
+
 
         Measurement m;
         try {
@@ -70,7 +82,8 @@ public abstract class RawMeasurementHandler {
         }
 
         final Long sensorId = sensor.getId();
-        final String objName = storageWrapper.putMeasurementAndCache(sensor.getName(), m);
+
+        final String objName = storageWrapper.putMeasurementAndCache(path, m);
 
         if(objName != null) {
 

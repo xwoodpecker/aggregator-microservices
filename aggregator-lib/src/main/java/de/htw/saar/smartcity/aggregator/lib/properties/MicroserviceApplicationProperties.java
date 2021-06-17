@@ -8,9 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.PostConstruct;
 
-@Configuration
-@PropertySource("classpath:application.properties")
-public abstract class ApplicationProperties  {
+public abstract class MicroserviceApplicationProperties {
 
     private String brokerTopic;
 
@@ -199,7 +197,7 @@ public abstract class ApplicationProperties  {
 
     @PostConstruct
     public void printProperties() {
-        final Logger log = LoggerFactory.getLogger(ApplicationProperties.class);
+        final Logger log = LoggerFactory.getLogger(MicroserviceApplicationProperties.class);
         log.info(this.toString());
 
     }

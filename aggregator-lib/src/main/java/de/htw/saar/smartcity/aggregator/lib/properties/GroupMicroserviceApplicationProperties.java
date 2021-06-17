@@ -1,6 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.properties;
 
-public abstract class GroupMicroserviceApplicationProperties extends ApplicationProperties {
+public abstract class GroupMicroserviceApplicationProperties extends MicroserviceApplicationProperties {
 
     protected String microserviceGroupTypeName;
 

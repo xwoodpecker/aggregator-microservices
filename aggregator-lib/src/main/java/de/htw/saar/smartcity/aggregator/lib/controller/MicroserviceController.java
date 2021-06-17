@@ -1,10 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +15,9 @@ import java.net.URI;
 
 public abstract class MicroserviceController {
 
-    private final ApplicationProperties applicationProperties;
+    private final MicroserviceApplicationProperties applicationProperties;
 
-    protected MicroserviceController(ApplicationProperties applicationProperties) {
+    protected MicroserviceController(MicroserviceApplicationProperties applicationProperties) {
 
         this.applicationProperties = applicationProperties;
     }

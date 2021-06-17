@@ -31,4 +31,10 @@ public class HumidityApplicationProperties extends RawMicroserviceApplicationPro
     public void setMicroserviceDataType(String microserviceDataType) {
         this.microserviceDataType = microserviceDataType;
     }
+
+    @Override
+    @Value("${EXPORT_HUMIDITY_DATA_AS_METRIC}")
+    public void setExportSensorDataAsMetric(boolean exportSensorDataAsMetric) {
+        this.exportSensorDataAsMetric = exportSensorDataAsMetric;
+    }
 }

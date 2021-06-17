@@ -82,7 +82,7 @@ public class GroupController {
 
             Group oldGroup = optOldGroup.get();
             oldGroup.replaceOwnAttributesWithOther(group);
-            saved = groupService.saveGroup(oldGroup);
+            saved = groupService.updateGroup(oldGroup);
 
         } else {
 

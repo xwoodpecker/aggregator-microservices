@@ -1,7 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 import io.minio.*;
 import io.minio.errors.ErrorResponseException;
 import io.minio.http.Method;
@@ -17,11 +17,11 @@ public class MinioClientWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(MinioClientWrapper.class);
 
-    private final ApplicationProperties applicationProperties;
+    private final MicroserviceApplicationProperties applicationProperties;
 
     private final MinioClient minioClient;
 
-    public MinioClientWrapper(ApplicationProperties applicationProperties) {
+    public MinioClientWrapper(MicroserviceApplicationProperties applicationProperties) {
 
         this.applicationProperties = applicationProperties;
 

@@ -10,6 +10,7 @@ import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
 import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
+import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,7 +127,15 @@ public abstract class GroupMeasurementHandler {
                                 return;
                             }
 
-                            final String objName = storageWrapper.putMeasurementAndCache(groupName + "/" + tempGroupMeasurement.getAggregateName(), m);
+                            String path = aggregator.getObjectStorePath();
+                            if(Utils.isBlankOrNull(path)) {
+                                path = groupName + "/" + tempGroupMeasurement.getAggregateName();
+                                aggregator.setObjectStorePath(path);
+                                storageWrapper.putAggregator(aggregator);
+                                log.info("Aggregator updated - ObjectStorePath set");
+                            }
+
+                            final String objName = storageWrapper.putMeasurementAndCache(path, m);
 
                             if(objName != null) {
 

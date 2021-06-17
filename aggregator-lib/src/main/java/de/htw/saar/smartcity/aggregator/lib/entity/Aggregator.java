@@ -29,8 +29,9 @@ public class Aggregator extends Producer {
     public Aggregator() {
     }
 
-    public Aggregator(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath, Group ownerGroup, Combinator combinator) {
-        super(id, dataType, tags, groups, objectStorePath);
+    public Aggregator(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath,
+                      boolean exportAsMetric, Group ownerGroup, Combinator combinator) {
+        super(id, dataType, tags, groups, objectStorePath, exportAsMetric);
         this.ownerGroup = ownerGroup;
         this.combinator = combinator;
     }
@@ -59,6 +60,8 @@ public class Aggregator extends Producer {
         //sb.append(", ownerGroup=").append(ownerGroup);
         sb.append(", dataType=").append(dataType);
         sb.append(", tags=").append(tags);
+        sb.append(", objectStorePath='").append(objectStorePath).append('\'');
+        sb.append(", exportAsMetric='").append(exportAsMetric).append('\'');
         //sb.append(", groups=").append(groups);
         sb.append('}');
         return sb.toString();

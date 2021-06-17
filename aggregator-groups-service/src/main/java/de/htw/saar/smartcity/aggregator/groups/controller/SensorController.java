@@ -52,7 +52,7 @@ public class SensorController {
         Sensor saved = sensorService.findSensorById(id)
                 .map(s -> {
                     s.replaceOwnAttributesWithOther(sensor);
-                    return sensorService.saveSensor(s);
+                    return sensorService.updateSensor(s);
                 })
                 .orElseGet(() -> {
                     sensor.setId(id);

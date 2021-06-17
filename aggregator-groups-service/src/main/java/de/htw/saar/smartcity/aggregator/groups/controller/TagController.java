@@ -72,7 +72,7 @@ public class TagController {
 
             Tag oldTag = optOldTag.get();
             oldTag.setName(tag.getName());
-            saved = tagService.saveTag(oldTag);
+            saved = tagService.updateTag(oldTag);
 
         } else {
 

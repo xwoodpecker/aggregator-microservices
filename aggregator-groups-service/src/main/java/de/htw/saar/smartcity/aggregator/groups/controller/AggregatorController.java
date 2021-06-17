@@ -4,7 +4,6 @@ import de.htw.saar.smartcity.aggregator.groups.exception.*;
 import de.htw.saar.smartcity.aggregator.lib.entity.*;
 import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +59,8 @@ public class AggregatorController {
         if(optOldAggregator.isPresent()) {
 
             Aggregator oldAggregator = optOldAggregator.get();
+            oldAggregator.setExportAsMetric(aggregator.getExportAsMetric());
+            oldAggregator.setObjectStorePath(aggregator.getObjectStorePath());
             oldAggregator.setDataType(aggregator.getDataType());
             oldAggregator.setOwnerGroup(aggregator.getOwnerGroup());
             saved = aggregatorService.saveAggregator(oldAggregator);

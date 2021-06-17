@@ -9,6 +9,8 @@ import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import de.htw.saar.smartcity.aggregator.lib.storage.MemcachedClientWrapper;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -20,6 +22,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class CustomCollector extends Collector {
+
+
+    private static final Logger log = LoggerFactory.getLogger(CustomCollector.class);
 
     private final SensorService sensorService;
     private final AggregatorService aggregatorService;
@@ -37,26 +42,14 @@ public class CustomCollector extends Collector {
                                                exporterApplicationProperties.getMemcachedPort()
                     );
         } catch (IOException exception) {
+            log.error("Memcached server connection failed!");
             exception.printStackTrace();
         }
     }
 
-    /**private SensorService getSensorService() {
-
-        return SpringContext.getBean(SensorService.class);
-    }
-
-
-    private MemcachedClientWrapper getMemcachedClientWrapper() {
-
-        return SpringContext.getBean(MemcachedClientWrapper.class);
-    }**/
-
     public List<MetricFamilySamples> collect() {
 
         List<MetricFamilySamples> mfs = new ArrayList<>();
-        // With no labels.
-        mfs.add(new GaugeMetricFamily("test", "help", 42));
         mfs.addAll(generateSensorGauges());
         mfs.addAll(generateGroupGauges());
         return mfs;
@@ -65,9 +58,10 @@ public class CustomCollector extends Collector {
 
     private List<GaugeMetricFamily> generateSensorGauges() {
 
+        log.info("Started generating sensor measurements...");
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
-        List<Sensor> sensors =  getAllSensors(); // only active for prom
+        List<Sensor> sensors =  getAllSensors();
         Map<String, Double> objects = getObjectsForKeys(sensors.stream().map(s -> s.getName()).collect(Collectors.toList()));
         sensors.removeIf(s -> ! objects.containsKey(s.getName()));
         Map<String, List<Sensor>> byDataTypeName = sensors.stream().collect(Collectors.groupingBy(s -> s.getDataType().getName()));
@@ -86,14 +80,16 @@ public class CustomCollector extends Collector {
             gauges.add(labeledGauge);
         }
 
+        log.info("Finished generating sensor measurements...");
         return gauges;
     }
 
     private List<GaugeMetricFamily> generateGroupGauges() {
 
+        log.info("Started generating group measurements...");
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
-        List<Aggregator> aggregators =  getAllAggregators(); // only active for prom
+        List<Aggregator> aggregators =  getAllAggregators();
         Map<String, Double> objects = getObjectsForKeys(aggregators.stream()
                 .map(a -> a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()).collect(Collectors.toList()));
         aggregators.removeIf(a -> ! objects.containsKey(a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()));
@@ -117,18 +113,19 @@ public class CustomCollector extends Collector {
             gauges.add(labeledGauge);
         }
 
+        log.info("Finished generating group measurements...");
         return gauges;
     }
 
     private List<Aggregator> getAllAggregators() {
 
-        return aggregatorService.findAllAggregators().stream().collect(Collectors.toList());
+        return aggregatorService.findAllAggregatorsToExport().stream().collect(Collectors.toList());
     }
 
 
     private List<Sensor> getAllSensors() {
 
-        return sensorService.findAllSensors().stream().collect(Collectors.toList());
+        return sensorService.findAllSensorsToExport().stream().collect(Collectors.toList());
     }
 
     private Map<String, Double> getObjectsForKeys(List<String> keys) {
@@ -139,7 +136,7 @@ public class CustomCollector extends Collector {
             objects = memcachedClientWrapper.getObjects(keys);
         }
         else {
-            //log.error(..)
+            log.error("No connection to memcached server - Can not access cache!!");
         }
         return objects;
     }

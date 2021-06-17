@@ -31,5 +31,11 @@ public class TemperatureApplicationProperties  extends RawMicroserviceApplicatio
         this.microserviceDataType = microserviceDataType;
     }
 
+    @Override
+    @Value("${EXPORT_TEMPERATURE_DATA_AS_METRIC}")
+    public void setExportSensorDataAsMetric(boolean exportSensorDataAsMetric) {
+        this.exportSensorDataAsMetric = exportSensorDataAsMetric;
+    }
+
 
 }

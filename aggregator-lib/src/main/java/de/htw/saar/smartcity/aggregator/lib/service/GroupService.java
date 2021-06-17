@@ -46,6 +46,11 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
+    public Group updateGroup(Group group) {
+
+        return groupRepository.save(group);
+    }
+
     /**
      * Find group by id optional.
      *
@@ -100,4 +105,5 @@ public class GroupService {
 
         groupRepository.deleteById(group.getId());
     }
+
 }

@@ -1,11 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
-import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import de.htw.saar.smartcity.aggregator.lib.properties.ApplicationProperties;
-import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
+import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,14 +28,14 @@ public abstract class BrokerConnection {
 
     protected static final Logger log = LoggerFactory.getLogger(BrokerConnection.class);
 
-    protected final ApplicationProperties applicationProperties;
+    protected final MicroserviceApplicationProperties applicationProperties;
 
     protected final Connection connection;
 
     protected Channel channel;
 
 
-    public BrokerConnection(ApplicationProperties applicationProperties) {
+    public BrokerConnection(MicroserviceApplicationProperties applicationProperties) {
         this.applicationProperties = applicationProperties;
 
         connection = configConnection();

@@ -109,7 +109,7 @@ public abstract class BrokerApplicationProperties {
 
     @PostConstruct
     public void printProperties() {
-        final Logger log = LoggerFactory.getLogger(ApplicationProperties.class);
+        final Logger log = LoggerFactory.getLogger(MicroserviceApplicationProperties.class);
         log.info(this.toString());
 
     }

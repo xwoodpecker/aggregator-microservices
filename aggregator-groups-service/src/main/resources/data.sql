@@ -44,95 +44,95 @@ INSERT INTO group_types
 VALUES (3, 'heatflux-group');
 
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 1, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 1, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 2, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 2, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 3, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 3, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 4, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 4, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 5, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 5, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 6, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 6, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 7, '', 2);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 7, '', true, 2);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 8, '', 2);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 8, '', true, 2);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 9, '', 2);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 9, '', true, 2);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 10, '', 2);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 10, '', true, 2);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 11, '', 2);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 11, '', true, 2);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('S', 12, '', 2);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('S', 12, '', true, 2);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 13, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 13, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 14, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 14, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 15, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 15, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 16, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 16, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 17, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 17, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 18, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 18, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 19, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 19, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 20, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 20, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 21, '', 1);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 21, '', true, 1);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 22, '', 3);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 22, '', true, 3);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 23, '', 3);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 23, '', true, 3);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 24, '', 3);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 24, '', true, 3);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 25, '', 4);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 25, '', true, 4);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 26, '', 4);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 26, '', true, 4);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 27, '', 4);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 27, '', true, 4);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 28, '', 5);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 28, '', true, 5);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 29, '', 5);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 29, '', true, 5);
 INSERT INTO producers
-(dtype, id, object_store_path, data_type_id)
-VALUES ('A', 30, '', 5);
+(dtype, id, object_store_path, export_as_metric, data_type_id)
+VALUES ('A', 30, '', true, 5);
 
 INSERT INTO sensors
 (information, location, name, x, y, id)

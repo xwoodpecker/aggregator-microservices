@@ -35,6 +35,8 @@ class AggregatorServiceTest {
 
     private List<Aggregator> aggregators = new ArrayList<>();
 
+    private List<Aggregator> aggregatorsToExport = new ArrayList<>();
+
     @BeforeEach
     public void init() {
         aggregator = new Aggregator();
@@ -52,6 +54,7 @@ class AggregatorServiceTest {
         dataType.setName("testDataType");
         aggregator.setDataType(dataType);
         aggregator.setObjectStorePath("test");
+        aggregator.setExportAsMetric(true);
         aggregator.setGroups(new ArrayList<>());
         aggregator.setTags(new ArrayList<>());
 
@@ -70,11 +73,15 @@ class AggregatorServiceTest {
         d.setName("anotherDataType");
         a.setDataType(d);
         a.setObjectStorePath("test");
+        a.setExportAsMetric(false);
         a.setGroups(new ArrayList<>());
         a.setTags(new ArrayList<>());
 
         aggregators.add(aggregator);
         aggregators.add(a);
+
+        aggregatorsToExport.add(aggregator);
+
     }
 
 
@@ -90,6 +97,7 @@ class AggregatorServiceTest {
         assertThat(saved.getCombinator()).isSameAs(aggregator.getCombinator());
         assertThat(saved.getOwnerGroup()).isSameAs(aggregator.getOwnerGroup());
         assertThat(saved.getDataType()).isSameAs(aggregator.getDataType());
+        assertThat(saved.getExportAsMetric()).isSameAs(aggregator.getExportAsMetric());
         Mockito.verify(aggregatorRepository, Mockito.times(1)).save(any(Aggregator.class));
         Mockito.verifyNoMoreInteractions(aggregatorRepository);
     }
@@ -117,6 +125,19 @@ class AggregatorServiceTest {
 
         Assert.assertEquals(returned.size(), aggregators.size());
         Mockito.verify(aggregatorRepository, Mockito.times(1)).findAll();
+        Mockito.verifyNoMoreInteractions(aggregatorRepository);
+    }
+
+
+    @Test
+    void findAllAggregatorsToExport() {
+
+        Mockito.when(aggregatorRepository.findAllByExportAsMetricTrue()).thenReturn(aggregatorsToExport);
+
+        List<Aggregator> returned = aggregatorService.findAllAggregatorsToExport();
+
+        Assert.assertEquals(returned.size(), aggregatorsToExport.size());
+        Mockito.verify(aggregatorRepository, Mockito.times(1)).findAllByExportAsMetricTrue();
         Mockito.verifyNoMoreInteractions(aggregatorRepository);
     }
 }

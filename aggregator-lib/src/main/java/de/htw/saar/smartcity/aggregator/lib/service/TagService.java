@@ -51,6 +51,11 @@ public class TagService {
         return tagRepository.save(tag);
     }
 
+    public Tag updateTag(Tag tag) {
+
+        return tagRepository.save(tag);
+    }
+
     /**
      * Find tag by id optional.
      *
@@ -81,4 +86,5 @@ public class TagService {
         tag.setProducers(null);
         tagRepository.deleteById(tag.getId());
     }
+
 }

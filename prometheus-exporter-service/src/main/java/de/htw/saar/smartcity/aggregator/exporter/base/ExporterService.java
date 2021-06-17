@@ -19,11 +19,6 @@ public class ExporterService {
 
         this.meterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT, prometheusCollector, Clock.SYSTEM);
         this.customCollector = customCollector;
-
-        /**Gauge.builder("my.test", () -> 42)
-                .description("My test")
-                .register(meterRegistry); **/
-
         this.customCollector.register(prometheusCollector);
     }
 

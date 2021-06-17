@@ -51,16 +51,20 @@ public abstract class Producer implements Serializable {
     @Column
     protected String objectStorePath;
 
+    @Column
+    protected boolean exportAsMetric;
+
 
     public Producer() {
     }
 
-    public Producer(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath) {
+    public Producer(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath, boolean exportAsMetric) {
         this.id = id;
         this.dataType = dataType;
         this.tags = tags;
         this.groups = groups;
         this.objectStorePath = objectStorePath;
+        this.exportAsMetric = exportAsMetric;
     }
 
     public Long getId() {
@@ -103,6 +107,14 @@ public abstract class Producer implements Serializable {
         this.objectStorePath = objectStorePath;
     }
 
+    public boolean getExportAsMetric() {
+        return exportAsMetric;
+    }
+
+    public void setExportAsMetric(boolean exportAsMetric) {
+        this.exportAsMetric = exportAsMetric;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -123,6 +135,7 @@ public abstract class Producer implements Serializable {
         sb.append(", tags=").append(tags);
         //sb.append(", groups=").append(groups);
         sb.append(", objectStorePath='").append(objectStorePath).append('\'');
+        sb.append(", exportAsMetric='").append(exportAsMetric).append('\'');
         sb.append('}');
         return sb.toString();
     }

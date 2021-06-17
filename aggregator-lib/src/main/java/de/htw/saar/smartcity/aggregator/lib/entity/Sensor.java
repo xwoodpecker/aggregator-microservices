@@ -1,7 +1,5 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -33,8 +31,11 @@ public class Sensor extends Producer {
     public Sensor() {
     }
 
-    public Sensor(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath, String name, Double x, Double y, String location, String information) {
-        super(id, dataType, tags, groups, objectStorePath);
+    public Sensor(Long id, DataType dataType, List<Tag> tags, List<Group> groups,
+                  String objectStorePath, boolean exportAsMetric,
+                  String name, Double x, Double y, String location, String information) {
+
+        super(id, dataType, tags, groups, objectStorePath, exportAsMetric);
         this.name = name;
         this.x = x;
         this.y = y;
@@ -82,7 +83,6 @@ public class Sensor extends Producer {
         this.information = information;
     }
 
-
     public void replaceOwnAttributesWithOther(Sensor other) {
         this.setDataType(other.getDataType());
         this.setName(other.getName());
@@ -90,6 +90,8 @@ public class Sensor extends Producer {
         this.setY(other.getY());
         this.setLocation(other.getLocation());
         this.setInformation(other.getInformation());
+        this.setExportAsMetric(other.getExportAsMetric());
+        this.setObjectStorePath(other.getObjectStorePath());
     }
 
     @Override
@@ -104,6 +106,8 @@ public class Sensor extends Producer {
         sb.append(", y=").append(y);
         sb.append(", location='").append(location).append('\'');
         sb.append(", information='").append(information).append('\'');
+        sb.append(", objectStorePath='").append(objectStorePath).append('\'');
+        sb.append(", exportAsMetric='").append(exportAsMetric).append('\'');
         sb.append('}');
         return sb.toString();
     }

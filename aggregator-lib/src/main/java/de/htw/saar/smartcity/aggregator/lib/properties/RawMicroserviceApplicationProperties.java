@@ -2,15 +2,19 @@ package de.htw.saar.smartcity.aggregator.lib.properties;
 
 import java.util.Arrays;
 
-public abstract class RawMicroserviceApplicationProperties extends ApplicationProperties {
+public abstract class RawMicroserviceApplicationProperties extends MicroserviceApplicationProperties {
 
     protected String[] microserviceTopics;
 
     protected String microserviceDataType;
 
+    protected boolean exportSensorDataAsMetric;
+
     public abstract void setMicroserviceTopics(String[] microserviceTopics);
 
     public abstract void setMicroserviceDataType(String microserviceDataType);
+
+    public abstract void setExportSensorDataAsMetric(boolean exportSensorDataAsMetric);
 
     public String[] getMicroserviceTopics() {
         return microserviceTopics;
@@ -18,6 +22,10 @@ public abstract class RawMicroserviceApplicationProperties extends ApplicationPr
 
     public String getMicroServiceDataType() {
         return microserviceDataType;
+    }
+
+    public boolean getExportSensorDataAsMetric() {
+        return this.exportSensorDataAsMetric;
     }
 
     @Override
@@ -32,4 +40,5 @@ public abstract class RawMicroserviceApplicationProperties extends ApplicationPr
         sb.append('}');
         return sb.toString();
     }
+
 }
