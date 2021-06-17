@@ -1,12 +1,12 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.Tag;
+import de.htw.saar.smartcity.aggregator.lib.exception.TagNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.TagRepository;
 import org.checkerframework.checker.nullness.Opt;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
@@ -22,9 +22,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
 public class TagServiceTest {
 
@@ -55,14 +57,28 @@ public class TagServiceTest {
     }
 
     @Test
+    @Order(1)
     public void saveTag() {
 
+        Mockito.when(tagRepository.findTagByName(ArgumentMatchers.anyString())).thenReturn(null);
         when(tagRepository.save(any(Tag.class))).thenReturn(tag);
 
         Tag saved = tagService.saveTag(tag);
         assertThat(saved.getName()).isSameAs(tag.getName());
         Mockito.verify(tagRepository, Mockito.times(1)).save(any(Tag.class));
+        Mockito.verify(tagRepository, Mockito.times(1)).findTagByName(ArgumentMatchers.anyString());
         Mockito.verifyNoMoreInteractions(tagRepository);
+    }
+
+    @Test
+    @Order(2)
+    public void saveTagException() {
+
+        Mockito.when(tagRepository.findTagByName(ArgumentMatchers.anyString())).thenReturn(tag);
+
+        Exception exception = assertThrows(TagNameAlreadyInUseException.class, () -> {
+            tagService.saveTag(tag);
+        });
     }
 
     @Test
@@ -102,5 +118,5 @@ public class TagServiceTest {
         Mockito.verifyNoMoreInteractions(tagRepository);
     }
 
-    //delete cant be tested ?
+    //delete cant be tested nicely
 }

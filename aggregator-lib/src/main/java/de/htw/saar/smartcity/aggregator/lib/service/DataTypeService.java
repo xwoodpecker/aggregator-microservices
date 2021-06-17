@@ -1,6 +1,8 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
+import de.htw.saar.smartcity.aggregator.lib.exception.CombinatorNameAlreadyInUseException;
+import de.htw.saar.smartcity.aggregator.lib.exception.DataTypeNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.DataTypeRepository;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,10 @@ public class DataTypeService {
      * @return the data type
      */
     public DataType saveDataType(DataType dataType) {
+
+        if (dataTypeRepository.findDataTypeByName(dataType.getName()) != null)
+            throw new DataTypeNameAlreadyInUseException(dataType.getName());
+
         return dataTypeRepository.save(dataType);
     }
 

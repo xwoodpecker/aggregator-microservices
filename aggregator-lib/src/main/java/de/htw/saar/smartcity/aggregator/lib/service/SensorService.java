@@ -1,6 +1,8 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
+import de.htw.saar.smartcity.aggregator.lib.exception.GroupTypeNameAlreadyInUseException;
+import de.htw.saar.smartcity.aggregator.lib.exception.SensorNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.SensorRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,10 @@ public class SensorService {
      * @return the sensor
      */
     public Sensor saveSensor(Sensor sensor) {
+
+        if (sensorRepository.findSensorByName(sensor.getName()) != null)
+            throw new SensorNameAlreadyInUseException(sensor.getName());
+
         return sensorRepository.save(sensor);
     }
 

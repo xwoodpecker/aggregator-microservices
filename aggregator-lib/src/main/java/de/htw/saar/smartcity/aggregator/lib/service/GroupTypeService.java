@@ -1,6 +1,8 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.GroupType;
+import de.htw.saar.smartcity.aggregator.lib.exception.CombinatorNameAlreadyInUseException;
+import de.htw.saar.smartcity.aggregator.lib.exception.GroupTypeNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.GroupTypeRepository;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,10 @@ public class GroupTypeService {
      * @return the group type
      */
     public GroupType saveGroupType(GroupType groupType) {
+
+        if (groupTypeRepository.findGroupTypeByName(groupType.getName()) != null)
+            throw new GroupTypeNameAlreadyInUseException(groupType.getName());
+
         return groupTypeRepository.save(groupType);
     }
 

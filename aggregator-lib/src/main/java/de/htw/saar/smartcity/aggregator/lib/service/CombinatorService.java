@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.Combinator;
+import de.htw.saar.smartcity.aggregator.lib.exception.CombinatorNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.CombinatorRepository;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,10 @@ public class CombinatorService {
      * @return the combinator
      */
     public Combinator saveCombinator(Combinator combinator) {
+
+        if (combinatorRepository.findCombinatorByName(combinator.getName()) != null)
+            throw new CombinatorNameAlreadyInUseException(combinator.getName());
+
         return combinatorRepository.save(combinator);
     }
 

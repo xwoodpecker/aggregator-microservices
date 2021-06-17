@@ -1,6 +1,8 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.FormulaItem;
+import de.htw.saar.smartcity.aggregator.lib.exception.CombinatorNameAlreadyInUseException;
+import de.htw.saar.smartcity.aggregator.lib.exception.FormulaItemNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.DataTypeRepository;
 import de.htw.saar.smartcity.aggregator.lib.repository.FormulaItemRepository;
 import org.springframework.beans.MutablePropertyValues;
@@ -53,6 +55,10 @@ public class FormulaItemService {
      * @return the formula item
      */
     public FormulaItem saveFormulaItem(FormulaItem formulaItem) {
+
+        if (formulaItemRepository.findFormulaItemByName(formulaItem.getName()) != null)
+            throw new FormulaItemNameAlreadyInUseException(formulaItem.getName());
+
         return formulaItemRepository.save(formulaItem);
     }
 
