@@ -2,7 +2,7 @@ package de.htw.saar.smartcity.aggregator.temperature.aggregator.handler;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
-import de.htw.saar.smartcity.aggregator.lib.model.GroupCombinators;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModels;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
 import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
@@ -23,9 +23,9 @@ public class TemperatureAggregatorGroupMeasurementHandler extends GroupMeasureme
     @Override
     protected void addCombinators() {
 
-        groupCombinators.add(GroupCombinators.averageGroupCombinator);
-        groupCombinators.add(GroupCombinators.minimumGroupCombinator);
-        groupCombinators.add(GroupCombinators.maximumGroupCombinator);
+        combinatorModels.add(CombinatorModels.averageCombinatorModel);
+        combinatorModels.add(CombinatorModels.minimumCombinatorModel);
+        combinatorModels.add(CombinatorModels.maximumCombinatorModel);
 
     }
 }

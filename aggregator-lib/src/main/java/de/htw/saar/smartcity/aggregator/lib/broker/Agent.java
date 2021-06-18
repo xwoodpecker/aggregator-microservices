@@ -32,9 +32,12 @@ public abstract class Agent {
      * @param sensorName the sensor name
      */
 
-    public Agent(MqttPublisher publisher, String sensorName){
+    private Integer interval;
+
+    public Agent(MqttPublisher publisher, String sensorName, Integer interval){
         this.publisher = publisher;
         this.sensorName = sensorName;
+        this.interval =  interval;
         this.random = new Random();
     }
 
@@ -50,7 +53,7 @@ public abstract class Agent {
             } catch (MqttException e) {
                 e.printStackTrace();
             }
-        }, 1000, 5000, TimeUnit.MILLISECONDS);
+        }, 1000, interval, TimeUnit.MILLISECONDS);
     }
 
     protected abstract Object getNextValue();

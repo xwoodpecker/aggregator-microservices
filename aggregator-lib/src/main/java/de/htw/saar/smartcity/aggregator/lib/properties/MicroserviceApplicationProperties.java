@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.PostConstruct;
 
-public abstract class MicroserviceApplicationProperties {
+public abstract class MicroserviceApplicationProperties implements StorageApplicationProperties{
 
     private String brokerTopic;
 

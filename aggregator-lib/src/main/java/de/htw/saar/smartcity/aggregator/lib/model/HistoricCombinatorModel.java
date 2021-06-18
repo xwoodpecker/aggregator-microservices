@@ -1,26 +1,24 @@
 package de.htw.saar.smartcity.aggregator.lib.model;
 
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 
-public class GroupCombinator<T> {
+public class HistoricCombinatorModel<T> {
 
     private String name;
 
-    private CombinatorFunction<T> function;
+    private HistoricCombinatorFunction<T> function;
 
 
-    public GroupCombinator(String name, CombinatorFunction<T> function) {
+    public HistoricCombinatorModel(String name, HistoricCombinatorFunction<T> function) {
         this.name = name;
         this.function = function;
     }
 
-    public CombinatorFunction<T> getFunction() {
+    public HistoricCombinatorFunction<T> getFunction() {
         return function;
     }
 
-    public void setFunction(CombinatorFunction<T> function) {
+    public void setFunction(HistoricCombinatorFunction<T> function) {
         this.function = function;
     }
 
@@ -36,7 +34,7 @@ public class GroupCombinator<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GroupCombinator<?> that = (GroupCombinator<?>) o;
+        HistoricCombinatorModel<?> that = (HistoricCombinatorModel<?>) o;
         return Objects.equals(function, that.function) && Objects.equals(name, that.name);
     }
 

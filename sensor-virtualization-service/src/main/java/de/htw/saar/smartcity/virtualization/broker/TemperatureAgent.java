@@ -9,14 +9,8 @@ public class TemperatureAgent extends Agent {
 
     private Random rand = new Random();
 
-    /**
-     * Instantiates a new Agent.
-     *
-     * @param publisher
-     * @param sensorName the sensor name
-     */
-    public TemperatureAgent(MqttPublisher publisher, String sensorName) {
-        super(publisher, sensorName);
+    public TemperatureAgent(MqttPublisher publisher, String sensorName, Integer interval) {
+        super(publisher, sensorName, interval);
     }
 
     @Override

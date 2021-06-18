@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
+import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.repository.ProducerRepository;
@@ -54,5 +55,9 @@ public class ProducerService {
      */
     public List<Producer> findAllProducers() {
         return producerRepository.findAll();
+    }
+
+    public List<Producer> findAllProducersByDataType(DataType dataType) {
+        return producerRepository.findAllByDataType(dataType);
     }
 }

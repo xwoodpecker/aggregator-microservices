@@ -2,11 +2,9 @@ package de.htw.saar.smartcity.aggregator.lib.model;
 
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 
-import java.util.Map;
 import java.util.function.DoubleFunction;
-import java.util.function.Function;
 
-public final class GroupCombinators {
+public final class CombinatorModels {
 
     private static final DoubleFunction<Double> roundToTwoDigits = n -> n == Double.NaN ? Double.NaN : Math.round(n * 100) / 100.0;
 
@@ -37,14 +35,14 @@ public final class GroupCombinators {
     private static final String integerSumName = "integer-sum";
 
 
-    public static GroupCombinator<Double> averageGroupCombinator = new GroupCombinator<>(doubleAverageName, doubleAverage);
+    public static CombinatorModel<Double> averageCombinatorModel = new CombinatorModel<>(doubleAverageName, doubleAverage);
 
-    public static GroupCombinator<Double> minimumGroupCombinator = new GroupCombinator<>(doubleMinimumName, doubleMinimum);
+    public static CombinatorModel<Double> minimumCombinatorModel = new CombinatorModel<>(doubleMinimumName, doubleMinimum);
 
-    public static GroupCombinator<Double> maximumGroupCombinator = new GroupCombinator<>(doubleMaximumName, doubleMaximum);
+    public static CombinatorModel<Double> maximumCombinatorModel = new CombinatorModel<>(doubleMaximumName, doubleMaximum);
 
-    public static GroupCombinator<Double> doubleSumGroupCombinator = new GroupCombinator<>(doubleSumName, doubleSum);
+    public static CombinatorModel<Double> doubleSumCombinatorModel = new CombinatorModel<>(doubleSumName, doubleSum);
 
-    public static GroupCombinator<Integer> integerSumGroupCombinator = new GroupCombinator<>(integerSumName, integerSum);
+    public static CombinatorModel<Integer> integerSumCombinatorModel = new CombinatorModel<>(integerSumName, integerSum);
     
 }

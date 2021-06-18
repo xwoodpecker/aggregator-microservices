@@ -2,26 +2,34 @@ package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.StorageApplicationProperties;
 import io.minio.*;
-import io.minio.errors.ErrorResponseException;
+import io.minio.errors.*;
 import io.minio.http.Method;
+import io.minio.messages.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MinioClientWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(MinioClientWrapper.class);
 
-    private final MicroserviceApplicationProperties applicationProperties;
+    private final StorageApplicationProperties applicationProperties;
 
     private final MinioClient minioClient;
 
-    public MinioClientWrapper(MicroserviceApplicationProperties applicationProperties) {
+    public MinioClientWrapper(StorageApplicationProperties applicationProperties) {
 
         this.applicationProperties = applicationProperties;
 
@@ -147,4 +155,30 @@ public class MinioClientWrapper {
         log.info("DeleteObject from object store: " + name);
         return true;
     }
+
+
+    public <T> List<T> getObjectsWithPrefix(String prefix, Class<T> target) {
+
+        List<T> results = new ArrayList<>();
+        Iterator<Result<Item>> iterator = minioClient.listObjects(
+                ListObjectsArgs.builder()
+                        .bucket(applicationProperties.getMicroserviceBucket())
+                        .prefix(prefix)
+                        .recursive(false) //only get measurements in the folder not in sub folders
+                        //.maxKeys(100)
+                        .build()).iterator();
+
+        while(iterator.hasNext()) {
+            try {
+                T obj = getObject(iterator.next().get().objectName(), target);
+                if(obj != null)
+                    results.add(obj);
+            }
+             catch (Exception e) {
+                log.warn("Could not get an object with prefix " + prefix);
+            }
+        }
+        return results;
+    }
+
 }

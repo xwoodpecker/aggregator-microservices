@@ -8,8 +8,7 @@ import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorFunction;
-import de.htw.saar.smartcity.aggregator.lib.model.GroupCombinator;
-import de.htw.saar.smartcity.aggregator.lib.model.GroupMeasurementStore;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModel;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
@@ -121,9 +120,9 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
         };
 
         String heatFluxFunctionName = "heatflux-combinator";
-        GroupCombinator<Double> groupCombinator =
-                new GroupCombinator<>(heatFluxFunctionName, heatFluxFunction);
-        groupCombinators.add(groupCombinator);
+        CombinatorModel<Double> combinatorModel =
+                new CombinatorModel<>(heatFluxFunctionName, heatFluxFunction);
+        combinatorModels.add(combinatorModel);
 
 
         CombinatorFunction<Double> shutterFunction = (gms) -> {
@@ -152,9 +151,9 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
         };
 
         String shutterCombinatorName = "shutter-combinator";
-        GroupCombinator<Double> groupCombinatorShutter =
-                new GroupCombinator<>(shutterCombinatorName, shutterFunction);
-        groupCombinators.add(groupCombinatorShutter);
+        CombinatorModel<Double> combinatorModelShutter =
+                new CombinatorModel<>(shutterCombinatorName, shutterFunction);
+        combinatorModels.add(combinatorModelShutter);
 
     }
 }

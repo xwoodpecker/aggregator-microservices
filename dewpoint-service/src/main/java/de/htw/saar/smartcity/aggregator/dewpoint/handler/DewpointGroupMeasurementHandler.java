@@ -3,18 +3,16 @@ package de.htw.saar.smartcity.aggregator.dewpoint.handler;
 import de.htw.saar.smartcity.aggregator.dewpoint.properties.DewpointApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
-import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorFunction;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
-import de.htw.saar.smartcity.aggregator.lib.model.GroupCombinator;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModel;
 import de.htw.saar.smartcity.aggregator.lib.service.*;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -66,8 +64,8 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
         };
 
         String dewpointFunctionName = "dewpoint-combinator";
-        GroupCombinator<Double> groupCombinator =
-                new GroupCombinator<>(dewpointFunctionName, dewpointFunction);
-        groupCombinators.add(groupCombinator);
+        CombinatorModel<Double> combinatorModel =
+                new CombinatorModel<>(dewpointFunctionName, dewpointFunction);
+        combinatorModels.add(combinatorModel);
     }
 }

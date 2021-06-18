@@ -20,8 +20,8 @@ public class PictureAgent extends Agent {
      * @param publisher
      * @param sensorName the sensor name
      */
-    public PictureAgent(MqttPublisher publisher, String sensorName) {
-        super(publisher, sensorName);
+    public PictureAgent(MqttPublisher publisher, String sensorName, Integer interval) {
+        super(publisher, sensorName, interval);
 
         try {
             File f = new ClassPathResource("/images/image1.jpeg").getFile();

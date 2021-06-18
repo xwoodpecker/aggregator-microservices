@@ -2,8 +2,8 @@ package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
-import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
+import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 public abstract class StorageWrapper {
 
@@ -49,6 +50,7 @@ public abstract class StorageWrapper {
             log.error("Could not initialize memcached connection!");
         }
     }
+
 
     public String putMeasurementAndCache(String name, Measurement m) {
 
@@ -125,4 +127,13 @@ public abstract class StorageWrapper {
         return minioClientWrapper.getPresignedObjectUrl(objName);
     }
 
+    public List<Measurement> getMeasurementsByPrefix(String prefix) {
+
+        return minioClientWrapper.getObjectsWithPrefix(prefix, Measurement.class);
+    }
+
+    public String putHistoricMeasurement(String objName, Measurement m) {
+
+        return minioClientWrapper.putObject(m, objName) ? objName : null;
+    }
 }

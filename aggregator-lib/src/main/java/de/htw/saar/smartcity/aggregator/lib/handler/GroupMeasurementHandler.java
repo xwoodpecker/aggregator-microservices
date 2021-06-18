@@ -4,7 +4,7 @@ import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
 import de.htw.saar.smartcity.aggregator.lib.entity.*;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
-import de.htw.saar.smartcity.aggregator.lib.model.GroupCombinator;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModel;
 import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
@@ -26,7 +26,7 @@ public abstract class GroupMeasurementHandler {
 
     protected static final Logger log = LoggerFactory.getLogger(GroupMeasurementHandler.class);
 
-    protected List<GroupCombinator> groupCombinators = new ArrayList<>();
+    protected List<CombinatorModel> combinatorModels = new ArrayList<>();
 
     private final StorageWrapper storageWrapper;
     protected final ProducerService producerService;
@@ -60,9 +60,9 @@ public abstract class GroupMeasurementHandler {
 
     private void createCombinatorsIfNotFound() {
 
-        for(GroupCombinator groupCombinator : groupCombinators)
+        for(CombinatorModel combinatorModel : combinatorModels)
         {
-            createCombinatorIfNotFound(groupCombinator.getName());
+            createCombinatorIfNotFound(combinatorModel.getName());
         }
     }
 
@@ -108,7 +108,7 @@ public abstract class GroupMeasurementHandler {
 
                     if (aggregator.getCombinator() != null) {
 
-                        Optional<GroupCombinator> optGroupCombinator = groupCombinators.stream()
+                        Optional<CombinatorModel> optGroupCombinator = combinatorModels.stream()
                                 .filter(c -> c.getName().equals(aggregator.getCombinator().getName()))
                                 .findFirst();
 

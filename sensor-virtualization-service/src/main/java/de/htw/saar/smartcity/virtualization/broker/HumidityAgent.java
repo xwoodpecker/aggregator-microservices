@@ -9,15 +9,10 @@ public class HumidityAgent extends Agent {
 
     private Random rand = new Random();
 
-    /**
-     * Instantiates a new Agent.
-     *
-     * @param publisher
-     * @param sensorName the sensor name
-     */
-    public HumidityAgent(MqttPublisher publisher, String sensorName) {
-        super(publisher, sensorName);
+    public HumidityAgent(MqttPublisher publisher, String sensorName, Integer interval) {
+        super(publisher, sensorName, interval);
     }
+
 
     @Override
     protected Double getNextValue() {
