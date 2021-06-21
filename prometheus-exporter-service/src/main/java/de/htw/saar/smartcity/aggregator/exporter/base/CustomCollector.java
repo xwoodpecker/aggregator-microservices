@@ -28,19 +28,15 @@ public class CustomCollector extends Collector {
 
     private final SensorService sensorService;
     private final AggregatorService aggregatorService;
-    private final ExporterApplicationProperties exporterApplicationProperties;
     private MemcachedClientWrapper memcachedClientWrapper = null;
 
     public CustomCollector(SensorService sensorService, AggregatorService aggregatorService, ExporterApplicationProperties exporterApplicationProperties) {
         this.sensorService = sensorService;
         this.aggregatorService = aggregatorService;
-        this.exporterApplicationProperties = exporterApplicationProperties;
 
         try {
             this.memcachedClientWrapper =
-                    new MemcachedClientWrapper(exporterApplicationProperties.getMemcachedHost(),
-                                               exporterApplicationProperties.getMemcachedPort()
-                    );
+                    new MemcachedClientWrapper(exporterApplicationProperties);
         } catch (IOException exception) {
             log.error("Memcached server connection failed!");
             exception.printStackTrace();

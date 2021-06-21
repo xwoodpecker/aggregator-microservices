@@ -33,6 +33,7 @@ public abstract class BaseReceiver extends BrokerConnection {
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 
                 try {
+                    //systemzeit rein, speichern in datenstruktur anderer thread
                     String message = new String(delivery.getBody(), "UTF-8");
                     String routingKey = delivery.getEnvelope().getRoutingKey();
                     String topic = routingKey.replaceAll("\\.", "/");
@@ -43,7 +44,9 @@ public abstract class BaseReceiver extends BrokerConnection {
                     e.printStackTrace();
                 }
 
+
                 channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false); //test true to ack multiple deliveries
+                //systemzeit raus
             };
 
             channel.basicConsume(applicationProperties.getMicroserviceQueue(), false, deliverCallback, consumerTag -> {});

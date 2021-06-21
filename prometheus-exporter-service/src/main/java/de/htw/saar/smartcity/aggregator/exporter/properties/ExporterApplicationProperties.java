@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.exporter.properties;
 
+import de.htw.saar.smartcity.aggregator.lib.properties.MemcachedApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 
 @Configuration
-public class ExporterApplicationProperties {
+public class ExporterApplicationProperties implements MemcachedApplicationProperties {
 
     protected String memcachedHost;
 
