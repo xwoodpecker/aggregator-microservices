@@ -57,7 +57,7 @@ public class CustomCollector extends Collector {
         log.info("Started generating sensor measurements...");
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
-        List<Sensor> sensors =  getAllSensors();
+        List<Sensor> sensors =  sensorService.findAllSensorsToExport();
         Map<String, Double> objects = getObjectsForKeys(sensors.stream().map(s -> s.getName()).collect(Collectors.toList()));
         sensors.removeIf(s -> ! objects.containsKey(s.getName()));
         Map<String, List<Sensor>> byDataTypeName = sensors.stream().collect(Collectors.groupingBy(s -> s.getDataType().getName()));
@@ -85,7 +85,7 @@ public class CustomCollector extends Collector {
         log.info("Started generating group measurements...");
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
-        List<Aggregator> aggregators =  getAllAggregators();
+        List<Aggregator> aggregators =  aggregatorService.findAllAggregatorsToExport();
         Map<String, Double> objects = getObjectsForKeys(aggregators.stream()
                 .map(a -> a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()).collect(Collectors.toList()));
         aggregators.removeIf(a -> ! objects.containsKey(a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()));
@@ -113,16 +113,6 @@ public class CustomCollector extends Collector {
         return gauges;
     }
 
-    private List<Aggregator> getAllAggregators() {
-
-        return aggregatorService.findAllAggregatorsToExport().stream().collect(Collectors.toList());
-    }
-
-
-    private List<Sensor> getAllSensors() {
-
-        return sensorService.findAllSensorsToExport().stream().collect(Collectors.toList());
-    }
 
     private Map<String, Double> getObjectsForKeys(List<String> keys) {
 
