@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-public abstract class HistoricAggregatorApplicationProperties implements StorageApplicationProperties{
+public abstract class HistoricAggregatorApplicationProperties implements MinioApplicationProperties {
 
 
     private String minioEndpoint;

@@ -1,8 +1,8 @@
 package de.htw.saar.smartcity.virtualization.properties;
 
-import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.AbstractBrokerApplicationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class BrokerApplicationPropertiesImpl extends BrokerApplicationProperties {
+public class BrokerApplicationPropertiesImpl extends AbstractBrokerApplicationProperties {
 }

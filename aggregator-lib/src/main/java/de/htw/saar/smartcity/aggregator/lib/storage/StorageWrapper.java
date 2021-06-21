@@ -40,10 +40,7 @@ public abstract class StorageWrapper {
 
         try {
 
-            this.memcachedClientWrapper
-                    = new MemcachedClientWrapper(applicationProperties.getMemcachedHost(),
-                                                 applicationProperties.getMemcachedPort()
-            );
+            this.memcachedClientWrapper = new MemcachedClientWrapper(applicationProperties);
         }
         catch (IOException exception) {
 

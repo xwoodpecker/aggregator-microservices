@@ -1,9 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
-import de.htw.saar.smartcity.aggregator.lib.handler.RawMeasurementHandler;
-import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperties;
-import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.eclipse.paho.client.mqttv3.*;
@@ -24,7 +21,6 @@ import java.security.Security;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.ArrayList;
 
 public abstract class MqttPublisher {
 

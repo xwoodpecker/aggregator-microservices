@@ -1,6 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.properties;
 
-public interface StorageApplicationProperties {
+public interface MinioApplicationProperties {
 
 
     String getMinioEndpoint();

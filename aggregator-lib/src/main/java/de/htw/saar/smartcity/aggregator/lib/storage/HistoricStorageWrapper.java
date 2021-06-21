@@ -1,7 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
-import de.htw.saar.smartcity.aggregator.lib.properties.StorageApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.MinioApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,13 +11,10 @@ public abstract class HistoricStorageWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(HistoricStorageWrapper.class);
 
-    private final StorageApplicationProperties applicationProperties;
     private final MinioClientWrapper minioClientWrapper;
 
 
-    public HistoricStorageWrapper(StorageApplicationProperties applicationProperties) {
-
-        this.applicationProperties = applicationProperties;
+    public HistoricStorageWrapper(MinioApplicationProperties applicationProperties) {
 
         this.minioClientWrapper = new MinioClientWrapper(applicationProperties);
     }

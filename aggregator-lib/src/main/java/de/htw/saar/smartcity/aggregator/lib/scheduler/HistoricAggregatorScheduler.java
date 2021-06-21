@@ -24,7 +24,6 @@ public abstract class HistoricAggregatorScheduler {
 
     private static final Logger log = LoggerFactory.getLogger(HistoricAggregatorScheduler.class);
 
-    private final HistoricAggregatorApplicationProperties applicationProperties;
     private final ProducerService producerService;
     private final HistoricCombinatorService historicCombinatorService;
     private final HistoricStorageWrapper storageWrapper;
@@ -40,7 +39,6 @@ public abstract class HistoricAggregatorScheduler {
                                        HistoricCombinatorService historicCombinatorService,
                                        HistoricStorageWrapper storageWrapper) {
 
-        this.applicationProperties = applicationProperties;
         this.producerService = producerService;
         this.historicCombinatorService = historicCombinatorService;
         this.storageWrapper = storageWrapper;

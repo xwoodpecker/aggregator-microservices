@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import de.htw.saar.smartcity.aggregator.lib.base.Constants;
+import de.htw.saar.smartcity.aggregator.lib.properties.MemcachedApplicationProperties;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.MemcachedClientBuilder;
 import net.rubyeye.xmemcached.XMemcachedClientBuilder;
@@ -19,10 +20,10 @@ public class MemcachedClientWrapper {
 
     private final MemcachedClient mcc;
 
-    public MemcachedClientWrapper(String memcachedHost, String memcachedPort) throws IOException {
+    public MemcachedClientWrapper(MemcachedApplicationProperties applicationProperties) throws IOException {
 
 
-        String address = memcachedHost + ":" + memcachedPort;
+        String address = applicationProperties.getMemcachedHost() + ":" + applicationProperties.getMemcachedPort();
         MemcachedClientBuilder builder = new XMemcachedClientBuilder(
                 AddrUtil.getAddresses(address));
 

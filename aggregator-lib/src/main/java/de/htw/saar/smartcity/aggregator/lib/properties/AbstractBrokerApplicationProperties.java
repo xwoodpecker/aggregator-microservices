@@ -3,10 +3,14 @@ package de.htw.saar.smartcity.aggregator.lib.properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.PostConstruct;
 
-public abstract class MicroserviceApplicationProperties implements BrokerApplicationProperties, MinioApplicationProperties, MemcachedApplicationProperties {
+@Configuration
+@PropertySource("classpath:application.properties")
+public abstract class AbstractBrokerApplicationProperties implements BrokerApplicationProperties{
 
     private String brokerTopic;
 
@@ -15,8 +19,6 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
     private String brokerHost;
 
     private String brokerPort;
-
-    private String brokerManagementPort;
 
     private String brokerUserName;
 
@@ -28,19 +30,6 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
 
     private String clientKeyFile;
 
-    private String minioEndpoint;
-
-    private String minioAccessKey;
-
-    private String minioSecretKey;
-
-    protected String microserviceQueue;
-
-    protected String microserviceBucket;
-
-    protected String memcachedHost;
-
-    protected String memcachedPort;
 
     //@Value("${BROKER_TOPIC}")
     private void setBrokerTopic(String BrokerTopic) {
@@ -61,11 +50,6 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
     @Value("${BROKER_PORT}")
     private void setBrokerPort(String brokerPort) {
         this.brokerPort = brokerPort;
-    }
-
-    @Value("${BROKER_MANAGEMENT_PORT}")
-    private void setBrokerManagementPort(String brokerManagementPort) {
-        this.brokerManagementPort = brokerManagementPort;
     }
 
     @Value("${BROKER_USERNAME}")
@@ -93,44 +77,6 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         this.clientKeyFile = ClientKeyFile;
     }
 
-    @Value("${MINIO_ENDPOINT}")
-    private void setMinioEndpoint(String minioEndpoint) {
-        this.minioEndpoint = minioEndpoint;
-    }
-
-    @Value("${MINIO_ACCESSKEY}")
-    private void setMinioAccessKey(String minioAccessKey) {
-        this.minioAccessKey = minioAccessKey;
-    }
-
-    @Value("${MINIO_SECRETKEY}")
-    private void setMinioSecretKey(String minioSecretKey) {
-        this.minioSecretKey = minioSecretKey;
-    }
-
-    protected abstract void setMicroserviceQueue(String microserviceQueue);
-
-    protected abstract void setMicroserviceBucket(String microserviceBucket);
-
-    @Value("${MEMCACHED_HOST}")
-    private void setMemcachedHost(String memcachedHost) {
-        this.memcachedHost = memcachedHost;
-    }
-
-    @Value("${MEMCACHED_PORT}")
-    private void setMemcachedPort(String memcachedPort) {
-        this.memcachedPort = memcachedPort;
-    }
-
-    /**
-    public String getBrokerTopic() {
-        return BrokerTopic;
-    }
-
-    public String getBrokerAddress() {
-        return BrokerAddress;
-    }
-    **/
 
     public String getBrokerHost() {
         return brokerHost;
@@ -160,38 +106,6 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         return clientKeyFile;
     }
 
-    public String getMinioEndpoint() {
-        return minioEndpoint;
-    }
-
-    public String getMinioAccessKey() {
-        return minioAccessKey;
-    }
-
-    public String getMinioSecretKey() {
-        return minioSecretKey;
-    }
-
-    public String getMicroserviceQueue() {
-        return microserviceQueue;
-    }
-
-    public String getMicroserviceBucket() {
-        return this.microserviceBucket;
-    }
-
-
-    public String getMemcachedHost() {
-        return this.memcachedHost;
-    }
-
-    public String getMemcachedPort() {
-        return this.memcachedPort;
-    }
-
-    public String getBrokerManagementPort() {
-        return this.brokerManagementPort;
-    }
 
     @PostConstruct
     public void printProperties() {
@@ -207,21 +121,12 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         sb.append(", brokerAddress='").append(brokerAddress).append('\'');
         sb.append(", brokerHost='").append(brokerHost).append('\'');
         sb.append(", brokerPort='").append(brokerPort).append('\'');
-        sb.append(", brokerManagementPort='").append(brokerManagementPort).append('\'');
         sb.append(", brokerUserName='").append(brokerUserName).append('\'');
         sb.append(", brokerPassword='").append(brokerPassword).append('\'');
         sb.append(", caFile='").append(caFile).append('\'');
         sb.append(", clientCertFile='").append(clientCertFile).append('\'');
         sb.append(", clientKeyFile='").append(clientKeyFile).append('\'');
-        sb.append(", minioEndpoint='").append(minioEndpoint).append('\'');
-        sb.append(", minioAccessKey='").append(minioAccessKey).append('\'');
-        sb.append(", minioSecretKey='").append(minioSecretKey).append('\'');
-        sb.append(", microserviceQueue='").append(microserviceQueue).append('\'');
-        sb.append(", microserviceBucket='").append(microserviceBucket).append('\'');
-        sb.append(", memcachedHost='").append(memcachedHost).append('\'');
-        sb.append(", memcachedPort='").append(memcachedPort).append('\'');
         sb.append('}');
         return sb.toString();
     }
-
 }

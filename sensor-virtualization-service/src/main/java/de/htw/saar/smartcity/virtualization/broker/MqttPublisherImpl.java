@@ -3,7 +3,7 @@ package de.htw.saar.smartcity.virtualization.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.Agent;
 import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
-import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationPropertiesImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class MqttPublisherImpl extends MqttPublisher {
      *
      * @param applicationProperties
      */
-    public MqttPublisherImpl(BrokerApplicationProperties applicationProperties) {
+    public MqttPublisherImpl(BrokerApplicationPropertiesImpl applicationProperties) {
         super(applicationProperties);
     }
 
