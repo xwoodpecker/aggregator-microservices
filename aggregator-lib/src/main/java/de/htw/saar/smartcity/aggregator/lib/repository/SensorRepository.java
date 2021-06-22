@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.repository;
 
+import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,5 +13,7 @@ public interface SensorRepository extends JpaRepository<Sensor, Long> {
     Sensor findSensorByName(String name);
 
     List<Sensor> findAllByExportAsMetricTrue();
+
+    List<Sensor> findAllByDataTypeNameAndExportAsMetricTrue(String dataTypeName);
 
 }

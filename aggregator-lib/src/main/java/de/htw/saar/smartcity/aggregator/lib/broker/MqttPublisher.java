@@ -63,12 +63,8 @@ public abstract class MqttPublisher {
 
         final MqttTopic mqttTopic = mqttClient.getTopic(topic);
         mqttTopic.publish(new MqttMessage(message.getBytes()));
-        String loggedMsg = message;
-        if(message.length() > 100) {
-            loggedMsg = message.substring(0, 97);
-            loggedMsg += "...";
-        }
-        log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + loggedMsg);
+
+        log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + Utils.limitLoggedMsg(message,150));
     }
 
 
@@ -81,7 +77,7 @@ public abstract class MqttPublisher {
             String clientId = MqttClient.generateClientId();
             mqttClient = new MqttClient(brokerAddress, clientId, new MemoryPersistence());
             connectionOptions.setCleanSession(true);
-            connectionOptions.setMaxInflight(9000);
+            connectionOptions.setMaxInflight(1000000);
 
             if (!Utils.isBlankOrNull(applicationProperties.getBrokerUserName())) {
                 connectionOptions.setUserName(applicationProperties.getBrokerUserName());

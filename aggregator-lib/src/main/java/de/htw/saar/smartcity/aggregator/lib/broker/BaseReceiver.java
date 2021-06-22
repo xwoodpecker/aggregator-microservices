@@ -4,6 +4,7 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;
 import com.rabbitmq.client.Delivery;
+import de.htw.saar.smartcity.aggregator.lib.base.Constants;
 import de.htw.saar.smartcity.aggregator.lib.handler.RawMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
@@ -23,17 +24,19 @@ public abstract class BaseReceiver extends BrokerConnection {
 
         try {
             channel.queueDeclare(applicationProperties.getMicroserviceQueue(), true, false, false, null);
+            channel.basicQos(Constants.PREFETCH_COUNT, false);
 
             for(String topic : applicationProperties.getMicroserviceTopics()) {
 
                 String routingKey = topic.replaceAll("/", ".");
                 channel.queueBind(applicationProperties.getMicroserviceQueue(), "amq.topic", routingKey);
+
             }
 
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 
                 try {
-                    //systemzeit rein, speichern in datenstruktur anderer thread
+                    //systemzeit rein, speichern in datenstruktur anderer thread ?
                     String message = new String(delivery.getBody(), "UTF-8");
                     String routingKey = delivery.getEnvelope().getRoutingKey();
                     String topic = routingKey.replaceAll("\\.", "/");
@@ -45,7 +48,7 @@ public abstract class BaseReceiver extends BrokerConnection {
                 }
 
 
-                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false); //test true to ack multiple deliveries
+                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), true); //test true to ack multiple deliveries
                 //systemzeit raus
             };
 

@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
+import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.repository.AggregatorRepository;
 import org.springframework.stereotype.Service;
 
@@ -82,4 +83,13 @@ public class AggregatorService {
         aggregatorRepository.deleteById(aggregator.getId());
     }
 
+    /**
+     * Find all aggregators to export by data type list.
+     *
+     * @param dataTypeName the data type name
+     * @return the list
+     */
+    public List<Aggregator> findAllAggregatorsToExportByDataTypeName(String dataTypeName) {
+        return aggregatorRepository.findAllByDataTypeNameAndExportAsMetricTrue(dataTypeName);
+    }
 }

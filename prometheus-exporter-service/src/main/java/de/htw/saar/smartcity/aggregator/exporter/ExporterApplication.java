@@ -16,7 +16,7 @@ public class ExporterApplication {
         SpringApplication.run(ExporterApplication.class, args);
     }
 
-
     @Bean
     CollectorRegistry prometheusCollector() { return CollectorRegistry.defaultRegistry; }
+
 }

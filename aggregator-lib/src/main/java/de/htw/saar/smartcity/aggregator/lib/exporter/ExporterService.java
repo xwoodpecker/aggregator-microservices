@@ -1,15 +1,13 @@
-package de.htw.saar.smartcity.aggregator.exporter.base;
+package de.htw.saar.smartcity.aggregator.lib.exporter;
 
 import io.micrometer.core.instrument.Clock;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import io.prometheus.client.CollectorRegistry;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
 
-
-@Component
-public class ExporterService {
+public abstract class ExporterService {
 
     private final MeterRegistry meterRegistry;
     private final CustomCollector customCollector;
@@ -21,6 +19,5 @@ public class ExporterService {
         this.customCollector = customCollector;
         this.customCollector.register(prometheusCollector);
     }
-
 
 }

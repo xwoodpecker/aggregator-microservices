@@ -2,7 +2,7 @@ package de.htw.saar.smartcity.aggregator.lib.properties;
 
 import java.util.Arrays;
 
-public abstract class RawMicroserviceApplicationProperties extends MicroserviceApplicationProperties{
+public abstract class RawMicroserviceApplicationProperties extends MicroserviceApplicationProperties {
 
     protected String[] microserviceTopics;
 

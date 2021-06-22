@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
+import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.exception.GroupTypeNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.exception.SensorNameAlreadyInUseException;
@@ -84,6 +85,17 @@ public class SensorService {
      */
     public List<Sensor> findAllSensorsToExport() {
         return sensorRepository.findAllByExportAsMetricTrue();
+    }
+
+
+    /**
+     * Find all sensors to export by data type list.
+     *
+     * @param dataTypeName the data type name
+     * @return the list
+     */
+    public List<Sensor> findAllSensorsToExportByDataTypeName(String dataTypeName) {
+        return sensorRepository.findAllByDataTypeNameAndExportAsMetricTrue(dataTypeName);
     }
 
     /**

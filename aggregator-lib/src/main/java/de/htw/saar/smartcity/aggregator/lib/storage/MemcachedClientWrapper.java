@@ -2,6 +2,7 @@ package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import de.htw.saar.smartcity.aggregator.lib.base.Constants;
 import de.htw.saar.smartcity.aggregator.lib.properties.MemcachedApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.MemcachedClientBuilder;
 import net.rubyeye.xmemcached.XMemcachedClientBuilder;
@@ -67,7 +68,7 @@ public class MemcachedClientWrapper {
             log.error("Retrieving cached object failed.");
             e.printStackTrace();
         }
-        log.info("Retrieved cached object successfully: " + map);
+        log.info(Utils.limitLoggedMsg("Retrieved cached objects successfully: " + map, 300));
         return map;
     }
 }

@@ -24,15 +24,20 @@
     <module>dewpoint-service</module>
             
     <module>heatflux-service</module>
-            
+
     <module>prometheus-exporter-service</module>
+
+    <module>prometheus-temperature-sensor-exporter-service</module>
             
     <module>sensor-virtualization-service</module>
           
     <module>benchmarking</module>
-      <module>water-service</module>
-      <module>picture-service</module>
-      <module>historic-temperature-aggregator-service</module>
+
+    <module>water-service</module>
+
+    <module>picture-service</module>
+
+    <module>historic-temperature-aggregator-service</module>
 
   </modules>
       
