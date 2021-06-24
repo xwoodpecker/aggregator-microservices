@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.benchmarking;
+package de.htw.saar.smartcity.aggregator.temperature;
 
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.temperature.handler.TemperatureRawMeasurementHandler;
@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes={
-        de.htw.saar.smartcity.aggregator.temperature.handler.TemperatureRawMeasurementHandler.class,
+        TemperatureRawMeasurementHandler.class,
         de.htw.saar.smartcity.aggregator.temperature.factory.TemperatureMeasurementFactory.class,
         de.htw.saar.smartcity.aggregator.temperature.storage.TemperatureStorageWrapper.class,
         de.htw.saar.smartcity.aggregator.temperature.broker.TemperaturePublisher.class,
@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 @EnableJpaRepositories(basePackages = "de.htw.saar.smartcity.aggregator.lib")
 @EntityScan("de.htw.saar.smartcity.aggregator.lib")
-@TestPropertySource(locations={"classpath:temperature.properties"})
+@TestPropertySource(locations={"classpath:application.properties"})
 @AutoConfigureDataJpa
 @RunWith(SpringRunner.class)
 @State(Scope.Benchmark)

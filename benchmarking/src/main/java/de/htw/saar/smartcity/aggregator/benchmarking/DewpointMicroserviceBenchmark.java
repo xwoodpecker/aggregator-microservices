@@ -25,6 +25,8 @@ import java.util.concurrent.TimeUnit;
         de.htw.saar.smartcity.aggregator.lib.repository.DataTypeRepository.class,
         de.htw.saar.smartcity.aggregator.lib.service.SensorService.class,
         de.htw.saar.smartcity.aggregator.lib.repository.SensorRepository.class,
+        de.htw.saar.smartcity.aggregator.lib.service.AggregatorService.class,
+        de.htw.saar.smartcity.aggregator.lib.repository.AggregatorRepository.class,
         de.htw.saar.smartcity.aggregator.lib.service.ProducerService.class,
         de.htw.saar.smartcity.aggregator.lib.repository.ProducerRepository.class,
         de.htw.saar.smartcity.aggregator.lib.service.GroupService.class,

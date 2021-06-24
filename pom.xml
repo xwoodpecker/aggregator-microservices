@@ -26,18 +26,18 @@
     <module>heatflux-service</module>
 
     <module>prometheus-exporter-service</module>
-
-    <module>prometheus-temperature-sensor-exporter-service</module>
             
     <module>sensor-virtualization-service</module>
-          
-    <module>benchmarking</module>
+
+    <module>9-how-to-use-jmh-with-spring-boot</module>
 
     <module>water-service</module>
 
     <module>picture-service</module>
 
     <module>historic-temperature-aggregator-service</module>
+    <module>another-benchmarking</module>
+    <module>benchmarking-temperature-service</module>
 
   </modules>
       
