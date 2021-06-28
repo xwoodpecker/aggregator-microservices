@@ -24,6 +24,7 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
+import java.util.concurrent.Executors;
 
 public abstract class BrokerConnection {
 
@@ -59,7 +60,7 @@ public abstract class BrokerConnection {
         try {
             factory.setHost(applicationProperties.getBrokerHost());
             factory.setPort(Integer.valueOf(applicationProperties.getBrokerPort()));
-            connection = factory.newConnection();
+            connection = factory.newConnection(Executors.newFixedThreadPool(1));
 
         } catch (Exception e) {
             log.error("Could not connect to broker.");

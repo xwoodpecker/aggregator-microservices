@@ -4,19 +4,19 @@ metadata:
   name: general-config
 data:
   #BROKER
-  BROKER_HOST: "10.99.7.247"
+  BROKER_HOST: "rabbitmq-service"
   BROKER_PORT: "5672"
   BROKER_MANAGEMENT_PORT: "15672"
   CA_FILE: ""
   CLIENT_CERT_FILE: ""
   CLIENT_KEY_FILE: ""
   #MINIO
-  MINIO_ENDPOINT: "http://10.104.225.251:9000"
+  MINIO_ENDPOINT: "http://my-minio:9000"
   #MEMCACHED
-  MEMCACHED_HOST: "10.108.30.5"
+  MEMCACHED_HOST: "my-memcached"
   MEMCACHED_PORT: "11211"
   #MYSQL
-  spring.datasource.url: "jdbc:mysql://10.102.69.145:3306/test"
+  spring.datasource.url: "jdbc:mysql://my-mysql:3306/test"
   #TEMPERATURE MS
   TEMPERATURE_QUEUE: temperature
   TEMPERATURE_TOPICS: data/aggregator/test/temperature/#, data/aggregator/temperature/#
@@ -27,13 +27,13 @@ data:
   HUMIDITY_TOPICS: data/aggregator/test/humidity/#, data/aggregator/humidity/#
   HUMIDITY_BUCKET: aggregator
   HUMIDITY_SENSOR_TYPE: humidity
-  EXPORT_HUMIDITY_DATA_AS_METRIC: true
+  EXPORT_HUMIDITY_DATA_AS_METRIC: "true"
   #TEMPERATURE AGGREGATOR
   TEMPERATURE_AGGREGATOR_MICROSERVICE_QUEUE: temperature-group
   TEMPERATURE_AGGREGATOR_MICROSERVICE_BUCKET: aggregator
   TEMPERATURE_AGGREGATOR_MICROSERVICE_GROUP_TYPE_NAME: temperature-group
   TEMPERATURE_DATA_TYPE_NAME: temperature
-  EXPORT_TEMPERATURE_DATA_AS_METRIC: true
+  EXPORT_TEMPERATURE_DATA_AS_METRIC: "true"
 
 ---
 
@@ -47,9 +47,9 @@ stringData:
   BROKER_USERNAME: guest
   BROKER_PASSWORD: guest
   #MINIO
-  MINIO_ACCESSKEY: IVHmtzjwBp
-  MINIO_SECRETKEY: syTX3WBrApyWTEE16snKLVzM94VMIUAncAEkPeXu
+  MINIO_ACCESSKEY: tGHSq87Ceh
+  MINIO_SECRETKEY: 8ZovHeONdKrpmmnIziIkKYreUls3Ll2zA1yTR0Hm
   #MYSQL
   spring.datasource.username: root
-  spring.datasource.password: LUKG4swv7t
+  spring.datasource.password: nYRhWzakXT
 

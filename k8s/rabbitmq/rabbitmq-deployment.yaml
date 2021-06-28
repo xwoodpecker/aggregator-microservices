@@ -11,6 +11,7 @@ data:
     log.console.level = debug
     log.exchange = true
     log.exchange.level = debug
+    prometheus.return_per_object_metrics = true
   enabled_plugins: |-
     [rabbitmq_management, rabbitmq_prometheus, rabbitmq_tracing, rabbitmq_mqtt, rabbitmq_event_exchange].
 ---
@@ -33,6 +34,7 @@ spec:
       containers:
         - name: rabbitmq
           image: xwoodpecker/rabbitmq-mqtt:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 15672
               name: http
@@ -63,6 +65,7 @@ spec:
   ports:
   - port: 15672
     name: http
+    nodePort: 31600
   - port: 5672
     name: amqp
     nodePort: 31500

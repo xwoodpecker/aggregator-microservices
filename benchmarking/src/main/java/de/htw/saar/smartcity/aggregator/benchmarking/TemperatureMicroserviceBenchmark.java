@@ -1,7 +1,7 @@
 package de.htw.saar.smartcity.aggregator.benchmarking;
 
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
-import de.htw.saar.smartcity.aggregator.temperature.handler.TemperatureRawMeasurementHandler;
+import de.htw.saar.smartcity.aggregator.benchmarking.handler.TemperatureRawMeasurementHandler;
 import org.junit.runner.RunWith;
 import org.openjdk.jmh.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes={
-        de.htw.saar.smartcity.aggregator.temperature.handler.TemperatureRawMeasurementHandler.class,
-        de.htw.saar.smartcity.aggregator.temperature.factory.TemperatureMeasurementFactory.class,
-        de.htw.saar.smartcity.aggregator.temperature.storage.TemperatureStorageWrapper.class,
-        de.htw.saar.smartcity.aggregator.temperature.broker.TemperaturePublisher.class,
-        de.htw.saar.smartcity.aggregator.temperature.properties.TemperatureApplicationProperties.class,
+        de.htw.saar.smartcity.aggregator.benchmarking.handler.TemperatureRawMeasurementHandler.class,
+        de.htw.saar.smartcity.aggregator.benchmarking.factory.TemperatureMeasurementFactory.class,
+        de.htw.saar.smartcity.aggregator.benchmarking.storage.TemperatureStorageWrapper.class,
+        de.htw.saar.smartcity.aggregator.benchmarking.broker.TemperaturePublisher.class,
+        de.htw.saar.smartcity.aggregator.benchmarking.properties.TemperatureApplicationProperties.class,
         de.htw.saar.smartcity.aggregator.lib.service.DataTypeService.class,
         de.htw.saar.smartcity.aggregator.lib.repository.DataTypeRepository.class,
         de.htw.saar.smartcity.aggregator.lib.service.SensorService.class,
