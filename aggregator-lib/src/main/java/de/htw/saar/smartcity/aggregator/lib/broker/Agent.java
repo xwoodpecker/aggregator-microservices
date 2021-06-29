@@ -53,7 +53,7 @@ public abstract class Agent {
             } catch (MqttException e) {
                 e.printStackTrace();
             }
-        }, random.nextInt(1000), interval, TimeUnit.MILLISECONDS);
+        }, random.nextInt(interval), interval, TimeUnit.MILLISECONDS);
     }
 
     protected abstract Object getNextValue();

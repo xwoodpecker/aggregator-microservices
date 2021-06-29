@@ -16,4 +16,6 @@ public interface SensorRepository extends JpaRepository<Sensor, Long> {
 
     List<Sensor> findAllByDataTypeNameAndExportAsMetricTrue(String dataTypeName);
 
+    List<Sensor> findAllByIdBetweenAndExportAsMetricTrue(Long start, Long end);
+
 }

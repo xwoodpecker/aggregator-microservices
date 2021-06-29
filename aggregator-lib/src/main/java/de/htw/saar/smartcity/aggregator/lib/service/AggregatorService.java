@@ -92,4 +92,15 @@ public class AggregatorService {
     public List<Aggregator> findAllAggregatorsToExportByDataTypeName(String dataTypeName) {
         return aggregatorRepository.findAllByDataTypeNameAndExportAsMetricTrue(dataTypeName);
     }
+
+    /**
+     * Find all aggregators to export by id between list.
+     *
+     * @param startId the start id
+     * @param endId   the end id
+     * @return the list
+     */
+    public List<Aggregator> findAllAggregatorsToExportByIdBetween(Long startId, Long endId) {
+        return aggregatorRepository.findAllByIdBetweenAndExportAsMetricTrue(startId, endId);
+    }
 }

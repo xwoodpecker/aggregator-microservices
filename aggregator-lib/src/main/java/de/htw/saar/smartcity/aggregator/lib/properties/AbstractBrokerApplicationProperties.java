@@ -62,17 +62,17 @@ public abstract class AbstractBrokerApplicationProperties implements BrokerAppli
         this.brokerPassword = BrokerPassword;
     }
 
-    @Value("${CA_FILE}")
+    @Value("${CA_FILE:#{null}}")
     private void setCaFile(String CaFile) {
         this.caFile = CaFile;
     }
 
-    @Value("${CLIENT_CERT_FILE}")
+    @Value("${CLIENT_CERT_FILE:#{null}}")
     private void setClientCertFile(String ClientCertFile) {
         this.clientCertFile = ClientCertFile;
     }
 
-    @Value("${CLIENT_KEY_FILE}")
+    @Value("${CLIENT_KEY_FILE:#{null}}")
     private void setClientKeyFile(String ClientKeyFile) {
         this.clientKeyFile = ClientKeyFile;
     }

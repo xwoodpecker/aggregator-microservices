@@ -98,6 +98,18 @@ public class SensorService {
         return sensorRepository.findAllByDataTypeNameAndExportAsMetricTrue(dataTypeName);
     }
 
+
+    /**
+     * Find all sensors to export by id between list.
+     *
+     * @param startId the start id
+     * @param endId   the end id
+     * @return the list
+     */
+    public List<Sensor> findAllSensorsToExportByIdBetween(Long startId, Long endId) {
+        return sensorRepository.findAllByIdBetweenAndExportAsMetricTrue(startId, endId);
+    }
+
     /**
      * Delete sensor.
      *

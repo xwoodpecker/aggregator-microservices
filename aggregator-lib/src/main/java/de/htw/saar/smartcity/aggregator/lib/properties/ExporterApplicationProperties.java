@@ -1,6 +1,5 @@
 package de.htw.saar.smartcity.aggregator.lib.properties;
 
-import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @PropertySource("classpath:application.properties")
@@ -19,9 +17,15 @@ public abstract class ExporterApplicationProperties implements MemcachedApplicat
 
     protected String memcachedPort;
 
-    public String[] exportedSensorDataTypes;
+    //can have values NONE or ALL
+    protected String[] exportedSensorDataTypes;
 
-    public String[] exportedAggregatorDataTypes;
+    //can have values NONE or ALL
+    protected String[] exportedAggregatorDataTypes;
+
+    protected Long startWithId;
+
+    protected Long endWithId;
 
     @Value("${MEMCACHED_HOST}")
     private void setMemcachedHost(String memcachedHost) {
@@ -36,6 +40,10 @@ public abstract class ExporterApplicationProperties implements MemcachedApplicat
     protected abstract void setExportedSensorDataTypes(String[] exportedSensorDataTypes);
 
     protected abstract void setExportedAggregatorDataTypes(String[] exportedAggregatorDataTypes);
+
+    protected abstract void setStartWithId(Long startWithId);
+
+    protected abstract void setEndWithId(Long endWithId);
 
     public String getMemcachedHost() {
         return this.memcachedHost;
@@ -52,6 +60,15 @@ public abstract class ExporterApplicationProperties implements MemcachedApplicat
     public String[] getExportedAggregatorDataTypes() {
         return exportedAggregatorDataTypes;
     }
+
+    public Long getStartWithId() {
+        return startWithId;
+    }
+
+    public Long getEndWithId() {
+        return endWithId;
+    }
+
 
     @PostConstruct
     public void printProperties() {

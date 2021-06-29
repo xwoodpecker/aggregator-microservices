@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 public abstract class CustomCollector extends Collector {
 
-
     private static final Logger log = LoggerFactory.getLogger(CustomCollector.class);
 
     private final ExporterApplicationProperties exporterApplicationProperties;
@@ -46,56 +45,76 @@ public abstract class CustomCollector extends Collector {
     public List<MetricFamilySamples> collect() {
 
         List<MetricFamilySamples> mfs = new ArrayList<>();
-        if(exporterApplicationProperties.getExportedSensorDataTypes().length == 1) {
-            if(exporterApplicationProperties.getExportedSensorDataTypes()[0].toUpperCase(Locale.ROOT).equals("ALL")) {
-                mfs.addAll(generateAllSensorGauges());
-            } else if(!exporterApplicationProperties.getExportedSensorDataTypes()[0].toUpperCase(Locale.ROOT).equals("NONE")) {
-                mfs.addAll(generateSensorGaugesByDataType(exporterApplicationProperties.getExportedSensorDataTypes()[0]));
-            }
-        }
-        else {
-            Arrays.stream(exporterApplicationProperties.getExportedSensorDataTypes())
-                    .forEach(sdt -> mfs.addAll(generateSensorGaugesByDataType(sdt)));
-        }
 
-        if(exporterApplicationProperties.getExportedAggregatorDataTypes().length == 1) {
-            if(exporterApplicationProperties.getExportedAggregatorDataTypes()[0].toUpperCase(Locale.ROOT).equals("ALL")) {
-                mfs.addAll(generateAllAggregatorGauges());
-            } else if(!exporterApplicationProperties.getExportedAggregatorDataTypes()[0].toUpperCase(Locale.ROOT).equals("NONE")) {
-                mfs.addAll(generateAggregatorGaugesByDataType(exporterApplicationProperties.getExportedAggregatorDataTypes()[0]));
+        //either split by id range or by data type
+        if(exporterApplicationProperties.getExportedSensorDataTypes() != null || exporterApplicationProperties.getExportedAggregatorDataTypes() != null) {
+
+            if (exporterApplicationProperties.getExportedSensorDataTypes().length == 1) {
+                if (exporterApplicationProperties.getExportedSensorDataTypes()[0].toUpperCase(Locale.ROOT).equals("ALL")) {
+                    mfs.addAll(collectAllSensorGauges());
+                } else if (!exporterApplicationProperties.getExportedSensorDataTypes()[0].toUpperCase(Locale.ROOT).equals("NONE")) {
+                    mfs.addAll(collectSensorGaugesByDataType(exporterApplicationProperties.getExportedSensorDataTypes()[0]));
+                }
+            } else {
+                Arrays.stream(exporterApplicationProperties.getExportedSensorDataTypes())
+                        .forEach(sdt -> mfs.addAll(collectSensorGaugesByDataType(sdt)));
             }
-        }
-        else {
-            Arrays.stream(exporterApplicationProperties.getExportedAggregatorDataTypes())
-                    .forEach(adt -> mfs.addAll(generateAggregatorGaugesByDataType(adt)));
+
+            if (exporterApplicationProperties.getExportedAggregatorDataTypes().length == 1) {
+                if (exporterApplicationProperties.getExportedAggregatorDataTypes()[0].toUpperCase(Locale.ROOT).equals("ALL")) {
+                    mfs.addAll(collectAllAggregatorGauges());
+                } else if (!exporterApplicationProperties.getExportedAggregatorDataTypes()[0].toUpperCase(Locale.ROOT).equals("NONE")) {
+                    mfs.addAll(collectAggregatorGaugesByDataType(exporterApplicationProperties.getExportedAggregatorDataTypes()[0]));
+                }
+            } else {
+                Arrays.stream(exporterApplicationProperties.getExportedAggregatorDataTypes())
+                        .forEach(adt -> mfs.addAll(collectAggregatorGaugesByDataType(adt)));
+            }
+        } else if(exporterApplicationProperties.getStartWithId() != null && exporterApplicationProperties.getEndWithId() != null) {
+
+            mfs.addAll(collectProducerGaugesByIdRange(exporterApplicationProperties.getStartWithId(), exporterApplicationProperties.getEndWithId()));
         }
 
         return mfs;
     }
 
+    private List<GaugeMetricFamily> collectProducerGaugesByIdRange(Long startWithId, Long endWithId) {
 
-    protected List<GaugeMetricFamily> generateAllSensorGauges() {
+        log.info("Started collecting producer measurements...");
 
-        log.info("Started generating sensor measurements...");
+        List<Sensor> sensors =  sensorService.findAllSensorsToExportByIdBetween(startWithId, endWithId);
+        List<Aggregator> aggregators =  aggregatorService.findAllAggregatorsToExportByIdBetween(startWithId, endWithId);
+
+        List<GaugeMetricFamily> gauges = getGaugesForSensors(sensors);
+        gauges.addAll(getGaugesForAggregators(aggregators));
+
+        log.info("Finished collecting producer measurements...");
+        return gauges;
+    }
+
+
+    protected List<GaugeMetricFamily> collectAllSensorGauges() {
+
+        log.info("Started collecting sensor measurements...");
 
         List<Sensor> sensors =  sensorService.findAllSensorsToExport();
 
         List<GaugeMetricFamily> gauges = getGaugesForSensors(sensors);
 
-        log.info("Finished generating sensor measurements...");
+        log.info("Finished collecting sensor measurements...");
         return gauges;
     }
 
 
-    protected List<GaugeMetricFamily> generateSensorGaugesByDataType(String dataTypeName) {
+    protected List<GaugeMetricFamily> collectSensorGaugesByDataType(String dataTypeName) {
 
-        log.info("Started generating sensor measurements for datatype " + dataTypeName + "...");
+        log.info("Started collecting sensor measurements for datatype " + dataTypeName + "...");
 
         List<Sensor> sensors =  sensorService.findAllSensorsToExportByDataTypeName(dataTypeName);
 
         List<GaugeMetricFamily> gauges = getGaugesForSensors(sensors);
 
-        log.info("Finished generating sensor measurements...");
+        log.info("Finished collecting sensor measurements...");
         return gauges;
     }
 
@@ -123,26 +142,26 @@ public abstract class CustomCollector extends Collector {
         return gauges;
     }
 
-    protected List<GaugeMetricFamily> generateAllAggregatorGauges() {
+    protected List<GaugeMetricFamily> collectAllAggregatorGauges() {
 
-        log.info("Started generating group measurements...");
+        log.info("Started collecting group measurements...");
         List<Aggregator> aggregators =  aggregatorService.findAllAggregatorsToExport();
 
         List<GaugeMetricFamily> gauges = getGaugesForAggregators(aggregators);
 
-        log.info("Finished generating group measurements...");
+        log.info("Finished collecting group measurements...");
         return gauges;
     }
 
 
-    protected List<GaugeMetricFamily> generateAggregatorGaugesByDataType(String dataTypeName) {
+    protected List<GaugeMetricFamily> collectAggregatorGaugesByDataType(String dataTypeName) {
 
-        log.info("Started generating group measurements for datatype " + dataTypeName + "...");
+        log.info("Started collecting group measurements for datatype " + dataTypeName + "...");
         List<Aggregator> aggregators =  aggregatorService.findAllAggregatorsToExportByDataTypeName(dataTypeName);
 
         List<GaugeMetricFamily> gauges = getGaugesForAggregators(aggregators);
 
-        log.info("Finished generating group measurements...");
+        log.info("Finished collecting group measurements...");
         return gauges;
     }
 
