@@ -10,21 +10,26 @@ spec:
   minReplicas: 1
   maxReplicas: 10
   metrics:
-    - type: Pods
-      pods:
+    - type: Object
+      object:
         metric:
-          name: messages
+          name: rabbitmq_queue_messages_ready
+          selector: {matchLabels: {queue: "temperature"}}
+        describedObject:
+          apiVersion: "/v1"
+          kind: Service
+          name: rabbitmq-service
         target:
-          type: AverageValue
-          averageValue: 1
+          type: Value
+          value: 20
   behavior:
     scaleDown:
       policies:
         - type: Pods
           value: 1
-          periodSeconds: 60
+          periodSeconds: 120
     scaleUp:
       policies:
         - type: Pods
           value: 1
-          periodSeconds: 60
+          periodSeconds: 120
