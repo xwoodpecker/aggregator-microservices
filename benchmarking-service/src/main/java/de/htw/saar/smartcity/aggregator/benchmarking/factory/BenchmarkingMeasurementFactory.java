@@ -2,7 +2,6 @@ package de.htw.saar.smartcity.aggregator.benchmarking.factory;
 
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.factory.MeasurementFactory;
-import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import org.springframework.stereotype.Component;
 

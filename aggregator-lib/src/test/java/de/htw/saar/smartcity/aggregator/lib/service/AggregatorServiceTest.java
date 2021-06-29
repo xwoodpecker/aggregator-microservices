@@ -1,7 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
-import de.htw.saar.smartcity.aggregator.lib.entity.*;
-import de.htw.saar.smartcity.aggregator.lib.entity.Tag;
+import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
+import de.htw.saar.smartcity.aggregator.lib.entity.Combinator;
+import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
+import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import de.htw.saar.smartcity.aggregator.lib.repository.AggregatorRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
@@ -19,7 +21,6 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
