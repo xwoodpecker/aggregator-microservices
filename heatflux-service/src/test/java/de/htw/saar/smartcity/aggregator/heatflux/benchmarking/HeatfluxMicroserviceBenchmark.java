@@ -1,8 +1,7 @@
-package de.htw.saar.smartcity.aggregator.dewpoint.benchmarking;
+package de.htw.saar.smartcity.aggregator.heatflux.benchmarking;
 
-import de.htw.saar.smartcity.aggregator.dewpoint.base.DewpointSetupDataLoader;
-import de.htw.saar.smartcity.aggregator.dewpoint.handler.DewpointGroupMeasurementHandler;
-import de.htw.saar.smartcity.aggregator.humidity.base.HumiditySetupDataLoader;
+import de.htw.saar.smartcity.aggregator.heatflux.base.HeatfluxSetupDataLoader;
+import de.htw.saar.smartcity.aggregator.heatflux.handler.HeatfluxGroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +18,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -28,11 +26,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes={
-        DewpointGroupMeasurementHandler.class,
-        de.htw.saar.smartcity.aggregator.dewpoint.storage.DewpointStorageWrapper.class,
-        de.htw.saar.smartcity.aggregator.dewpoint.broker.DewpointPublisher.class,
-        de.htw.saar.smartcity.aggregator.dewpoint.base.DewpointSetupDataLoader.class,
-        de.htw.saar.smartcity.aggregator.dewpoint.properties.DewpointApplicationProperties.class,
+        HeatfluxGroupMeasurementHandler.class,
+        de.htw.saar.smartcity.aggregator.heatflux.storage.HeatfluxStorageWrapper.class,
+        de.htw.saar.smartcity.aggregator.heatflux.broker.HeatfluxGroupsPublisher.class,
+        de.htw.saar.smartcity.aggregator.heatflux.base.HeatfluxSetupDataLoader.class,
+        de.htw.saar.smartcity.aggregator.heatflux.properties.HeatfluxApplicationProperties.class,
         de.htw.saar.smartcity.aggregator.lib.service.DataTypeService.class,
         de.htw.saar.smartcity.aggregator.lib.repository.DataTypeRepository.class,
         de.htw.saar.smartcity.aggregator.lib.service.SensorService.class,
@@ -46,7 +44,13 @@ import java.util.concurrent.TimeUnit;
         de.htw.saar.smartcity.aggregator.lib.service.CombinatorService.class,
         de.htw.saar.smartcity.aggregator.lib.repository.CombinatorRepository.class,
         de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService.class,
-        de.htw.saar.smartcity.aggregator.lib.repository.GroupTypeRepository.class
+        de.htw.saar.smartcity.aggregator.lib.repository.GroupTypeRepository.class,
+        de.htw.saar.smartcity.aggregator.lib.service.TagService.class,
+        de.htw.saar.smartcity.aggregator.lib.repository.TagRepository.class,
+        de.htw.saar.smartcity.aggregator.lib.service.FormulaItemService.class,
+        de.htw.saar.smartcity.aggregator.lib.repository.FormulaItemRepository.class,
+        de.htw.saar.smartcity.aggregator.lib.service.FormulaItemValueService.class,
+        de.htw.saar.smartcity.aggregator.lib.repository.FormulaItemValueRepository.class
 })
 
 @EnableJpaRepositories(basePackages = "de.htw.saar.smartcity.aggregator.lib")
@@ -58,7 +62,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class DewpointMicroserviceBenchmark {
+public class HeatfluxMicroserviceBenchmark {
 
     private final static Integer WARMUP_ITERATIONS = 2;
     private final static Integer MEASUREMENT_ITERATIONS = 4;
@@ -97,38 +101,46 @@ public class DewpointMicroserviceBenchmark {
     }
 
 
-    private static DewpointSetupDataLoader dewpointSetupDataLoader;
+    private static HeatfluxSetupDataLoader HeatfluxSetupDataLoader;
 
     @Autowired
-    void setDewpointSetupDataLoader(DewpointSetupDataLoader dewpointSetupDataLoader) {
-        this.dewpointSetupDataLoader = dewpointSetupDataLoader;
+    void setHeatfluxSetupDataLoader(HeatfluxSetupDataLoader HeatfluxSetupDataLoader) {
+        this.HeatfluxSetupDataLoader = HeatfluxSetupDataLoader;
     }
 
-    private static DewpointGroupMeasurementHandler dewpointGroupMeasurementHandler;
+    private static HeatfluxGroupMeasurementHandler heatfluxGroupMeasurementHandler;
 
-    private final long[] DEWPOINT_GROUP_ID = new long[] {4L, 5L, 6L};
-    private final long[] TEMPERATURE_SENSOR_ID = new long[] {1L, 2L, 3L};
-    private final long[] HUMIDITY_SENSOR_ID = new long[] {7L, 8L, 9L};
+    private final long[] HEATFLUX_GROUP_ID = new long[] {7L, 8L, 9L};
+    private final long[] HEATFLUX_GROUP_1 = new long[] {22L, 1L, 4L};
+    private final long[] HEATFLUX_GROUP_2 = new long[] {23L, 2L, 5L};
+    private final long[] HEATFLUX_GROUP_3 = new long[] {24L, 3L, 6L};
+    private final long[][] HEATFLUX_GROUP_MEMBERS = new long[][] {HEATFLUX_GROUP_1, HEATFLUX_GROUP_2, HEATFLUX_GROUP_3};
 
 
     @Autowired
-    void setDewpointGroupMeasurementHandler(DewpointGroupMeasurementHandler dewpointGroupMeasurementHandler) {
-        DewpointMicroserviceBenchmark.dewpointGroupMeasurementHandler = dewpointGroupMeasurementHandler;
+    void setHeatfluxGroupMeasurementHandler(HeatfluxGroupMeasurementHandler HeatfluxGroupMeasurementHandler) {
+        HeatfluxMicroserviceBenchmark.heatfluxGroupMeasurementHandler = HeatfluxGroupMeasurementHandler;
     }
 
     @Benchmark
     public void benchmarkHandle() {
-        // check if dewpointGroupMeasurementHandler is present
-        assert(dewpointGroupMeasurementHandler != null);
+        // check if HeatfluxGroupMeasurementHandler is present
+        assert(heatfluxGroupMeasurementHandler != null);
+
+        int pos = ThreadLocalRandom.current().nextInt(0,3);
+
+        Measurement<Double> dewPointMeasurement = new Measurement<>();
+        dewPointMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-40, 30));
+        dewPointMeasurement.setTime(LocalDateTime.now());
+        heatfluxGroupMeasurementHandler.handleMeasurement(HEATFLUX_GROUP_ID[pos], HEATFLUX_GROUP_MEMBERS[pos][0], dewPointMeasurement);
 
         Measurement<Double> temperatureMeasurement = new Measurement<>();
         temperatureMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
         temperatureMeasurement.setTime(LocalDateTime.now());
-        int pos = ThreadLocalRandom.current().nextInt(0,3);
-        dewpointGroupMeasurementHandler.handleMeasurement(DEWPOINT_GROUP_ID[pos], TEMPERATURE_SENSOR_ID[pos], temperatureMeasurement);
-        Measurement<Double> humidityMeasurement = new Measurement<>();
-        humidityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(0, 100));
-        humidityMeasurement.setTime(LocalDateTime.now());
-        dewpointGroupMeasurementHandler.handleMeasurement(DEWPOINT_GROUP_ID[pos], HUMIDITY_SENSOR_ID[pos], humidityMeasurement);
+        heatfluxGroupMeasurementHandler.handleMeasurement(HEATFLUX_GROUP_ID[pos], HEATFLUX_GROUP_MEMBERS[pos][1], temperatureMeasurement);
+
+        temperatureMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        temperatureMeasurement.setTime(LocalDateTime.now());
+        heatfluxGroupMeasurementHandler.handleMeasurement(HEATFLUX_GROUP_ID[pos], HEATFLUX_GROUP_MEMBERS[pos][2], temperatureMeasurement);
     }
 }

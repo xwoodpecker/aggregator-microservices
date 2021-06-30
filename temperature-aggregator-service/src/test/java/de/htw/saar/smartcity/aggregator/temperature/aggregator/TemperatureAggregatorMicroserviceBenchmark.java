@@ -13,6 +13,8 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -47,12 +49,13 @@ import java.util.concurrent.TimeUnit;
 
 @EnableJpaRepositories(basePackages = "de.htw.saar.smartcity.aggregator.lib")
 @EntityScan("de.htw.saar.smartcity.aggregator.lib")
-@TestPropertySource(locations={"classpath:application.properties"})
+@TestPropertySource(locations={"classpath:application-test.properties"})
 @AutoConfigureDataJpa
 @RunWith(SpringRunner.class)
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class TemperatureAggregatorMicroserviceBenchmark {
 
     private final static Integer WARMUP_ITERATIONS = 2;
@@ -94,8 +97,11 @@ public class TemperatureAggregatorMicroserviceBenchmark {
     private static TemperatureAggregatorGroupMeasurementHandler temperatureAggregatorGroupMeasurementHandler;
 
 
-
-    //todo
+    private final long[] TEMPERATURE_GROUP_ID = new long[] {1L, 2L, 3L};
+    private final long[] TEMPERATURE_GROUP_1 = new long[] {1L, 2L};
+    private final long[] TEMPERATURE_GROUP_2 = new long[] {3L, 4L};
+    private final long[] TEMPERATURE_GROUP_3 = new long[] {5L, 6L};
+    private final long[][] TEMPERATURE_GROUP_MEMBERS = new long[][] {TEMPERATURE_GROUP_1, TEMPERATURE_GROUP_2, TEMPERATURE_GROUP_3};
 
     @Autowired
     void setTemperatureAggregatorGroupMeasurementHandler(TemperatureAggregatorGroupMeasurementHandler temperatureAggregatorGroupMeasurementHandler) {
@@ -107,6 +113,13 @@ public class TemperatureAggregatorMicroserviceBenchmark {
         // check if temperatureAggregatorGroupMeasurementHandler is present
         assert(temperatureAggregatorGroupMeasurementHandler != null);
 
-        //todo
+        Measurement<Double> temperatureMeasurement = new Measurement<>();
+        temperatureMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        temperatureMeasurement.setTime(LocalDateTime.now());
+        int pos = ThreadLocalRandom.current().nextInt(0,3);
+        temperatureAggregatorGroupMeasurementHandler.handleMeasurement(TEMPERATURE_GROUP_ID[pos], TEMPERATURE_GROUP_MEMBERS[pos][0], temperatureMeasurement);
+        temperatureMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        temperatureMeasurement.setTime(LocalDateTime.now());
+        temperatureAggregatorGroupMeasurementHandler.handleMeasurement(TEMPERATURE_GROUP_ID[pos], TEMPERATURE_GROUP_MEMBERS[pos][1], temperatureMeasurement);
     }
 }

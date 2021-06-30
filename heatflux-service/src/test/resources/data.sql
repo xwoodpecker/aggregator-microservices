@@ -385,3 +385,4 @@ VALUES (8, 2);
 INSERT INTO group_formula_item_value
 (group_id, formula_item_value_id)
 VALUES (9, 4);
+

@@ -13,6 +13,8 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -39,12 +41,13 @@ import java.util.concurrent.TimeUnit;
 
 @EnableJpaRepositories(basePackages = "de.htw.saar.smartcity.aggregator.lib")
 @EntityScan("de.htw.saar.smartcity.aggregator.lib")
-@TestPropertySource(locations={"classpath:application.properties"})
+@TestPropertySource(locations={"classpath:application-test.properties"})
 @AutoConfigureDataJpa
 @RunWith(SpringRunner.class)
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class HumidityMicroserviceBenchmark {
 
     private final static Integer WARMUP_ITERATIONS = 2;
