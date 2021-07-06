@@ -63,7 +63,7 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         this.brokerPort = brokerPort;
     }
 
-    @Value("${BROKER_MANAGEMENT_PORT}")
+    @Value("${BROKER_MANAGEMENT_PORT:#{null}}")
     private void setBrokerManagementPort(String brokerManagementPort) {
         this.brokerManagementPort = brokerManagementPort;
     }

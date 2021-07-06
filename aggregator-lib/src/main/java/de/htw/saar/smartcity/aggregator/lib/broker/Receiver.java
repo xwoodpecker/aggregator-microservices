@@ -16,9 +16,12 @@ public abstract class Receiver extends BrokerConnection {
         this.activityManager = activityManager;
 
         try {
+            // durable: true, exclusive: false, autoDelete: false
             channel.queueDeclare(applicationProperties.getMicroserviceQueue(), true, false, false, null);
+            // set prefetch count for limiting the amount of messages taken from the queue
             channel.basicQos(Constants.PREFETCH_COUNT, false);
 
+            // will be invoked for every message taken from the queue
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 long startTime = System.currentTimeMillis();
                 processMessage(delivery.getEnvelope().getRoutingKey(), new String(delivery.getBody(), "UTF-8"));
@@ -27,6 +30,7 @@ public abstract class Receiver extends BrokerConnection {
                 this.activityManager.addTime(stopTime, stopTime - startTime);
             };
 
+            // messages get manually acknowledged so, autoAck is set to false
             channel.basicConsume(applicationProperties.getMicroserviceQueue(), false, deliverCallback, consumerTag -> {});
         }
         catch (IOException e) {

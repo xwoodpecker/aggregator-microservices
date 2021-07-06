@@ -13,7 +13,7 @@ public class MqttPublisherImpl extends MqttPublisher {
 
     private final static String PREFIX = "data/aggregator";
 
-    private final static Integer ITERATIONS = 30;
+    private final static Integer ITERATIONS = 10;
     private final static Integer INTERVAL = 30 * 1000;
 
     /**
