@@ -22,11 +22,11 @@ public abstract class Publisher extends BrokerConnection {
         }
     }
 
-    public void publish (String queueName, String message)  {
+    public void publish (String routingKey, String message)  {
         try {
-            channel.basicPublish(Constants.GROUP_EXCHANGE, queueName, null, message.getBytes(StandardCharsets.UTF_8));
+            channel.basicPublish(Constants.GROUP_EXCHANGE, routingKey, null, message.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
-            log.error("Error during publish on group exchange");
+            log.error("Error during publish on group_exchange");
             e.printStackTrace();
         }
     }

@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.benchmarking.properties;
+package de.htw.saar.smartcity.aggregator.temperature.properties;
 
 import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;

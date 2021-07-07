@@ -32,7 +32,7 @@ metadata:
   labels:
     app: prom-exporter-ms
 spec:
-  type: NodePort #todo change
+  type: NodePort #change to ClusterIP for production
   selector:
     app: prom-exporter-ms
   ports:
@@ -55,7 +55,7 @@ spec:
     - port: http
       path: "/actuator/prometheus"
       interval: 30s
-      scrapeTimeout: 29s
+      scrapeTimeout: 30s
 
 
 

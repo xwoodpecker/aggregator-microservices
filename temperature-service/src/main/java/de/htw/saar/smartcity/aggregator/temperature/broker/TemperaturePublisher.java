@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.benchmarking.broker;
+package de.htw.saar.smartcity.aggregator.temperature.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
 import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;

@@ -24,7 +24,6 @@ spec:
             - containerPort: 8080
               name: http
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -32,7 +31,7 @@ metadata:
   labels:
     app: temperature-ms
 spec:
-  type: NodePort #todo change
+  type: ClusterIP
   selector:
     app: temperature-ms
   ports:

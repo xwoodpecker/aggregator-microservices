@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.benchmarking.base;
+package de.htw.saar.smartcity.aggregator.temperature.base;
 
 import de.htw.saar.smartcity.aggregator.lib.base.RawSetupDataLoader;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;

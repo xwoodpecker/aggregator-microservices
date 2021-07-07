@@ -21,6 +21,9 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
 
     private final DewpointApplicationProperties applicationProperties;
 
+    private final static Double A = 17.62;
+    private final static Double B = 243.12;
+
     public DewpointGroupMeasurementHandler(StorageWrapper storageWrapper,
                                            ProducerService producerService,
                                            GroupService groupService,
@@ -56,10 +59,8 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
 
             Double temperatureValue = newMap.get(temperatureProducer).getValue();
             Double humidityValue = newMap.get(humidityProducer).getValue();
-            Double b = 243.12;
-            Double a = 17.62;
-            Double alpha = Math.log(humidityValue/100) + a * temperatureValue / (b + temperatureValue);
-            Double dewpointValue = b * alpha / (a - alpha);
+            Double alpha = Math.log(humidityValue/100) + A * temperatureValue / (B + temperatureValue);
+            Double dewpointValue = B * alpha / (A - alpha);
             return Math.round(dewpointValue * 100) / 100.0;
         };
 

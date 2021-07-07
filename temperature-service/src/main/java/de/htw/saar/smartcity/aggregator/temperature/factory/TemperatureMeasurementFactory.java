@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.benchmarking.factory;
+package de.htw.saar.smartcity.aggregator.temperature.factory;
 
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.factory.MeasurementFactory;

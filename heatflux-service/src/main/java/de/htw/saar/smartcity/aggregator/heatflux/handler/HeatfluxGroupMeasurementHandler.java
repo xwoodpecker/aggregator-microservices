@@ -52,57 +52,74 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
     @Override
     protected void addCombinators() {
 
-        Function<Map<Long, Measurement<Double>>, Map<Producer, Measurement<Double>>> idToProducerMapper = map ->
-                map.entrySet()
-                        .stream()
-                        .collect(Collectors.toMap(e -> producerService.findProducerById(e.getKey()).get(),
-                                e -> e.getValue()));
-
-        Function<Map<Producer, Measurement<Double>>, Optional<Producer>> dewPointProducerGetter = map -> map.keySet()
+        Function<Map<Long, Measurement<Double>>, Map<Producer, Measurement<Double>>> idToProducerMapper =
+            map -> map
+                .entrySet()
                 .stream()
-                .filter(p -> p.getDataType().getName().equals(applicationProperties.getDewpointDataTypeName()))
+                .collect(Collectors.toMap(e -> producerService.findProducerById(
+                        e.getKey()).get(),
+                        e -> e.getValue())
+                );
+
+        Function<Map<Producer, Measurement<Double>>, Optional<Producer>> dewPointProducerGetter =
+            map -> map
+                .keySet()
+                .stream()
+                .filter(p -> p.getDataType().getName()
+                    .equals(applicationProperties.getDewpointDataTypeName()))
                 .findFirst();
 
-        Function<Map<Producer, Measurement<Double>>, Optional<Producer>> insideTemperatureProducerGetter  = map -> map.keySet()
+        Function<Map<Producer, Measurement<Double>>, Optional<Producer>> insideTemperatureProducerGetter =
+            map -> map
+                .keySet()
                 .stream()
-                .filter(p -> p.getDataType().getName().equals(applicationProperties.getTemperatureDataTypeName()) &&
-                        p.getTags().stream().anyMatch(t -> t.getName().equals(applicationProperties.getTagNameInsideTemperature())))
+                .filter(p -> p.getDataType().getName()
+                    .equals(applicationProperties.getTemperatureDataTypeName()) &&
+                    p.getTags().stream()
+                        .anyMatch(
+                            t -> t.getName().equals(applicationProperties.getTagNameInsideTemperature())
+                        ))
                 .findFirst();
 
-        Function<Map<Producer, Measurement<Double>>, Optional<Producer>> outsideTemperatureProducerGetter  = map -> map.keySet()
+        Function<Map<Producer, Measurement<Double>>, Optional<Producer>> outsideTemperatureProducerGetter =
+            map -> map
+                .keySet()
                 .stream()
-                .filter(p -> p.getDataType().getName().equals(applicationProperties.getTemperatureDataTypeName()) &&
-                        p.getTags().stream().anyMatch(t -> t.getName().equals(applicationProperties.getTagNameOutsideTemperature())))
+                .filter(p -> p.getDataType().getName()
+                    .equals(applicationProperties.getTemperatureDataTypeName()) &&
+                    p.getTags().stream()
+                        .anyMatch(
+                            t -> t.getName().equals(applicationProperties.getTagNameOutsideTemperature())
+                        ))
                 .findFirst();
 
 
         CombinatorFunction<Double> heatFluxFunction = (gms) -> {
 
-
-            log.info("Start heatflux combinator function - " + LocalDateTime.now());
-            Map<Producer, Measurement<Double>> producerMap = idToProducerMapper.apply(gms.getProducerIdMeasurementMap());
+            log.info("Start heatflux combinator function");
+            Map<Producer, Measurement<Double>> producerMap =
+                idToProducerMapper.apply(gms.getProducerIdMeasurementMap());
 
             Optional<Producer> dewPointProducer = dewPointProducerGetter.apply(producerMap);
-
             Optional<Producer> outsideTemperatureProducer = outsideTemperatureProducerGetter.apply(producerMap);
 
-
             Double dewPointValue = producerMap.get(dewPointProducer
-                    .orElseThrow(() -> new MeasurementException("No dewpoint value present.")))
-                    .getValue();
+                .orElseThrow(() -> new MeasurementException("No dewpoint value present.")))
+                .getValue();
             Double outsideTemperatureValue = producerMap.get(outsideTemperatureProducer
-                    .orElseThrow(() -> new MeasurementException("No outside temperature value present.")))
-                    .getValue();
+                .orElseThrow(() -> new MeasurementException("No outside temperature value present.")))
+                .getValue();
 
             Double u = 3.0;
 
             Group group = groupService.findGroupById(gms.getGroupId())
-                    .orElseThrow(() -> new MeasurementException("No valid group set"));
+                .orElseThrow(() -> new MeasurementException("No valid group set"));
 
             Optional<FormulaItemValue> formulaItemValue = group.getValues()
-                    .stream()
-                    .filter(g -> g.getFormulaItem().getName().equals(applicationProperties.getFormulaItemNameUValue()))
-                    .findFirst();
+                .stream()
+                .filter(g -> g.getFormulaItem().getName()
+                    .equals(applicationProperties.getFormulaItemNameUValue()))
+                .findFirst();
 
             try {
                 if(formulaItemValue.isPresent())
@@ -115,38 +132,37 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
 
             Double heatflux = (dewPointValue - outsideTemperatureValue) * u;
 
-            log.info("End heatflux combinator function - " + LocalDateTime.now());
+            log.info("End heatflux combinator function");
             return Math.round(heatflux * 100) / 100.0;
         };
 
         String heatFluxFunctionName = "heatflux-combinator";
         CombinatorModel<Double> combinatorModel =
-                new CombinatorModel<>(heatFluxFunctionName, heatFluxFunction);
+            new CombinatorModel<>(heatFluxFunctionName, heatFluxFunction);
         combinatorModels.add(combinatorModel);
 
 
         CombinatorFunction<Double> shutterFunction = (gms) -> {
 
-            log.info("Start shutter combinator function - " + LocalDateTime.now());
+            log.info("Start shutter combinator function");
 
-            Map<Producer, Measurement<Double>> producerMap = idToProducerMapper.apply(gms.getProducerIdMeasurementMap());
+            Map<Producer, Measurement<Double>> producerMap =
+                idToProducerMapper.apply(gms.getProducerIdMeasurementMap());
 
             Optional<Producer> dewPointProducer = dewPointProducerGetter.apply(producerMap);
-
             Optional<Producer> insideTemperatureProducer = insideTemperatureProducerGetter.apply(producerMap);
 
-
             Double dewPointValue = producerMap.get(dewPointProducer
-                    .orElseThrow(() -> new MeasurementException("No dewpoint value present.")))
-                    .getValue();
+                .orElseThrow(() -> new MeasurementException("No dewpoint value present.")))
+                .getValue();
             Double insideTemperatureValue = producerMap.get(insideTemperatureProducer
-                    .orElseThrow(() -> new MeasurementException("No inside temperature value present.")))
-                    .getValue();
+                .orElseThrow(() -> new MeasurementException("No inside temperature value present.")))
+                .getValue();
 
             Double heatflux = heatFluxFunction.apply(gms);
             Double shutter = heatflux / (insideTemperatureValue - dewPointValue);
 
-            log.info("End shutter combinator function - " + LocalDateTime.now());
+            log.info("End shutter combinator function");
             return Math.round(shutter * 100) / 100.0;
         };
 
@@ -154,6 +170,5 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
         CombinatorModel<Double> combinatorModelShutter =
                 new CombinatorModel<>(shutterCombinatorName, shutterFunction);
         combinatorModels.add(combinatorModelShutter);
-
     }
 }
