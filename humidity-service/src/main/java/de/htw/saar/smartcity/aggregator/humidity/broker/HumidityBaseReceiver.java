@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HumidityBaseReceiver extends BaseReceiver {
 
-    public HumidityBaseReceiver(RawMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, RawMeasurementHandler rawMeasurementHandler) {
+    public HumidityBaseReceiver(RawMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, RawMeasurementHandler rawMeasurementHandler) throws Exception {
         super(applicationProperties, activityManager, rawMeasurementHandler);
     }
 }

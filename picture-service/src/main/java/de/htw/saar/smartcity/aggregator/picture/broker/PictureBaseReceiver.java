@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PictureBaseReceiver extends BaseReceiver {
 
-    public PictureBaseReceiver(RawMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, RawMeasurementHandler rawMeasurementHandler) {
+    public PictureBaseReceiver(RawMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, RawMeasurementHandler rawMeasurementHandler) throws Exception {
         super(applicationProperties, activityManager, rawMeasurementHandler);
     }
 }

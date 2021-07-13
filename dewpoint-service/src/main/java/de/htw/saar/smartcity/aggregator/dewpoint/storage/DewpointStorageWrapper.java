@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DewpointStorageWrapper extends StorageWrapper {
 
-    public DewpointStorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) {
+    public DewpointStorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws Exception {
         super(applicationProperties, sensorService, aggregatorService);
     }
 }

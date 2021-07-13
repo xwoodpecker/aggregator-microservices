@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HeatfluxGroupReceiver extends GroupReceiver {
 
-    public HeatfluxGroupReceiver(GroupMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, GroupMeasurementHandler groupMeasurementHandler) {
+    public HeatfluxGroupReceiver(GroupMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, GroupMeasurementHandler groupMeasurementHandler) throws Exception {
         super(applicationProperties, activityManager, groupMeasurementHandler);
     }
 }

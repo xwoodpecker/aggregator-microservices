@@ -11,7 +11,7 @@ public class TemperatureBaseReceiver extends BaseReceiver {
 
     public TemperatureBaseReceiver(RawMicroserviceApplicationProperties applicationProperties,
                                    ActivityManager activityManager,
-                                   RawMeasurementHandler rawMeasurementHandler) {
+                                   RawMeasurementHandler rawMeasurementHandler) throws Exception {
 
         super(applicationProperties, activityManager, rawMeasurementHandler);
 

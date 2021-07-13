@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WaterBaseReceiver extends BaseReceiver {
 
-    public WaterBaseReceiver(RawMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, RawMeasurementHandler rawMeasurementHandler) {
+    public WaterBaseReceiver(RawMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, RawMeasurementHandler rawMeasurementHandler) throws Exception {
         super(applicationProperties, activityManager, rawMeasurementHandler);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WaterPublisher extends Publisher {
 
-    public WaterPublisher(MicroserviceApplicationProperties applicationProperties) {
+    public WaterPublisher(MicroserviceApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
     }
 }

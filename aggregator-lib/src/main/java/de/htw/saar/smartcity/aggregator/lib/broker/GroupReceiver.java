@@ -18,20 +18,13 @@ public abstract class GroupReceiver extends Receiver {
 
     public GroupReceiver(GroupMicroserviceApplicationProperties applicationProperties,
                          ActivityManager activityManager,
-                         GroupMeasurementHandler groupMeasurementHandler) {
+                         GroupMeasurementHandler groupMeasurementHandler) throws Exception {
 
         super(applicationProperties, activityManager);
         this.groupMeasurementHandler = groupMeasurementHandler;
 
-        try {
-
-            String groupTypeName = applicationProperties.getMicroserviceGroupTypeName();
-            channel.queueBind(applicationProperties.getMicroserviceQueue(), Constants.GROUP_EXCHANGE, groupTypeName + ".#");
-
-        } catch (IOException e) {
-            log.error("Error during groups receiver channel instantiation.");
-            e.printStackTrace();
-        }
+        String groupTypeName = applicationProperties.getMicroserviceGroupTypeName();
+        channel.queueBind(applicationProperties.getMicroserviceQueue(), Constants.GROUP_EXCHANGE, groupTypeName + ".#");
     }
 
     void processMessage(String routingKey, String message) {

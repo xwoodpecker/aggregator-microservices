@@ -5,7 +5,8 @@ metadata:
 data:
   #BROKER
   BROKER_HOST: "rabbitmq-service"
-  BROKER_PORT: "5672"
+  BROKER_PORT_AMQP: "5672"
+  BROKER_PORT_MQTT: "1883"
   BROKER_MANAGEMENT_PORT: "15672"
   CA_FILE: ""
   CLIENT_CERT_FILE: ""

@@ -70,12 +70,12 @@ public abstract class ExporterApplicationProperties implements MemcachedApplicat
     }
 
 
-    @PostConstruct
+    /**@PostConstruct
     public void printProperties() {
         final Logger log = LoggerFactory.getLogger(MicroserviceApplicationProperties.class);
         log.info(this.toString());
 
-    }
+    }**/
 
     @Override
     public String toString() {

@@ -13,7 +13,9 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -21,6 +23,7 @@ import java.security.Security;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
 
 public abstract class MqttPublisher {
 
@@ -38,7 +41,7 @@ public abstract class MqttPublisher {
      * Instantiates a new Mqtt subscriber.
      * @param applicationProperties
      */
-    public MqttPublisher(BrokerApplicationProperties applicationProperties) {
+    public MqttPublisher(BrokerApplicationProperties applicationProperties) throws Exception {
         this.applicationProperties = applicationProperties;
 
         this.mqttClient = configMqttClient();
@@ -69,103 +72,37 @@ public abstract class MqttPublisher {
 
 
 
-    private MqttClient configMqttClient() {
+    private MqttClient configMqttClient() throws Exception {
         boolean useSSL = !Utils.isBlankOrNull(applicationProperties.getCaFile()) && !Utils.isBlankOrNull(applicationProperties.getClientCertFile()) && !Utils.isBlankOrNull(applicationProperties.getClientKeyFile());
         String protocol = useSSL ? "ssl" : "tcp";
         String brokerAddress = String.format("%s://%s:%s", protocol,
                 applicationProperties.getBrokerHost(),
-                applicationProperties.getBrokerPort());
+                applicationProperties.getBrokerPortMQTT());
         MqttClient mqttClient = null;
         MqttConnectOptions connectionOptions = new MqttConnectOptions();
-        try {
-            String clientId = MqttClient.generateClientId();
-            mqttClient = new MqttClient(brokerAddress, clientId, new MemoryPersistence());
-            connectionOptions.setCleanSession(true);
-            connectionOptions.setMaxInflight(100000); //maybe limit, high number for testing
 
-            if (!Utils.isBlankOrNull(applicationProperties.getBrokerUserName())) {
-                connectionOptions.setUserName(applicationProperties.getBrokerUserName());
-            }
-            if (!Utils.isBlankOrNull(applicationProperties.getBrokerPassword())) {
-                connectionOptions.setPassword(applicationProperties.getBrokerPassword().toCharArray());
-            }
-            if (useSSL) {
-                connectionOptions.setSocketFactory(
-                        getSocketFactoryForCertificates(applicationProperties.getCaFile(),
-                                applicationProperties.getClientCertFile(),
-                                applicationProperties.getClientKeyFile()
-                        )
-                );
-            }
+        String clientId = MqttClient.generateClientId();
+        mqttClient = new MqttClient(brokerAddress, clientId, new MemoryPersistence());
+        connectionOptions.setCleanSession(true);
+        connectionOptions.setMaxInflight(100000); //maybe limit, high number for testing
 
-            mqttClient.connect(connectionOptions);
-
-        } catch (MqttException me) {
-            me.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!Utils.isBlankOrNull(applicationProperties.getBrokerUserName())) {
+            connectionOptions.setUserName(applicationProperties.getBrokerUserName());
         }
+        if (!Utils.isBlankOrNull(applicationProperties.getBrokerPassword())) {
+            connectionOptions.setPassword(applicationProperties.getBrokerPassword().toCharArray());
+        }
+        if (useSSL) {
+            connectionOptions.setSocketFactory(
+                    BrokerUtils.getSSLSocketFactory(applicationProperties.getCaFile(),
+                            applicationProperties.getClientCertFile(),
+                            applicationProperties.getClientKeyFile()
+                    )
+            );
+        }
+
+        mqttClient.connect(connectionOptions);
+
         return mqttClient;
-    }
-
-
-    /**
-     * Gets socket factory for ca certificate.
-     *
-     * @param caFile the ca file
-     * @param clientCertFile the ca file
-     * @param clientKeyFile the client key file
-     * @return the socket factory for ca certificate
-     * @throws Exception the exception
-     */
-    private SSLSocketFactory getSocketFactoryForCertificates(final String caFile, final String clientCertFile, final String clientKeyFile)
-            throws Exception {
-
-        Security.addProvider(new BouncyCastleProvider());
-
-        // load CA certificate
-        X509Certificate caCert = null;
-
-        FileInputStream fis = new FileInputStream(caFile);
-        BufferedInputStream bis = new BufferedInputStream(fis);
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-
-        while (bis.available() > 0) {
-            caCert = (X509Certificate) cf.generateCertificate(bis);
-        }
-
-        // load client certificate
-        bis = new BufferedInputStream(new FileInputStream(clientCertFile));
-        X509Certificate cert = null;
-        while (bis.available() > 0) {
-            cert = (X509Certificate) cf.generateCertificate(bis);
-        }
-
-        // load client private key
-        fis = new FileInputStream(clientKeyFile);
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(fis.readAllBytes());
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        PrivateKey privateKey =  kf.generatePrivate(spec);
-
-        // CA certificate is used to authenticate server
-        KeyStore caKs = KeyStore.getInstance(KeyStore.getDefaultType());
-        caKs.load(null, null);
-        caKs.setCertificateEntry("ca-certificate", caCert);
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        tmf.init(caKs);
-
-        // client key and certificates are sent to server so it can authenticate us
-        KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-        ks.load(null, null);
-        ks.setCertificateEntry("certificate", cert);
-        ks.setKeyEntry("private-key", privateKey, null, new java.security.cert.Certificate[] { cert });
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance("PKIX");
-        kmf.init(ks, null);
-
-        // finally, create SSL socket factory
-        SSLContext context = SSLContext.getInstance("TLSv1.2");
-        context.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
-
-        return context.getSocketFactory();
     }
 }

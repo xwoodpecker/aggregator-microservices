@@ -29,7 +29,7 @@ public abstract class StorageWrapper {
 
     private MemcachedClientWrapper memcachedClientWrapper = null;
 
-    public StorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) {
+    public StorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws Exception {
 
         this.applicationProperties = applicationProperties;
         this.sensorService = sensorService;
@@ -37,15 +37,7 @@ public abstract class StorageWrapper {
 
 
         this.minioClientWrapper = new MinioClientWrapper(applicationProperties);
-
-        try {
-
-            this.memcachedClientWrapper = new MemcachedClientWrapper(applicationProperties);
-        }
-        catch (IOException exception) {
-
-            log.error("Could not initialize memcached connection!");
-        }
+        this.memcachedClientWrapper = new MemcachedClientWrapper(applicationProperties);
     }
 
 

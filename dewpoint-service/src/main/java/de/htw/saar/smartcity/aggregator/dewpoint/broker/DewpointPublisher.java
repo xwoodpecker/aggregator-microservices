@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DewpointPublisher extends Publisher {
 
-    public DewpointPublisher(MicroserviceApplicationProperties applicationProperties) {
+    public DewpointPublisher(MicroserviceApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
     }
 }

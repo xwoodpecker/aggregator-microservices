@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PicturePublisher extends Publisher {
 
-    public PicturePublisher(MicroserviceApplicationProperties applicationProperties) {
+    public PicturePublisher(MicroserviceApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
     }
 }

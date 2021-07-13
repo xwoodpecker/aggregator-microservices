@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BenchmarkingPublisher extends Publisher {
 
-    public BenchmarkingPublisher(MicroserviceApplicationProperties applicationProperties) {
+    public BenchmarkingPublisher(MicroserviceApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
     }
 }

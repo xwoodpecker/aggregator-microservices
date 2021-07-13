@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HeatfluxStorageWrapper extends StorageWrapper {
 
-    public HeatfluxStorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) {
+    public HeatfluxStorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws Exception {
         super(applicationProperties, sensorService, aggregatorService);
     }
 }

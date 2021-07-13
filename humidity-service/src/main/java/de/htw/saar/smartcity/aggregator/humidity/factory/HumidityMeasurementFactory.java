@@ -1,6 +1,5 @@
 package de.htw.saar.smartcity.aggregator.humidity.factory;
 
-import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.factory.MeasurementFactory;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;

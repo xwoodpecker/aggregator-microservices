@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HeatfluxGroupsPublisher extends Publisher {
 
-    public HeatfluxGroupsPublisher(MicroserviceApplicationProperties applicationProperties) {
+    public HeatfluxGroupsPublisher(MicroserviceApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TemperatureStorageWrapper extends StorageWrapper {
 
-    public TemperatureStorageWrapper(TemperatureApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) {
+    public TemperatureStorageWrapper(TemperatureApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws Exception {
         super(applicationProperties, sensorService, aggregatorService);
     }
 

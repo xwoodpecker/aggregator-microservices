@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TemperatureAggregatorGroupReceiver extends GroupReceiver {
 
-    public TemperatureAggregatorGroupReceiver(GroupMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, GroupMeasurementHandler groupMeasurementHandler) {
+    public TemperatureAggregatorGroupReceiver(GroupMicroserviceApplicationProperties applicationProperties,
+                                              ActivityManager activityManager, GroupMeasurementHandler groupMeasurementHandler) throws Exception {
         super(applicationProperties, activityManager, groupMeasurementHandler);
     }
 }

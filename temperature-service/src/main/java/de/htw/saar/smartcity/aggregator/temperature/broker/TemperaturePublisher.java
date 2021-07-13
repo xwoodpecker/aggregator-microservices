@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TemperaturePublisher extends Publisher {
 
-    public TemperaturePublisher(MicroserviceApplicationProperties applicationProperties) {
+    public TemperaturePublisher(MicroserviceApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WaterStorageWrapper extends StorageWrapper {
 
-    public WaterStorageWrapper(RawMicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) {
+    public WaterStorageWrapper(RawMicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws Exception {
         super(applicationProperties, sensorService, aggregatorService);
     }
 

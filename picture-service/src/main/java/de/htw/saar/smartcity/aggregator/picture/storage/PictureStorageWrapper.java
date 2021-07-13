@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PictureStorageWrapper extends StorageWrapper {
 
-    public PictureStorageWrapper(RawMicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) {
+    public PictureStorageWrapper(RawMicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws Exception {
         super(applicationProperties, sensorService, aggregatorService);
     }
 

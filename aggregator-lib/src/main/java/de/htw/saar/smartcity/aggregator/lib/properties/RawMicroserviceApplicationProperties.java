@@ -37,8 +37,8 @@ public abstract class RawMicroserviceApplicationProperties extends MicroserviceA
         sb.append(", memcachedPort='").append(memcachedPort).append('\'');
         sb.append(", microserviceTopics=").append(microserviceTopics == null ? "null" : Arrays.asList(microserviceTopics).toString());
         sb.append(", microserviceDataType='").append(microserviceDataType).append('\'');
+        sb.append(", exportSensorDataAsMetric=").append(exportSensorDataAsMetric);
         sb.append('}');
         return sb.toString();
     }
-
 }

@@ -4,7 +4,9 @@ public interface BrokerApplicationProperties {
 
     String getBrokerHost();
 
-    String getBrokerPort();
+    String getBrokerPortMQTT();
+
+    String getBrokerPortAMQP();
 
     String getBrokerUserName();
 

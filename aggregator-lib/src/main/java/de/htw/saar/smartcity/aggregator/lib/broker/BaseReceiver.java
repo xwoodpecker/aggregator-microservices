@@ -13,38 +13,23 @@ public abstract class BaseReceiver extends Receiver {
 
     public BaseReceiver(RawMicroserviceApplicationProperties applicationProperties,
                         ActivityManager activityManager,
-                        RawMeasurementHandler rawMeasurementHandler) {
+                        RawMeasurementHandler rawMeasurementHandler) throws Exception {
 
         super(applicationProperties, activityManager);
 
         this.rawMeasurementHandler = rawMeasurementHandler;
 
-        try {
+        for(String topic : applicationProperties.getMicroserviceTopics()) {
 
-            for(String topic : applicationProperties.getMicroserviceTopics()) {
-
-                String routingKey = topic.replaceAll("/", ".");
-                channel.queueBind(applicationProperties.getMicroserviceQueue(), "amq.topic", routingKey);
-            }
-
-        } catch (IOException e) {
-            log.error("Error during base receiver channel instantiation.");
-            e.printStackTrace();
+            String routingKey = topic.replaceAll("/", ".");
+            channel.queueBind(applicationProperties.getMicroserviceQueue(), "amq.topic", routingKey);
         }
     }
 
     void processMessage(String routingKey, String message) {
 
-        try {
-
             String topic = routingKey.replaceAll("\\.", "/");
             rawMeasurementHandler.handleMessage(new SensorMeasurement(topic, message));
-
-        }catch (Exception e) {
-            log.error("Error during consumption of measurement");
-            e.printStackTrace();
-        }
-
     }
 
 }

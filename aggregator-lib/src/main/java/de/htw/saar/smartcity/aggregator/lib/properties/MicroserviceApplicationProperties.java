@@ -14,7 +14,9 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
 
     private String brokerHost;
 
-    private String brokerPort;
+    private String brokerPortAMQP;
+
+    private String brokerPortMQTT;
 
     private String brokerManagementPort;
 
@@ -58,9 +60,14 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         this.brokerHost = brokerHost;
     }
 
-    @Value("${BROKER_PORT}")
-    private void setBrokerPort(String brokerPort) {
-        this.brokerPort = brokerPort;
+    @Value("${BROKER_PORT_MQTT:#{null}}")
+    private void setBrokerPortMQTT(String brokerPortMQTT) {
+        this.brokerPortMQTT = brokerPortMQTT;
+    }
+
+    @Value("${BROKER_PORT_AMQP:#{null}}")
+    private void setBrokerPortAMQP(String brokerPortAMQP) {
+        this.brokerPortAMQP = brokerPortAMQP;
     }
 
     @Value("${BROKER_MANAGEMENT_PORT:#{null}}")
@@ -136,8 +143,12 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         return brokerHost;
     }
 
-    public String getBrokerPort() {
-        return brokerPort;
+    public String getBrokerPortAMQP() {
+        return brokerPortAMQP;
+    }
+
+    public String getBrokerPortMQTT() {
+        return brokerPortMQTT;
     }
 
     public String getBrokerUserName() {
@@ -193,12 +204,12 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         return this.brokerManagementPort;
     }
 
-    @PostConstruct
+    /**@PostConstruct
     public void printProperties() {
         final Logger log = LoggerFactory.getLogger(MicroserviceApplicationProperties.class);
         log.info(this.toString());
 
-    }
+    }**/
 
     @Override
     public String toString() {
@@ -206,7 +217,8 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         sb.append("brokerTopic='").append(brokerTopic).append('\'');
         sb.append(", brokerAddress='").append(brokerAddress).append('\'');
         sb.append(", brokerHost='").append(brokerHost).append('\'');
-        sb.append(", brokerPort='").append(brokerPort).append('\'');
+        sb.append(", brokerPortAMQP='").append(brokerPortAMQP).append('\'');
+        sb.append(", brokerPortMQTT='").append(brokerPortMQTT).append('\'');
         sb.append(", brokerManagementPort='").append(brokerManagementPort).append('\'');
         sb.append(", brokerUserName='").append(brokerUserName).append('\'');
         sb.append(", brokerPassword='").append(brokerPassword).append('\'');

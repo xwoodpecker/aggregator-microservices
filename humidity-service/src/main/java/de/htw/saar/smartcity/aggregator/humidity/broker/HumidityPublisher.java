@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HumidityPublisher extends Publisher {
 
-    public HumidityPublisher(MicroserviceApplicationProperties applicationProperties) {
+    public HumidityPublisher(MicroserviceApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
     }
 }

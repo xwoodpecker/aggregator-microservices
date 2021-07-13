@@ -23,7 +23,6 @@ public class MemcachedClientWrapper {
 
     public MemcachedClientWrapper(MemcachedApplicationProperties applicationProperties) throws IOException {
 
-
         String address = applicationProperties.getMemcachedHost() + ":" + applicationProperties.getMemcachedPort();
         MemcachedClientBuilder builder = new XMemcachedClientBuilder(
                 AddrUtil.getAddresses(address));

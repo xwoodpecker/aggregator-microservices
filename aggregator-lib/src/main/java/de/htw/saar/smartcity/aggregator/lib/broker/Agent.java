@@ -49,7 +49,6 @@ public abstract class Agent {
         executorService.scheduleAtFixedRate(() -> {
             try {
                 publisher.publish(sensorName, String.valueOf(getNextValue()));
-
             } catch (MqttException e) {
                 e.printStackTrace();
             }

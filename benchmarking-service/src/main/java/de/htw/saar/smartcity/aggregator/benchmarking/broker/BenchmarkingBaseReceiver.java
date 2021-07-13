@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BenchmarkingBaseReceiver extends BaseReceiver {
 
-    public BenchmarkingBaseReceiver(RawMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, RawMeasurementHandler rawMeasurementHandler) {
+    public BenchmarkingBaseReceiver(RawMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, RawMeasurementHandler rawMeasurementHandler) throws Exception {
         super(applicationProperties, activityManager, rawMeasurementHandler);
     }
 }

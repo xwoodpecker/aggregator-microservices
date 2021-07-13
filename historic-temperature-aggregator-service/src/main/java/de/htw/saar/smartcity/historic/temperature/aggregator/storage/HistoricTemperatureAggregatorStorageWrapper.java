@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HistoricTemperatureAggregatorStorageWrapper extends HistoricStorageWrapper {
 
-    public HistoricTemperatureAggregatorStorageWrapper(MinioApplicationProperties applicationProperties) {
+    public HistoricTemperatureAggregatorStorageWrapper(MinioApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
     }
 }

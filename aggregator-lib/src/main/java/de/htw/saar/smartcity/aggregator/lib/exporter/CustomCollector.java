@@ -27,19 +27,14 @@ public abstract class CustomCollector extends Collector {
 
     private MemcachedClientWrapper memcachedClientWrapper = null;
 
-    public CustomCollector(ExporterApplicationProperties exporterApplicationProperties, SensorService sensorService, AggregatorService aggregatorService) {
+    public CustomCollector(ExporterApplicationProperties exporterApplicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws IOException {
 
         this.exporterApplicationProperties = exporterApplicationProperties;
         this.sensorService = sensorService;
         this.aggregatorService = aggregatorService;
 
-        try {
             this.memcachedClientWrapper =
                     new MemcachedClientWrapper(exporterApplicationProperties);
-        } catch (IOException exception) {
-            log.error("Memcached server connection failed!");
-            exception.printStackTrace();
-        }
     }
 
     public List<MetricFamilySamples> collect() {

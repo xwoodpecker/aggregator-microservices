@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DewpointGroupReceiver extends GroupReceiver {
 
-    public DewpointGroupReceiver(GroupMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, GroupMeasurementHandler groupMeasurementHandler) {
+    public DewpointGroupReceiver(GroupMicroserviceApplicationProperties applicationProperties, ActivityManager activityManager, GroupMeasurementHandler groupMeasurementHandler) throws Exception {
         super(applicationProperties, activityManager, groupMeasurementHandler);
     }
 }

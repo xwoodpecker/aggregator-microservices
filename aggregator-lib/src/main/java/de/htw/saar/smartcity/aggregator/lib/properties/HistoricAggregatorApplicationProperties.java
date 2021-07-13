@@ -64,10 +64,10 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
         return microserviceDataType;
     }
 
-    @PostConstruct
+    /**@PostConstruct
     public void printProperties() {
         final Logger log = LoggerFactory.getLogger(MicroserviceApplicationProperties.class);
         log.info(this.toString());
 
-    }
+    }**/
 }

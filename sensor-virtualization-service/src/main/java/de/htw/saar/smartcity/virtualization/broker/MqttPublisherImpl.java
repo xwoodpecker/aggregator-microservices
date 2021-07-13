@@ -21,7 +21,7 @@ public class MqttPublisherImpl extends MqttPublisher {
      *
      * @param applicationProperties
      */
-    public MqttPublisherImpl(BrokerApplicationPropertiesImpl applicationProperties) {
+    public MqttPublisherImpl(BrokerApplicationPropertiesImpl applicationProperties) throws Exception {
         super(applicationProperties);
     }
 

@@ -14,7 +14,7 @@ public abstract class HistoricStorageWrapper {
     private final MinioClientWrapper minioClientWrapper;
 
 
-    public HistoricStorageWrapper(MinioApplicationProperties applicationProperties) {
+    public HistoricStorageWrapper(MinioApplicationProperties applicationProperties) throws Exception {
 
         this.minioClientWrapper = new MinioClientWrapper(applicationProperties);
     }

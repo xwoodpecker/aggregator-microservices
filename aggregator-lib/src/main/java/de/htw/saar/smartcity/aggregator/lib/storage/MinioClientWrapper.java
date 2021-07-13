@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +28,7 @@ public class MinioClientWrapper {
 
     private final MinioClient minioClient;
 
-    public MinioClientWrapper(MinioApplicationProperties applicationProperties) {
+    public MinioClientWrapper(MinioApplicationProperties applicationProperties) throws Exception {
 
         this.applicationProperties = applicationProperties;
 
@@ -37,23 +40,18 @@ public class MinioClientWrapper {
 
         // Create bucket if it does not exist.
         boolean found;
-        try {
-            found = this.minioClient.bucketExists(
-                    BucketExistsArgs.builder()
+        found = this.minioClient.bucketExists(
+                BucketExistsArgs.builder()
+                        .bucket(this.applicationProperties.getMicroserviceBucket())
+                        .build());
+        if (!found) {
+            // Create a new bucket
+            this.minioClient.makeBucket(
+                    MakeBucketArgs.builder()
                             .bucket(this.applicationProperties.getMicroserviceBucket())
                             .build());
-            if (!found) {
-                // Create a new bucket
-                this.minioClient.makeBucket(
-                        MakeBucketArgs.builder()
-                                .bucket(this.applicationProperties.getMicroserviceBucket())
-                                .build());
-            } else {
-                log.info("Bucket already exists.");
-            }
-        } catch (Exception e) {
-            log.error("Bucket creation failed.");
-            e.printStackTrace();
+        } else {
+            log.info("Bucket already exists.");
         }
     }
 
