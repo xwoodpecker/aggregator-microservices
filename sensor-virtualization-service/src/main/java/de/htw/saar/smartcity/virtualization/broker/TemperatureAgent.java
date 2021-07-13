@@ -1,6 +1,5 @@
 package de.htw.saar.smartcity.virtualization.broker;
 
-import de.htw.saar.smartcity.aggregator.lib.broker.Agent;
 import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
 
 import java.util.Random;

@@ -1,5 +1,6 @@
-package de.htw.saar.smartcity.aggregator.lib.broker;
+package de.htw.saar.smartcity.virtualization.broker;
 
+import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.util.Random;
@@ -10,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * The type Agent.
  */
-public abstract class Agent {
+public abstract class Agent implements IAgent {
 
     /**
      * The Publisher

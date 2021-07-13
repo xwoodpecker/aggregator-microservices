@@ -1,13 +1,11 @@
 package de.htw.saar.smartcity.virtualization.broker;
 
-import de.htw.saar.smartcity.aggregator.lib.broker.Agent;
 import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Base64;
 
 public class PictureAgent extends Agent {
