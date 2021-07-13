@@ -20,8 +20,8 @@ public abstract class ActivityMicroserviceController {
     @RequestMapping(value="/metrics", produces="text/plain")
     public String metrics() {
         double activityPercentage = activityManager.getActivity() * 100;
-        return "# HELP activity Activity described as a percentage of execution time compared to idle time\n"
-                + "# TYPE activity gauge\n"
-                + "activity " + activityPercentage;
+        return "# HELP microservice_activity Activity described as a percentage of execution time compared to idle time\n"
+                + "# TYPE microservice_activity gauge\n"
+                + "microservice_activity " + activityPercentage;
     }
 }

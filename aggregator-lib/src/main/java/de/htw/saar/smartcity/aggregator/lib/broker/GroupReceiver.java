@@ -11,14 +11,14 @@ import java.io.InputStream;
 import java.net.URI;
 
 
-public abstract class GroupsReceiver extends Receiver {
+public abstract class GroupReceiver extends Receiver {
 
     protected final GroupMeasurementHandler groupMeasurementHandler;
 
 
-    public GroupsReceiver(GroupMicroserviceApplicationProperties applicationProperties,
-                          ActivityManager activityManager,
-                          GroupMeasurementHandler groupMeasurementHandler) {
+    public GroupReceiver(GroupMicroserviceApplicationProperties applicationProperties,
+                         ActivityManager activityManager,
+                         GroupMeasurementHandler groupMeasurementHandler) {
 
         super(applicationProperties, activityManager);
         this.groupMeasurementHandler = groupMeasurementHandler;

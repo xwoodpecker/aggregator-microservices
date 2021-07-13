@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
+@Deprecated
 public abstract class MicroserviceController {
 
     private final MicroserviceApplicationProperties applicationProperties;
@@ -26,9 +27,9 @@ public abstract class MicroserviceController {
     @RequestMapping(value="/metrics", produces="text/plain")
     public String metrics() {
         Integer totalMessages = getQueueMessageCount();
-        return "# HELP messages Number of messages in queue\n"
-                + "# TYPE messages gauge\n"
-                + "messages " + totalMessages;
+        return "# HELP microservice_queue_message_count Number of messages in queue\n"
+                + "# TYPE microservice_queue_message_count gauge\n"
+                + "microservice_queue_message_count " + totalMessages;
     }
 
     private Integer getQueueMessageCount() {

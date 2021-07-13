@@ -28,7 +28,7 @@ spec:
     - type: Pods
       pods:
         metric:
-          name: activity
+          name: microservice_activity
         target:
           type: AverageValue
           averageValue: 75

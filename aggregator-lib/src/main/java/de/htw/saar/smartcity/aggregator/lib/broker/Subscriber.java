@@ -22,6 +22,7 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 
+@Deprecated
 public abstract class Subscriber implements MqttCallback {
 
     /**
