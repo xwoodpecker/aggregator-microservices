@@ -5,6 +5,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,16 +51,27 @@ public abstract class BrokerConnection {
 
     private Connection configConnection() {
         ConnectionFactory factory = new ConnectionFactory();
-        /**factory.setHost("dsl-cluster-master");
-         factory.setPort(5672);
-         factory.setUsername("user");
-         factory.setPassword("DgBe3RZVvZ");
-         factory.useSslProtocol(getSSLContext(caFile, clientCertFile, clientKeyFile)); **/
 
         Connection connection = null;
         try {
             factory.setHost(applicationProperties.getBrokerHost());
             factory.setPort(Integer.valueOf(applicationProperties.getBrokerPort()));
+
+            if (!Utils.isBlankOrNull(applicationProperties.getBrokerUserName())) {
+                factory.setUsername(applicationProperties.getBrokerUserName());
+            }
+            if (!Utils.isBlankOrNull(applicationProperties.getBrokerPassword())) {
+                factory.setPassword(applicationProperties.getBrokerPassword());
+            }
+            if (!Utils.isBlankOrNull(applicationProperties.getCaFile()) &&
+                    !Utils.isBlankOrNull(applicationProperties.getClientCertFile()) &&
+                    !Utils.isBlankOrNull(applicationProperties.getClientKeyFile())) {
+
+                factory.useSslProtocol(getSSLContext(applicationProperties.getCaFile(),
+                        applicationProperties.getClientCertFile(),
+                        applicationProperties.getClientKeyFile()));
+            }
+
             connection = factory.newConnection(Executors.newFixedThreadPool(1));
 
         } catch (Exception e) {

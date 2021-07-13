@@ -70,14 +70,18 @@ public abstract class MqttPublisher {
 
 
     private MqttClient configMqttClient() {
-        String brokerAddress = String.format("tcp://%s:%s", applicationProperties.getBrokerHost(), applicationProperties.getBrokerPort()); //todo: refactor
+        boolean useSSL = !Utils.isBlankOrNull(applicationProperties.getCaFile()) && !Utils.isBlankOrNull(applicationProperties.getClientCertFile()) && !Utils.isBlankOrNull(applicationProperties.getClientKeyFile());
+        String protocol = useSSL ? "ssl" : "tcp";
+        String brokerAddress = String.format("%s://%s:%s", protocol,
+                applicationProperties.getBrokerHost(),
+                applicationProperties.getBrokerPort());
         MqttClient mqttClient = null;
         MqttConnectOptions connectionOptions = new MqttConnectOptions();
         try {
             String clientId = MqttClient.generateClientId();
             mqttClient = new MqttClient(brokerAddress, clientId, new MemoryPersistence());
             connectionOptions.setCleanSession(true);
-            connectionOptions.setMaxInflight(1000000);
+            connectionOptions.setMaxInflight(100000); //maybe limit, high number for testing
 
             if (!Utils.isBlankOrNull(applicationProperties.getBrokerUserName())) {
                 connectionOptions.setUserName(applicationProperties.getBrokerUserName());
@@ -85,8 +89,13 @@ public abstract class MqttPublisher {
             if (!Utils.isBlankOrNull(applicationProperties.getBrokerPassword())) {
                 connectionOptions.setPassword(applicationProperties.getBrokerPassword().toCharArray());
             }
-            if (!Utils.isBlankOrNull(applicationProperties.getCaFile()) && !Utils.isBlankOrNull(applicationProperties.getClientCertFile()) && !Utils.isBlankOrNull(applicationProperties.getClientCertFile())) {
-                connectionOptions.setSocketFactory(getSocketFactoryForCertificates(applicationProperties.getCaFile(), applicationProperties.getClientCertFile(), applicationProperties.getClientKeyFile()));
+            if (useSSL) {
+                connectionOptions.setSocketFactory(
+                        getSocketFactoryForCertificates(applicationProperties.getCaFile(),
+                                applicationProperties.getClientCertFile(),
+                                applicationProperties.getClientKeyFile()
+                        )
+                );
             }
 
             mqttClient.connect(connectionOptions);
