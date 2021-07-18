@@ -32,27 +32,12 @@ metadata:
   labels:
     app: water-ms
 spec:
-  type: NodePort #todo change
+  type: ClusterIP
   selector:
     app: water-ms
   ports:
     - port: 8080
       name: http
 
-
----
-
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: water-service-monitor
-  labels:
-    release: my-prom
-spec:
-  selector:
-    matchLabels:
-      app: water-ms
-  endpoints:
-    - port: http
 
 

@@ -1,0 +1,17 @@
+#kubectl cp access-result-storage:out/result.json ./result.json
+apiVersion: v1
+kind: Pod
+metadata:
+  name: access-result-storage
+spec:
+  volumes:
+    - name: result-storage
+      persistentVolumeClaim:
+        claimName: result-storage-claim
+  containers:
+    - name: alpine
+      image: alpine:latest
+      command: ['sleep', 'infinity']
+      volumeMounts:
+        - mountPath: "/out"
+          name: result-storage

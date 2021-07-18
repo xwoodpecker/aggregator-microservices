@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: humidity-aggregator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: humidity-aggregator-ms
+  template:
+    metadata:
+      labels:
+        app: humidity-aggregator-ms
+    spec:
+      containers:
+        - name: humidity-aggregator-ms
+          image: xwoodpecker/humidity-aggregator-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: humidity-aggregator-service
+  labels:
+    app: humidity-aggregator-ms
+spec:
+  type: ClusterIP
+  selector:
+    app: humidity-aggregator-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+

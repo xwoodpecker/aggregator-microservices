@@ -2,6 +2,8 @@ package de.htw.saar.smartcity.virtualization.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -12,6 +14,8 @@ import java.util.concurrent.TimeUnit;
  * The type Real temperature humidity agent.
  */
 public class RealTemperatureHumidityAgent implements IAgent{
+
+    private static final Logger log = LoggerFactory.getLogger(RealTemperatureHumidityAgent.class);
 
     /**
      * The Publisher
@@ -75,7 +79,8 @@ public class RealTemperatureHumidityAgent implements IAgent{
                 publisher.publish(temperatureSensorName, String.valueOf(temperatureHumidity.getTemperature()));
                 Thread.sleep(1000);
                 publisher.publish(humiditySensorName, String.valueOf(temperatureHumidity.getHumidity()));
-            } catch (MqttException | InterruptedException e) {
+            } catch (Exception e) {
+                log.error("Exception during publish.");
                 e.printStackTrace();
             }
         }, random.nextInt(interval), interval, TimeUnit.MILLISECONDS);

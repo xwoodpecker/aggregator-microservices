@@ -136,40 +136,40 @@ VALUES ('A', 30, '', true, 5);
 
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/temperature/sensor1', 0, 0, 1);
+VALUES ('', 'Saarbruecken', 'data/aggregator/temperature/sensor1', 0, 0, 1);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/temperature/sensor2', 0, 0, 2);
+VALUES ('', 'Moscow', 'data/aggregator/temperature/sensor2', 0, 0, 2);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/temperature/sensor3', 0, 0, 3);
+VALUES ('', 'Antarctica', 'data/aggregator/temperature/sensor3', 0, 0, 3);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/temperature/sensor4', 0, 0, 4);
+VALUES ('', 'Rome', 'data/aggregator/temperature/sensor4', 0, 0, 4);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/temperature/sensor5', 0, 0, 5);
+VALUES ('', 'New York City', 'data/aggregator/temperature/sensor5', 0, 0, 5);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/temperature/sensor6', 0, 0, 6);
+VALUES ('', 'Tokyo', 'data/aggregator/temperature/sensor6', 0, 0, 6);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/humidity/sensor1', 0, 0, 7);
+VALUES ('', 'Saarbruecken', 'data/aggregator/humidity/sensor1', 0, 0, 7);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/humidity/sensor2', 0, 0, 8);
+VALUES ('', 'Moscow', 'data/aggregator/humidity/sensor2', 0, 0, 8);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/humidity/sensor3', 0, 0, 9);
+VALUES ('', 'Antarctica', 'data/aggregator/humidity/sensor3', 0, 0, 9);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/humidity/sensor4', 0, 0, 10);
+VALUES ('', 'Rome', 'data/aggregator/humidity/sensor4', 0, 0, 10);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/humidity/sensor5', 0, 0, 11);
+VALUES ('', 'New York City', 'data/aggregator/humidity/sensor5', 0, 0, 11);
 INSERT INTO sensors
 (information, location, name, x, y, id)
-VALUES ('', '', 'data/aggregator/humidity/sensor6', 0, 0, 12);
+VALUES ('', 'Tokyo', 'data/aggregator/humidity/sensor6', 0, 0, 12);
 
 INSERT INTO `groups`
 (id, active, name, group_type_id)

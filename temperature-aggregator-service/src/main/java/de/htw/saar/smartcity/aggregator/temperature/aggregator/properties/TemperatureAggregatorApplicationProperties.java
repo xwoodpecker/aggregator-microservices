@@ -20,7 +20,7 @@ public class TemperatureAggregatorApplicationProperties extends GroupMicroservic
     }
 
     @Override
-    @Value("${TEMPERATURE_DATA_TYPE_NAME}")
+    @Value("${TEMPERATURE_SENSOR_TYPE}")
     public void setMicroserviceDataTypeName(String microserviceDataTypeName) {
         this.microserviceDataTypeName = microserviceDataTypeName;
     }

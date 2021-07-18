@@ -32,7 +32,7 @@ metadata:
   labels:
     app: temperature-aggregator-ms
 spec:
-  type: NodePort #todo change
+  type: ClusterIP
   selector:
     app: temperature-aggregator-ms
   ports:

@@ -2,6 +2,8 @@ package de.htw.saar.smartcity.virtualization.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -12,6 +14,9 @@ import java.util.concurrent.TimeUnit;
  * The type Agent.
  */
 public abstract class Agent implements IAgent {
+
+
+    private static final Logger log = LoggerFactory.getLogger(Agent.class);
 
     /**
      * The Publisher
@@ -35,6 +40,13 @@ public abstract class Agent implements IAgent {
 
     private Integer interval;
 
+    /**
+     * Instantiates a new Agent.
+     *
+     * @param publisher  the publisher
+     * @param sensorName the sensor name
+     * @param interval   the interval
+     */
     public Agent(MqttPublisher publisher, String sensorName, Integer interval){
         this.publisher = publisher;
         this.sensorName = sensorName;
@@ -50,11 +62,17 @@ public abstract class Agent implements IAgent {
         executorService.scheduleAtFixedRate(() -> {
             try {
                 publisher.publish(sensorName, String.valueOf(getNextValue()));
-            } catch (MqttException e) {
+            } catch (Exception e) {
+                log.error("Exception during publish.");
                 e.printStackTrace();
             }
         }, random.nextInt(interval), interval, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Gets next value.
+     *
+     * @return the next value
+     */
     protected abstract Object getNextValue();
 }

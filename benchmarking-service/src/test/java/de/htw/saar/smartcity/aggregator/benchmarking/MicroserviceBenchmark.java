@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.benchmarking;
 
+import de.htw.saar.smartcity.aggregator.benchmarking.base.BenchmarkingSetupDataLoader;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.benchmarking.handler.BenchmarkingRawMeasurementHandler;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
         de.htw.saar.smartcity.aggregator.benchmarking.factory.BenchmarkingMeasurementFactory.class,
         de.htw.saar.smartcity.aggregator.benchmarking.storage.BenchmarkingStorageWrapper.class,
         de.htw.saar.smartcity.aggregator.benchmarking.broker.BenchmarkingPublisher.class,
+        de.htw.saar.smartcity.aggregator.benchmarking.base.BenchmarkingSetupDataLoader.class,
         de.htw.saar.smartcity.aggregator.benchmarking.properties.BenchmarkingApplicationProperties.class,
         de.htw.saar.smartcity.aggregator.lib.service.DataTypeService.class,
         de.htw.saar.smartcity.aggregator.lib.repository.DataTypeRepository.class,
@@ -38,6 +40,13 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class MicroserviceBenchmark extends AbstractBenchmark {
+
+    private static BenchmarkingSetupDataLoader benchmarkingSetupDataLoader;
+
+    @Autowired
+    void setBenchmarkingSetupDataLoader(BenchmarkingSetupDataLoader benchmarkingSetupDataLoader) {
+        this.benchmarkingSetupDataLoader = benchmarkingSetupDataLoader;
+    }
 
     private static BenchmarkingRawMeasurementHandler benchmarkingRawMeasurementHandler;
 

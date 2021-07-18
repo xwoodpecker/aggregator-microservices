@@ -49,11 +49,11 @@ public class HeatfluxApplicationProperties extends GroupMicroserviceApplicationP
 
     private String formulaItemNameUValueDefault;
 
-    @Value("${TEMPERATURE_DATA_TYPE_NAME}")
+    @Value("${TEMPERATURE_SENSOR_TYPE}")
     public void setTemperatureDataTypeName(String temperatureDataTypeName) {
         this.temperatureDataTypeName = temperatureDataTypeName;
     }
-    @Value("${DEWPOINT_DATA_TYPE_NAME}")
+    @Value("${DEWPOINT_DATA_TYPE}")
     public void setDewpointDataTypeName(String dewpointDataTypeName) {
         this.dewpointDataTypeName = dewpointDataTypeName;
     }

@@ -39,12 +39,12 @@ public class DewpointApplicationProperties extends GroupMicroserviceApplicationP
     private String humidityDataTypeName;
 
 
-    @Value("${TEMPERATURE_DATA_TYPE_NAME}")
+    @Value("${TEMPERATURE_SENSOR_TYPE}")
     public void setTemperatureDataTypeName(String temperatureDataTypeName) {
         this.temperatureDataTypeName = temperatureDataTypeName;
     }
 
-    @Value("${HUMIDITY_DATA_TYPE_NAME}")
+    @Value("${HUMIDITY_SENSOR_TYPE}")
     public void setHumidityDataTypeName(String humidityDataTypeName) {
         this.humidityDataTypeName = humidityDataTypeName;
     }

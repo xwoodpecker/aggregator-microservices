@@ -14,7 +14,7 @@ public class HistoricTemperatureAggregatorApplicationProperties extends Historic
     }
 
     @Override
-    @Value("${TEMPERATURE_DATA_TYPE_NAME}")
+    @Value("${TEMPERATURE_SENSOR_TYPE}")
     public void setMicroserviceDataType(String microserviceDataType) {
         this.microserviceDataType = microserviceDataType;
     }

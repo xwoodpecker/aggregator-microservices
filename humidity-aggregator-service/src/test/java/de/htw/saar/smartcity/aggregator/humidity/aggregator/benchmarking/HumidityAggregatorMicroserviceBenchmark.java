@@ -1,8 +1,8 @@
-package de.htw.saar.smartcity.aggregator.temperature.aggregator;
+package de.htw.saar.smartcity.aggregator.humidity.aggregator.benchmarking;
 
-import de.htw.saar.smartcity.aggregator.temperature.aggregator.base.TemperatureAggregatorSetupDataLoader;
-import de.htw.saar.smartcity.aggregator.temperature.aggregator.handler.TemperatureAggregatorGroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
+import de.htw.saar.smartcity.aggregator.humidity.aggregator.base.HumidityAggregatorSetupDataLoader;
+import de.htw.saar.smartcity.aggregator.humidity.aggregator.handler.HumidityAggregatorGroupMeasurementHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openjdk.jmh.annotations.*;
@@ -26,11 +26,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes={
-        TemperatureAggregatorGroupMeasurementHandler.class,
-        de.htw.saar.smartcity.aggregator.temperature.aggregator.storage.TemperatureAggregatorStorageWrapper.class,
-        de.htw.saar.smartcity.aggregator.temperature.aggregator.broker.TemperatureAggregatorPublisher.class,
-        de.htw.saar.smartcity.aggregator.temperature.aggregator.base.TemperatureAggregatorSetupDataLoader.class,
-        de.htw.saar.smartcity.aggregator.temperature.aggregator.properties.TemperatureAggregatorApplicationProperties.class,
+        HumidityAggregatorGroupMeasurementHandler.class,
+        de.htw.saar.smartcity.aggregator.humidity.aggregator.storage.HumidityAggregatorStorageWrapper.class,
+        de.htw.saar.smartcity.aggregator.humidity.aggregator.broker.HumidityAggregatorPublisher.class,
+        de.htw.saar.smartcity.aggregator.humidity.aggregator.base.HumidityAggregatorSetupDataLoader.class,
+        de.htw.saar.smartcity.aggregator.humidity.aggregator.properties.HumidityAggregatorApplicationProperties.class,
         de.htw.saar.smartcity.aggregator.lib.service.DataTypeService.class,
         de.htw.saar.smartcity.aggregator.lib.repository.DataTypeRepository.class,
         de.htw.saar.smartcity.aggregator.lib.service.SensorService.class,
@@ -56,10 +56,11 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class TemperatureAggregatorMicroserviceBenchmark {
+public class HumidityAggregatorMicroserviceBenchmark {
 
-    private final static Integer WARMUP_ITERATIONS = 2;
-    private final static Integer MEASUREMENT_ITERATIONS = 4;
+    private final static Integer WARMUP_ITERATIONS = 0;
+
+    private final static Integer MEASUREMENT_ITERATIONS = 1;
 
     /**
      * Any benchmark, by extending this class, inherits this single @Test method for JUnit to run.
@@ -87,39 +88,39 @@ public class TemperatureAggregatorMicroserviceBenchmark {
         new Runner(jmhRunnerOptions).run();
     }
 
-    private static TemperatureAggregatorSetupDataLoader temperatureAggregatorSetupDataLoader;
+    private static HumidityAggregatorSetupDataLoader humidityAggregatorSetupDataLoader;
 
     @Autowired
-    void setTemperatureAggregatorSetupDataLoader(TemperatureAggregatorSetupDataLoader temperatureAggregatorSetupDataLoader) {
-        this.temperatureAggregatorSetupDataLoader = temperatureAggregatorSetupDataLoader;
+    void setHumidityAggregatorSetupDataLoader(HumidityAggregatorSetupDataLoader humidityAggregatorSetupDataLoader) {
+        this.humidityAggregatorSetupDataLoader = humidityAggregatorSetupDataLoader;
     }
 
-    private static TemperatureAggregatorGroupMeasurementHandler temperatureAggregatorGroupMeasurementHandler;
+    private static HumidityAggregatorGroupMeasurementHandler humidityAggregatorGroupMeasurementHandler;
 
-
-    private final long[] TEMPERATURE_GROUP_ID = new long[] {1L, 2L, 3L};
-    private final long[] TEMPERATURE_GROUP_1 = new long[] {1L, 2L};
-    private final long[] TEMPERATURE_GROUP_2 = new long[] {3L, 4L};
-    private final long[] TEMPERATURE_GROUP_3 = new long[] {5L, 6L};
-    private final long[][] TEMPERATURE_GROUP_MEMBERS = new long[][] {TEMPERATURE_GROUP_1, TEMPERATURE_GROUP_2, TEMPERATURE_GROUP_3};
+    //todo: this wont work copy pasted from other module :o)
+    private final long[] HUMIDITY_GROUP_ID = new long[] {1L, 2L, 3L};
+    private final long[] HUMIDITY_GROUP_1 = new long[] {1L, 2L};
+    private final long[] HUMIDITY_GROUP_2 = new long[] {3L, 4L};
+    private final long[] HUMIDITY_GROUP_3 = new long[] {5L, 6L};
+    private final long[][] HUMIDITY_GROUP_MEMBERS = new long[][] {HUMIDITY_GROUP_1, HUMIDITY_GROUP_2, HUMIDITY_GROUP_3};
 
     @Autowired
-    void setTemperatureAggregatorGroupMeasurementHandler(TemperatureAggregatorGroupMeasurementHandler temperatureAggregatorGroupMeasurementHandler) {
-        TemperatureAggregatorMicroserviceBenchmark.temperatureAggregatorGroupMeasurementHandler = temperatureAggregatorGroupMeasurementHandler;
+    void setHumidityAggregatorGroupMeasurementHandler(HumidityAggregatorGroupMeasurementHandler humidityAggregatorGroupMeasurementHandler) {
+        HumidityAggregatorMicroserviceBenchmark.humidityAggregatorGroupMeasurementHandler = humidityAggregatorGroupMeasurementHandler;
     }
 
     @Benchmark
     public void benchmarkHandle() {
-        // check if temperatureAggregatorGroupMeasurementHandler is present
-        assert(temperatureAggregatorGroupMeasurementHandler != null);
+        // check if humidityAggregatorGroupMeasurementHandler is present
+        assert(humidityAggregatorGroupMeasurementHandler != null);
 
-        Measurement<Double> temperatureMeasurement = new Measurement<>();
-        temperatureMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
-        temperatureMeasurement.setTime(LocalDateTime.now());
+        Measurement<Double> humidityMeasurement = new Measurement<>();
+        humidityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        humidityMeasurement.setTime(LocalDateTime.now());
         int pos = ThreadLocalRandom.current().nextInt(0,3);
-        temperatureAggregatorGroupMeasurementHandler.handleMeasurement(TEMPERATURE_GROUP_ID[pos], TEMPERATURE_GROUP_MEMBERS[pos][0], temperatureMeasurement);
-        temperatureMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
-        temperatureMeasurement.setTime(LocalDateTime.now());
-        temperatureAggregatorGroupMeasurementHandler.handleMeasurement(TEMPERATURE_GROUP_ID[pos], TEMPERATURE_GROUP_MEMBERS[pos][1], temperatureMeasurement);
+        humidityAggregatorGroupMeasurementHandler.handleMeasurement(HUMIDITY_GROUP_ID[pos], HUMIDITY_GROUP_MEMBERS[pos][0], humidityMeasurement);
+        humidityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        humidityMeasurement.setTime(LocalDateTime.now());
+        humidityAggregatorGroupMeasurementHandler.handleMeasurement(HUMIDITY_GROUP_ID[pos], HUMIDITY_GROUP_MEMBERS[pos][1], humidityMeasurement);
     }
 }

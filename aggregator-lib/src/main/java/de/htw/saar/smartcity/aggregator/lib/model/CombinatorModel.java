@@ -2,23 +2,23 @@ package de.htw.saar.smartcity.aggregator.lib.model;
 
 import java.util.Objects;
 
-public class CombinatorModel<T> {
+public class CombinatorModel<T, R> {
 
     private String name;
 
-    private CombinatorFunction<T> function;
+    private CombinatorFunction<T, R> function;
 
 
-    public CombinatorModel(String name, CombinatorFunction<T> function) {
+    public CombinatorModel(String name, CombinatorFunction<T, R> function) {
         this.name = name;
         this.function = function;
     }
 
-    public CombinatorFunction<T> getFunction() {
+    public CombinatorFunction<T, R> getFunction() {
         return function;
     }
 
-    public void setFunction(CombinatorFunction<T> function) {
+    public void setFunction(CombinatorFunction<T, R> function) {
         this.function = function;
     }
 
@@ -34,8 +34,8 @@ public class CombinatorModel<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CombinatorModel<?> that = (CombinatorModel<?>) o;
-        return Objects.equals(function, that.function) && Objects.equals(name, that.name);
+        CombinatorModel<?, ?> that = (CombinatorModel<?, ?>) o;
+        return Objects.equals(name, that.name) && Objects.equals(function, that.function);
     }
 
     @Override

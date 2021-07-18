@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.temperature.benchmarking;
+package de.htw.saar.smartcity.aggregator.temperatur.benchmarking;
 
 import de.htw.saar.smartcity.aggregator.temperature.base.TemperatureSetupDataLoader;
 import de.htw.saar.smartcity.aggregator.temperature.handler.TemperatureRawMeasurementHandler;
@@ -50,8 +50,9 @@ import java.util.concurrent.TimeUnit;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class TemperatureMicroserviceBenchmark  {
 
-    private final static Integer WARMUP_ITERATIONS = 2;
-    private final static Integer MEASUREMENT_ITERATIONS = 4;
+    private final static Integer WARMUP_ITERATIONS = 0;
+
+    private final static Integer MEASUREMENT_ITERATIONS = 1;
 
     /**
      * Any benchmark, by extending this class, inherits this single @Test method for JUnit to run.

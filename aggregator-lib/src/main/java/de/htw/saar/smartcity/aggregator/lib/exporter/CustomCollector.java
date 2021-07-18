@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.exporter;
 
 
+import de.htw.saar.smartcity.aggregator.lib.broker.ActivityManager;
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.properties.ExporterApplicationProperties;
@@ -25,20 +26,29 @@ public abstract class CustomCollector extends Collector {
     private final SensorService sensorService;
     private final AggregatorService aggregatorService;
 
-    private MemcachedClientWrapper memcachedClientWrapper = null;
+    private MemcachedClientWrapper memcachedClientWrapper;
 
-    public CustomCollector(ExporterApplicationProperties exporterApplicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws IOException {
+    private final ActivityManager activityManager;
+
+    public CustomCollector(ExporterApplicationProperties exporterApplicationProperties,
+                           SensorService sensorService,
+                           AggregatorService aggregatorService,
+                           ActivityManager activityManager) throws IOException {
 
         this.exporterApplicationProperties = exporterApplicationProperties;
         this.sensorService = sensorService;
         this.aggregatorService = aggregatorService;
+        this.activityManager = activityManager;
 
-            this.memcachedClientWrapper =
-                    new MemcachedClientWrapper(exporterApplicationProperties);
+        this.memcachedClientWrapper =
+                new MemcachedClientWrapper(exporterApplicationProperties);
+
     }
 
     public List<MetricFamilySamples> collect() {
 
+        log.info("Started collecting all measurements...");
+        long startTime = System.currentTimeMillis();
         List<MetricFamilySamples> mfs = new ArrayList<>();
 
         //either split by id range or by data type
@@ -70,6 +80,9 @@ public abstract class CustomCollector extends Collector {
             mfs.addAll(collectProducerGaugesByIdRange(exporterApplicationProperties.getStartWithId(), exporterApplicationProperties.getEndWithId()));
         }
 
+        long stopTime = System.currentTimeMillis();
+        this.activityManager.addTime(stopTime, stopTime - startTime);
+        log.info("Finished collecting all measurements...");
         return mfs;
     }
 

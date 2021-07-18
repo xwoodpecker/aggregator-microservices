@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicLongArray;
 public class ActivityManager {
 
     private AtomicLongArray arr;
-    //private AtomicInteger lastIndex = new AtomicInteger();
 
     public ActivityManager() {
         long[] temp = new long[60];
@@ -22,17 +21,20 @@ public class ActivityManager {
     @Scheduled(cron="* * * * * *")
     private void reset() {
         int i = (int)(System.currentTimeMillis() / 1000) % 60;
-        //System.out.println("Hello Reset i " + i + "- Time: " + LocalDateTime.now());
         arr.set(i, 0);
     }
 
     public void addTime(long now, long elapsed) {
 
         int i = (int)(now / 1000) % 60;
-        //System.out.println("Hello Reset i " + i + "- Time: " + LocalDateTime.now());
+        long seconds = elapsed / 1000;
+        long millis = elapsed % 1000;
 
-        arr.addAndGet(i, elapsed);
-        //lastIndex.set(i);
+        for(long s = 1; s <= seconds; s++) {
+            arr.addAndGet((int) (i - s), 1000);
+        }
+
+        arr.addAndGet(i, millis);
     }
 
     public double getActivity() {

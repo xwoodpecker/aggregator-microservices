@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dewpoint-ms
+  name: dewpoint-deployment
 spec:
   replicas: 1
   selector:
@@ -22,20 +22,20 @@ spec:
                 name: general-secrets
           ports:
             - containerPort: 8080
-              name: web
+              name: http
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: dewpoint-ms-service
+  name: dewpoint-service
   labels:
     app: dewpoint-ms
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: dewpoint-ms
   ports:
     - port: 8080
-      name: web
+      name: http
 

@@ -29,15 +29,13 @@
             
     <module>sensor-virtualization-service</module>
 
-    <module>9-how-to-use-jmh-with-spring-boot</module>
-
     <module>water-service</module>
 
     <module>picture-service</module>
 
     <module>historic-temperature-aggregator-service</module>
-    <module>another-benchmarking</module>
-    <module>benchmarking-temperature-service</module>
+      <module>humidity-aggregator-service</module>
+      <module>water-aggregator-service</module>
 
   </modules>
       

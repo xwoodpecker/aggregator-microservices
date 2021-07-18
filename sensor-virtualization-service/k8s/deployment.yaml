@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: virtualization-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: virtualization-ms
+  template:
+    metadata:
+      labels:
+        app: virtualization-ms
+    spec:
+      containers:
+        - name: temperature-ms
+          image: xwoodpecker/virtualization-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http

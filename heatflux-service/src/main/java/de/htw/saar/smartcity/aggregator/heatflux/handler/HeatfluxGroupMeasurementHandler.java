@@ -7,7 +7,8 @@ import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
-import de.htw.saar.smartcity.aggregator.lib.model.CombinatorFunction;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorUnaryModel;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorUnaryOperator;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModel;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
@@ -16,7 +17,6 @@ import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -94,7 +94,7 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
                 .findFirst();
 
 
-        CombinatorFunction<Double> heatFluxFunction = (gms) -> {
+        CombinatorUnaryOperator<Double> heatFluxFunction = (gms) -> {
 
             log.info("Start heatflux combinator function");
             Map<Producer, Measurement<Double>> producerMap =
@@ -137,12 +137,12 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
         };
 
         String heatFluxFunctionName = "heatflux-combinator";
-        CombinatorModel<Double> combinatorModel =
-            new CombinatorModel<>(heatFluxFunctionName, heatFluxFunction);
+        CombinatorUnaryModel<Double> combinatorModel =
+            new CombinatorUnaryModel<>(heatFluxFunctionName, heatFluxFunction);
         combinatorModels.add(combinatorModel);
 
 
-        CombinatorFunction<Double> shutterFunction = (gms) -> {
+        CombinatorUnaryOperator<Double> shutterFunction = (gms) -> {
 
             log.info("Start shutter combinator function");
 
@@ -167,8 +167,8 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
         };
 
         String shutterCombinatorName = "shutter-combinator";
-        CombinatorModel<Double> combinatorModelShutter =
-                new CombinatorModel<>(shutterCombinatorName, shutterFunction);
+        CombinatorUnaryModel<Double> combinatorModelShutter =
+                new CombinatorUnaryModel<>(shutterCombinatorName, shutterFunction);
         combinatorModels.add(combinatorModelShutter);
     }
 }

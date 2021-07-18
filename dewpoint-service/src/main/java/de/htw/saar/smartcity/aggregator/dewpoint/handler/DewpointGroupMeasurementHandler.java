@@ -5,7 +5,8 @@ import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
-import de.htw.saar.smartcity.aggregator.lib.model.CombinatorFunction;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorUnaryModel;
+import de.htw.saar.smartcity.aggregator.lib.model.CombinatorUnaryOperator;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModel;
 import de.htw.saar.smartcity.aggregator.lib.service.*;
@@ -39,7 +40,7 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
     @Override
     protected void addCombinators() {
 
-        CombinatorFunction<Double> dewpointFunction = (gms) -> {
+        CombinatorUnaryOperator<Double> dewpointFunction = (gms) -> {
 
             Map<Producer, Measurement<Double>> newMap = gms.getProducerIdMeasurementMap().entrySet()
                     .stream()
@@ -65,8 +66,8 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
         };
 
         String dewpointFunctionName = "dewpoint-combinator";
-        CombinatorModel<Double> combinatorModel =
-                new CombinatorModel<>(dewpointFunctionName, dewpointFunction);
+        CombinatorUnaryModel<Double> combinatorModel =
+                new CombinatorUnaryModel<>(dewpointFunctionName, dewpointFunction);
         combinatorModels.add(combinatorModel);
     }
 }

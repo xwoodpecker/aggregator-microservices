@@ -3,6 +3,10 @@ kind: Pod
 metadata:
   name: benchmarking-ms
 spec:
+  volumes:
+    - name: result-storage
+      persistentVolumeClaim:
+        claimName: result-storage-claim
   containers:
     - name: benchmarking-ms
       image: xwoodpecker/benchmarking-ms
@@ -11,3 +15,15 @@ spec:
             name: general-config
         - secretRef:
             name: general-secrets
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: "1000m"
+        limits:
+          memory: "512Mi"
+          cpu: "1000m"
+      volumeMounts:
+        - mountPath: "/out"
+          name: result-storage
+  restartPolicy: Never
+

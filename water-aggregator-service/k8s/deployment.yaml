@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: water-aggregator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: water-aggregator-ms
+  template:
+    metadata:
+      labels:
+        app: water-aggregator-ms
+    spec:
+      containers:
+        - name: water-aggregator-ms
+          image: xwoodpecker/water-aggregator-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: water-aggregator-service
+  labels:
+    app: water-aggregator-ms
+spec:
+  type: ClusterIP
+  selector:
+    app: water-aggregator-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+

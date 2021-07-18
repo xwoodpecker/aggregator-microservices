@@ -9,8 +9,8 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 abstract public class AbstractBenchmark {
 
-    private final static Integer WARMUP_ITERATIONS = 2;
-    private final static Integer MEASUREMENT_ITERATIONS = 4;
+    private final static Integer WARMUP_ITERATIONS = 4;
+    private final static Integer MEASUREMENT_ITERATIONS = 8;
 
     /**
      * Any benchmark, by extending this class, inherits this single @Test method for JUnit to run.

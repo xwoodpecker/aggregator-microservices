@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class WaterMicroserviceController extends ActivityMicroserviceController {
 
-    protected WaterMicroserviceController(MicroserviceApplicationProperties applicationProperties, ActivityManager activityManager) {
-        super(applicationProperties, activityManager);
+    public WaterMicroserviceController(ActivityManager activityManager) {
+        super(activityManager);
     }
 }

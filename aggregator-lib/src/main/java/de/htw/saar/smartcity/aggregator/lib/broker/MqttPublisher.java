@@ -67,7 +67,8 @@ public abstract class MqttPublisher {
         final MqttTopic mqttTopic = mqttClient.getTopic(topic);
         mqttTopic.publish(new MqttMessage(message.getBytes()));
 
-        log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + Utils.limitLoggedMsg(message,150));
+        //todo: comment in
+        //log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + Utils.limitLoggedMsg(message,150));
     }
 
 

@@ -2,7 +2,6 @@ package de.htw.saar.smartcity.aggregator.dewpoint.benchmarking;
 
 import de.htw.saar.smartcity.aggregator.dewpoint.base.DewpointSetupDataLoader;
 import de.htw.saar.smartcity.aggregator.dewpoint.handler.DewpointGroupMeasurementHandler;
-import de.htw.saar.smartcity.aggregator.humidity.base.HumiditySetupDataLoader;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +18,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -60,8 +58,9 @@ import java.util.concurrent.TimeUnit;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class DewpointMicroserviceBenchmark {
 
-    private final static Integer WARMUP_ITERATIONS = 2;
-    private final static Integer MEASUREMENT_ITERATIONS = 4;
+    private final static Integer WARMUP_ITERATIONS = 0;
+
+    private final static Integer MEASUREMENT_ITERATIONS = 1;
 
     /**
      * Any benchmark, by extending this class, inherits this single @Test method for JUnit to run.
