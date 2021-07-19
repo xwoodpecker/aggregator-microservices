@@ -1,12 +1,14 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: water-service-monitor
+  name: microservice-monitor
   labels:
     release: my-prom
 spec:
+  namespaceSelector:
+    any: true
   selector:
     matchLabels:
-      app: water-ms
+      monitoring: "true"
   endpoints:
     - port: http

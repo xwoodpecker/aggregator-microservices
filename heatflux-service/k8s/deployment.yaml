@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: heatflux-ms
+  name: heatflux-deployment
 spec:
   replicas: 1
   selector:
@@ -31,6 +31,7 @@ metadata:
   name: heatflux-ms-service
   labels:
     app: heatflux-ms
+    monitoring: "true"
 spec:
   type: ClusterIP
   selector:

@@ -31,6 +31,7 @@ metadata:
   name: humidity-aggregator-service
   labels:
     app: humidity-aggregator-ms
+    monitoring: "true"
 spec:
   type: ClusterIP
   selector:

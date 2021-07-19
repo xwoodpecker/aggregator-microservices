@@ -1,18 +1,3 @@
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: humidity-aggregator-service-monitor
-  labels:
-    release: my-prom
-spec:
-  selector:
-    matchLabels:
-      app: humidity-aggregator-ms
-  endpoints:
-    - port: http
-
----
-
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:

@@ -1,7 +1,6 @@
 package de.htw.saar.smartcity.virtualization.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,9 +12,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * The type Real temperature humidity agent.
  */
-public class RealTemperatureHumidityAgent implements IAgent{
+public class RealWeatherAgent implements IAgent{
 
-    private static final Logger log = LoggerFactory.getLogger(RealTemperatureHumidityAgent.class);
+    private static final Logger log = LoggerFactory.getLogger(RealWeatherAgent.class);
 
     /**
      * The Publisher
@@ -25,12 +24,18 @@ public class RealTemperatureHumidityAgent implements IAgent{
     /**
      * The Temperature sensor name.
      */
-    private String temperatureSensorName;
+    private final String temperatureSensorName;
 
     /**
      * The Humidity sensor name.
      */
-    private String humiditySensorName;
+    private final String humiditySensorName;
+
+
+    /**
+     * The Water sensor name.
+     */
+    private final String waterSensorName;
 
     /**
      * The Random.
@@ -56,13 +61,21 @@ public class RealTemperatureHumidityAgent implements IAgent{
      * @param publisher             the publisher
      * @param temperatureSensorName the temperature sensor name
      * @param humiditySensorName    the humidity sensor name
+     * @param waterSensorName       the water sensor name
      * @param interval              the interval
      * @param cityId                the city id
      */
-    public RealTemperatureHumidityAgent(MqttPublisher publisher, String temperatureSensorName, String humiditySensorName, Integer interval, Integer cityId) {
+    public RealWeatherAgent(MqttPublisher publisher,
+                            String temperatureSensorName,
+                            String humiditySensorName,
+                            String waterSensorName,
+                            Integer interval,
+                            Integer cityId) {
+
         this.publisher = publisher;
         this.temperatureSensorName = temperatureSensorName;
         this.humiditySensorName = humiditySensorName;
+        this.waterSensorName = waterSensorName;
         this.interval =  interval;
         this.cityId = cityId;
         this.random = new Random();
@@ -75,10 +88,12 @@ public class RealTemperatureHumidityAgent implements IAgent{
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             try {
-                TemperatureHumidity temperatureHumidity = OpenWeatherAPIWrapper.getTemperatureHumidity(cityId);
-                publisher.publish(temperatureSensorName, String.valueOf(temperatureHumidity.getTemperature()));
-                Thread.sleep(1000);
-                publisher.publish(humiditySensorName, String.valueOf(temperatureHumidity.getHumidity()));
+                WeatherData weatherData = OpenWeatherAPIWrapper.getTemperatureHumidity(cityId);
+                publisher.publish(temperatureSensorName, String.valueOf(weatherData.getTemperature()));
+                Thread.sleep(random.nextInt(2000));
+                publisher.publish(humiditySensorName, String.valueOf(weatherData.getHumidity()));
+                Thread.sleep(random.nextInt(2000));
+                publisher.publish(waterSensorName, String.valueOf(weatherData.getRainy()));
             } catch (Exception e) {
                 log.error("Exception during publish.");
                 e.printStackTrace();

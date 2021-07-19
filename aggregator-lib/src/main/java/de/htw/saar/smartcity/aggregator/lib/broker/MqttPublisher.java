@@ -2,28 +2,12 @@ package de.htw.saar.smartcity.aggregator.lib.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.security.KeyFactory;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.Security;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.Base64;
+import javax.annotation.PostConstruct;
 
 public abstract class MqttPublisher {
 
@@ -45,13 +29,13 @@ public abstract class MqttPublisher {
         this.applicationProperties = applicationProperties;
 
         this.mqttClient = configMqttClient();
-        this.start();
     }
 
 
     /**
      * start the Publisher routine
      */
+    @PostConstruct
     protected abstract void start();
 
 
@@ -67,8 +51,7 @@ public abstract class MqttPublisher {
         final MqttTopic mqttTopic = mqttClient.getTopic(topic);
         mqttTopic.publish(new MqttMessage(message.getBytes()));
 
-        //todo: comment in
-        //log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + Utils.limitLoggedMsg(message,150));
+        log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + Utils.limitLoggedMsg(message,150));
     }
 
 

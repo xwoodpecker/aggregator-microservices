@@ -24,12 +24,14 @@ spec:
             - containerPort: 8080
               name: http
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: temperature-service
   labels:
     app: temperature-ms
+    monitoring: "true"
 spec:
   type: ClusterIP
   selector:

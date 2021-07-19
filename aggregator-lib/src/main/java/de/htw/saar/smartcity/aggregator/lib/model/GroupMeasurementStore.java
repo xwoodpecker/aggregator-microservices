@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.HashMap;
 
-//Todo: check if ids or objects
 public class GroupMeasurementStore<T> implements Serializable {
 
     private Long groupId;

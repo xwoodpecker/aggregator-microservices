@@ -8,6 +8,7 @@ import de.htw.saar.smartcity.aggregator.lib.properties.ExporterApplicationProper
 import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import de.htw.saar.smartcity.aggregator.lib.storage.MemcachedClientWrapper;
+import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 import org.slf4j.Logger;
@@ -130,7 +131,7 @@ public abstract class CustomCollector extends Collector {
 
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
-        Map<String, Double> objects = getObjectsForKeys(sensors.stream().map(Sensor::getName).collect(Collectors.toList()));
+        Map<String, Object> objects = getObjectsForKeys(sensors.stream().map(Sensor::getName).collect(Collectors.toList()));
         sensors.removeIf(s -> ! objects.containsKey(s.getName()));
         Map<String, List<Sensor>> byDataTypeName = sensors.stream().collect(Collectors.groupingBy(s -> s.getDataType().getName()));
 
@@ -142,7 +143,12 @@ public abstract class CustomCollector extends Collector {
 
             for (Sensor sensor : byDataTypeName.get(dtName)) {
 
-                labeledGauge.addMetric(Arrays.asList(dtName, sensor.getName()), objects.get(sensor.getName()));
+
+                Double value = Utils.convertToDouble(objects.get(sensor.getName()));
+
+                if(value != null) {
+                    labeledGauge.addMetric(Arrays.asList(dtName, sensor.getName()), value);
+                }
             }
 
             gauges.add(labeledGauge);
@@ -177,7 +183,7 @@ public abstract class CustomCollector extends Collector {
 
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
-        Map<String, Double> objects = getObjectsForKeys(aggregators.stream()
+        Map<String, Object> objects = getObjectsForKeys(aggregators.stream()
                 .map(a -> a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()).collect(Collectors.toList()));
         aggregators.removeIf(a -> ! objects.containsKey(a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()));
         Map<String, List<Aggregator>> byDataTypeName = aggregators.stream().collect(Collectors.groupingBy(a -> a.getDataType().getName()));
@@ -190,11 +196,17 @@ public abstract class CustomCollector extends Collector {
 
             for (Aggregator aggregator : byDataTypeName.get(dtName)) {
 
-                labeledGauge.addMetric(Arrays.asList(
-                        aggregator.getOwnerGroup().getName(),
-                        aggregator.getDataType().getName(),
-                        aggregator.getCombinator().getName()),
+                Double value = Utils.convertToDouble(
                         objects.get(aggregator.getOwnerGroup().getName() + "/" + aggregator.getCombinator().getName()));
+
+                if(value != null) {
+                    labeledGauge.addMetric(Arrays.asList(
+                            aggregator.getOwnerGroup().getName(),
+                            aggregator.getDataType().getName(),
+                            aggregator.getCombinator().getName()),
+                            value
+                            );
+                }
             }
 
             gauges.add(labeledGauge);
@@ -203,9 +215,9 @@ public abstract class CustomCollector extends Collector {
     }
 
 
-    private Map<String, Double> getObjectsForKeys(List<String> keys) {
+    private Map<String, Object> getObjectsForKeys(List<String> keys) {
 
-        Map<String, Double> objects = null;
+        Map<String, Object> objects = null;
         if(memcachedClientWrapper != null) {
 
             objects = memcachedClientWrapper.getObjects(keys);

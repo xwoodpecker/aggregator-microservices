@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: temperature-aggregator-hpa
+  name: water-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: temperature-aggregator-deployment
+    name: water-deployment
   minReplicas: 1
   maxReplicas: 10
   metrics:

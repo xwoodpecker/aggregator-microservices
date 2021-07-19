@@ -1,17 +1,20 @@
 package de.htw.saar.smartcity.virtualization.broker;
 
-public class TemperatureHumidity {
+public class WeatherData {
 
     private Double temperature;
 
     private Double humidity;
 
-    public TemperatureHumidity() {
+    private Boolean rainy;
+
+    public WeatherData() {
     }
 
-    public TemperatureHumidity(Double temperature, Double humidity) {
+    public WeatherData(Double temperature, Double humidity, Boolean rainy) {
         this.temperature = temperature;
         this.humidity = humidity;
+        this.rainy = rainy;
     }
 
     public Double getTemperature() {
@@ -28,5 +31,13 @@ public class TemperatureHumidity {
 
     public void setHumidity(Double humidity) {
         this.humidity = humidity;
+    }
+
+    public Boolean getRainy() {
+        return rainy;
+    }
+
+    public void setRainy(Boolean rainy) {
+        this.rainy = rainy;
     }
 }

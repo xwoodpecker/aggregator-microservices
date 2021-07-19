@@ -26,15 +26,15 @@ public class ActivityManager {
 
     public void addTime(long now, long elapsed) {
 
-        int i = (int)(now / 1000) % 60;
+        long i = now / 1000;
         long seconds = elapsed / 1000;
         long millis = elapsed % 1000;
 
         for(long s = 1; s <= seconds; s++) {
-            arr.addAndGet((int) (i - s), 1000);
+            arr.addAndGet((int) (i - s) % 60, 1000);
         }
 
-        arr.addAndGet(i, millis);
+        arr.addAndGet((int) i % 60, millis);
     }
 
     public double getActivity() {

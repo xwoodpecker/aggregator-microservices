@@ -17,4 +17,21 @@ public final class Utils {
         }
         return limited;
     }
+
+    public static Double convertToDouble(Object o) {
+        Double val = null;
+        if (o instanceof Number) {
+            val = ((Number) o).doubleValue();
+        }
+        if(o instanceof Boolean) {
+            val = ((Boolean) o) ? 1.0 : 0.0;
+        }
+        try {
+            if (o instanceof String) {
+                val = Double.valueOf((String) o);
+            }
+        } catch (NumberFormatException nfe) { }
+
+        return val;
+    }
 }
