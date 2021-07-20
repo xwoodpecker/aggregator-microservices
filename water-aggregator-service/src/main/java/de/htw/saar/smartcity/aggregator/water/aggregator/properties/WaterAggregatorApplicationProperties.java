@@ -20,7 +20,7 @@ public class WaterAggregatorApplicationProperties extends GroupMicroserviceAppli
     }
 
     @Override
-    @Value("${WATER_SENSOR_TYPE}")
+    @Value("${WATER_AGGREGATOR_MICROSERVICE_DATA_TYPE_NAME}")
     public void setMicroserviceDataTypeName(String microserviceDataTypeName) {
         this.microserviceDataTypeName = microserviceDataTypeName;
     }

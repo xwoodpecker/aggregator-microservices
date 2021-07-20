@@ -29,16 +29,17 @@ public abstract class GroupReceiver extends Receiver {
 
     void processMessage(String routingKey, String message) {
 
+
         String[] parts = routingKey.split("\\.");
         if (parts != null & parts.length == 3) {
 
-            InputStream is;
-            Measurement measurement;
 
+            Measurement measurement;
             try {
-                is = URI.create(message).toURL().openConnection().getInputStream();
-                ObjectMapper objectMapper = new ObjectMapper();
-                measurement = objectMapper.readValue(is.readAllBytes(), Measurement.class);
+                try (InputStream is = URI.create(message).toURL().openConnection().getInputStream()) {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    measurement = objectMapper.readValue(is.readAllBytes(), Measurement.class);
+                }
 
             } catch (IOException ex) {
                 log.error("Could not read measurement from given URL");
