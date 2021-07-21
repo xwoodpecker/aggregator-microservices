@@ -3,6 +3,8 @@ package de.htw.saar.smartcity.virtualization.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
 import de.htw.saar.smartcity.virtualization.properties.VirtualizationApplicationProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,6 +13,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class MqttPublisherImpl extends MqttPublisher {
+
+
+    private static final Logger log = LoggerFactory.getLogger(MqttPublisherImpl.class);
 
     private final static String PREFIX = "data/aggregator";
     private final static String TEMPERATURE_PREFIX = PREFIX + "/temperature";
@@ -53,7 +58,8 @@ public class MqttPublisherImpl extends MqttPublisher {
             agents.forEach(IAgent::start);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception during agent execution!");
+            //e.printStackTrace();
         }
     }
 }

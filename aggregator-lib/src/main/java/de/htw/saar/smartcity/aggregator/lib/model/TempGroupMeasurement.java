@@ -36,6 +36,7 @@ public class TempGroupMeasurement implements Serializable {
         return combinatorModel.getName();
     }
 
+    @JsonIgnore
     public CombinatorModel getGroupCombinator() {
         return combinatorModel;
     }
@@ -77,7 +78,6 @@ public class TempGroupMeasurement implements Serializable {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("TempGroupMeasurement{");
-        sb.append("groupCombinator=").append(combinatorModel);
         sb.append(", maximumSize=").append(maximumSize);
         sb.append(", groupMeasurementStore=").append(groupMeasurementStore);
         sb.append('}');

@@ -95,8 +95,8 @@ public class RealWeatherAgent implements IAgent{
                 Thread.sleep(random.nextInt(2000));
                 publisher.publish(waterSensorName, String.valueOf(weatherData.getRainy()));
             } catch (Exception e) {
-                log.error("Exception during publish.");
-                e.printStackTrace();
+                log.error("Exception during publish of RealWeather.");
+                //e.printStackTrace();
             }
         }, random.nextInt(interval), interval, TimeUnit.MILLISECONDS);
     }

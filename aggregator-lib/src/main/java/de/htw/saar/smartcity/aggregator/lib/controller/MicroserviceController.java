@@ -5,7 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.http.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +20,8 @@ import java.net.URI;
 
 @Deprecated
 public abstract class MicroserviceController {
+
+    private static final Logger log = LoggerFactory.getLogger(MicroserviceController.class);
 
     private final MicroserviceApplicationProperties applicationProperties;
 
@@ -46,7 +53,7 @@ public abstract class MicroserviceController {
             base64String = Base64.encodeBase64String(credentials.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
             //should never occur!
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         HttpHeaders headers = new HttpHeaders();
@@ -68,7 +75,8 @@ public abstract class MicroserviceController {
             return messageCount;
 
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error("JSON could not be processed. Malformed!");
+            //e.printStackTrace();
         }
 
         return 0;

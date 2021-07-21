@@ -2,7 +2,6 @@ package de.htw.saar.smartcity.aggregator.lib.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.base.Constants;
 import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperties;
-import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +20,7 @@ public abstract class Publisher extends BrokerConnection {
             channel.basicPublish(Constants.GROUP_EXCHANGE, routingKey, null, message.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             log.error("Error during publish on group_exchange");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

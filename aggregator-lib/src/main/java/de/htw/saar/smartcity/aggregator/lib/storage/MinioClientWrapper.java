@@ -66,7 +66,7 @@ public class MinioClientWrapper {
 
         } catch (Exception e){
             log.error("Url generation failed.");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         log.info("Url to object: " + url);
 
@@ -92,7 +92,7 @@ public class MinioClientWrapper {
 
         } catch (Exception e){
             log.error("Upload to object store failed.");
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         }
         log.info("Upload to object store successful: " + o);
@@ -120,7 +120,7 @@ public class MinioClientWrapper {
 
         } catch (Exception e) {
             log.error("GetObject from object store failed.");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         log.info("GetObject from object store: " + object);
         return object;
@@ -142,7 +142,7 @@ public class MinioClientWrapper {
 
         } catch (Exception e) {
             log.error("DeleteObject from object store failed.");
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         }
         log.info("DeleteObject from object store: " + name);

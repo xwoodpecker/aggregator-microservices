@@ -54,61 +54,62 @@ public abstract class RawMeasurementHandler {
 
         log.info("Message arrived for sensor " + sensorName + " Measurement: " + loggedMeasurement);
 
-        Sensor sensor = storageWrapper.getSensor(sensorName);
 
-        if(sensor == null) {
-
-            sensor = new Sensor();
-            sensor.setName(sensorName);
-            sensor.setObjectStorePath(sensorName);
-            String dataTypeName = rawMicroserviceApplicationProperties.getMicroServiceDataType();
-            DataType dataType = dataTypeService.findDataTypeByName(dataTypeName);
-            sensor.setDataType(dataType);
-            sensor.setExportAsMetric(rawMicroserviceApplicationProperties.getExportSensorDataAsMetric());
-            storageWrapper.putSensor(sensor);
-            log.info("Sensor saved");
-        }
-
-        String path = sensor.getObjectStorePath();
-        if(Utils.isBlankOrNull(path)) {
-            path = sensorName;
-            sensor.setObjectStorePath(path);
-            storageWrapper.putSensor(sensor);
-            log.info("Sensor updated - ObjectStorePath set");
-        }
-
-
-        Measurement m;
         try {
-             m = measurementFactory.create(measurement);
+            Sensor sensor = storageWrapper.getSensor(sensorName);
+
+            if(sensor == null) {
+
+                sensor = new Sensor();
+                sensor.setName(sensorName);
+                sensor.setObjectStorePath(sensorName);
+                String dataTypeName = rawMicroserviceApplicationProperties.getMicroServiceDataType();
+                DataType dataType = dataTypeService.findDataTypeByName(dataTypeName);
+                sensor.setDataType(dataType);
+                sensor.setExportAsMetric(rawMicroserviceApplicationProperties.getExportSensorDataAsMetric());
+                storageWrapper.putSensor(sensor);
+                log.info("Sensor saved");
+            }
+
+            String path = sensor.getObjectStorePath();
+            if(Utils.isBlankOrNull(path)) {
+                path = sensorName;
+                sensor.setObjectStorePath(path);
+                storageWrapper.putSensor(sensor);
+                log.info("Sensor updated - ObjectStorePath set");
+            }
+
+            Measurement m = measurementFactory.create(measurement);
+
+            final Long sensorId = sensor.getId();
+
+            final String objName = storageWrapper.putMeasurement(path, m);
+
+            if(sensor.getExportAsMetric())
+                storageWrapper.cacheMeasurement(path, m);
+
+            if(objName != null) {
+
+                List<Group> activeGroups = sensor.getGroups().stream().filter(g -> g.getActive()).collect(Collectors.toList());
+
+                if (activeGroups.size() > 0) {
+
+                    final String url = storageWrapper.getPresignedObjectUrl(objName);
+                    activeGroups.forEach(
+                            g -> publisher.publish(
+                                    String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), sensorId),
+                                    url
+                            )
+                    );
+                }
+            }
 
         } catch (MeasurementException me) {
-
             log.error("Measurement was malformed. Processing aborted.");
-            return;
-        }
 
-        final Long sensorId = sensor.getId();
-
-        final String objName = storageWrapper.putMeasurement(path, m);
-
-        if(sensor.getExportAsMetric())
-            storageWrapper.cacheMeasurement(path, m);
-
-        if(objName != null) {
-
-            List<Group> activeGroups = sensor.getGroups().stream().filter(g -> g.getActive()).collect(Collectors.toList());
-
-            if (activeGroups.size() > 0) {
-
-                final String url = storageWrapper.getPresignedObjectUrl(objName);
-                activeGroups.forEach(
-                        g -> publisher.publish(
-                                String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), sensorId),
-                                url
-                        )
-                );
-            }
+        } catch(Exception e) {
+            log.error("Unknown exception occurred.");
+            //e.printStackTrace();
         }
 
     }

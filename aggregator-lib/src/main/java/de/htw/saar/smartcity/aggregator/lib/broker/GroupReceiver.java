@@ -55,9 +55,6 @@ public abstract class GroupReceiver extends Receiver {
             } catch (NumberFormatException e) {
                 log.error("URL not published with the correct routing key");
 
-            } catch (Exception e) {
-                log.error("Error during consumption of measurement");
-                e.printStackTrace();
             }
 
         } else {

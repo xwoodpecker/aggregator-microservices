@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
+import de.htw.saar.smartcity.aggregator.lib.base.Constants;
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
@@ -10,12 +11,9 @@ import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
 
 public abstract class StorageWrapper {
-
-    private static final String SENSOR_INFO_FILENAME = "sensor-info";
 
     private static final Logger log = LoggerFactory.getLogger(StorageWrapper.class);
 
@@ -66,7 +64,7 @@ public abstract class StorageWrapper {
 
         if(memcachedClientWrapper!= null) {
 
-            return memcachedClientWrapper.putObject(key, m.getValue());
+            return memcachedClientWrapper.putObject(Constants.MEMCACHED_MEASUREMENT_PREFIX + key, m.getValue());
         }
         else {
             log.warn("No memcached connection established! Caching will be skipped.");
@@ -90,25 +88,19 @@ public abstract class StorageWrapper {
 
     public boolean putTempGroupMeasurement(String groupName, TempGroupMeasurement tempGroupMeasurement) {
 
-        String name = groupName + "/temp";
-
-        return minioClientWrapper.putObject(tempGroupMeasurement, name);
+        return memcachedClientWrapper.putObject(Constants.MEMCACHED_TEMPORARY_PREFIX + groupName, tempGroupMeasurement);
 
     }
 
     public TempGroupMeasurement getTempGroupMeasurement(String groupName) {
 
-        String name = groupName + "/temp";
-
-        return minioClientWrapper.getObject(name, TempGroupMeasurement.class);
+        return memcachedClientWrapper.getObject(Constants.MEMCACHED_TEMPORARY_PREFIX + groupName);
 
     }
 
     public void deleteTempGroupMeasurement(String groupName) {
 
-        String name = groupName + "/temp";
-
-        minioClientWrapper.deleteObject(name);
+        memcachedClientWrapper.deleteObject(Constants.MEMCACHED_TEMPORARY_PREFIX + groupName);
     }
 
     public String getPresignedObjectUrl(String objName) {

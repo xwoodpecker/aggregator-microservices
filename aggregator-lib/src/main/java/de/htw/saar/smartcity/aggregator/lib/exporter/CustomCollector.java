@@ -1,6 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.exporter;
 
 
+import de.htw.saar.smartcity.aggregator.lib.base.Constants;
 import de.htw.saar.smartcity.aggregator.lib.broker.ActivityManager;
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
@@ -137,17 +138,23 @@ public abstract class CustomCollector extends Collector {
 
         GaugeMetricFamily labeledGauge
                 = new GaugeMetricFamily("sensor_measurement", "gauge for all sensors ",
-                Arrays.asList("datatype", "sensorname"));
+                Arrays.asList("datatype", "sensorname", "location", "x", "y"));
 
-        for(String dtName : byDataTypeName.keySet()) {
+        for(String dataTypeName : byDataTypeName.keySet()) {
 
-            for (Sensor sensor : byDataTypeName.get(dtName)) {
-
+            for (Sensor sensor : byDataTypeName.get(dataTypeName)) {
 
                 Double value = Utils.convertToDouble(objects.get(sensor.getName()));
 
                 if(value != null) {
-                    labeledGauge.addMetric(Arrays.asList(dtName, sensor.getName()), value);
+                    labeledGauge.addMetric(
+                            Arrays.asList(dataTypeName,
+                                    sensor.getName(),
+                                    sensor.getLocation(),
+                                    sensor.getX().toString(),
+                                    sensor.getY().toString()),
+                            value
+                    );
                 }
             }
 
@@ -192,9 +199,9 @@ public abstract class CustomCollector extends Collector {
                 = new GaugeMetricFamily("group_measurement", "gauge for all groups ",
                 Arrays.asList("group", "datatype", "combinator"));
 
-        for(String dtName : byDataTypeName.keySet()) {
+        for(String dataTypeName : byDataTypeName.keySet()) {
 
-            for (Aggregator aggregator : byDataTypeName.get(dtName)) {
+            for (Aggregator aggregator : byDataTypeName.get(dataTypeName)) {
 
                 Double value = Utils.convertToDouble(
                         objects.get(aggregator.getOwnerGroup().getName() + "/" + aggregator.getCombinator().getName()));
@@ -220,7 +227,12 @@ public abstract class CustomCollector extends Collector {
         Map<String, Object> objects = null;
         if(memcachedClientWrapper != null) {
 
-            objects = memcachedClientWrapper.getObjects(keys);
+
+            objects = memcachedClientWrapper.getObjects(
+                    keys.stream()
+                            .map(k -> Constants.MEMCACHED_MEASUREMENT_PREFIX + k)
+                            .collect(Collectors.toList())
+            );
         }
         else {
             log.error("No connection to memcached server - Can not access cache!!");

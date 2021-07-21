@@ -37,7 +37,7 @@ public class MemcachedClientWrapper {
             result = mcc.set(key, Constants.MEMCACHED_EXPIRATION, o);
         } catch (Exception e){
             log.error("Caching failed.");
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         }
         log.info("Caching Successful for key " + key + ": " + o);
@@ -52,10 +52,23 @@ public class MemcachedClientWrapper {
             obj = mcc.get(key);
         } catch (Exception e){
             log.error("Retrieving cached object failed.");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         log.info("Retrieved cached object successfully: " + obj);
         return obj;
+    }
+
+    public boolean deleteObject(String key) {
+
+        boolean deleted = false;
+        try {
+            deleted = mcc.delete(key);
+        } catch (Exception e){
+            log.error("Deleting cached object failed.");
+            //e.printStackTrace();
+        }
+        log.info("Deleting cached object successfully.");
+        return deleted;
     }
 
     public <T> Map<String, T> getObjects(Collection<String> keys) {
@@ -65,9 +78,13 @@ public class MemcachedClientWrapper {
             map = mcc.get(keys);
         } catch (Exception e){
             log.error("Retrieving cached object failed.");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         log.info(Utils.limitLoggedMsg("Retrieved cached objects successfully: " + map, 300));
         return map;
     }
+
+
+
+
 }

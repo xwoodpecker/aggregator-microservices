@@ -67,7 +67,7 @@ public final class OpenWeatherAPIWrapper {
 
         } catch (JsonProcessingException e) {
             log.error("Could not process weather data.");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }

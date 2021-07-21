@@ -83,90 +83,90 @@ public abstract class GroupMeasurementHandler {
 
     public void handleMeasurement(Long groupId, Long producerId, Measurement measurement) {
 
-        final Optional<Group> optGroup = groupService.findGroupById(groupId);
-        final Optional<Producer> optProducer = producerService.findProducerById(producerId);
+        String groupName = null;
+        try {
+            final Optional<Group> optGroup = groupService.findGroupById(groupId);
+            final Optional<Producer> optProducer = producerService.findProducerById(producerId);
 
-        if(optGroup.isPresent() && optProducer.isPresent()) {
-            
+            if (optGroup.isPresent() && optProducer.isPresent()) {
 
-            final Group group = optGroup.get();
-            String groupName = group.getName();
 
-            log.info("Measurement arrived for group " + groupName + " Measurement: " + measurement);
+                final Group group = optGroup.get();
+                groupName = group.getName();
 
-            TempGroupMeasurement tempGroupMeasurement = storageWrapper.getTempGroupMeasurement(groupName);
+                log.info("Measurement arrived for group " + groupName + " Measurement: " + measurement);
 
-            if (tempGroupMeasurement == null) {
-                tempGroupMeasurement = new TempGroupMeasurement(group.getProducers().size(), groupId);
-            }
+                TempGroupMeasurement tempGroupMeasurement = storageWrapper.getTempGroupMeasurement(groupName);
 
-            tempGroupMeasurement.putGroupMeasurementStoreMeasurement(producerId, measurement);
+                if (tempGroupMeasurement == null) {
+                    tempGroupMeasurement = new TempGroupMeasurement(group.getProducers().size(), groupId);
+                }
 
-            if(tempGroupMeasurement.ready()) {
+                tempGroupMeasurement.putGroupMeasurementStoreMeasurement(producerId, measurement);
 
-               for (Aggregator aggregator : group.getAggregators()) {
+                if (tempGroupMeasurement.ready()) {
 
-                    if (aggregator.getCombinator() != null) {
+                    for (Aggregator aggregator : group.getAggregators()) {
 
-                        Optional<CombinatorModel> optGroupCombinator = combinatorModels.stream()
-                                .filter(c -> c.getName().equals(aggregator.getCombinator().getName()))
-                                .findFirst();
+                        if (aggregator.getCombinator() != null) {
 
-                        if (optGroupCombinator.isPresent()) {
+                            Optional<CombinatorModel> optGroupCombinator = combinatorModels.stream()
+                                    .filter(c -> c.getName().equals(aggregator.getCombinator().getName()))
+                                    .findFirst();
 
-                            tempGroupMeasurement.setGroupCombinator(optGroupCombinator.get());
+                            if (optGroupCombinator.isPresent()) {
 
-                            Measurement m;
-                            try {
-                                m = tempGroupMeasurement.combine();
+                                tempGroupMeasurement.setGroupCombinator(optGroupCombinator.get());
 
-                            } catch (MeasurementException me) {
+                                Measurement m = tempGroupMeasurement.combine();
 
-                                log.error("Measurement could not be combined. Temp will be deleted...");
-                                storageWrapper.deleteTempGroupMeasurement(groupName);
-                                return;
-                            }
+                                String path = aggregator.getObjectStorePath();
+                                if (Utils.isBlankOrNull(path)) {
+                                    path = groupName + "/" + tempGroupMeasurement.getAggregateName();
+                                    aggregator.setObjectStorePath(path);
+                                    storageWrapper.putAggregator(aggregator);
+                                    log.info("Aggregator updated - ObjectStorePath set");
+                                }
 
-                            String path = aggregator.getObjectStorePath();
-                            if(Utils.isBlankOrNull(path)) {
-                                path = groupName + "/" + tempGroupMeasurement.getAggregateName();
-                                aggregator.setObjectStorePath(path);
-                                storageWrapper.putAggregator(aggregator);
-                                log.info("Aggregator updated - ObjectStorePath set");
-                            }
+                                final String objName = storageWrapper.putMeasurement(path, m);
 
-                            final String objName = storageWrapper.putMeasurement(path, m);
+                                if (aggregator.getExportAsMetric())
+                                    storageWrapper.cacheMeasurement(path, m);
 
-                            if(aggregator.getExportAsMetric())
-                                storageWrapper.cacheMeasurement(path, m);
+                                if (objName != null) {
 
-                            if(objName != null) {
+                                    List<Group> activeGroups = aggregator.getGroups().stream().filter(g -> g.getActive()).collect(Collectors.toList());
 
-                                List<Group> activeGroups = aggregator.getGroups().stream().filter(g -> g.getActive()).collect(Collectors.toList());
+                                    if (activeGroups.size() > 0) {
 
-                                if (activeGroups.size() > 0) {
-
-                                    final String url = storageWrapper.getPresignedObjectUrl(objName);
-                                    activeGroups.forEach(
-                                            g -> publisher.publish(
-                                                    String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), aggregator.getId()),
-                                                    url
-                                            )
-                                    );
+                                        final String url = storageWrapper.getPresignedObjectUrl(objName);
+                                        activeGroups.forEach(
+                                                g -> publisher.publish(
+                                                        String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), aggregator.getId()),
+                                                        url
+                                                )
+                                        );
+                                    }
                                 }
                             }
                         }
                     }
-               }
+                    storageWrapper.deleteTempGroupMeasurement(groupName);
+                } else {
 
+                    storageWrapper.putTempGroupMeasurement(groupName, tempGroupMeasurement);
+                }
+            }
+        } catch (MeasurementException me) {
+            log.error("Measurement could not be combined. Temp will be deleted...");
+
+            if(groupName != null)
                 storageWrapper.deleteTempGroupMeasurement(groupName);
-            }
-            else {
 
-                storageWrapper.putTempGroupMeasurement(groupName, tempGroupMeasurement);
-            }
+        } catch (Exception e) {
+            log.error("Unknown exception occurred.");
+            //e.printStackTrace();
+
         }
     }
-
-
 }
