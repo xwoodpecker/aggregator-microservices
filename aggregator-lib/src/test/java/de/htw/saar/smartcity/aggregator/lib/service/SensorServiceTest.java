@@ -1,8 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
-import de.htw.saar.smartcity.aggregator.lib.entity.*;
+import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
+import de.htw.saar.smartcity.aggregator.lib.entity.Location;
+import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.exception.SensorNameAlreadyInUseException;
-import de.htw.saar.smartcity.aggregator.lib.exception.TagNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.SensorRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -50,9 +51,12 @@ class SensorServiceTest {
         sensor.setDataType(dataType);
         sensor.setObjectStorePath("test/path1");
         sensor.setExportAsMetric(true);
-        sensor.setLocation("here");
-        sensor.setX(12.0);
-        sensor.setY(15.0);
+        Location l1 = new Location();
+        l1.setId(1L);
+        l1.setName("here");
+        l1.setX(2.0);
+        l1.setY(5.0);
+        sensor.setLocation(l1);
         sensor.setInformation("some infos");
         sensor.setGroups(new ArrayList<>());
         sensor.setTags(new ArrayList<>());
@@ -64,9 +68,12 @@ class SensorServiceTest {
         s.setDataType(dataType);
         s.setObjectStorePath("test/path2");
         s.setExportAsMetric(false);
-        s.setLocation("here");
-        s.setX(2.0);
-        s.setY(5.0);
+        Location l2 = new Location();
+        l2.setId(1L);
+        l2.setName("there");
+        l2.setX(12.0);
+        l2.setY(15.0);
+        s.setLocation(l2);
         s.setInformation("other infos");
         s.setGroups(new ArrayList<>());
         s.setTags(new ArrayList<>());
@@ -92,8 +99,6 @@ class SensorServiceTest {
         assertThat(saved.getName()).isSameAs(sensor.getName());
         assertThat(saved.getInformation()).isSameAs(sensor.getInformation());
         assertThat(saved.getLocation()).isSameAs(sensor.getLocation());
-        assertThat(saved.getX()).isSameAs(sensor.getX());
-        assertThat(saved.getY()).isSameAs(sensor.getY());
         Mockito.verify(sensorRepository, Mockito.times(1)).save(any(Sensor.class));
         Mockito.verify(sensorRepository, Mockito.times(1)).findSensorByName(ArgumentMatchers.anyString());
         Mockito.verifyNoMoreInteractions(sensorRepository);

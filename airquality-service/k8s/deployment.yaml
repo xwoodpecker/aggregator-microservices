@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airquality-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airquality-ms
+  template:
+    metadata:
+      labels:
+        app: airquality-ms
+    spec:
+      containers:
+        - name: airquality-ms
+          image: xwoodpecker/airquality-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: airquality-service
+  labels:
+    app: airquality-ms
+    monitoring: "true"
+spec:
+  type: ClusterIP
+  selector:
+    app: airquality-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+
+
+

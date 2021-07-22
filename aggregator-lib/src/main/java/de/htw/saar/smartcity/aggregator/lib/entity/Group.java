@@ -50,6 +50,7 @@ public class Group {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     protected List<FormulaItemValue> values = new ArrayList<>();
 
+
     public Group() {
     }
 

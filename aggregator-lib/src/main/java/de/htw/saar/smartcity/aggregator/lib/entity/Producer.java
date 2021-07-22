@@ -55,16 +55,28 @@ public abstract class Producer implements Serializable {
     protected boolean exportAsMetric;
 
 
+    @Column
+    private String information;
+
+    @OneToOne
+    @JoinColumn(name = "location_id")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = LocationIdResolver.class)
+    @JsonIdentityReference(alwaysAsId=true)
+    private Location location;
+
+
     public Producer() {
     }
 
-    public Producer(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath, boolean exportAsMetric) {
+    public Producer(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath, boolean exportAsMetric, String information, Location location) {
         this.id = id;
         this.dataType = dataType;
         this.tags = tags;
         this.groups = groups;
         this.objectStorePath = objectStorePath;
         this.exportAsMetric = exportAsMetric;
+        this.information = information;
+        this.location = location;
     }
 
     public Long getId() {
@@ -115,6 +127,22 @@ public abstract class Producer implements Serializable {
         this.exportAsMetric = exportAsMetric;
     }
 
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -133,9 +161,11 @@ public abstract class Producer implements Serializable {
         sb.append("id=").append(id);
         sb.append(", dataType=").append(dataType);
         sb.append(", tags=").append(tags);
-        //sb.append(", groups=").append(groups);
+        sb.append(", groups=").append(groups);
         sb.append(", objectStorePath='").append(objectStorePath).append('\'');
-        sb.append(", exportAsMetric='").append(exportAsMetric).append('\'');
+        sb.append(", exportAsMetric=").append(exportAsMetric);
+        sb.append(", information='").append(information).append('\'');
+        sb.append(", location=").append(location);
         sb.append('}');
         return sb.toString();
     }

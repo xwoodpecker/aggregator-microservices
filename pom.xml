@@ -36,6 +36,11 @@
     <module>historic-temperature-aggregator-service</module>
       <module>humidity-aggregator-service</module>
       <module>water-aggregator-service</module>
+      <module>airquality-service</module>
+      <module>historic-humidity-aggregator-service</module>
+    <module>historic-dewpoint-aggregator-service</module>
+    <module>historic-airquality-aggregator-service</module>
+    <module>airquality-aggregator-service</module>
 
   </modules>
       

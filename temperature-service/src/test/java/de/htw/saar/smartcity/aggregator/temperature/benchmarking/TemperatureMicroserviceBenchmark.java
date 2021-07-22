@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.aggregator.temperatur.benchmarking;
+package de.htw.saar.smartcity.aggregator.temperature.benchmarking;
 
 import de.htw.saar.smartcity.aggregator.temperature.base.TemperatureSetupDataLoader;
 import de.htw.saar.smartcity.aggregator.temperature.handler.TemperatureRawMeasurementHandler;

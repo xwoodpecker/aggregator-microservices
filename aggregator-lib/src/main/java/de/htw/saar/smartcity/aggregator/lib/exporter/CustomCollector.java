@@ -4,6 +4,7 @@ package de.htw.saar.smartcity.aggregator.lib.exporter;
 import de.htw.saar.smartcity.aggregator.lib.base.Constants;
 import de.htw.saar.smartcity.aggregator.lib.broker.ActivityManager;
 import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
+import de.htw.saar.smartcity.aggregator.lib.entity.Location;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.properties.ExporterApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
@@ -133,26 +134,28 @@ public abstract class CustomCollector extends Collector {
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
         Map<String, Object> objects = getObjectsForKeys(sensors.stream().map(Sensor::getName).collect(Collectors.toList()));
-        sensors.removeIf(s -> ! objects.containsKey(s.getName()));
+        sensors.removeIf(s -> ! objects.containsKey(Constants.MEMCACHED_MEASUREMENT_PREFIX + s.getName()));
         Map<String, List<Sensor>> byDataTypeName = sensors.stream().collect(Collectors.groupingBy(s -> s.getDataType().getName()));
 
         GaugeMetricFamily labeledGauge
                 = new GaugeMetricFamily("sensor_measurement", "gauge for all sensors ",
-                Arrays.asList("datatype", "sensorname", "location", "x", "y"));
+                Arrays.asList("datatype", "sensorname", "location.name", "location.x", "location.y"));
 
         for(String dataTypeName : byDataTypeName.keySet()) {
 
             for (Sensor sensor : byDataTypeName.get(dataTypeName)) {
 
-                Double value = Utils.convertToDouble(objects.get(sensor.getName()));
+                Double value = Utils.convertToDouble(objects.get(Constants.MEMCACHED_MEASUREMENT_PREFIX + sensor.getName()));
 
                 if(value != null) {
+                    Location location = sensor.getLocation();
+
                     labeledGauge.addMetric(
                             Arrays.asList(dataTypeName,
                                     sensor.getName(),
-                                    sensor.getLocation(),
-                                    sensor.getX().toString(),
-                                    sensor.getY().toString()),
+                                    location == null ? "null" : location.getName(),
+                                    location == null ? "null" : String.valueOf(location.getX()),
+                                    location == null ? "null" : String.valueOf(location.getY())),
                             value
                     );
                 }
@@ -192,27 +195,33 @@ public abstract class CustomCollector extends Collector {
 
         Map<String, Object> objects = getObjectsForKeys(aggregators.stream()
                 .map(a -> a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()).collect(Collectors.toList()));
-        aggregators.removeIf(a -> ! objects.containsKey(a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()));
+        aggregators.removeIf(a -> ! objects.containsKey(Constants.MEMCACHED_MEASUREMENT_PREFIX + a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()));
         Map<String, List<Aggregator>> byDataTypeName = aggregators.stream().collect(Collectors.groupingBy(a -> a.getDataType().getName()));
 
         GaugeMetricFamily labeledGauge
                 = new GaugeMetricFamily("group_measurement", "gauge for all groups ",
-                Arrays.asList("group", "datatype", "combinator"));
+                Arrays.asList("group", "datatype", "combinator", "location.name", "location.x", "location.y"));
 
         for(String dataTypeName : byDataTypeName.keySet()) {
 
             for (Aggregator aggregator : byDataTypeName.get(dataTypeName)) {
 
                 Double value = Utils.convertToDouble(
-                        objects.get(aggregator.getOwnerGroup().getName() + "/" + aggregator.getCombinator().getName()));
+                        objects.get(Constants.MEMCACHED_MEASUREMENT_PREFIX + aggregator.getOwnerGroup().getName() + "/" + aggregator.getCombinator().getName()));
 
                 if(value != null) {
-                    labeledGauge.addMetric(Arrays.asList(
+                    Location location = aggregator.getLocation();
+
+                    labeledGauge.addMetric(
+                            Arrays.asList(
                             aggregator.getOwnerGroup().getName(),
-                            aggregator.getDataType().getName(),
-                            aggregator.getCombinator().getName()),
+                                    aggregator.getDataType().getName(),
+                                    aggregator.getCombinator().getName(),
+                                    location == null ? "null" : location.getName(),
+                                    location == null ? "null" : String.valueOf(location.getX()),
+                                    location == null ? "null" : String.valueOf(location.getY())),
                             value
-                            );
+                    );
                 }
             }
 

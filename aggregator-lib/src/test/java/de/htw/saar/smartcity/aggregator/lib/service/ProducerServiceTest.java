@@ -77,9 +77,12 @@ class ProducerServiceTest {
         s.setName("testSensor");
         s.setDataType(d);
         s.setObjectStorePath("test");
-        s.setLocation("here");
-        s.setX(2.0);
-        s.setY(5.0);
+        Location l = new Location();
+        l.setId(1L);
+        l.setName("here");
+        l.setX(2.0);
+        l.setY(5.0);
+        s.setLocation(l);
         s.setInformation("infos");
         s.setGroups(new ArrayList<>());
         s.setTags(new ArrayList<>());

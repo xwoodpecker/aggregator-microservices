@@ -83,6 +83,7 @@ public abstract class GroupMeasurementHandler {
 
     public void handleMeasurement(Long groupId, Long producerId, Measurement measurement) {
 
+        Group group = null;
         String groupName = null;
         try {
             final Optional<Group> optGroup = groupService.findGroupById(groupId);
@@ -91,12 +92,15 @@ public abstract class GroupMeasurementHandler {
             if (optGroup.isPresent() && optProducer.isPresent()) {
 
 
-                final Group group = optGroup.get();
+                group = optGroup.get();
                 groupName = group.getName();
 
                 log.info("Measurement arrived for group " + groupName + " Measurement: " + measurement);
 
-                TempGroupMeasurement tempGroupMeasurement = storageWrapper.getTempGroupMeasurement(groupName);
+                TempGroupMeasurement tempGroupMeasurement = null;
+                if(group.getProducers().size() > 1) {
+                    tempGroupMeasurement = storageWrapper.getTempGroupMeasurement(groupName);
+                }
 
                 if (tempGroupMeasurement == null) {
                     tempGroupMeasurement = new TempGroupMeasurement(group.getProducers().size(), groupId);
@@ -151,7 +155,10 @@ public abstract class GroupMeasurementHandler {
                             }
                         }
                     }
-                    storageWrapper.deleteTempGroupMeasurement(groupName);
+
+                    if(group.getProducers().size() > 1)
+                        storageWrapper.deleteTempGroupMeasurement(groupName);
+
                 } else {
 
                     storageWrapper.putTempGroupMeasurement(groupName, tempGroupMeasurement);
@@ -160,7 +167,7 @@ public abstract class GroupMeasurementHandler {
         } catch (MeasurementException me) {
             log.error("Measurement could not be combined. Temp will be deleted...");
 
-            if(groupName != null)
+            if(groupName != null && group.getProducers().size() > 1)
                 storageWrapper.deleteTempGroupMeasurement(groupName);
 
         } catch (Exception e) {

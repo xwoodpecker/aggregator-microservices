@@ -1,10 +1,12 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("A")
@@ -29,9 +31,9 @@ public class Aggregator extends Producer {
     public Aggregator() {
     }
 
-    public Aggregator(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath,
-                      boolean exportAsMetric, Group ownerGroup, Combinator combinator) {
-        super(id, dataType, tags, groups, objectStorePath, exportAsMetric);
+
+    public Aggregator(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath, boolean exportAsMetric, String information, Location location, Group ownerGroup, Combinator combinator) {
+        super(id, dataType, tags, groups, objectStorePath, exportAsMetric, information, location);
         this.ownerGroup = ownerGroup;
         this.combinator = combinator;
     }
