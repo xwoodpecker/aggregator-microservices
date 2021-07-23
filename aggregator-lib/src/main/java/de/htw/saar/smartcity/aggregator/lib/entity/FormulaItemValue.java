@@ -20,12 +20,11 @@ public class FormulaItemValue {
     @Column(nullable = false)
     private String value;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "formula_item_id", nullable = false)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = FormulaItemIdResolver.class)
     @JsonIdentityReference(alwaysAsId=true)
     private FormulaItem formulaItem;
-
 
     @ManyToMany(mappedBy = "values")
     /**@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")

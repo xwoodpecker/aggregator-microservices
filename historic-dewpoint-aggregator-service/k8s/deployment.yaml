@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: historic-dewpoint-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: historic-dewpoint-ms
+  template:
+    metadata:
+      labels:
+        app: historic-dewpoint-ms
+    spec:
+      containers:
+        - name: historic-dewpoint-ms
+          image: xwoodpecker/historic-dewpoint-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+
+

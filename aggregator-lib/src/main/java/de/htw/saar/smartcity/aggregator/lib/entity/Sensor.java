@@ -1,11 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.SecondaryTable;
 
 @Entity
 @DiscriminatorValue("S")
@@ -35,7 +33,6 @@ public class Sensor extends Producer {
     public void replaceOwnAttributesWithOther(Sensor other) {
         this.setDataType(other.getDataType());
         this.setName(other.getName());
-        this.setLocation(other.getLocation());
         this.setLocation(other.getLocation());
         this.setInformation(other.getInformation());
         this.setExportAsMetric(other.getExportAsMetric());

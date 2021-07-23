@@ -68,9 +68,7 @@ public class HeatfluxMicroserviceBenchmark {
 
     private final static Integer MEASUREMENT_ITERATIONS = 1;
 
-    /**
-     * Any benchmark, by extending this class, inherits this single @Test method for JUnit to run.
-     */
+
 
     @Test
     public void executeJmhRunner() throws RunnerException {

@@ -24,9 +24,9 @@ public abstract class Producer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "data_type_id", nullable = false)
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = DataTypeIdResolver.class)
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = DataTypeIdResolver.class, scope = DataType.class)
     @JsonIdentityReference(alwaysAsId=true)
     protected DataType dataType;
 
@@ -56,13 +56,13 @@ public abstract class Producer implements Serializable {
 
 
     @Column
-    private String information;
+    protected String information;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "location_id")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = LocationIdResolver.class)
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = LocationIdResolver.class, scope = Location.class)
     @JsonIdentityReference(alwaysAsId=true)
-    private Location location;
+    protected Location location;
 
 
     public Producer() {

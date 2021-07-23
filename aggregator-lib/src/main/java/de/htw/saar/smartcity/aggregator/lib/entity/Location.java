@@ -1,12 +1,16 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name ="locations",
-        uniqueConstraints=
-        @UniqueConstraint(columnNames={"x", "y"}))
+@Table(name ="locations" ) //,
+        //uniqueConstraints=
+        //@UniqueConstraint(columnNames={"x", "y"}))
 public class Location {
 
     @Id
@@ -20,15 +24,20 @@ public class Location {
 
     private Double y;
 
+    @OneToMany(mappedBy = "location")
+    @JsonIgnore
+    private List<Producer> producers = new ArrayList<>();
+
     public Location() {
 
     }
 
-    public Location(Long id, String name, Double x, Double y) {
+    public Location(Long id, String name, Double x, Double y, List<Producer> producers) {
         this.id = id;
         this.name = name;
         this.x = x;
         this.y = y;
+        this.producers = producers;
     }
 
     public Long getId() {
@@ -61,6 +70,14 @@ public class Location {
 
     public void setY(Double y) {
         this.y = y;
+    }
+
+    public List<Producer> getProducers() {
+        return producers;
+    }
+
+    public void setProducers(List<Producer> producers) {
+        this.producers = producers;
     }
 
     @Override

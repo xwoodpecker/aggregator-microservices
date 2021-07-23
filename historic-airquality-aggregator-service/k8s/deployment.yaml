@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: historic-airquality-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: historic-airquality-ms
+  template:
+    metadata:
+      labels:
+        app: historic-airquality-ms
+    spec:
+      containers:
+        - name: historic-airquality-ms
+          image: xwoodpecker/historic-airquality-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+
+

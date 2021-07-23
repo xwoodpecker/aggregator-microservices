@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: historic-humidity-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: historic-humidity-ms
+  template:
+    metadata:
+      labels:
+        app: historic-humidity-ms
+    spec:
+      containers:
+        - name: historic-humidity-ms
+          image: xwoodpecker/historic-humidity-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+
+

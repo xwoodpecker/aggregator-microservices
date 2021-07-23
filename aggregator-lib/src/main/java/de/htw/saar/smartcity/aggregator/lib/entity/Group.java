@@ -23,7 +23,7 @@ public class Group {
     @ColumnDefault("0")
     private Boolean active;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "group_type_id", nullable = false)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = GroupTypeIdResolver.class)
     @JsonIdentityReference(alwaysAsId=true)

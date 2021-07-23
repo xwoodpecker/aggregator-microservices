@@ -1,9 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.Location;
-import de.htw.saar.smartcity.aggregator.lib.entity.Location;
 import de.htw.saar.smartcity.aggregator.lib.exception.LocationNameAlreadyInUseException;
-import de.htw.saar.smartcity.aggregator.lib.repository.LocationRepository;
 import de.htw.saar.smartcity.aggregator.lib.repository.LocationRepository;
 import org.springframework.stereotype.Service;
 
@@ -66,9 +64,12 @@ public class LocationService {
      *
      * @param location the location
      */
-    /**public void deleteLocation(Location location) {
+    public void deleteLocation(Location location) {
 
+        location.getProducers().forEach(p -> p.setLocation(null));
+        location.setProducers(null);
+        locationRepository.deleteById(location.getId());
 
-    }**/
+    }
 
 }

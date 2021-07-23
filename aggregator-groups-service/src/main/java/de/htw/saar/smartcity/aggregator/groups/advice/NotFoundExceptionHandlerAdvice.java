@@ -1,6 +1,5 @@
 package de.htw.saar.smartcity.aggregator.groups.advice;
 
-import de.htw.saar.smartcity.aggregator.groups.exception.GroupNotFoundException;
 import de.htw.saar.smartcity.aggregator.groups.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

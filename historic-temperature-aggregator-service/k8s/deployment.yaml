@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: historic-temperature-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: historic-temperature-ms
+  template:
+    metadata:
+      labels:
+        app: historic-temperature-ms
+    spec:
+      containers:
+        - name: historic-temperature-ms
+          image: xwoodpecker/historic-temperature-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+
+

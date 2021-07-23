@@ -107,7 +107,7 @@ public class GroupController {
         producer.getGroups().add(group);
         group.getProducers().add(producer);
 
-        group = groupService.saveGroup(group);
+        group = groupService.updateGroup(group);
 
         return new ResponseEntity(group, HttpStatus.OK);
     }
@@ -124,7 +124,7 @@ public class GroupController {
         producer.getGroups().remove(group);
         group.getProducers().remove(producer);
 
-        group = groupService.saveGroup(group);
+        group = groupService.updateGroup(group);
 
         return new ResponseEntity(group, HttpStatus.OK);
     }
@@ -144,7 +144,7 @@ public class GroupController {
         aggregator.setOwnerGroup(group);
         group.getAggregators().add(aggregator);
 
-        group = groupService.saveGroup(group);
+        group = groupService.updateGroup(group);
 
         return new ResponseEntity(group, HttpStatus.OK);
     }
@@ -161,7 +161,7 @@ public class GroupController {
         aggregator.setOwnerGroup(null);
         group.getAggregators().remove(aggregator);
 
-        group = groupService.saveGroup(group);
+        group = groupService.updateGroup(group);
 
         return new ResponseEntity(group, HttpStatus.OK);
     }
@@ -179,7 +179,7 @@ public class GroupController {
 
         group.getValues().add(formulaItemValue);
 
-        group = groupService.saveGroup(group);
+        group = groupService.updateGroup(group);
 
         return new ResponseEntity(group, HttpStatus.OK);
     }
@@ -195,7 +195,7 @@ public class GroupController {
 
         group.getValues().remove(formulaItemValue);
 
-        group = groupService.saveGroup(group);
+        group = groupService.updateGroup(group);
 
         return new ResponseEntity(group, HttpStatus.OK);
     }

@@ -1,10 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
-import de.htw.saar.smartcity.aggregator.lib.exception.CombinatorNameAlreadyInUseException;
+import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import de.htw.saar.smartcity.aggregator.lib.exception.GroupNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.AggregatorRepository;
 import de.htw.saar.smartcity.aggregator.lib.repository.GroupRepository;
-import de.htw.saar.smartcity.aggregator.lib.entity.Group;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
