@@ -1,8 +1,8 @@
 package de.htw.saar.smartcity.aggregator.benchmarking;
 
 import de.htw.saar.smartcity.aggregator.benchmarking.base.BenchmarkingSetupDataLoader;
-import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.benchmarking.handler.BenchmarkingRawMeasurementHandler;
+import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import org.junit.runner.RunWith;
 import org.openjdk.jmh.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +44,10 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
 
     private static BenchmarkingSetupDataLoader benchmarkingSetupDataLoader;
 
+    private static String message1KB = generateMessageOfSize(1024);
+    private static String message10KB = generateMessageOfSize(10*1024);
+    private static String message100KB = generateMessageOfSize(100*1024);
+
     @Autowired
     void setBenchmarkingSetupDataLoader(BenchmarkingSetupDataLoader benchmarkingSetupDataLoader) {
         this.benchmarkingSetupDataLoader = benchmarkingSetupDataLoader;
@@ -62,14 +67,24 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
         assert(benchmarkingRawMeasurementHandler != null);
 
         SensorMeasurement sensorMeasurement =  new SensorMeasurement();
-        char[] data = new char[1000];
-        String msg = new String(data);
 
-        sensorMeasurement.setMeasurement(msg);
+        sensorMeasurement.setMeasurement(message1KB);
         sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ThreadLocalRandom.current().nextInt(1, 21));
         benchmarkingRawMeasurementHandler.handleMessage(sensorMeasurement);
     }
 
+
+    @Benchmark
+    public void benchmark10KB() {
+        // check if benchmarkingRawMeasurementHandler is present
+        assert(benchmarkingRawMeasurementHandler != null);
+
+        SensorMeasurement sensorMeasurement =  new SensorMeasurement();
+
+        sensorMeasurement.setMeasurement(message10KB);
+        sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ThreadLocalRandom.current().nextInt(1, 21));
+        benchmarkingRawMeasurementHandler.handleMessage(sensorMeasurement);
+    }
 
     @Benchmark
     public void benchmark100KB() {
@@ -77,25 +92,15 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
         assert(benchmarkingRawMeasurementHandler != null);
 
         SensorMeasurement sensorMeasurement =  new SensorMeasurement();
-        char[] data = new char[1000*100];
-        String msg = new String(data);
 
-        sensorMeasurement.setMeasurement(msg);
+        sensorMeasurement.setMeasurement(message100KB);
         sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ThreadLocalRandom.current().nextInt(1, 21));
         benchmarkingRawMeasurementHandler.handleMessage(sensorMeasurement);
     }
 
-    @Benchmark
-    public void benchmark1MB() {
-        // check if benchmarkingRawMeasurementHandler is present
-        assert(benchmarkingRawMeasurementHandler != null);
-
-        SensorMeasurement sensorMeasurement =  new SensorMeasurement();
-        char[] data = new char[1000*1000];
-        String msg = new String(data);
-
-        sensorMeasurement.setMeasurement(msg);
-        sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ThreadLocalRandom.current().nextInt(1, 21));
-        benchmarkingRawMeasurementHandler.handleMessage(sensorMeasurement);
+    private static String generateMessageOfSize(int size) {
+        char[] data = new char[size];
+        Arrays.fill(data,'x');
+        return new String(data);
     }
 }

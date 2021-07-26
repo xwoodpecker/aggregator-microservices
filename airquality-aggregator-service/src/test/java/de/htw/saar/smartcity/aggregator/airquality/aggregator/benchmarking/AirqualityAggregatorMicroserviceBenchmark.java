@@ -113,11 +113,11 @@ public class AirqualityAggregatorMicroserviceBenchmark {
         assert(airqualityAggregatorGroupMeasurementHandler != null);
 
         Measurement<Double> airqualityMeasurement = new Measurement<>();
-        airqualityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        airqualityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(0, 750));
         airqualityMeasurement.setTime(LocalDateTime.now());
         int pos = ThreadLocalRandom.current().nextInt(0,3);
         airqualityAggregatorGroupMeasurementHandler.handleMeasurement(AIRQUALITY_GROUP_ID[pos], AIRQUALITY_GROUP_MEMBERS[pos][0], airqualityMeasurement);
-        airqualityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        airqualityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(0, 750));
         airqualityMeasurement.setTime(LocalDateTime.now());
         airqualityAggregatorGroupMeasurementHandler.handleMeasurement(AIRQUALITY_GROUP_ID[pos], AIRQUALITY_GROUP_MEMBERS[pos][1], airqualityMeasurement);
     }

@@ -25,3 +25,4 @@ spec:
       volumeMounts:
         - mountPath: "/out"
           name: result-storage
+  restartPolicy: Never

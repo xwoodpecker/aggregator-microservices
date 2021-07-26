@@ -22,6 +22,7 @@ import java.util.List;
 
 public abstract class HistoricAggregatorScheduler {
 
+    private final HistoricAggregatorApplicationProperties applicationProperties;
     private static final Logger log = LoggerFactory.getLogger(HistoricAggregatorScheduler.class);
 
     private final ProducerService producerService;
@@ -39,6 +40,7 @@ public abstract class HistoricAggregatorScheduler {
                                        HistoricCombinatorService historicCombinatorService,
                                        HistoricStorageWrapper storageWrapper) {
 
+        this.applicationProperties = applicationProperties;
         this.producerService = producerService;
         this.historicCombinatorService = historicCombinatorService;
         this.storageWrapper = storageWrapper;
@@ -136,7 +138,11 @@ public abstract class HistoricAggregatorScheduler {
         for(Producer producer : producerList) {
 
             String objectsPath = producer.getObjectStorePath() + timePrefix;
-            List<Measurement> measurements = storageWrapper.getMeasurementsByPrefix(objectsPath);
+            List<Measurement> measurements;
+            if(applicationProperties.getDeleteRawMeasurements())
+                measurements = storageWrapper.deleteAndReturnMeasurementsByPrefix(objectsPath);
+            else
+                measurements = storageWrapper.getMeasurementsByPrefix(objectsPath);
 
             if(measurements.size() > 0) {
                 for (HistoricCombinatorModel historicCombinatorModel : historicCombinatorModels) {

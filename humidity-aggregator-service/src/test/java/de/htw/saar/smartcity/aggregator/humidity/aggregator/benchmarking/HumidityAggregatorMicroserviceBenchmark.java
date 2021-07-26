@@ -95,7 +95,6 @@ public class HumidityAggregatorMicroserviceBenchmark {
 
     private static HumidityAggregatorGroupMeasurementHandler humidityAggregatorGroupMeasurementHandler;
 
-    //todo: this wont work copy pasted from other module :o)
     private final long[] HUMIDITY_GROUP_ID = new long[] {1L, 2L, 3L};
     private final long[] HUMIDITY_GROUP_1 = new long[] {1L, 2L};
     private final long[] HUMIDITY_GROUP_2 = new long[] {3L, 4L};
@@ -113,11 +112,11 @@ public class HumidityAggregatorMicroserviceBenchmark {
         assert(humidityAggregatorGroupMeasurementHandler != null);
 
         Measurement<Double> humidityMeasurement = new Measurement<>();
-        humidityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        humidityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(0, 100));
         humidityMeasurement.setTime(LocalDateTime.now());
         int pos = ThreadLocalRandom.current().nextInt(0,3);
         humidityAggregatorGroupMeasurementHandler.handleMeasurement(HUMIDITY_GROUP_ID[pos], HUMIDITY_GROUP_MEMBERS[pos][0], humidityMeasurement);
-        humidityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        humidityMeasurement.setValue(ThreadLocalRandom.current().nextDouble(0, 100));
         humidityMeasurement.setTime(LocalDateTime.now());
         humidityAggregatorGroupMeasurementHandler.handleMeasurement(HUMIDITY_GROUP_ID[pos], HUMIDITY_GROUP_MEMBERS[pos][1], humidityMeasurement);
     }

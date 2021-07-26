@@ -7,6 +7,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HistoricHumidityAggregatorApplicationProperties extends HistoricAggregatorApplicationProperties {
 
+
+    @Override
+    @Value("${DELETE_RAW_HUMIDITY_MEASUREMENTS}")
+    public void setDeleteRawMeasurements(boolean deleteRawMeasurements) {
+        this.deleteRawMeasurements = deleteRawMeasurements;
+    }
+
     @Override
     @Value("${HISTORIC_HUMIDITY_AGGREGATOR_MICROSERVICE_BUCKET}")
     public void setMicroserviceBucket(String microserviceBucket) {
@@ -18,6 +25,7 @@ public class HistoricHumidityAggregatorApplicationProperties extends HistoricAgg
     public void setMicroserviceDataType(String microserviceDataType) {
         this.microserviceDataType = microserviceDataType;
     }
+
 
 
 }

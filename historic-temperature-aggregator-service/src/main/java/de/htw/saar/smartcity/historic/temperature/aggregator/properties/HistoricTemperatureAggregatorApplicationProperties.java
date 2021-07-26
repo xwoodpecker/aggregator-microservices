@@ -8,6 +8,12 @@ import org.springframework.context.annotation.Configuration;
 public class HistoricTemperatureAggregatorApplicationProperties extends HistoricAggregatorApplicationProperties {
 
     @Override
+    @Value("${DELETE_RAW_TEMPERATURE_MEASUREMENTS}")
+    public void setDeleteRawMeasurements(boolean deleteRawMeasurements) {
+        this.deleteRawMeasurements = deleteRawMeasurements;
+    }
+
+    @Override
     @Value("${HISTORIC_TEMPERATURE_AGGREGATOR_MICROSERVICE_BUCKET}")
     public void setMicroserviceBucket(String microserviceBucket) {
         this.microserviceBucket = microserviceBucket;
@@ -18,6 +24,7 @@ public class HistoricTemperatureAggregatorApplicationProperties extends Historic
     public void setMicroserviceDataType(String microserviceDataType) {
         this.microserviceDataType = microserviceDataType;
     }
+
 
 
 }

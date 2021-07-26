@@ -174,4 +174,24 @@ public class MinioClientWrapper {
         return results;
     }
 
+    public List<String> getObjectNamesWithPrefix(String prefix) {
+        List<String> results = new ArrayList<>();
+        Iterator<Result<Item>> iterator = minioClient.listObjects(
+                ListObjectsArgs.builder()
+                        .bucket(applicationProperties.getMicroserviceBucket())
+                        .prefix(prefix)
+                        .recursive(false) //only get measurements in the folder not in sub folders
+                        //.maxKeys(100)
+                        .build()).iterator();
+
+        while(iterator.hasNext()) {
+            try {
+                results.add(iterator.next().get().objectName());
+            }
+            catch (Exception e) {
+                log.warn("Could not get an object with prefix " + prefix);
+            }
+        }
+        return results;
+    }
 }

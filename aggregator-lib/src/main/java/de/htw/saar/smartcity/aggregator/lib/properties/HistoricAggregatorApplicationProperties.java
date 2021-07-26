@@ -1,13 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.properties;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-
-import javax.annotation.PostConstruct;
 
 @Configuration
 @PropertySource("classpath:application.properties")
@@ -24,6 +20,8 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
 
     protected String microserviceDataType;
 
+    protected boolean deleteRawMeasurements;
+
 
     @Value("${MINIO_ENDPOINT}")
     private void setMinioEndpoint(String minioEndpoint) {
@@ -39,6 +37,8 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
     private void setMinioSecretKey(String minioSecretKey) {
         this.minioSecretKey = minioSecretKey;
     }
+
+    protected abstract void setDeleteRawMeasurements(boolean deleteRawMeasurements);
 
     protected abstract void setMicroserviceBucket(String microserviceBucket);
 
@@ -62,6 +62,10 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
 
     public String getMicroServiceDataType() {
         return microserviceDataType;
+    }
+
+    public boolean getDeleteRawMeasurements() {
+        return deleteRawMeasurements;
     }
 
     /**@PostConstruct

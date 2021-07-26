@@ -139,7 +139,7 @@ public abstract class CustomCollector extends Collector {
 
         GaugeMetricFamily labeledGauge
                 = new GaugeMetricFamily("sensor_measurement", "gauge for all sensors ",
-                Arrays.asList("datatype", "sensorname", "location.name", "location.x", "location.y"));
+                Arrays.asList("datatype", "sensor_name", "location_name", "location_x", "location_y"));
 
         for(String dataTypeName : byDataTypeName.keySet()) {
 
@@ -200,7 +200,7 @@ public abstract class CustomCollector extends Collector {
 
         GaugeMetricFamily labeledGauge
                 = new GaugeMetricFamily("group_measurement", "gauge for all groups ",
-                Arrays.asList("group", "datatype", "combinator", "location.name", "location.x", "location.y"));
+                Arrays.asList("group", "datatype", "combinator", "location_name", "location_x", "location_y"));
 
         for(String dataTypeName : byDataTypeName.keySet()) {
 

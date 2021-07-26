@@ -5,6 +5,7 @@ import de.htw.saar.smartcity.aggregator.lib.properties.MinioApplicationPropertie
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class HistoricStorageWrapper {
@@ -27,5 +28,20 @@ public abstract class HistoricStorageWrapper {
     public String putHistoricMeasurement(String objName, Measurement m) {
 
         return minioClientWrapper.putObject(m, objName) ? objName : null;
+    }
+
+
+    public List<Measurement> deleteAndReturnMeasurementsByPrefix(String prefix) {
+
+        List<String> objectNames = minioClientWrapper.getObjectNamesWithPrefix(prefix);
+        List<Measurement> measurements = new ArrayList<>();
+        objectNames.forEach(o -> measurements.add(minioClientWrapper.getObject(o, Measurement.class)));
+        objectNames.forEach(minioClientWrapper::deleteObject);
+        return measurements;
+    }
+
+    public void deleteObjectsByName(List<String> objectNames) {
+
+        objectNames.forEach(minioClientWrapper::deleteObject);
     }
 }

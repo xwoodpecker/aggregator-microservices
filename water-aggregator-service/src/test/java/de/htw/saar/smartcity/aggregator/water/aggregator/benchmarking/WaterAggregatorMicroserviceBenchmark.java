@@ -95,7 +95,6 @@ public class WaterAggregatorMicroserviceBenchmark {
 
     private static WaterAggregatorGroupMeasurementHandler waterAggregatorGroupMeasurementHandler;
 
-    //todo: copy pasted, need to fix asap
     private final long[] WATER_GROUP_ID = new long[] {1L, 2L, 3L};
     private final long[] WATER_GROUP_1 = new long[] {1L, 2L};
     private final long[] WATER_GROUP_2 = new long[] {3L, 4L};
@@ -112,12 +111,12 @@ public class WaterAggregatorMicroserviceBenchmark {
         // check if waterAggregatorGroupMeasurementHandler is present
         assert(waterAggregatorGroupMeasurementHandler != null);
 
-        Measurement<Double> waterMeasurement = new Measurement<>();
-        waterMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        Measurement<Boolean> waterMeasurement = new Measurement<>();
+        waterMeasurement.setValue(ThreadLocalRandom.current().nextBoolean());
         waterMeasurement.setTime(LocalDateTime.now());
         int pos = ThreadLocalRandom.current().nextInt(0,3);
         waterAggregatorGroupMeasurementHandler.handleMeasurement(WATER_GROUP_ID[pos], WATER_GROUP_MEMBERS[pos][0], waterMeasurement);
-        waterMeasurement.setValue(ThreadLocalRandom.current().nextDouble(-30, 40));
+        waterMeasurement.setValue(ThreadLocalRandom.current().nextBoolean());
         waterMeasurement.setTime(LocalDateTime.now());
         waterAggregatorGroupMeasurementHandler.handleMeasurement(WATER_GROUP_ID[pos], WATER_GROUP_MEMBERS[pos][1], waterMeasurement);
     }
