@@ -14,7 +14,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes={
@@ -44,9 +43,8 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
 
     private static BenchmarkingSetupDataLoader benchmarkingSetupDataLoader;
 
-    private static String message1KB = generateMessageOfSize(1024);
-    private static String message10KB = generateMessageOfSize(10*1024);
-    private static String message100KB = generateMessageOfSize(100*1024);
+    @Param({"1", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "150", "200", "250", "500", "625", "750", "875", "1000"})
+    public int sizeInKB;
 
     @Autowired
     void setBenchmarkingSetupDataLoader(BenchmarkingSetupDataLoader benchmarkingSetupDataLoader) {
@@ -60,41 +58,21 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
         MicroserviceBenchmark.benchmarkingRawMeasurementHandler = benchmarkingRawMeasurementHandler;
     }
 
-
     @Benchmark
-    public void benchmark1KB() {
-        // check if benchmarkingRawMeasurementHandler is present
-        assert(benchmarkingRawMeasurementHandler != null);
-
-        SensorMeasurement sensorMeasurement =  new SensorMeasurement();
-
-        sensorMeasurement.setMeasurement(message1KB);
-        sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ThreadLocalRandom.current().nextInt(1, 21));
-        benchmarkingRawMeasurementHandler.handleMessage(sensorMeasurement);
+    public void executeBenchmark() {
+        benchmarkWithMessage(generateMessageOfSize(sizeInKB * 1024));
     }
 
 
-    @Benchmark
-    public void benchmark10KB() {
+    private static int i = 0;
+    public void benchmarkWithMessage(String message) {
         // check if benchmarkingRawMeasurementHandler is present
         assert(benchmarkingRawMeasurementHandler != null);
 
         SensorMeasurement sensorMeasurement =  new SensorMeasurement();
 
-        sensorMeasurement.setMeasurement(message10KB);
-        sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ThreadLocalRandom.current().nextInt(1, 21));
-        benchmarkingRawMeasurementHandler.handleMessage(sensorMeasurement);
-    }
-
-    @Benchmark
-    public void benchmark100KB() {
-        // check if benchmarkingRawMeasurementHandler is present
-        assert(benchmarkingRawMeasurementHandler != null);
-
-        SensorMeasurement sensorMeasurement =  new SensorMeasurement();
-
-        sensorMeasurement.setMeasurement(message100KB);
-        sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ThreadLocalRandom.current().nextInt(1, 21));
+        sensorMeasurement.setMeasurement(message);
+        sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ((i++) % 100) + 1);
         benchmarkingRawMeasurementHandler.handleMessage(sensorMeasurement);
     }
 

@@ -34,6 +34,10 @@ class ProducerServiceTest {
 
     private List<Producer> producers = new ArrayList<>();
 
+    private List<Producer> producersDataTypeD = new ArrayList<>();
+
+    private DataType d;
+
     @BeforeEach
     public void init() {
         producer = new Aggregator();
@@ -64,7 +68,7 @@ class ProducerServiceTest {
         c.setId(2L);
         c.setName("anotherCombinator");
         a.setCombinator(c);
-        DataType d = new DataType();
+        d = new DataType();
         d.setId(2L);
         d.setName("anotherDataType");
         a.setDataType(d);
@@ -90,6 +94,8 @@ class ProducerServiceTest {
         producers.add(producer);
         producers.add(a);
         producers.add(s);
+        producersDataTypeD.add(a);
+        producersDataTypeD.add(s);
     }
 
 
@@ -129,6 +135,19 @@ class ProducerServiceTest {
 
         Assert.assertEquals(returned.size(), producers.size());
         Mockito.verify(producerRepository, Mockito.times(1)).findAll();
+        Mockito.verifyNoMoreInteractions(producerRepository);
+    }
+
+
+    @Test
+    void findAllProducersByDataType() {
+
+        Mockito.when(producerRepository.findAllByDataType(d)).thenReturn(producersDataTypeD);
+
+        List<Producer> returned = producerService.findAllProducersByDataType(d);
+
+        Assert.assertEquals(returned.size(), producersDataTypeD.size());
+        Mockito.verify(producerRepository, Mockito.times(1)).findAllByDataType(d);
         Mockito.verifyNoMoreInteractions(producerRepository);
     }
 }

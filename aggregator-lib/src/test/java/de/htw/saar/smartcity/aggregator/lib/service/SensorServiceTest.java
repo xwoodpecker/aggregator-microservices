@@ -40,6 +40,10 @@ class SensorServiceTest {
 
     private List<Sensor> sensorsToExport = new ArrayList<>();
 
+    private String testDataTypeName = "testDataType";
+
+    private List<Sensor> sensorsToExportTestDataType = new ArrayList<>();
+
     @BeforeEach
     public void init() {
         sensor = new Sensor();
@@ -47,7 +51,7 @@ class SensorServiceTest {
         sensor.setName("test");
         DataType dataType = new DataType();
         dataType.setId(1L);
-        dataType.setName("testDataType");
+        dataType.setName(testDataTypeName);
         sensor.setDataType(dataType);
         sensor.setObjectStorePath("test/path1");
         sensor.setExportAsMetric(true);
@@ -78,8 +82,22 @@ class SensorServiceTest {
         s.setGroups(new ArrayList<>());
         s.setTags(new ArrayList<>());
 
+        Sensor s2 = new Sensor();
+        s2.setId(3L);
+        s2.setName("and another one");
+        s2.setDataType(dataType);
+        s2.setObjectStorePath("test/path3");
+        s2.setExportAsMetric(false);
+        s2.setLocation(l2);
+        s2.setInformation("other infos");
+        s2.setGroups(new ArrayList<>());
+        s2.setTags(new ArrayList<>());
+
         sensors.add(sensor);
         sensors.add(s);
+        sensors.add(s2);
+
+        sensorsToExportTestDataType.add(sensor);
 
         sensorsToExport.add(sensor);
     }
@@ -152,6 +170,29 @@ class SensorServiceTest {
 
         Assert.assertEquals(returned.size(), sensorsToExport.size());
         Mockito.verify(sensorRepository, Mockito.times(1)).findAllByExportAsMetricTrue();
+        Mockito.verifyNoMoreInteractions(sensorRepository);
+    }
+
+
+    @Test
+    void findAllSensorsToExportByDataTypeName() {
+        Mockito.when(sensorRepository.findAllByDataTypeNameAndExportAsMetricTrue(testDataTypeName)).thenReturn(sensorsToExportTestDataType);
+
+        List<Sensor> returned = sensorService.findAllSensorsToExportByDataTypeName(testDataTypeName);
+
+        Assert.assertEquals(returned.size(), sensorsToExportTestDataType.size());
+        Mockito.verify(sensorRepository, Mockito.times(1)).findAllByDataTypeNameAndExportAsMetricTrue(testDataTypeName);
+        Mockito.verifyNoMoreInteractions(sensorRepository);
+    }
+
+    @Test
+    void findAllSensorsToExportByIdBetween() {
+        Mockito.when(sensorRepository.findAllByIdBetweenAndExportAsMetricTrue(1L, 2L)).thenReturn(sensorsToExport);
+
+        List<Sensor> returned = sensorService.findAllSensorsToExportByIdBetween(1L, 2L);
+
+        Assert.assertEquals(returned.size(), sensorsToExport.size());
+        Mockito.verify(sensorRepository, Mockito.times(1)).findAllByIdBetweenAndExportAsMetricTrue(1L, 2L);
         Mockito.verifyNoMoreInteractions(sensorRepository);
     }
 }
