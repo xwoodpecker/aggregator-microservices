@@ -3,6 +3,7 @@ package de.htw.saar.smartcity.aggregator.benchmarking;
 import de.htw.saar.smartcity.aggregator.benchmarking.base.BenchmarkingSetupDataLoader;
 import de.htw.saar.smartcity.aggregator.benchmarking.handler.BenchmarkingRawMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
+import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.junit.runner.RunWith;
 import org.openjdk.jmh.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ import java.util.concurrent.TimeUnit;
 public class MicroserviceBenchmark extends AbstractBenchmark {
 
     private static BenchmarkingSetupDataLoader benchmarkingSetupDataLoader;
+    private static StorageWrapper storageWrapper;
 
     @Param({"1", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "150", "200", "250", "500", "625", "750", "875", "1000"})
     public int sizeInKB;
@@ -49,6 +51,11 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
     @Autowired
     void setBenchmarkingSetupDataLoader(BenchmarkingSetupDataLoader benchmarkingSetupDataLoader) {
         this.benchmarkingSetupDataLoader = benchmarkingSetupDataLoader;
+    }
+
+    @Autowired
+    void setStorageWrapper(StorageWrapper storageWrapper) {
+        this.storageWrapper = storageWrapper;
     }
 
     private static BenchmarkingRawMeasurementHandler benchmarkingRawMeasurementHandler;
@@ -61,6 +68,11 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
     @Benchmark
     public void executeBenchmark() {
         benchmarkWithMessage(generateMessageOfSize(sizeInKB * 1024));
+    }
+
+    @TearDown(Level.Iteration)
+    public void doTearDown() {
+        storageWrapper.deleteObjectsByPrefix("data/");
     }
 
 
