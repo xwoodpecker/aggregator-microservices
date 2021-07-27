@@ -175,23 +175,33 @@ public class MinioClientWrapper {
     }
 
     public List<String> getObjectNamesWithPrefix(String prefix) {
+        return getObjectNamesWithPrefix(prefix, false);
+    }
+
+    private List<String> getObjectNamesWithPrefix(String prefix, boolean recursive) {
         List<String> results = new ArrayList<>();
         Iterator<Result<Item>> iterator = minioClient.listObjects(
                 ListObjectsArgs.builder()
                         .bucket(applicationProperties.getMicroserviceBucket())
                         .prefix(prefix)
-                        .recursive(false) //only get measurements in the folder not in sub folders
+                        .recursive(recursive)
                         //.maxKeys(100)
                         .build()).iterator();
 
         while(iterator.hasNext()) {
             try {
-                results.add(iterator.next().get().objectName());
+                Item item = iterator.next().get();
+                if(!item.isDir())
+                    results.add(item.objectName());
             }
             catch (Exception e) {
                 log.warn("Could not get an object with prefix " + prefix);
             }
         }
         return results;
+    }
+
+    public List<String> getObjectNamesWithPrefixRecursive(String prefix) {
+        return getObjectNamesWithPrefix(prefix, true);
     }
 }

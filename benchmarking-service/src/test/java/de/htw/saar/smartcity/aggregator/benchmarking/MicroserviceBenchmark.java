@@ -72,7 +72,7 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
 
     @TearDown(Level.Iteration)
     public void doTearDown() {
-        storageWrapper.deleteObjectsByPrefix("data/");
+        storageWrapper.deleteObjectsByPrefixRecursive("data/");
     }
 
 
@@ -84,7 +84,7 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
         SensorMeasurement sensorMeasurement =  new SensorMeasurement();
 
         sensorMeasurement.setMeasurement(message);
-        sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ((i++) % 100) + 1);
+        sensorMeasurement.setSensorName("data/aggregator/benchmark/sensor" + ((i++) % 100 + 1));
         benchmarkingRawMeasurementHandler.handleMessage(sensorMeasurement);
     }
 

@@ -11,7 +11,6 @@ import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class StorageWrapper {
@@ -119,11 +118,9 @@ public abstract class StorageWrapper {
         return minioClientWrapper.putObject(m, objName) ? objName : null;
     }
 
-    public void deleteObjectsByPrefix(String prefix) {
+    public void deleteObjectsByPrefixRecursive(String prefix) {
 
-        List<String> objectNames = minioClientWrapper.getObjectNamesWithPrefix(prefix);
-        List<Measurement> measurements = new ArrayList<>();
-        objectNames.forEach(o -> measurements.add(minioClientWrapper.getObject(o, Measurement.class)));
+        List<String> objectNames = minioClientWrapper.getObjectNamesWithPrefixRecursive(prefix);
         objectNames.forEach(minioClientWrapper::deleteObject);
     }
 }
