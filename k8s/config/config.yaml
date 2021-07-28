@@ -113,10 +113,10 @@ stringData:
   BROKER_PASSWORD: guest
 
   #MINIO
-  MINIO_ACCESSKEY: tGHSq87Ceh
-  MINIO_SECRETKEY: 8ZovHeONdKrpmmnIziIkKYreUls3Ll2zA1yTR0Hm
+  MINIO_ACCESSKEY: 7v1DRHYMYO
+  MINIO_SECRETKEY: ucjCbD36Qw9E7GyG8VP8ktT7fZ5hbpjEyldE9z4F
 
   #MYSQL
   spring.datasource.username: root
-  spring.datasource.password: nYRhWzakXT
+  spring.datasource.password: mfD3UYrPR9
 

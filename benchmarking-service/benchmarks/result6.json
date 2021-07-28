@@ -1,0 +1,124 @@
+[
+    {
+        "jmhVersion" : "1.22",
+        "benchmark" : "de.htw.saar.smartcity.aggregator.benchmarking.MicroserviceBenchmark.executeBenchmark",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 0,
+        "jvm" : "/opt/openjdk-14/bin/java",
+        "jvmArgs" : [
+            "-server"
+        ],
+        "jdkVersion" : "14-ea",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "14-ea+33",
+        "warmupIterations" : 2,
+        "warmupTime" : "10 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "10 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "sizeInKB" : "750"
+        },
+        "primaryMetric" : {
+            "score" : 59.52155169293824,
+            "scoreError" : 1.6123668630139216,
+            "scoreConfidence" : [
+                57.909184829924314,
+                61.133918555952164
+            ],
+            "scorePercentiles" : {
+                "0.0" : 58.218491308139534,
+                "50.0" : 59.28502317081448,
+                "90.0" : 61.3551801461833,
+                "95.0" : 61.40081917791411,
+                "99.0" : 61.40081917791411,
+                "99.9" : 61.40081917791411,
+                "99.99" : 61.40081917791411,
+                "99.999" : 61.40081917791411,
+                "99.9999" : 61.40081917791411,
+                "100.0" : 61.40081917791411
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    61.40081917791411,
+                    59.40888407692308,
+                    60.05953236526946,
+                    58.218491308139534,
+                    59.16116226470588,
+                    58.394088081395346,
+                    60.94442886060606,
+                    59.126150164705884,
+                    59.94966067065868,
+                    58.55229995906433
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.22",
+        "benchmark" : "de.htw.saar.smartcity.aggregator.benchmarking.MicroserviceBenchmark.executeBenchmark",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 0,
+        "jvm" : "/opt/openjdk-14/bin/java",
+        "jvmArgs" : [
+            "-server"
+        ],
+        "jdkVersion" : "14-ea",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "14-ea+33",
+        "warmupIterations" : 2,
+        "warmupTime" : "10 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "10 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "sizeInKB" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 65.65565993880003,
+            "scoreError" : 2.3459856622591397,
+            "scoreConfidence" : [
+                63.30967427654089,
+                68.00164560105917
+            ],
+            "scorePercentiles" : {
+                "0.0" : 64.02055177707007,
+                "50.0" : 65.27980494505985,
+                "90.0" : 68.70355336904477,
+                "95.0" : 68.84115232876712,
+                "99.0" : 68.84115232876712,
+                "99.9" : 68.84115232876712,
+                "99.99" : 68.84115232876712,
+                "99.999" : 68.84115232876712,
+                "99.9999" : 68.84115232876712,
+                "100.0" : 68.84115232876712
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    68.84115232876712,
+                    64.96369381168832,
+                    67.46516273154363,
+                    64.75043890967741,
+                    64.28008078205129,
+                    64.36565663461539,
+                    66.4932945629139,
+                    65.59591607843137,
+                    64.02055177707007,
+                    65.78065177124184
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+
