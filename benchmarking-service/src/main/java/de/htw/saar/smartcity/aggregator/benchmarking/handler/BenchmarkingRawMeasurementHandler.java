@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class BenchmarkingRawMeasurementHandler extends RawMeasurementHandler {
 
-    public BenchmarkingRawMeasurementHandler(RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
-                                            DataTypeService dataTypeService,
-                                            MeasurementFactory measurementFactory,
-                                            StorageWrapper storageWrapper,
-                                            Publisher publisher) {
 
-        super(rawMicroserviceApplicationProperties, dataTypeService, measurementFactory, storageWrapper, publisher);
+    protected BenchmarkingRawMeasurementHandler(StorageWrapper storageWrapper,
+                                                Publisher publisher,
+                                                RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
+                                                DataTypeService dataTypeService,
+                                                MeasurementFactory measurementFactory) {
+
+        super(storageWrapper, publisher, rawMicroserviceApplicationProperties, dataTypeService, measurementFactory);
     }
 }

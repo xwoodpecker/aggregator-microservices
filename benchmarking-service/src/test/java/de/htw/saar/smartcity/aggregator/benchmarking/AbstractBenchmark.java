@@ -12,8 +12,6 @@ abstract public class AbstractBenchmark {
     private final static Integer WARMUP_ITERATIONS = 2;
     private final static Integer MEASUREMENT_ITERATIONS = 10;
 
-
-
     @Test
     public void executeJmhRunner() throws RunnerException {
         Options jmhRunnerOptions = new OptionsBuilder()

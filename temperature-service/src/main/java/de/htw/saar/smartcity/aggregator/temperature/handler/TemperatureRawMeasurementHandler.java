@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class TemperatureRawMeasurementHandler extends RawMeasurementHandler {
 
-    public TemperatureRawMeasurementHandler(RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
-                                            DataTypeService dataTypeService,
-                                            MeasurementFactory measurementFactory,
-                                            StorageWrapper storageWrapper,
-                                            Publisher publisher) {
+    protected TemperatureRawMeasurementHandler(StorageWrapper storageWrapper,
+                                               Publisher publisher,
+                                               RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
+                                               DataTypeService dataTypeService,
+                                               MeasurementFactory measurementFactory) {
 
-        super(rawMicroserviceApplicationProperties, dataTypeService, measurementFactory, storageWrapper, publisher);
+        super(storageWrapper, publisher, rawMicroserviceApplicationProperties, dataTypeService, measurementFactory);
     }
 }

@@ -1,10 +1,13 @@
 package de.htw.saar.smartcity.aggregator.lib.handler;
 
 import de.htw.saar.smartcity.aggregator.lib.broker.Publisher;
-import de.htw.saar.smartcity.aggregator.lib.entity.*;
+import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
+import de.htw.saar.smartcity.aggregator.lib.entity.Combinator;
+import de.htw.saar.smartcity.aggregator.lib.entity.Group;
+import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
-import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModel;
+import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
@@ -19,32 +22,27 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
-public abstract class GroupMeasurementHandler {
+public abstract class GroupMeasurementHandler extends MeasurementHandler{
 
     protected static final Logger log = LoggerFactory.getLogger(GroupMeasurementHandler.class);
 
     protected List<CombinatorModel> combinatorModels = new ArrayList<>();
 
-    private final StorageWrapper storageWrapper;
     protected final ProducerService producerService;
     protected final GroupService groupService;
     private final CombinatorService combinatorService;
-    private final Publisher publisher;
 
-    public GroupMeasurementHandler(StorageWrapper storageWrapper,
-                                        ProducerService producerService,
-                                        GroupService groupService,
-                                        CombinatorService combinatorService,
-                                        Publisher publisher) {
-
-        this.storageWrapper = storageWrapper;
+    protected GroupMeasurementHandler(StorageWrapper storageWrapper,
+                                      Publisher publisher,
+                                      ProducerService producerService,
+                                      GroupService groupService,
+                                      CombinatorService combinatorService) {
+        super(storageWrapper, publisher);
         this.producerService = producerService;
         this.groupService = groupService;
         this.combinatorService = combinatorService;
-        this.publisher = publisher;
     }
 
 
@@ -132,26 +130,7 @@ public abstract class GroupMeasurementHandler {
                                     log.info("Aggregator updated - ObjectStorePath set");
                                 }
 
-                                final String objName = storageWrapper.putMeasurement(path, m);
-
-                                if (aggregator.getExportAsMetric())
-                                    storageWrapper.cacheMeasurement(path, m);
-
-                                if (objName != null) {
-
-                                    List<Group> activeGroups = aggregator.getGroups().stream().filter(g -> g.getActive()).collect(Collectors.toList());
-
-                                    if (activeGroups.size() > 0) {
-
-                                        final String url = storageWrapper.getPresignedObjectUrl(objName);
-                                        activeGroups.forEach(
-                                                g -> publisher.publish(
-                                                        String.format("%s.%s.%s", g.getGroupType().getName(), g.getId(), aggregator.getId()),
-                                                        url
-                                                )
-                                        );
-                                    }
-                                }
+                                processMeasurement(aggregator, path, m);
                             }
                         }
                     }

@@ -45,6 +45,9 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
     private static BenchmarkingSetupDataLoader benchmarkingSetupDataLoader;
     private static StorageWrapper storageWrapper;
 
+
+    private static int i = 0;
+
     @Param({"1", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "200", "300", "400", "500"})
     //@Param({"750", "1000"})
     public int sizeInKB;
@@ -78,7 +81,6 @@ public class MicroserviceBenchmark extends AbstractBenchmark {
     }**/
 
 
-    private static int i = 0;
     public void benchmarkWithMessage(String message) {
         // check if benchmarkingRawMeasurementHandler is present
         assert(benchmarkingRawMeasurementHandler != null);

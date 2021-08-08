@@ -12,12 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class WaterAggregatorGroupMeasurementHandler extends GroupMeasurementHandler {
 
-    public WaterAggregatorGroupMeasurementHandler(StorageWrapper storageWrapper,
-                                                        ProducerService producerService,
-                                                        GroupService groupService,
-                                                        CombinatorService combinatorService,
-                                                        Publisher publisher) {
-        super(storageWrapper, producerService, groupService, combinatorService, publisher);
+
+    protected WaterAggregatorGroupMeasurementHandler(StorageWrapper storageWrapper,
+                                                     Publisher publisher,
+                                                     ProducerService producerService,
+                                                     GroupService groupService,
+                                                     CombinatorService combinatorService) {
+
+        super(storageWrapper, publisher, producerService, groupService, combinatorService);
     }
 
     @Override

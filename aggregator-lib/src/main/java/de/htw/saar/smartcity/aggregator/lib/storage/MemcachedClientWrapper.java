@@ -45,6 +45,21 @@ public class MemcachedClientWrapper {
     }
 
 
+    public boolean putObjectWithExpiration(String key, Object o, Integer expirationTime) {
+
+        boolean result;
+        try {
+            result = mcc.set(key, expirationTime, o);
+        } catch (Exception e){
+            log.error("Caching failed.");
+            //e.printStackTrace();
+            return false;
+        }
+        log.info("Caching Successful for key " + key + ": " + o);
+        return result;
+    }
+
+
     public <T> T getObject(String key) {
 
         T obj = null;
