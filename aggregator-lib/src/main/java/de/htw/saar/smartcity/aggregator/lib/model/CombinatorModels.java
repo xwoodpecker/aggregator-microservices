@@ -3,9 +3,10 @@ package de.htw.saar.smartcity.aggregator.lib.model;
 import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 
 import java.util.function.DoubleFunction;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
+/**
+ * The type Combinator models.
+ */
 public final class CombinatorModels {
 
     private static final DoubleFunction<Double> roundToTwoDigits = n -> n == Double.NaN ? Double.NaN : Math.round(n * 100) / 100.0;
@@ -45,19 +46,39 @@ public final class CombinatorModels {
     private static final String booleanFalseCountName = "false-count";
 
 
-
+    /**
+     * The constant averageCombinatorModel.
+     */
     public static CombinatorUnaryModel<Double> averageCombinatorModel = new CombinatorUnaryModel<>(doubleAverageName, doubleAverage);
 
+    /**
+     * The constant minimumCombinatorModel.
+     */
     public static CombinatorUnaryModel<Double> minimumCombinatorModel = new CombinatorUnaryModel<>(doubleMinimumName, doubleMinimum);
 
+    /**
+     * The constant maximumCombinatorModel.
+     */
     public static CombinatorUnaryModel<Double> maximumCombinatorModel = new CombinatorUnaryModel<>(doubleMaximumName, doubleMaximum);
 
+    /**
+     * The constant doubleSumCombinatorModel.
+     */
     public static CombinatorUnaryModel<Double> doubleSumCombinatorModel = new CombinatorUnaryModel<>(doubleSumName, doubleSum);
 
+    /**
+     * The constant integerSumCombinatorModel.
+     */
     public static CombinatorUnaryModel<Integer> integerSumCombinatorModel = new CombinatorUnaryModel<>(integerSumName, integerSum);
 
+    /**
+     * The constant booleanTrueCountCombinatorModel.
+     */
     public static CombinatorModel<Boolean, Long> booleanTrueCountCombinatorModel = new CombinatorModel<>(booleanTrueCountName, booleanTrueCount);
 
+    /**
+     * The constant booleanFalseCountCombinatorModel.
+     */
     public static CombinatorModel<Boolean, Long> booleanFalseCountCombinatorModel = new CombinatorModel<>(booleanFalseCountName, booleanFalseCount);
 
     

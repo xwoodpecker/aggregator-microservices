@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * The type Aggregator.
+ */
 @Entity
 @DiscriminatorValue("A")
 @SecondaryTable(name = "aggregators")
@@ -28,28 +31,65 @@ public class Aggregator extends Producer {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Combinator combinator;
 
+    /**
+     * Instantiates a new Aggregator.
+     */
     public Aggregator() {
     }
 
 
+    /**
+     * Instantiates a new Aggregator.
+     *
+     * @param id              the id
+     * @param dataType        the data type
+     * @param tags            the tags
+     * @param groups          the groups
+     * @param objectStorePath the object store path
+     * @param exportAsMetric  the export as metric
+     * @param information     the information
+     * @param location        the location
+     * @param ownerGroup      the owner group
+     * @param combinator      the combinator
+     */
     public Aggregator(Long id, DataType dataType, List<Tag> tags, List<Group> groups, String objectStorePath, boolean exportAsMetric, String information, Location location, Group ownerGroup, Combinator combinator) {
         super(id, dataType, tags, groups, objectStorePath, exportAsMetric, information, location);
         this.ownerGroup = ownerGroup;
         this.combinator = combinator;
     }
 
+    /**
+     * Gets owner group.
+     *
+     * @return the owner group
+     */
     public Group getOwnerGroup() {
         return ownerGroup;
     }
 
+    /**
+     * Sets owner group.
+     *
+     * @param ownerGroup the owner group
+     */
     public void setOwnerGroup(Group ownerGroup) {
         this.ownerGroup = ownerGroup;
     }
 
+    /**
+     * Gets combinator.
+     *
+     * @return the combinator
+     */
     public Combinator getCombinator() {
         return combinator;
     }
 
+    /**
+     * Sets combinator.
+     *
+     * @param combinator the combinator
+     */
     public void setCombinator(Combinator combinator) {
         this.combinator = combinator;
     }

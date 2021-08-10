@@ -10,17 +10,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * The type Tag controller.
+ */
 @RestController
 @RequestMapping(path = "/tags")
 public class TagController {
 
     private final TagService tagService;
 
+    /**
+     * Instantiates a new Tag controller.
+     *
+     * @param tagService the tag service
+     */
     public TagController(TagService tagService) {
 
         this.tagService = tagService;
     }
 
+    /**
+     * Gets tags.
+     *
+     * @return the tags
+     */
     @GetMapping("/")
     public ResponseEntity getTags() {
 
@@ -30,6 +43,12 @@ public class TagController {
         );
     }
 
+    /**
+     * Gets tag.
+     *
+     * @param id the id
+     * @return the tag
+     */
     @GetMapping("/{id}")
     public ResponseEntity getTag(@PathVariable Long id) {
 
@@ -40,12 +59,24 @@ public class TagController {
         );
     }
 
+    /**
+     * Post tag response entity.
+     *
+     * @param tag the tag
+     * @return the response entity
+     */
     @PostMapping("/")
     public ResponseEntity postTag(@RequestBody Tag tag) {
 
         return new ResponseEntity(tagService.saveTag(tag), HttpStatus.OK);
     }
 
+    /**
+     * Delete tag response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity deleteTag(@PathVariable Long id) {
 
@@ -62,6 +93,13 @@ public class TagController {
 
     }
 
+    /**
+     * Put tag response entity.
+     *
+     * @param tag the tag
+     * @param id  the id
+     * @return the response entity
+     */
     @PutMapping("/{id}")
     public ResponseEntity putTag(@RequestBody Tag tag, @PathVariable Long id) {
 

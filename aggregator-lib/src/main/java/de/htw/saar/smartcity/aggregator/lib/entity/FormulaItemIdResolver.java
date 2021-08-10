@@ -2,14 +2,24 @@ package de.htw.saar.smartcity.aggregator.lib.entity;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;
-import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.service.FormulaItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * The type Formula item id resolver.
+ */
 public class FormulaItemIdResolver implements ObjectIdResolver {
 
+    /**
+     * the formula item service
+     */
     private final FormulaItemService formulaItemService;
 
+    /**
+     * Instantiates a new Formula item id resolver.
+     *
+     * @param formulaItemService the formula item service
+     */
     public FormulaItemIdResolver(@Autowired FormulaItemService formulaItemService) {
         this.formulaItemService = formulaItemService;
     }

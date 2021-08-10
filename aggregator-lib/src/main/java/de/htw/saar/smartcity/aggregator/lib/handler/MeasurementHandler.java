@@ -9,17 +9,39 @@ import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Measurement handler.
+ */
 public abstract class MeasurementHandler {
 
 
+    /**
+     * The Storage wrapper.
+     */
     protected final StorageWrapper storageWrapper;
+    /**
+     * The Publisher.
+     */
     protected final Publisher publisher;
 
+    /**
+     * Instantiates a new Measurement handler.
+     *
+     * @param storageWrapper the storage wrapper
+     * @param publisher      the publisher
+     */
     protected MeasurementHandler(StorageWrapper storageWrapper, Publisher publisher) {
         this.storageWrapper = storageWrapper;
         this.publisher = publisher;
     }
 
+    /**
+     * Process measurement.
+     *
+     * @param producer the producer
+     * @param path     the path
+     * @param m        the m
+     */
     protected void processMeasurement(Producer producer, String path, Measurement m) {
 
         final String objName = storageWrapper.putMeasurement(path, m);

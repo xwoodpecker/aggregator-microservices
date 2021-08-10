@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The type Custom collector.
+ */
 public abstract class CustomCollector extends Collector {
 
     private static final Logger log = LoggerFactory.getLogger(CustomCollector.class);
@@ -27,12 +30,22 @@ public abstract class CustomCollector extends Collector {
     private final ExporterApplicationProperties exporterApplicationProperties;
 
     private final SensorService sensorService;
+
     private final AggregatorService aggregatorService;
 
     private MemcachedClientWrapper memcachedClientWrapper;
 
     private final ActivityManager activityManager;
 
+    /**
+     * Instantiates a new Custom collector.
+     *
+     * @param exporterApplicationProperties the exporter application properties
+     * @param sensorService                 the sensor service
+     * @param aggregatorService             the aggregator service
+     * @param activityManager               the activity manager
+     * @throws IOException the io exception
+     */
     public CustomCollector(ExporterApplicationProperties exporterApplicationProperties,
                            SensorService sensorService,
                            AggregatorService aggregatorService,
@@ -48,6 +61,11 @@ public abstract class CustomCollector extends Collector {
 
     }
 
+    /**
+     * collects all the MetricFamilySamples for prometheus
+     *
+     * @return list of MetricFamilySamples
+     */
     public List<MetricFamilySamples> collect() {
 
         log.info("Started collecting all measurements...");
@@ -58,9 +76,9 @@ public abstract class CustomCollector extends Collector {
         if(exporterApplicationProperties.getExportedSensorDataTypes() != null || exporterApplicationProperties.getExportedAggregatorDataTypes() != null) {
 
             if (exporterApplicationProperties.getExportedSensorDataTypes().length == 1) {
-                if (exporterApplicationProperties.getExportedSensorDataTypes()[0].toUpperCase(Locale.ROOT).equals("ALL")) {
+                if (exporterApplicationProperties.getExportedSensorDataTypes()[0].toUpperCase(Locale.ROOT).equals(Constants.COLLECTOR_KEYWORD_ALL)) {
                     mfs.addAll(collectAllSensorGauges());
-                } else if (!exporterApplicationProperties.getExportedSensorDataTypes()[0].toUpperCase(Locale.ROOT).equals("NONE")) {
+                } else if (!exporterApplicationProperties.getExportedSensorDataTypes()[0].toUpperCase(Locale.ROOT).equals(Constants.COLLECTOR_KEYWORD_NONE)) {
                     mfs.addAll(collectSensorGaugesByDataType(exporterApplicationProperties.getExportedSensorDataTypes()[0]));
                 }
             } else {
@@ -69,9 +87,9 @@ public abstract class CustomCollector extends Collector {
             }
 
             if (exporterApplicationProperties.getExportedAggregatorDataTypes().length == 1) {
-                if (exporterApplicationProperties.getExportedAggregatorDataTypes()[0].toUpperCase(Locale.ROOT).equals("ALL")) {
+                if (exporterApplicationProperties.getExportedAggregatorDataTypes()[0].toUpperCase(Locale.ROOT).equals(Constants.COLLECTOR_KEYWORD_ALL)) {
                     mfs.addAll(collectAllAggregatorGauges());
-                } else if (!exporterApplicationProperties.getExportedAggregatorDataTypes()[0].toUpperCase(Locale.ROOT).equals("NONE")) {
+                } else if (!exporterApplicationProperties.getExportedAggregatorDataTypes()[0].toUpperCase(Locale.ROOT).equals(Constants.COLLECTOR_KEYWORD_NONE)) {
                     mfs.addAll(collectAggregatorGaugesByDataType(exporterApplicationProperties.getExportedAggregatorDataTypes()[0]));
                 }
             } else {
@@ -89,7 +107,14 @@ public abstract class CustomCollector extends Collector {
         return mfs;
     }
 
-    private List<GaugeMetricFamily> collectProducerGaugesByIdRange(Long startWithId, Long endWithId) {
+    /**
+     * Collect producer gauges by id range list.
+     *
+     * @param startWithId the start with id
+     * @param endWithId   the end with id
+     * @return the list
+     */
+    public List<GaugeMetricFamily> collectProducerGaugesByIdRange(Long startWithId, Long endWithId) {
 
         log.info("Started collecting producer measurements...");
 
@@ -104,7 +129,12 @@ public abstract class CustomCollector extends Collector {
     }
 
 
-    protected List<GaugeMetricFamily> collectAllSensorGauges() {
+    /**
+     * Collect all sensor gauges list.
+     *
+     * @return the list
+     */
+    public List<GaugeMetricFamily> collectAllSensorGauges() {
 
         log.info("Started collecting sensor measurements...");
 
@@ -117,7 +147,13 @@ public abstract class CustomCollector extends Collector {
     }
 
 
-    protected List<GaugeMetricFamily> collectSensorGaugesByDataType(String dataTypeName) {
+    /**
+     * Collect sensor gauges by data type list.
+     *
+     * @param dataTypeName the data type name
+     * @return the list
+     */
+    public List<GaugeMetricFamily> collectSensorGaugesByDataType(String dataTypeName) {
 
         log.info("Started collecting sensor measurements for datatype " + dataTypeName + "...");
 
@@ -129,6 +165,12 @@ public abstract class CustomCollector extends Collector {
         return gauges;
     }
 
+    /**
+     * generate gauges for given list of sensors
+     *
+     * @param sensors the sensors for which the gauges are to be generated
+     * @return list of GaugeMetricFamily
+     */
     private List<GaugeMetricFamily> getGaugesForSensors(List<Sensor> sensors) {
 
         List<GaugeMetricFamily> gauges = new ArrayList<>();
@@ -166,7 +208,12 @@ public abstract class CustomCollector extends Collector {
         return gauges;
     }
 
-    protected List<GaugeMetricFamily> collectAllAggregatorGauges() {
+    /**
+     * Collect all aggregator gauges list.
+     *
+     * @return the list
+     */
+    public List<GaugeMetricFamily> collectAllAggregatorGauges() {
 
         log.info("Started collecting group measurements...");
         List<Aggregator> aggregators =  aggregatorService.findAllAggregatorsToExport();
@@ -178,7 +225,13 @@ public abstract class CustomCollector extends Collector {
     }
 
 
-    protected List<GaugeMetricFamily> collectAggregatorGaugesByDataType(String dataTypeName) {
+    /**
+     * Collect aggregator gauges by data type list.
+     *
+     * @param dataTypeName the data type name
+     * @return the list
+     */
+    public List<GaugeMetricFamily> collectAggregatorGaugesByDataType(String dataTypeName) {
 
         log.info("Started collecting group measurements for datatype " + dataTypeName + "...");
         List<Aggregator> aggregators =  aggregatorService.findAllAggregatorsToExportByDataTypeName(dataTypeName);
@@ -189,6 +242,13 @@ public abstract class CustomCollector extends Collector {
         return gauges;
     }
 
+    /**
+     *
+     * generate gauges for given list of aggregators
+     *
+     * @param aggregators the aggregators for which the gauges are to be generated
+     * @return list of GaugeMetricFamily
+     */
     private List<GaugeMetricFamily> getGaugesForAggregators(List<Aggregator> aggregators) {
 
         List<GaugeMetricFamily> gauges = new ArrayList<>();
@@ -231,6 +291,12 @@ public abstract class CustomCollector extends Collector {
     }
 
 
+    /**
+     * return the objects for the given keys
+     *
+     * @param keys list of keys
+     * @return map of objects
+     */
     private Map<String, Object> getObjectsForKeys(List<String> keys) {
 
         Map<String, Object> objects = null;

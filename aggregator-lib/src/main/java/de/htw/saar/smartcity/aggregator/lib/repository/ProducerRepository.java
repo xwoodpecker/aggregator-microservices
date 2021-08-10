@@ -7,8 +7,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * The interface Producer repository.
+ */
 @Repository
 public interface ProducerRepository extends JpaRepository<Producer, Long> {
 
+    /**
+     * Find all by data type list.
+     *
+     * @param dataType the data type
+     * @return the list
+     */
     List<Producer> findAllByDataType(DataType dataType);
 }

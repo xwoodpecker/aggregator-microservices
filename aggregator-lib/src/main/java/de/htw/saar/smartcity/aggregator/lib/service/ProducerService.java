@@ -2,9 +2,7 @@ package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
-import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.repository.ProducerRepository;
-import de.htw.saar.smartcity.aggregator.lib.repository.SensorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public class ProducerService {
     }
 
     /**
-     * Save producer producer.
+     * Save producer
      *
      * @param producer the producer
      * @return the producer
@@ -57,6 +55,12 @@ public class ProducerService {
         return producerRepository.findAll();
     }
 
+    /**
+     * Find all producers by data type list.
+     *
+     * @param dataType the data type
+     * @return the list
+     */
     public List<Producer> findAllProducersByDataType(DataType dataType) {
         return producerRepository.findAllByDataType(dataType);
     }

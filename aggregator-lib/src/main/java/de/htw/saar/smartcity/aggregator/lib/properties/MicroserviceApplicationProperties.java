@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * The type Microservice application properties.
+ */
 public abstract class MicroserviceApplicationProperties implements BrokerApplicationProperties, MinioApplicationProperties, MemcachedApplicationProperties {
 
     private String brokerTopic;
@@ -36,12 +39,24 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
 
     private String minioSecretKey;
 
+    /**
+     * The Microservice queue.
+     */
     protected String microserviceQueue;
 
+    /**
+     * The Microservice bucket.
+     */
     protected String microserviceBucket;
 
+    /**
+     * The Memcached host.
+     */
     protected String memcachedHost;
 
+    /**
+     * The Memcached port.
+     */
     protected String memcachedPort;
 
     //@Value("${BROKER_TOPIC}")
@@ -115,8 +130,18 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         this.minioSecretKey = minioSecretKey;
     }
 
+    /**
+     * Sets microservice queue.
+     *
+     * @param microserviceQueue the microservice queue
+     */
     protected abstract void setMicroserviceQueue(String microserviceQueue);
 
+    /**
+     * Sets microservice bucket.
+     *
+     * @param microserviceBucket the microservice bucket
+     */
     protected abstract void setMicroserviceBucket(String microserviceBucket);
 
     @Value("${MEMCACHED_HOST}")
@@ -183,6 +208,11 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         return minioSecretKey;
     }
 
+    /**
+     * Gets microservice queue.
+     *
+     * @return the microservice queue
+     */
     public String getMicroserviceQueue() {
         return microserviceQueue;
     }
@@ -200,6 +230,11 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         return this.memcachedPort;
     }
 
+    /**
+     * Gets broker management port.
+     *
+     * @return the broker management port
+     */
     public String getBrokerManagementPort() {
         return this.brokerManagementPort;
     }

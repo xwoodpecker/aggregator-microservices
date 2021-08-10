@@ -14,6 +14,9 @@ import java.net.URI;
 import java.util.Locale;
 
 
+/**
+ * The type Open weather api wrapper.
+ */
 public final class OpenWeatherAPIWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(OpenWeatherAPIWrapper.class);
@@ -24,14 +27,30 @@ public final class OpenWeatherAPIWrapper {
 
     }
 
+    /**
+     * Gets api key.
+     *
+     * @return the api key
+     */
     public static String getApiKey() {
         return apiKey;
     }
 
+    /**
+     * Sets api key.
+     *
+     * @param apiKey the api key
+     */
     public static void setApiKey(String apiKey) {
         OpenWeatherAPIWrapper.apiKey = apiKey;
     }
 
+    /**
+     * Gets temperature humidity.
+     *
+     * @param cityId the city id
+     * @return the temperature humidity
+     */
     public static WeatherData getTemperatureHumidity(Integer cityId) {
         RestTemplate restTemplate = new RestTemplate();
         String url = String.format("http://api.openweathermap.org/data/2.5/weather?id=%s&appid=%s",
@@ -72,6 +91,11 @@ public final class OpenWeatherAPIWrapper {
         return null;
     }
 
+    /**
+     * checks weather the weather string should be considered as rainy
+     * @param weather string containing weather data
+     * @return if it is rainy
+     */
     private static Boolean isRainy(String weather) {
         weather = weather.toLowerCase(Locale.ROOT);
         return (weather.contains("rain") || weather.contains("snow") || weather.contains("extreme"));

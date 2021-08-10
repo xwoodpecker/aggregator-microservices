@@ -1,9 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
-import de.htw.saar.smartcity.aggregator.lib.entity.FormulaItem;
 import de.htw.saar.smartcity.aggregator.lib.entity.FormulaItemValue;
-import de.htw.saar.smartcity.aggregator.lib.entity.Tag;
-import de.htw.saar.smartcity.aggregator.lib.repository.FormulaItemRepository;
 import de.htw.saar.smartcity.aggregator.lib.repository.FormulaItemValueRepository;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +45,7 @@ public class FormulaItemValueService {
     }
 
     /**
-     * Save formula item value formula item value.
+     * Save formula item value
      *
      * @param formulaItemValue the formula item value
      * @return the formula item value

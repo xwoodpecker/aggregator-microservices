@@ -22,6 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes={
@@ -57,10 +58,14 @@ public class ExporterMicroserviceBenchmark {
 
     @Before
     public void initMemcached() {
-        int expirationTime = 10 * (WARMUP_ITERATIONS+MEASUREMENT_ITERATIONS+1);
-        for(int i = 1; i <= 10000; i++) {
-            //expiry set to 1 minute
-            memcachedClientWrapper.putObjectWithExpiration(Constants.MEMCACHED_MEASUREMENT_PREFIX + "data/aggregator/benchmarking/exporter/sensor" + i, 1.0, expirationTime);
+        int expirationTime = 10 * (WARMUP_ITERATIONS+MEASUREMENT_ITERATIONS + 1) * paramCount;
+        for(int i = 1; i <= 100_000; i++) {
+            //expiry set slightly higher than the time required for the benchmarking
+            memcachedClientWrapper.putObjectWithExpiration(
+                    Constants.MEMCACHED_MEASUREMENT_PREFIX + "data/aggregator/benchmarking/exporter/sensor" + i,
+                    ThreadLocalRandom.current().nextDouble(0, 1000),
+                    expirationTime
+            );
         }
     }
 
@@ -96,11 +101,18 @@ public class ExporterMicroserviceBenchmark {
     }
 
 
+
+    //public int paramCount = 3;
+    //@Param({"50000", "75000", "100000"})
+    public int paramCount = 16;
+    @Param({"1", "50", "100", "200", "300", "400", "500", "750", "1000", "2500", "5000", "10000", "25000", "50000", "75000", "100000"}) //, "500000", "1000000"})
+    public int endID;
+
     @Benchmark
     public void benchmarkHandle() {
         // check if customCollector is present
         assert(customCollector != null);
 
-        customCollector.collect();
+        customCollector.collectProducerGaugesByIdRange(1L, Long.valueOf(endID));
     }
 }

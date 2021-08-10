@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class PictureRawMeasurementHandler extends RawMeasurementHandler {
 
-    public PictureRawMeasurementHandler(RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
-                                        DataTypeService dataTypeService,
-                                        MeasurementFactory measurementFactory,
-                                        StorageWrapper storageWrapper,
-                                        Publisher publisher) {
 
-        super(rawMicroserviceApplicationProperties, dataTypeService, measurementFactory, storageWrapper, publisher);
+    protected PictureRawMeasurementHandler(StorageWrapper storageWrapper,
+                                           Publisher publisher,
+                                           RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
+                                           DataTypeService dataTypeService,
+                                           MeasurementFactory measurementFactory) {
+
+        super(storageWrapper, publisher, rawMicroserviceApplicationProperties, dataTypeService, measurementFactory);
     }
 }

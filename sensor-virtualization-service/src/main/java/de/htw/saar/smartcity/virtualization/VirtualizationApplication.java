@@ -3,6 +3,9 @@ package de.htw.saar.smartcity.virtualization;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * The type Virtualization application.
+ */
 @SpringBootApplication
 public class VirtualizationApplication {
 

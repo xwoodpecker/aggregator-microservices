@@ -9,7 +9,6 @@ import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorUnaryModel;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorUnaryOperator;
-import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModel;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.service.CombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupService;
@@ -37,17 +36,17 @@ public class HeatfluxGroupMeasurementHandler extends GroupMeasurementHandler {
 
     private final HeatfluxApplicationProperties applicationProperties;
 
+    protected HeatfluxGroupMeasurementHandler(StorageWrapper storageWrapper,
+                                              Publisher publisher,
+                                              ProducerService producerService,
+                                              GroupService groupService,
+                                              CombinatorService combinatorService,
+                                              HeatfluxApplicationProperties applicationProperties) {
 
-    public HeatfluxGroupMeasurementHandler(StorageWrapper storageWrapper,
-                                           ProducerService producerService,
-                                           GroupService groupService,
-                                           CombinatorService combinatorService,
-                                           Publisher publisher,
-                                           HeatfluxApplicationProperties applicationProperties) {
-
-        super(storageWrapper, producerService, groupService, combinatorService, publisher);
+        super(storageWrapper, publisher, producerService, groupService, combinatorService);
         this.applicationProperties = applicationProperties;
     }
+
 
     @Override
     protected void addCombinators() {

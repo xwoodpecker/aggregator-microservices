@@ -7,9 +7,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
+/**
+ * The type Sql integrity constraint violation exception handler advice.
+ */
 @ControllerAdvice
 public class SQLIntegrityConstraintViolationExceptionHandlerAdvice {
 
+    /**
+     * Handle exception response entity.
+     *
+     * @param e the e
+     * @return the response entity
+     */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity handleException(SQLIntegrityConstraintViolationException e) {
         return ResponseEntity

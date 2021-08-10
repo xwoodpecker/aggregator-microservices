@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The type Producer controller.
+ */
 @RestController
 @RequestMapping(path = "/producers")
 public class ProducerController {
@@ -19,6 +22,13 @@ public class ProducerController {
     private final TagService tagService;
     private final LocationService locationService;
 
+    /**
+     * Instantiates a new Producer controller.
+     *
+     * @param producerService the producer service
+     * @param tagService      the tag service
+     * @param locationService the location service
+     */
     public ProducerController(ProducerService producerService, TagService tagService, LocationService locationService) {
 
         this.producerService = producerService;
@@ -26,6 +36,13 @@ public class ProducerController {
         this.locationService = locationService;
     }
 
+    /**
+     * Put tag response entity.
+     *
+     * @param producerId the producer id
+     * @param tagId      the tag id
+     * @return the response entity
+     */
     @PutMapping("/{producerId}/tags/{tagId}")
     public ResponseEntity putTag(@PathVariable Long producerId, @PathVariable Long tagId) {
 
@@ -44,6 +61,13 @@ public class ProducerController {
         return new ResponseEntity(producer, HttpStatus.OK);
     }
 
+    /**
+     * Delete tag response entity.
+     *
+     * @param producerId the producer id
+     * @param tagId      the tag id
+     * @return the response entity
+     */
     @DeleteMapping("/{producerId}/tags/{tagId}")
     public ResponseEntity deleteTag(@PathVariable Long producerId, @PathVariable Long tagId) {
 

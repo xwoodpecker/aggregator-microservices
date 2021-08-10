@@ -10,17 +10,38 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 
+/**
+ * The type Broker connection.
+ */
 public abstract class BrokerConnection {
 
+    /**
+     * The constant log.
+     */
     protected static final Logger log = LoggerFactory.getLogger(BrokerConnection.class);
 
+    /**
+     * The Application properties.
+     */
     protected final BrokerApplicationProperties applicationProperties;
 
+    /**
+     * The Connection.
+     */
     protected final Connection connection;
 
+    /**
+     * The Channel.
+     */
     protected Channel channel;
 
 
+    /**
+     * Instantiates a new Broker connection.
+     *
+     * @param applicationProperties the application properties
+     * @throws Exception the exception
+     */
     public BrokerConnection(BrokerApplicationProperties applicationProperties) throws Exception {
         this.applicationProperties = applicationProperties;
 
@@ -28,10 +49,16 @@ public abstract class BrokerConnection {
         channel = connection.createChannel();
     }
 
+    /**
+     * configures the connection, authentication, sslcontext
+     *
+     * @return Connection the resulting connection
+     * @throws Exception in case of failure throws exception
+     */
     private Connection configConnection() throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
 
-        Connection connection = null;
+        Connection connection;
         factory.setHost(applicationProperties.getBrokerHost());
         factory.setPort(Integer.valueOf(applicationProperties.getBrokerPortAMQP()));
 
@@ -50,6 +77,7 @@ public abstract class BrokerConnection {
                     applicationProperties.getClientKeyFile()));
         }
 
+        // only use one thread for our connection!!
         connection = factory.newConnection(Executors.newFixedThreadPool(1));
 
         return connection;

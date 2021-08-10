@@ -9,17 +9,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * The type Formula item controller.
+ */
 @RestController
 @RequestMapping(path = "/formulaItems")
 public class FormulaItemController {
 
     private final FormulaItemService formulaItemService;
 
+    /**
+     * Instantiates a new Formula item controller.
+     *
+     * @param formulaItemService the formula item service
+     */
     public FormulaItemController(FormulaItemService formulaItemService) {
 
         this.formulaItemService = formulaItemService;
     }
 
+    /**
+     * Gets formula items.
+     *
+     * @return the formula items
+     */
     @GetMapping("/")
     public ResponseEntity getFormulaItems() {
 
@@ -29,6 +42,12 @@ public class FormulaItemController {
         );
     }
 
+    /**
+     * Gets formula item.
+     *
+     * @param id the id
+     * @return the formula item
+     */
     @GetMapping("/{id}")
     public ResponseEntity getFormulaItem(@PathVariable Long id) {
 

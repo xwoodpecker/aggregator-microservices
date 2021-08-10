@@ -2,28 +2,70 @@ package de.htw.saar.smartcity.aggregator.lib.properties;
 
 import java.util.Arrays;
 
+/**
+ * The type Raw microservice application properties.
+ */
 public abstract class RawMicroserviceApplicationProperties extends MicroserviceApplicationProperties {
 
+    /**
+     * The Microservice topics.
+     */
     protected String[] microserviceTopics;
 
+    /**
+     * The Microservice data type.
+     */
     protected String microserviceDataType;
 
+    /**
+     * The Export sensor data as metric.
+     */
     protected boolean exportSensorDataAsMetric;
 
+    /**
+     * Sets microservice topics.
+     *
+     * @param microserviceTopics the microservice topics
+     */
     public abstract void setMicroserviceTopics(String[] microserviceTopics);
 
+    /**
+     * Sets microservice data type.
+     *
+     * @param microserviceDataType the microservice data type
+     */
     public abstract void setMicroserviceDataType(String microserviceDataType);
 
+    /**
+     * Sets export sensor data as metric.
+     *
+     * @param exportSensorDataAsMetric the export sensor data as metric
+     */
     public abstract void setExportSensorDataAsMetric(boolean exportSensorDataAsMetric);
 
+    /**
+     * Get microservice topics string [ ].
+     *
+     * @return the string [ ]
+     */
     public String[] getMicroserviceTopics() {
         return microserviceTopics;
     }
 
+    /**
+     * Gets micro service data type.
+     *
+     * @return the micro service data type
+     */
     public String getMicroServiceDataType() {
         return microserviceDataType;
     }
 
+    /**
+     * Gets export sensor data as metric.
+     *
+     * @return the export sensor data as metric
+     */
     public boolean getExportSensorDataAsMetric() {
         return this.exportSensorDataAsMetric;
     }

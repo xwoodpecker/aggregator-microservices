@@ -8,6 +8,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Group.
+ */
 @Entity
 @Table(name = "groups")
 public class Group {
@@ -41,6 +44,9 @@ public class Group {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Aggregator> aggregators = new ArrayList<>();
 
+    /**
+     * The Values.
+     */
     @ManyToMany
     @JoinTable(name = "group_formula_item_value",
             joinColumns = @JoinColumn(name = "group_id"),
@@ -51,9 +57,23 @@ public class Group {
     protected List<FormulaItemValue> values = new ArrayList<>();
 
 
+    /**
+     * Instantiates a new Group.
+     */
     public Group() {
     }
 
+    /**
+     * Instantiates a new Group.
+     *
+     * @param id          the id
+     * @param name        the name
+     * @param active      the active
+     * @param groupType   the group type
+     * @param producers   the producers
+     * @param aggregators the aggregators
+     * @param values      the values
+     */
     public Group(Long id, String name, Boolean active, GroupType groupType, List<Producer> producers, List<Aggregator> aggregators, List<FormulaItemValue> values) {
         this.id = id;
         this.name = name;
@@ -64,62 +84,137 @@ public class Group {
         this.values = values;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets producers.
+     *
+     * @return the producers
+     */
     public List<Producer> getProducers() {
         return producers;
     }
 
+    /**
+     * Sets producers.
+     *
+     * @param producers the producers
+     */
     public void setProducers(List<Producer> producers) {
         this.producers = producers;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets active.
+     *
+     * @return the active
+     */
     public Boolean getActive() {
         return active;
     }
 
+    /**
+     * Sets active.
+     *
+     * @param active the active
+     */
     public void setActive(Boolean active) {
         this.active = active;
     }
 
+    /**
+     * Gets group type.
+     *
+     * @return the group type
+     */
     public GroupType getGroupType() {
         return groupType;
     }
 
+    /**
+     * Sets group type.
+     *
+     * @param groupType the group type
+     */
     public void setGroupType(GroupType groupType) {
         this.groupType = groupType;
     }
 
+    /**
+     * Gets aggregators.
+     *
+     * @return the aggregators
+     */
     public List<Aggregator> getAggregators() {
         return aggregators;
     }
 
+    /**
+     * Sets aggregators.
+     *
+     * @param aggregators the aggregators
+     */
     public void setAggregators(List<Aggregator> aggregators) {
         this.aggregators = aggregators;
     }
 
+    /**
+     * Gets values.
+     *
+     * @return the values
+     */
     public List<FormulaItemValue> getValues() {
         return values;
     }
 
+    /**
+     * Sets values.
+     *
+     * @param values the values
+     */
     public void setValues(List<FormulaItemValue> values) {
         this.values = values;
     }
 
+    /**
+     * Replace own attributes with other.
+     *
+     * @param other the other
+     */
     public void replaceOwnAttributesWithOther(Group other) {
         this.setName(other.getName());
         this.setActive(other.getActive());

@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class AirqualityRawMeasurementHandler extends RawMeasurementHandler {
 
-    public AirqualityRawMeasurementHandler(RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
-                                            DataTypeService dataTypeService,
-                                            MeasurementFactory measurementFactory,
-                                            StorageWrapper storageWrapper,
-                                            Publisher publisher) {
 
-        super(rawMicroserviceApplicationProperties, dataTypeService, measurementFactory, storageWrapper, publisher);
+    protected AirqualityRawMeasurementHandler(StorageWrapper storageWrapper,
+                                              Publisher publisher,
+                                              RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
+                                              DataTypeService dataTypeService,
+                                              MeasurementFactory measurementFactory) {
+
+        super(storageWrapper, publisher, rawMicroserviceApplicationProperties, dataTypeService, measurementFactory);
     }
 }

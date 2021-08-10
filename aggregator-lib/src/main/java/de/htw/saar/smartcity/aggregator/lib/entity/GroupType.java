@@ -1,14 +1,10 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * The type Group type.
+ */
 @Entity
 @Table(name ="group_types")
 public class GroupType {
@@ -20,27 +16,56 @@ public class GroupType {
     @Column(unique = true, nullable = false)
     private String name;
 
+    /**
+     * Instantiates a new Group type.
+     */
     public GroupType() {
 
     }
 
+    /**
+     * Instantiates a new Group type.
+     *
+     * @param id   the id
+     * @param name the name
+     */
     public GroupType(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }

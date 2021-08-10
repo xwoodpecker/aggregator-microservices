@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Mqtt publisher.
+ */
 @Component
 public class MqttPublisherImpl extends MqttPublisher {
 
@@ -30,7 +33,8 @@ public class MqttPublisherImpl extends MqttPublisher {
     /**
      * Instantiates a new Mqtt subscriber.
      *
-     * @param applicationProperties
+     * @param applicationProperties the application properties
+     * @throws Exception the exception
      */
     public MqttPublisherImpl(VirtualizationApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);

@@ -4,13 +4,25 @@ import de.htw.saar.smartcity.aggregator.lib.handler.RawMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 
-import java.io.IOException;
 
-
+/**
+ * The type Base receiver.
+ */
 public abstract class BaseReceiver extends Receiver {
 
+    /**
+     * The Raw measurement handler.
+     */
     protected final RawMeasurementHandler rawMeasurementHandler;
 
+    /**
+     * Instantiates a new Base receiver.
+     *
+     * @param applicationProperties the application properties
+     * @param activityManager       the activity manager
+     * @param rawMeasurementHandler the raw measurement handler
+     * @throws Exception the exception
+     */
     public BaseReceiver(RawMicroserviceApplicationProperties applicationProperties,
                         ActivityManager activityManager,
                         RawMeasurementHandler rawMeasurementHandler) throws Exception {
@@ -26,6 +38,12 @@ public abstract class BaseReceiver extends Receiver {
         }
     }
 
+    /**
+     * process a message for a given routingKey
+     *
+     * @param routingKey the routing key
+     * @param message    the message
+     */
     void processMessage(String routingKey, String message) {
 
             String topic = routingKey.replaceAll("\\.", "/");

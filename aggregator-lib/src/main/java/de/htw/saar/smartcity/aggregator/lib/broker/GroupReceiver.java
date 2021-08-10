@@ -11,11 +11,25 @@ import java.io.InputStream;
 import java.net.URI;
 
 
+/**
+ * The type Group receiver.
+ */
 public abstract class GroupReceiver extends Receiver {
 
+    /**
+     * The Group measurement handler.
+     */
     protected final GroupMeasurementHandler groupMeasurementHandler;
 
 
+    /**
+     * Instantiates a new Group receiver.
+     *
+     * @param applicationProperties   the application properties
+     * @param activityManager         the activity manager
+     * @param groupMeasurementHandler the group measurement handler
+     * @throws Exception the exception
+     */
     public GroupReceiver(GroupMicroserviceApplicationProperties applicationProperties,
                          ActivityManager activityManager,
                          GroupMeasurementHandler groupMeasurementHandler) throws Exception {
@@ -27,6 +41,12 @@ public abstract class GroupReceiver extends Receiver {
         channel.queueBind(applicationProperties.getMicroserviceQueue(), Constants.GROUP_EXCHANGE, groupTypeName + ".#");
     }
 
+    /**
+     * process the message for the given routingKey
+     *
+     * @param routingKey the routing key
+     * @param message    the message
+     */
     void processMessage(String routingKey, String message) {
 
 

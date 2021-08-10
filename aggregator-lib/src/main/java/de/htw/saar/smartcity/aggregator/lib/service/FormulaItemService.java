@@ -49,7 +49,7 @@ public class FormulaItemService {
     }
 
     /**
-     * Save formula item formula item.
+     * Save formula item
      *
      * @param formulaItem the formula item
      * @return the formula item

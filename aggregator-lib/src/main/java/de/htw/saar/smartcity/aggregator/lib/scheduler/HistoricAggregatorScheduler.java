@@ -20,20 +20,38 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Historic aggregator scheduler.
+ */
 public abstract class HistoricAggregatorScheduler {
 
     private final HistoricAggregatorApplicationProperties applicationProperties;
+
     private static final Logger log = LoggerFactory.getLogger(HistoricAggregatorScheduler.class);
 
     private final ProducerService producerService;
+
     private final HistoricCombinatorService historicCombinatorService;
+
     private final HistoricStorageWrapper storageWrapper;
 
     private final DataType dataType;
 
 
+    /**
+     * The Historic combinator models.
+     */
     protected List<HistoricCombinatorModel> historicCombinatorModels = new ArrayList<>();
 
+    /**
+     * Instantiates a new Historic aggregator scheduler.
+     *
+     * @param applicationProperties     the application properties
+     * @param dataTypeService           the data type service
+     * @param producerService           the producer service
+     * @param historicCombinatorService the historic combinator service
+     * @param storageWrapper            the storage wrapper
+     */
     public HistoricAggregatorScheduler(HistoricAggregatorApplicationProperties applicationProperties,
                                        DataTypeService dataTypeService,
                                        ProducerService producerService,
@@ -49,12 +67,18 @@ public abstract class HistoricAggregatorScheduler {
     }
 
 
+    /**
+     * necessary initialization after object construction
+     */
     @PostConstruct
     private void init() {
         addHistoricCombinators();
         createHistoricCombinatorsIfNotFound();
     }
 
+    /**
+     * Add historic combinators.
+     */
     protected abstract void addHistoricCombinators();
 
     private void createHistoricCombinatorsIfNotFound() {
@@ -65,6 +89,12 @@ public abstract class HistoricAggregatorScheduler {
         }
     }
 
+    /**
+     * Create historic combinator if not found historic combinator.
+     *
+     * @param historicCombinatorName the historic combinator name
+     * @return the historic combinator
+     */
     @Transactional
     protected HistoricCombinator createHistoricCombinatorIfNotFound(String historicCombinatorName) {
 
@@ -78,6 +108,9 @@ public abstract class HistoricAggregatorScheduler {
         return historicCombinator;
     }
 
+    /**
+     * compute the annual aggregates
+     */
     @Scheduled(cron="@yearly")
     private void computeAnnually(){
         String timePrefix = String.format("/%d/",
@@ -87,6 +120,9 @@ public abstract class HistoricAggregatorScheduler {
         computeHistoricsForTimePrefix(timePrefix);
     }
 
+    /**
+     * compute the monthly aggregates
+     */
     @Scheduled(cron="@monthly") // 0 0 0 1 * *
     private void computeMonthly() {
 
@@ -103,6 +139,9 @@ public abstract class HistoricAggregatorScheduler {
     }
     }**/
 
+    /**
+     * compute the daily aggregates
+     */
     @Scheduled(cron="@daily") // 0 0 0 0 * *
     private void computeDaily() {
 
@@ -116,6 +155,9 @@ public abstract class HistoricAggregatorScheduler {
         computeHistoricsForTimePrefix(timePrefix);
     }
 
+    /**
+     * compute the hourly aggregates
+     */
     @Scheduled(cron="@hourly") //0 0 * * * *
     private void computeHourly() {
 
@@ -131,6 +173,11 @@ public abstract class HistoricAggregatorScheduler {
 
     }
 
+    /**
+     * compute the aggregates for the raw measurements for the given time prefix
+     *
+     * @param timePrefix the given prefix
+     */
     private void computeRawForTimePrefix(String timePrefix) {
 
         List<Producer> producerList = producerService.findAllProducersByDataType(dataType);
@@ -157,17 +204,31 @@ public abstract class HistoricAggregatorScheduler {
 
     }
 
+    /**
+     * return the parent path for given objects path
+     * @param objectsPath the input path
+     * @return the parent path
+     */
     private String parent(String objectsPath) {
 
         String temp = objectsPath.substring(0, objectsPath.length() - 1);
         return temp.substring(0, temp.lastIndexOf("/"));
     }
 
+    /**
+     * return the last directory for given objects path
+     * @param objectsPath the input path
+     * @return the last directory
+     */
     private String lastDir(String objectsPath) {
         String temp = objectsPath.substring(0, objectsPath.length() - 1);
         return temp.substring(temp.lastIndexOf("/") + 1);
     }
 
+    /**
+     * compute historic aggregates for given time prefix
+     * @param timePrefix the given time prefix
+     */
     private void computeHistoricsForTimePrefix(String timePrefix) {
 
         List<Producer> producerList = producerService.findAllProducersByDataType(dataType);
@@ -190,6 +251,12 @@ public abstract class HistoricAggregatorScheduler {
         }
     }
 
+    /**
+     * combine the measurement by applying the HistoricCombinatorModel to the list of measurements
+     * @param historicCombinatorModel the model used to calculate
+     * @param measurements the measurements for the computation
+     * @return the historic aggregate
+     */
     private Measurement getMeasurement(HistoricCombinatorModel historicCombinatorModel, List<Measurement> measurements) {
         Double combined = (Double) historicCombinatorModel.getFunction().apply(measurements);
         Measurement m = new Measurement();

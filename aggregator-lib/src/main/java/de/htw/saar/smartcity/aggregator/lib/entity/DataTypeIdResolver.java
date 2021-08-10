@@ -5,9 +5,17 @@ import com.fasterxml.jackson.annotation.ObjectIdResolver;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * The type Data type id resolver.
+ */
 public class DataTypeIdResolver implements ObjectIdResolver {
     private final DataTypeService dataTypeService;
 
+    /**
+     * Instantiates a new Data type id resolver.
+     *
+     * @param dataTypeService the data type service
+     */
     public DataTypeIdResolver(@Autowired DataTypeService dataTypeService) {
         this.dataTypeService = dataTypeService;
     }

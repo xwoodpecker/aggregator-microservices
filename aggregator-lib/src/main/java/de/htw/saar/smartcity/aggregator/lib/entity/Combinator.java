@@ -1,14 +1,10 @@
 package de.htw.saar.smartcity.aggregator.lib.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * The type Combinator.
+ */
 @Entity
 @Table(name = "combinators")
 public class Combinator {
@@ -20,52 +16,54 @@ public class Combinator {
     @Column
     private String name;
 
-    /**@OneToMany(mappedBy="combinator")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Aggregator> aggregators = new ArrayList<>();**/
-
+    /**
+     * Instantiates a new Combinator.
+     */
     public Combinator() {
     }
 
+    /**
+     * Instantiates a new Combinator.
+     *
+     * @param id   the id
+     * @param name the name
+     */
     public Combinator(Long id, String name) {
         this.id = id;
         this.name = name;
     }
-
-    /**public Combinator(Long id, String name, List<Aggregator> aggregators) {
-        this.id = id;
-        this.name = name;
-        this.aggregators = aggregators;
-    }**/
-
 
 
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
-
-    /**public List<Aggregator> getAggregators() {
-        return aggregators;
-    }
-
-    public void setAggregators(List<Aggregator> aggregators) {
-        this.aggregators = aggregators;
-    }**/
-
 
     @Override
     public boolean equals(Object obj) {

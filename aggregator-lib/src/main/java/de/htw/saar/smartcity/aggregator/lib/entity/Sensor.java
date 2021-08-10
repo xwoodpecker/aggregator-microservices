@@ -5,31 +5,49 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.SecondaryTable;
 
+/**
+ * The type Sensor.
+ */
 @Entity
 @DiscriminatorValue("S")
 @SecondaryTable(name = "sensors")
-//@JsonTypeName("S")
 public class Sensor extends Producer {
 
     @Column(table = "sensors", unique = true, nullable = false)
     private String name;
 
 
-
+    /**
+     * Instantiates a new Sensor.
+     */
     public Sensor() {
     }
 
 
-
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
 
+    /**
+     * Replace own attributes with other.
+     *
+     * @param other the other
+     */
     public void replaceOwnAttributesWithOther(Sensor other) {
         this.setDataType(other.getDataType());
         this.setName(other.getName());

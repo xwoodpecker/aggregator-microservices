@@ -17,16 +17,33 @@ public class LocationService {
     private LocationRepository locationRepository;
 
 
+    /**
+     * Instantiates a new Location service.
+     *
+     * @param locationRepository the location repository
+     */
     public LocationService(LocationRepository locationRepository) {
         this.locationRepository = locationRepository;
     }
 
- 
+
+    /**
+     * Find location by name location.
+     *
+     * @param name the name
+     * @return the location
+     */
     public Location findLocationByName(String name) {
         return locationRepository.findLocationByName(name);
     }
 
-  
+
+    /**
+     * Save location
+     *
+     * @param location the location
+     * @return the location
+     */
     public Location saveLocation(Location location) {
 
         if (locationRepository.findLocationByName(location.getName()) != null)
@@ -35,6 +52,12 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
+    /**
+     * Update location
+     *
+     * @param location the location
+     * @return the location
+     */
     public Location updateLocation(Location location) {
 
         return locationRepository.save(location);

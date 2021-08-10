@@ -1,5 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
+import de.htw.saar.smartcity.aggregator.lib.base.Constants;
 import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import org.eclipse.paho.client.mqttv3.*;
@@ -9,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * The type Mqtt publisher.
+ */
 public abstract class MqttPublisher {
 
     private static final Logger log = LoggerFactory.getLogger(MqttPublisher.class);
@@ -18,12 +22,17 @@ public abstract class MqttPublisher {
      */
     private final MqttClient mqttClient;
 
+    /**
+     * application settings for the broker
+     */
     private final BrokerApplicationProperties applicationProperties;
 
 
     /**
      * Instantiates a new Mqtt subscriber.
-     * @param applicationProperties
+     *
+     * @param applicationProperties the application properties
+     * @throws Exception the exception
      */
     public MqttPublisher(BrokerApplicationProperties applicationProperties) throws Exception {
         this.applicationProperties = applicationProperties;
@@ -42,8 +51,8 @@ public abstract class MqttPublisher {
     /**
      * Publish message.
      *
-     * @param topic       the topic
-     * @param message     the message
+     * @param topic   the topic
+     * @param message the message
      * @throws MqttException the mqtt exception
      */
     public void publish(String topic, String message) throws MqttException {
@@ -51,11 +60,15 @@ public abstract class MqttPublisher {
         final MqttTopic mqttTopic = mqttClient.getTopic(topic);
         mqttTopic.publish(new MqttMessage(message.getBytes()));
 
-        log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + Utils.limitLoggedMsg(message,150));
+        log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + Utils.limitLoggedMsg(message, Constants.MAX_LOG_MESSAGE_SIZE));
     }
 
 
-
+    /**
+     * Mqtt client configuration
+     * @return the configured MqttClient
+     * @throws Exception in case of error thrown
+     */
     private MqttClient configMqttClient() throws Exception {
         boolean useSSL = !Utils.isBlankOrNull(applicationProperties.getCaFile()) && !Utils.isBlankOrNull(applicationProperties.getClientCertFile()) && !Utils.isBlankOrNull(applicationProperties.getClientKeyFile());
         String protocol = useSSL ? "ssl" : "tcp";

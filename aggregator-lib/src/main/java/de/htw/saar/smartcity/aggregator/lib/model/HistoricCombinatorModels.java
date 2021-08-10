@@ -4,6 +4,9 @@ import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 
 import java.util.function.DoubleFunction;
 
+/**
+ * The type Historic combinator models.
+ */
 public final class HistoricCombinatorModels {
 
     private static final DoubleFunction<Double> roundToTwoDigits = n -> n == Double.NaN ? Double.NaN : Math.round(n * 100) / 100.0;
@@ -35,14 +38,29 @@ public final class HistoricCombinatorModels {
     private static final String integerSumName = "integer-sum";
 
 
+    /**
+     * The constant averageHistoricCombinatorModel.
+     */
     public static HistoricCombinatorModel<Double> averageHistoricCombinatorModel = new HistoricCombinatorModel<>(doubleAverageName, doubleAverage);
 
+    /**
+     * The constant minimumHistoricCombinatorModel.
+     */
     public static HistoricCombinatorModel<Double> minimumHistoricCombinatorModel = new HistoricCombinatorModel<>(doubleMinimumName, doubleMinimum);
 
+    /**
+     * The constant maximumHistoricCombinatorModel.
+     */
     public static HistoricCombinatorModel<Double> maximumHistoricCombinatorModel = new HistoricCombinatorModel<>(doubleMaximumName, doubleMaximum);
 
+    /**
+     * The constant doubleSumHistoricCombinatorModel.
+     */
     public static HistoricCombinatorModel<Double> doubleSumHistoricCombinatorModel = new HistoricCombinatorModel<>(doubleSumName, doubleSum);
 
+    /**
+     * The constant integerSumHistoricCombinatorModel.
+     */
     public static HistoricCombinatorModel<Integer> integerSumHistoricCombinatorModel = new HistoricCombinatorModel<>(integerSumName, integerSum);
     
 }

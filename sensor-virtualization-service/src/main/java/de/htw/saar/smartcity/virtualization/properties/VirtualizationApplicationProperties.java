@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * The type Virtualization application properties.
+ */
 @Configuration
 public class VirtualizationApplicationProperties extends AbstractBrokerApplicationProperties {
 
@@ -18,15 +21,30 @@ public class VirtualizationApplicationProperties extends AbstractBrokerApplicati
         this.openWeatherAPIKey = openWeatherAPIKey;
     }
 
+    /**
+     * Gets open weather api key.
+     *
+     * @return the open weather api key
+     */
     public String getOpenWeatherAPIKey() {
         return openWeatherAPIKey;
     }
 
+    /**
+     * Sets open weather api cities.
+     *
+     * @param openWeatherAPICities the open weather api cities
+     */
     @Value("#{'${OPEN_WEATHER_API_CITIES}'.split(',')}")
     public void setOpenWeatherAPICities(List<String> openWeatherAPICities) {
         this.openWeatherAPICities = openWeatherAPICities;
     }
 
+    /**
+     * Gets open weather api cities.
+     *
+     * @return the open weather api cities
+     */
     public List<String> getOpenWeatherAPICities() {
         return openWeatherAPICities;
     }

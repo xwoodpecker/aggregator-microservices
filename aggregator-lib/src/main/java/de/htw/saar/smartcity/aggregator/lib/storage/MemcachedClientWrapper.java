@@ -15,12 +15,21 @@ import java.util.Collection;
 import java.util.Map;
 
 
+/**
+ * The type Memcached client wrapper.
+ */
 public class MemcachedClientWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(MemcachedClientWrapper.class);
 
     private final MemcachedClient mcc;
 
+    /**
+     * Instantiates a new Memcached client wrapper.
+     *
+     * @param applicationProperties the application properties
+     * @throws IOException the io exception
+     */
     public MemcachedClientWrapper(MemcachedApplicationProperties applicationProperties) throws IOException {
 
         String address = applicationProperties.getMemcachedHost() + ":" + applicationProperties.getMemcachedPort();
@@ -30,6 +39,13 @@ public class MemcachedClientWrapper {
         mcc = builder.build();
     }
 
+    /**
+     * Put object boolean.
+     *
+     * @param key the key
+     * @param o   the o
+     * @return the boolean
+     */
     public boolean putObject(String key, Object o) {
 
         boolean result;
@@ -45,6 +61,14 @@ public class MemcachedClientWrapper {
     }
 
 
+    /**
+     * Put object with expiration boolean.
+     *
+     * @param key            the key
+     * @param o              the o
+     * @param expirationTime the expiration time
+     * @return the boolean
+     */
     public boolean putObjectWithExpiration(String key, Object o, Integer expirationTime) {
 
         boolean result;
@@ -60,6 +84,13 @@ public class MemcachedClientWrapper {
     }
 
 
+    /**
+     * Gets object.
+     *
+     * @param <T> the type parameter
+     * @param key the key
+     * @return the object
+     */
     public <T> T getObject(String key) {
 
         T obj = null;
@@ -73,6 +104,12 @@ public class MemcachedClientWrapper {
         return obj;
     }
 
+    /**
+     * Delete object boolean.
+     *
+     * @param key the key
+     * @return the boolean
+     */
     public boolean deleteObject(String key) {
 
         boolean deleted = false;
@@ -86,6 +123,13 @@ public class MemcachedClientWrapper {
         return deleted;
     }
 
+    /**
+     * Gets objects.
+     *
+     * @param <T>  the type parameter
+     * @param keys the keys
+     * @return the objects
+     */
     public <T> Map<String, T> getObjects(Collection<String> keys) {
 
         Map<String, T> map = null;
@@ -95,7 +139,7 @@ public class MemcachedClientWrapper {
             log.error("Retrieving cached object failed.");
             //e.printStackTrace();
         }
-        log.info(Utils.limitLoggedMsg("Retrieved cached objects successfully: " + map, 300));
+        log.info(Utils.limitLoggedMsg("Retrieved cached objects successfully: " + map, Constants.MAX_LOG_MESSAGE_SIZE));
         return map;
     }
 

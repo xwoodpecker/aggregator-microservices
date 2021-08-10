@@ -1,8 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
-import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.entity.Tag;
-import de.htw.saar.smartcity.aggregator.lib.exception.SensorNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.exception.TagNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.TagRepository;
 import org.springframework.stereotype.Service;
@@ -38,7 +36,7 @@ public class TagService {
     }
 
     /**
-     * Save tag tag.
+     * Save tag
      *
      * @param tag the tag
      * @return the tag
@@ -51,6 +49,12 @@ public class TagService {
         return tagRepository.save(tag);
     }
 
+    /**
+     * Update tag
+     *
+     * @param tag the tag
+     * @return the tag
+     */
     public Tag updateTag(Tag tag) {
 
         return tagRepository.save(tag);

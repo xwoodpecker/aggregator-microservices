@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * The type Group controller.
+ */
 @RestController
 @RequestMapping(path = "/groups")
 public class GroupController {
@@ -24,6 +27,14 @@ public class GroupController {
     private final AggregatorService aggregatorService;
     private final FormulaItemValueService formulaItemValueService;
 
+    /**
+     * Instantiates a new Group controller.
+     *
+     * @param groupService            the group service
+     * @param producerService         the producer service
+     * @param aggregatorService       the aggregator service
+     * @param formulaItemValueService the formula item value service
+     */
     public GroupController(GroupService groupService,
                            ProducerService producerService,
                            AggregatorService aggregatorService,
@@ -35,6 +46,11 @@ public class GroupController {
         this.formulaItemValueService = formulaItemValueService;
     }
 
+    /**
+     * Gets groups.
+     *
+     * @return the groups
+     */
     @GetMapping("/")
     public ResponseEntity getGroups() {
 
@@ -44,6 +60,12 @@ public class GroupController {
         );
     }
 
+    /**
+     * Gets group.
+     *
+     * @param id the id
+     * @return the group
+     */
     @GetMapping("/{id}")
     public ResponseEntity getGroup(@PathVariable Long id) {
 
@@ -54,12 +76,24 @@ public class GroupController {
         );
     }
 
+    /**
+     * Post group response entity.
+     *
+     * @param group the group
+     * @return the response entity
+     */
     @PostMapping("/")
     public ResponseEntity postGroup(@RequestBody Group group) {
 
         return new ResponseEntity(groupService.saveGroup(group), HttpStatus.OK);
     }
 
+    /**
+     * Delete group response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity deleteGroup(@PathVariable Long id) {
 
@@ -72,6 +106,13 @@ public class GroupController {
 
     }
 
+    /**
+     * Put group response entity.
+     *
+     * @param group the group
+     * @param id    the id
+     * @return the response entity
+     */
     @PutMapping("/{id}")
     public ResponseEntity putGroup(@RequestBody Group group, @PathVariable Long id) {
 
@@ -93,6 +134,13 @@ public class GroupController {
         return new ResponseEntity(saved, HttpStatus.OK);
     }
 
+    /**
+     * Put producer response entity.
+     *
+     * @param groupId    the group id
+     * @param producerId the producer id
+     * @return the response entity
+     */
     @PutMapping("/{groupId}/producers/{producerId}")
     public ResponseEntity putProducer(@PathVariable Long groupId, @PathVariable Long producerId) {
 
@@ -112,6 +160,13 @@ public class GroupController {
         return new ResponseEntity(group, HttpStatus.OK);
     }
 
+    /**
+     * Delete producer response entity.
+     *
+     * @param groupId    the group id
+     * @param producerId the producer id
+     * @return the response entity
+     */
     @DeleteMapping("/{groupId}/producers/{producerId}")
     public ResponseEntity deleteProducer(@PathVariable Long groupId, @PathVariable Long producerId) {
 
@@ -130,6 +185,13 @@ public class GroupController {
     }
 
 
+    /**
+     * Put aggregator response entity.
+     *
+     * @param groupId      the group id
+     * @param aggregatorId the aggregator id
+     * @return the response entity
+     */
     @PutMapping("/{groupId}/aggregators/{aggregatorId}")
     public ResponseEntity putAggregator(@PathVariable Long groupId, @PathVariable Long aggregatorId) {
 
@@ -149,6 +211,13 @@ public class GroupController {
         return new ResponseEntity(group, HttpStatus.OK);
     }
 
+    /**
+     * Delete aggregator response entity.
+     *
+     * @param groupId      the group id
+     * @param aggregatorId the aggregator id
+     * @return the response entity
+     */
     @DeleteMapping("/{groupId}/aggregators/{aggregatorId}")
     public ResponseEntity deleteAggregator(@PathVariable Long groupId, @PathVariable Long aggregatorId) {
 
@@ -167,7 +236,13 @@ public class GroupController {
     }
 
 
-
+    /**
+     * Put formula item value response entity.
+     *
+     * @param groupId            the group id
+     * @param formulaItemValueId the formula item value id
+     * @return the response entity
+     */
     @PutMapping("/{groupId}/formulaItemValues/{formulaItemValueId}")
     public ResponseEntity putFormulaItemValue(@PathVariable Long groupId, @PathVariable Long formulaItemValueId) {
 
@@ -184,6 +259,13 @@ public class GroupController {
         return new ResponseEntity(group, HttpStatus.OK);
     }
 
+    /**
+     * Delete formula item value response entity.
+     *
+     * @param groupId            the group id
+     * @param formulaItemValueId the formula item value id
+     * @return the response entity
+     */
     @DeleteMapping("/{groupId}/formulaItemValues/{formulaItemValueId}")
     public ResponseEntity deleteFormulaItemValue(@PathVariable Long groupId, @PathVariable Long formulaItemValueId) {
 

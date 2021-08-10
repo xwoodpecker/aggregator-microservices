@@ -1,8 +1,16 @@
 package de.htw.saar.smartcity.aggregator.groups.exception;
 
+/**
+ * The type Sensor not found exception.
+ */
 public class SensorNotFoundException extends NotFoundException {
-        
-        public SensorNotFoundException(Long id) {
+
+    /**
+     * Instantiates a new Sensor not found exception.
+     *
+     * @param id the id
+     */
+    public SensorNotFoundException(Long id) {
             super("Could not find sensor with id " + id);
         }
     }

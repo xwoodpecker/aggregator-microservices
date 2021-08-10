@@ -8,7 +8,6 @@ import de.htw.saar.smartcity.aggregator.lib.handler.GroupMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorUnaryModel;
 import de.htw.saar.smartcity.aggregator.lib.model.CombinatorUnaryOperator;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
-import de.htw.saar.smartcity.aggregator.lib.model.CombinatorModel;
 import de.htw.saar.smartcity.aggregator.lib.service.*;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import org.springframework.stereotype.Component;
@@ -25,17 +24,17 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
     private final static Double A = 17.62;
     private final static Double B = 243.12;
 
-    public DewpointGroupMeasurementHandler(StorageWrapper storageWrapper,
-                                           ProducerService producerService,
-                                           GroupService groupService,
-                                           CombinatorService combinatorService,
-                                           Publisher publisher,
-                                           DewpointApplicationProperties applicationProperties) {
+    protected DewpointGroupMeasurementHandler(StorageWrapper storageWrapper,
+                                              Publisher publisher,
+                                              ProducerService producerService,
+                                              GroupService groupService,
+                                              CombinatorService combinatorService,
+                                              DewpointApplicationProperties applicationProperties) {
 
-        super(storageWrapper, producerService, groupService, combinatorService, publisher);
+        super(storageWrapper, publisher, producerService, groupService, combinatorService);
         this.applicationProperties = applicationProperties;
-
     }
+
 
     @Override
     protected void addCombinators() {

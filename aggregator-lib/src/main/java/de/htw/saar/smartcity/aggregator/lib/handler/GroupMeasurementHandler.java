@@ -24,16 +24,40 @@ import java.util.List;
 import java.util.Optional;
 
 
+/**
+ * The type Group measurement handler.
+ */
 public abstract class GroupMeasurementHandler extends MeasurementHandler{
 
+    /**
+     * The constant log.
+     */
     protected static final Logger log = LoggerFactory.getLogger(GroupMeasurementHandler.class);
 
+    /**
+     * The Combinator models.
+     */
     protected List<CombinatorModel> combinatorModels = new ArrayList<>();
 
+    /**
+     * The Producer service.
+     */
     protected final ProducerService producerService;
+    /**
+     * The Group service.
+     */
     protected final GroupService groupService;
     private final CombinatorService combinatorService;
 
+    /**
+     * Instantiates a new Group measurement handler.
+     *
+     * @param storageWrapper    the storage wrapper
+     * @param publisher         the publisher
+     * @param producerService   the producer service
+     * @param groupService      the group service
+     * @param combinatorService the combinator service
+     */
     protected GroupMeasurementHandler(StorageWrapper storageWrapper,
                                       Publisher publisher,
                                       ProducerService producerService,
@@ -46,6 +70,9 @@ public abstract class GroupMeasurementHandler extends MeasurementHandler{
     }
 
 
+    /**
+     * necessary initialization after object construction
+     */
     @PostConstruct
     private void init() {
         addCombinators();
@@ -53,9 +80,15 @@ public abstract class GroupMeasurementHandler extends MeasurementHandler{
     }
 
 
+    /**
+     * Add combinators.
+     */
     protected abstract void addCombinators();
 
 
+    /**
+     * create combinators needed in case not found
+     */
     private void createCombinatorsIfNotFound() {
 
         for(CombinatorModel combinatorModel : combinatorModels)
@@ -65,6 +98,12 @@ public abstract class GroupMeasurementHandler extends MeasurementHandler{
     }
 
 
+    /**
+     * Create combinator if not found combinator.
+     *
+     * @param combinatorName the combinator name
+     * @return the combinator
+     */
     @Transactional
     protected Combinator createCombinatorIfNotFound(String combinatorName) {
 
@@ -79,6 +118,13 @@ public abstract class GroupMeasurementHandler extends MeasurementHandler{
     }
 
 
+    /**
+     * Handle measurement.
+     *
+     * @param groupId     the group id
+     * @param producerId  the producer id
+     * @param measurement the measurement
+     */
     public void handleMeasurement(Long groupId, Long producerId, Measurement measurement) {
 
         Group group = null;

@@ -17,6 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The type Minio client wrapper.
+ */
 public class MinioClientWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(MinioClientWrapper.class);
@@ -25,6 +28,12 @@ public class MinioClientWrapper {
 
     private final MinioClient minioClient;
 
+    /**
+     * Instantiates a new Minio client wrapper.
+     *
+     * @param applicationProperties the application properties
+     * @throws Exception the exception
+     */
     public MinioClientWrapper(MinioApplicationProperties applicationProperties) throws Exception {
 
         this.applicationProperties = applicationProperties;
@@ -52,6 +61,12 @@ public class MinioClientWrapper {
         }
     }
 
+    /**
+     * Gets presigned object url.
+     *
+     * @param name the name
+     * @return the presigned object url
+     */
     public String getPresignedObjectUrl(String name) {
 
         String url = null;
@@ -73,6 +88,13 @@ public class MinioClientWrapper {
         return url;
     }
 
+    /**
+     * Put object boolean.
+     *
+     * @param o    the o
+     * @param name the name
+     * @return the boolean
+     */
     public boolean putObject(Object o, String name) {
 
         try {
@@ -100,8 +122,14 @@ public class MinioClientWrapper {
     }
 
 
-
-
+    /**
+     * Gets object.
+     *
+     * @param <T>    the type parameter
+     * @param name   the name
+     * @param target the target
+     * @return the object
+     */
     public <T> T getObject(String name, Class<T> target) {
 
         T object = null;
@@ -127,6 +155,12 @@ public class MinioClientWrapper {
     }
 
 
+    /**
+     * Delete object boolean.
+     *
+     * @param name the name
+     * @return the boolean
+     */
     public boolean deleteObject(String name) {
 
         try {
@@ -150,6 +184,14 @@ public class MinioClientWrapper {
     }
 
 
+    /**
+     * Gets objects with prefix.
+     *
+     * @param <T>    the type parameter
+     * @param prefix the prefix
+     * @param target the target
+     * @return the objects with prefix
+     */
     public <T> List<T> getObjectsWithPrefix(String prefix, Class<T> target) {
 
         List<T> results = new ArrayList<>();
@@ -174,6 +216,12 @@ public class MinioClientWrapper {
         return results;
     }
 
+    /**
+     * Gets object names with prefix.
+     *
+     * @param prefix the prefix
+     * @return the object names with prefix
+     */
     public List<String> getObjectNamesWithPrefix(String prefix) {
         return getObjectNamesWithPrefix(prefix, false);
     }
@@ -201,6 +249,12 @@ public class MinioClientWrapper {
         return results;
     }
 
+    /**
+     * Gets object names with prefix recursive.
+     *
+     * @param prefix the prefix
+     * @return the object names with prefix recursive
+     */
     public List<String> getObjectNamesWithPrefixRecursive(String prefix) {
         return getObjectNamesWithPrefix(prefix, true);
     }

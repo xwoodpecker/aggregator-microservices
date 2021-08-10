@@ -7,11 +7,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLongArray;
 
+/**
+ * The type Activity manager.
+ */
 @Component
 public class ActivityManager {
 
+    /**
+     * thread-safe array for saving time
+     */
     private AtomicLongArray arr;
 
+    /**
+     * Instantiates a new Activity manager.
+     */
     public ActivityManager() {
         long[] temp = new long[60];
         Arrays.fill(temp, 0);
@@ -20,6 +29,9 @@ public class ActivityManager {
         new Timer().scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
+    /**
+     * the reset task
+     */
     private TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
@@ -28,14 +40,23 @@ public class ActivityManager {
     };
 
 
+    /**
+     * the reset function
+     */
+    // deprecated, no need for adding Scheduled-Annotation just for QoL
     //@Scheduled(cron="* * * * * *")
     private void reset() {
         int i = (int)(System.currentTimeMillis() / 1000) % 60;
 
-        //System.out.println("Reset " + i);
         arr.set(i, 0);
     }
 
+    /**
+     * Add elapsed time for current time.
+     *
+     * @param now     the now
+     * @param elapsed the elapsed
+     */
     public void addTime(long now, long elapsed) {
 
         long i = now / 1000;
@@ -43,16 +64,19 @@ public class ActivityManager {
         long millis = elapsed % 1000;
 
         for(long s = 1; s <= seconds; s++) {
-            //System.out.println("Set " + (i - s) % 60 + " : " + 1000);
             arr.addAndGet((int) (i - s) % 60, 1000);
         }
 
         if(millis > 0) {
-            //System.out.println("Set " + i % 60 + " : " + millis);
             arr.addAndGet((int) i % 60, millis);
         }
     }
 
+    /**
+     * Gets activity.
+     *
+     * @return the activity
+     */
     public double getActivity() {
 
         double totalElapsed = 0;

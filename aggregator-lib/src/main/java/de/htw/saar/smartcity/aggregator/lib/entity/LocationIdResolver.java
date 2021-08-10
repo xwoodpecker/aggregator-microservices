@@ -5,10 +5,21 @@ import com.fasterxml.jackson.annotation.ObjectIdResolver;
 import de.htw.saar.smartcity.aggregator.lib.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * The type Location id resolver.
+ */
 public class LocationIdResolver implements ObjectIdResolver {
 
+    /**
+     * the location service
+     */
     private final LocationService locationService;
 
+    /**
+     * Instantiates a new Location id resolver.
+     *
+     * @param locationService the location service
+     */
     public LocationIdResolver(@Autowired LocationService locationService) {
         this.locationService = locationService;
     }

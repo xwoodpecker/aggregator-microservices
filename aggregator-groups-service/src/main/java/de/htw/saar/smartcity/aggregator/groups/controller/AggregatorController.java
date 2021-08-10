@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * The type Aggregator controller.
+ */
 @RestController
 @RequestMapping(path = "/aggregators")
 public class AggregatorController {
@@ -17,12 +20,23 @@ public class AggregatorController {
     private final AggregatorService aggregatorService;
     private final CombinatorService combinatorService;
 
+    /**
+     * Instantiates a new Aggregator controller.
+     *
+     * @param aggregatorService the aggregator service
+     * @param combinatorService the combinator service
+     */
     public AggregatorController(AggregatorService aggregatorService, CombinatorService combinatorService) {
 
         this.aggregatorService = aggregatorService;
         this.combinatorService = combinatorService;
     }
 
+    /**
+     * Gets aggregators.
+     *
+     * @return the aggregators
+     */
     @GetMapping("/")
     public ResponseEntity getAggregators() {
 
@@ -32,6 +46,12 @@ public class AggregatorController {
         );
     }
 
+    /**
+     * Gets aggregator.
+     *
+     * @param id the id
+     * @return the aggregator
+     */
     @GetMapping("/{id}")
     public ResponseEntity getAggregator(@PathVariable Long id) {
 
@@ -42,6 +62,12 @@ public class AggregatorController {
         );
     }
 
+    /**
+     * Post aggregator response entity.
+     *
+     * @param aggregator the aggregator
+     * @return the response entity
+     */
     @PostMapping("/")
     public ResponseEntity postAggregator(@RequestBody Aggregator aggregator) {
 
@@ -49,7 +75,13 @@ public class AggregatorController {
     }
 
 
-
+    /**
+     * Put aggregator response entity.
+     *
+     * @param aggregator the aggregator
+     * @param id         the id
+     * @return the response entity
+     */
     @PutMapping("/{id}")
     public ResponseEntity putAggregator(@RequestBody Aggregator aggregator, @PathVariable Long id) {
 
@@ -75,6 +107,12 @@ public class AggregatorController {
     }
 
 
+    /**
+     * Delete aggregator response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity deleteAggregator(@PathVariable Long id) {
 
@@ -92,6 +130,13 @@ public class AggregatorController {
     }
 
 
+    /**
+     * Put combinator response entity.
+     *
+     * @param aggregatorId the aggregator id
+     * @param combinatorId the combinator id
+     * @return the response entity
+     */
     @PutMapping("/{aggregatorId}/combinators/{combinatorId}")
     public ResponseEntity putCombinator(@PathVariable Long aggregatorId, @PathVariable Long combinatorId) {
 
@@ -109,6 +154,13 @@ public class AggregatorController {
         return new ResponseEntity(aggregator, HttpStatus.OK);
     }
 
+    /**
+     * Delete combinator response entity.
+     *
+     * @param aggregatorId the aggregator id
+     * @param combinatorId the combinator id
+     * @return the response entity
+     */
     @DeleteMapping("/{aggregatorId}/combinators/{combinatorId}")
     public ResponseEntity deleteCombinator(@PathVariable Long aggregatorId, @PathVariable Long combinatorId) {
 

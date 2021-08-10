@@ -6,8 +6,17 @@ import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperti
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The type Publisher.
+ */
 public abstract class Publisher extends BrokerConnection {
 
+    /**
+     * Instantiates a new Publisher.
+     *
+     * @param applicationProperties the application properties
+     * @throws Exception the exception
+     */
     public Publisher(BrokerApplicationProperties applicationProperties) throws Exception {
 
         super(applicationProperties);
@@ -15,6 +24,12 @@ public abstract class Publisher extends BrokerConnection {
         channel.exchangeDeclare(Constants.GROUP_EXCHANGE, "topic");
     }
 
+    /**
+     * Publish.
+     *
+     * @param routingKey the routing key
+     * @param message    the message
+     */
     public void publish (String routingKey, String message)  {
         try {
             channel.basicPublish(Constants.GROUP_EXCHANGE, routingKey, null, message.getBytes(StandardCharsets.UTF_8));

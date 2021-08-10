@@ -3,14 +3,24 @@ package de.htw.saar.smartcity.aggregator.lib.entity;
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Group type id resolver.
+ */
 @Component
 public class GroupTypeIdResolver implements ObjectIdResolver {
 
+    /**
+     * the group type service
+     */
     private GroupTypeService groupTypeService;
 
+    /**
+     * Instantiates a new Group type id resolver.
+     *
+     * @param groupTypeService the group type service
+     */
     public GroupTypeIdResolver(GroupTypeService groupTypeService) {
         this.groupTypeService = groupTypeService;
     }

@@ -27,7 +27,7 @@ public class AggregatorService {
     }
 
     /**
-     * Save aggregator aggregator.
+     * Save aggregator
      *
      * @param aggregator the aggregator
      * @return the aggregator

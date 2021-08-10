@@ -7,17 +7,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The type Sensor controller.
+ */
 @RestController
 @RequestMapping(path = "/sensors")
 public class SensorController {
 
     private final SensorService sensorService;
 
+    /**
+     * Instantiates a new Sensor controller.
+     *
+     * @param sensorService the sensor service
+     */
     public SensorController(SensorService sensorService) {
 
         this.sensorService = sensorService;
     }
 
+    /**
+     * Gets sensors.
+     *
+     * @return the sensors
+     */
     @GetMapping("/")
     public ResponseEntity getSensors() {
 
@@ -27,6 +40,12 @@ public class SensorController {
         );
     }
 
+    /**
+     * Gets sensor.
+     *
+     * @param id the id
+     * @return the sensor
+     */
     @GetMapping("/{id}")
     public ResponseEntity getSensor(@PathVariable Long id) {
 
@@ -37,6 +56,12 @@ public class SensorController {
         );
     }
 
+    /**
+     * Post sensor response entity.
+     *
+     * @param sensor the sensor
+     * @return the response entity
+     */
     @PostMapping("/")
     public ResponseEntity postSensor(@RequestBody Sensor sensor) {
 
@@ -46,6 +71,13 @@ public class SensorController {
         );
     }
 
+    /**
+     * Put sensor response entity.
+     *
+     * @param sensor the sensor
+     * @param id     the id
+     * @return the response entity
+     */
     @PutMapping("/{id}")
     public ResponseEntity putSensor(@RequestBody Sensor sensor, @PathVariable Long id) {
 
@@ -65,6 +97,12 @@ public class SensorController {
         );
     }
 
+    /**
+     * Delete sensor response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity deleteSensor(@PathVariable Long id) {;
 

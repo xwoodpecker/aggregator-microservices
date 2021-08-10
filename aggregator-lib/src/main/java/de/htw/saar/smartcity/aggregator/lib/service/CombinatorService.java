@@ -36,7 +36,7 @@ public class CombinatorService {
     }
 
     /**
-     * Save combinator combinator.
+     * Save combinator
      *
      * @param combinator the combinator
      * @return the combinator

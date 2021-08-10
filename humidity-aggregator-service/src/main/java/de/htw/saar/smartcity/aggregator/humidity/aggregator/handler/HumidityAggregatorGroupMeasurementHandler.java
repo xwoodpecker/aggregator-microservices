@@ -12,12 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class HumidityAggregatorGroupMeasurementHandler extends GroupMeasurementHandler {
 
-    public HumidityAggregatorGroupMeasurementHandler(StorageWrapper storageWrapper,
+
+    protected HumidityAggregatorGroupMeasurementHandler(StorageWrapper storageWrapper,
+                                                        Publisher publisher,
                                                         ProducerService producerService,
                                                         GroupService groupService,
-                                                        CombinatorService combinatorService,
-                                                        Publisher publisher) {
-        super(storageWrapper, producerService, groupService, combinatorService, publisher);
+                                                        CombinatorService combinatorService) {
+
+        super(storageWrapper, publisher, producerService, groupService, combinatorService);
     }
 
     @Override

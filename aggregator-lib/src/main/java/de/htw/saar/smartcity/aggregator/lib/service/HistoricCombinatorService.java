@@ -36,7 +36,7 @@ public class HistoricCombinatorService {
     }
 
     /**
-     * Save historicCombinator historicCombinator.
+     * Save historicCombinator
      *
      * @param historicCombinator the historicCombinator
      * @return the historicCombinator

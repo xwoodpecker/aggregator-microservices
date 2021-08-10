@@ -1,7 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.service;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.GroupType;
-import de.htw.saar.smartcity.aggregator.lib.exception.CombinatorNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.exception.GroupTypeNameAlreadyInUseException;
 import de.htw.saar.smartcity.aggregator.lib.repository.GroupTypeRepository;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class GroupTypeService {
     }
 
     /**
-     * Save group type group type.
+     * Save group type
      *
      * @param groupType the group type
      * @return the group type

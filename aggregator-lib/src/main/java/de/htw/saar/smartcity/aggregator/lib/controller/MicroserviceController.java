@@ -18,6 +18,9 @@ import org.springframework.web.client.RestTemplate;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
+/**
+ * The type Microservice controller.
+ */
 @Deprecated
 public abstract class MicroserviceController {
 
@@ -25,11 +28,21 @@ public abstract class MicroserviceController {
 
     private final MicroserviceApplicationProperties applicationProperties;
 
+    /**
+     * Instantiates a new Microservice controller.
+     *
+     * @param applicationProperties the application properties
+     */
     protected MicroserviceController(MicroserviceApplicationProperties applicationProperties) {
 
         this.applicationProperties = applicationProperties;
     }
 
+    /**
+     * Metrics string.
+     *
+     * @return the string
+     */
     @ResponseBody
     @RequestMapping(value="/metrics", produces="text/plain")
     public String metrics() {
@@ -39,6 +52,11 @@ public abstract class MicroserviceController {
                 + "microservice_queue_message_count " + totalMessages;
     }
 
+    /**
+     * get the number of messages in the dedicated queue over a rest call to the rabbitmq broker
+     *
+     * @return count of messages in the queue
+     */
     private Integer getQueueMessageCount() {
         RestTemplate restTemplate = new RestTemplate();
         String url = String.format("http://%s:%s/",

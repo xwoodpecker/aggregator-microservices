@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Formula item value.
+ */
 @Entity
 @Table(name ="formula_item_values")
 public class FormulaItemValue {
@@ -27,16 +30,24 @@ public class FormulaItemValue {
     private FormulaItem formulaItem;
 
     @ManyToMany(mappedBy = "values")
-    /**@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-     @JsonIdentityReference(alwaysAsId=true)
-     @JsonProperty(access = JsonProperty.Access.READ_ONLY)**/
     @JsonIgnore
     private List<Group> groups = new ArrayList<>();
 
+    /**
+     * Instantiates a new Formula item value.
+     */
     public FormulaItemValue() {
 
     }
 
+    /**
+     * Instantiates a new Formula item value.
+     *
+     * @param id          the id
+     * @param value       the value
+     * @param formulaItem the formula item
+     * @param groups      the groups
+     */
     public FormulaItemValue(Long id, String value, FormulaItem formulaItem, List<Group> groups) {
         this.id = id;
         this.value = value;
@@ -44,34 +55,74 @@ public class FormulaItemValue {
         this.groups = groups;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets value.
+     *
+     * @return the value
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Sets value.
+     *
+     * @param value the value
+     */
     public void setValue(String value) {
         this.value = value;
     }
 
+    /**
+     * Gets formula item.
+     *
+     * @return the formula item
+     */
     public FormulaItem getFormulaItem() {
         return formulaItem;
     }
 
+    /**
+     * Sets formula item.
+     *
+     * @param formulaItem the formula item
+     */
     public void setFormulaItem(FormulaItem formulaItem) {
         this.formulaItem = formulaItem;
     }
 
+    /**
+     * Gets groups.
+     *
+     * @return the groups
+     */
     public List<Group> getGroups() {
         return groups;
     }
 
+    /**
+     * Sets groups.
+     *
+     * @param groups the groups
+     */
     public void setGroups(List<Group> groups) {
         this.groups = groups;
     }

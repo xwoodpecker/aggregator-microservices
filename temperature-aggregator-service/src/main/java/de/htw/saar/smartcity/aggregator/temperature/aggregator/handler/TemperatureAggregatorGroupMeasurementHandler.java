@@ -12,12 +12,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class TemperatureAggregatorGroupMeasurementHandler extends GroupMeasurementHandler {
 
-    public TemperatureAggregatorGroupMeasurementHandler(StorageWrapper storageWrapper,
-                                                        ProducerService producerService,
-                                                        GroupService groupService,
-                                                        CombinatorService combinatorService,
-                                                        Publisher publisher) {
-        super(storageWrapper, producerService, groupService, combinatorService, publisher);
+    protected TemperatureAggregatorGroupMeasurementHandler(StorageWrapper storageWrapper,
+                                                           Publisher publisher,
+                                                           ProducerService producerService,
+                                                           GroupService groupService,
+                                                           CombinatorService combinatorService) {
+
+        super(storageWrapper, publisher, producerService, groupService, combinatorService);
     }
 
     @Override

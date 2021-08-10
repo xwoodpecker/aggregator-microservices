@@ -10,17 +10,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * The type Location controller.
+ */
 @RestController
 @RequestMapping(path = "/locations")
 public class LocationController {
 
     private final LocationService locationService;
 
+    /**
+     * Instantiates a new Location controller.
+     *
+     * @param locationService the location service
+     */
     public LocationController(LocationService locationService) {
 
         this.locationService = locationService;
     }
 
+    /**
+     * Gets locations.
+     *
+     * @return the locations
+     */
     @GetMapping("/")
     public ResponseEntity getLocations() {
 
@@ -30,6 +43,12 @@ public class LocationController {
         );
     }
 
+    /**
+     * Gets location.
+     *
+     * @param id the id
+     * @return the location
+     */
     @GetMapping("/{id}")
     public ResponseEntity getLocation(@PathVariable Long id) {
 
@@ -40,12 +59,24 @@ public class LocationController {
         );
     }
 
+    /**
+     * Post location response entity.
+     *
+     * @param location the location
+     * @return the response entity
+     */
     @PostMapping("/")
     public ResponseEntity postLocation(@RequestBody Location location) {
 
         return new ResponseEntity(locationService.saveLocation(location), HttpStatus.OK);
     }
 
+    /**
+     * Delete location response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity deleteLocation(@PathVariable Long id) {
 
@@ -62,6 +93,13 @@ public class LocationController {
 
     }
 
+    /**
+     * Put location response entity.
+     *
+     * @param location the location
+     * @param id       the id
+     * @return the response entity
+     */
     @PutMapping("/{id}")
     public ResponseEntity putLocation(@RequestBody Location location, @PathVariable Long id) {
 

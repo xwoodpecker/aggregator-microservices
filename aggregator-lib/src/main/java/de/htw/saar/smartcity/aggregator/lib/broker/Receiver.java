@@ -13,8 +13,14 @@ import java.io.IOException;
  */
 public abstract class Receiver extends BrokerConnection {
 
+    /**
+     * the microservice application properties
+     */
     private final MicroserviceApplicationProperties microserviceApplicationProperties;
 
+    /**
+     * the activity manager to measure application workload
+     */
     private final ActivityManager activityManager;
 
     /**

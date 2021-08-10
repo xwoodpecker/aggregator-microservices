@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class WaterRawMeasurementHandler extends RawMeasurementHandler {
 
-    public WaterRawMeasurementHandler(RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
-                                      DataTypeService dataTypeService,
-                                      MeasurementFactory measurementFactory,
-                                      StorageWrapper storageWrapper,
-                                      Publisher publisher) {
+    protected WaterRawMeasurementHandler(StorageWrapper storageWrapper,
+                                         Publisher publisher,
+                                         RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties,
+                                         DataTypeService dataTypeService,
+                                         MeasurementFactory measurementFactory) {
 
-        super(rawMicroserviceApplicationProperties, dataTypeService, measurementFactory, storageWrapper, publisher);
+        super(storageWrapper, publisher, rawMicroserviceApplicationProperties, dataTypeService, measurementFactory);
     }
 }

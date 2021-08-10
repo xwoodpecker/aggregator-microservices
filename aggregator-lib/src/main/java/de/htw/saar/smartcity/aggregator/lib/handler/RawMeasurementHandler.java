@@ -14,8 +14,14 @@ import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The type Raw measurement handler.
+ */
 public abstract class RawMeasurementHandler extends MeasurementHandler {
 
+    /**
+     * The constant log.
+     */
     protected static final Logger log = LoggerFactory.getLogger(RawMeasurementHandler.class);
 
     private final RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties;
@@ -24,6 +30,15 @@ public abstract class RawMeasurementHandler extends MeasurementHandler {
     private final StorageWrapper storageWrapper;
     private final Publisher publisher;
 
+    /**
+     * Instantiates a new Raw measurement handler.
+     *
+     * @param storageWrapper                       the storage wrapper
+     * @param publisher                            the publisher
+     * @param rawMicroserviceApplicationProperties the raw microservice application properties
+     * @param dataTypeService                      the data type service
+     * @param measurementFactory                   the measurement factory
+     */
     protected RawMeasurementHandler(StorageWrapper storageWrapper, Publisher publisher, RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties, DataTypeService dataTypeService, MeasurementFactory measurementFactory) {
         super(storageWrapper, publisher);
         this.rawMicroserviceApplicationProperties = rawMicroserviceApplicationProperties;
@@ -34,6 +49,11 @@ public abstract class RawMeasurementHandler extends MeasurementHandler {
     }
 
 
+    /**
+     * Handle message.
+     *
+     * @param sensorMeasurement the sensor measurement
+     */
     public void handleMessage(SensorMeasurement sensorMeasurement){
 
         final String sensorName = sensorMeasurement.getSensorName();

@@ -9,17 +9,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Group type controller.
+ */
 @RestController
 @RequestMapping(path = "/groupTypes")
 public class GroupTypeController {
 
     private final GroupTypeService groupTypeService;
 
+    /**
+     * Instantiates a new Group type controller.
+     *
+     * @param groupTypeService the group type service
+     */
     public GroupTypeController(GroupTypeService groupTypeService) {
 
         this.groupTypeService = groupTypeService;
     }
 
+    /**
+     * Gets group types.
+     *
+     * @return the group types
+     */
     @GetMapping("/")
     public ResponseEntity getGroupTypes() {
 
@@ -29,6 +42,12 @@ public class GroupTypeController {
         );
     }
 
+    /**
+     * Gets group type.
+     *
+     * @param id the id
+     * @return the group type
+     */
     @GetMapping("/{id}")
     public ResponseEntity getGroupType(@PathVariable Long id) {
 

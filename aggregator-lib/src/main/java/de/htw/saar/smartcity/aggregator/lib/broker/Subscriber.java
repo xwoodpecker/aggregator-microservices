@@ -4,24 +4,12 @@ import de.htw.saar.smartcity.aggregator.lib.handler.RawMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.security.KeyFactory;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.Security;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.security.spec.PKCS8EncodedKeySpec;
-
+/**
+ * The type Subscriber.
+ */
 @Deprecated
 public abstract class Subscriber implements MqttCallback {
 
@@ -30,16 +18,23 @@ public abstract class Subscriber implements MqttCallback {
      */
     private final MqttClient mqttClient;
 
+    /**
+     * The Application properties.
+     */
     protected final RawMicroserviceApplicationProperties applicationProperties;
 
+    /**
+     * The Raw measurement handler.
+     */
     protected final RawMeasurementHandler rawMeasurementHandler;
-
 
 
     /**
      * Instantiates a new Mqtt subscriber.
-     * @param applicationProperties
-     * @param rawMeasurementHandler
+     *
+     * @param applicationProperties the application properties
+     * @param rawMeasurementHandler the raw measurement handler
+     * @throws Exception the exception
      */
     public Subscriber(RawMicroserviceApplicationProperties applicationProperties, RawMeasurementHandler rawMeasurementHandler) throws Exception {
         this.applicationProperties = applicationProperties;
@@ -93,6 +88,12 @@ public abstract class Subscriber implements MqttCallback {
         this.mqttClient.subscribe(topics);
     }
 
+    /**
+     * configure mqtt client, register callback of subscriber
+     * @param callback the subscriber call back
+     * @return configured mqtt client
+     * @throws Exception in case of error thrown
+     */
     private MqttClient configMqttClient(Subscriber callback) throws Exception {
         String brokerAddress = ""; //applicationProperties.getBrokerAddress()
         MqttClient mqttClient = null;

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Location.
+ */
 @Entity
 @Table(name ="locations" ) //,
         //uniqueConstraints=
@@ -28,10 +31,22 @@ public class Location {
     @JsonIgnore
     private List<Producer> producers = new ArrayList<>();
 
+    /**
+     * Instantiates a new Location.
+     */
     public Location() {
 
     }
 
+    /**
+     * Instantiates a new Location.
+     *
+     * @param id        the id
+     * @param name      the name
+     * @param x         the x
+     * @param y         the y
+     * @param producers the producers
+     */
     public Location(Long id, String name, Double x, Double y, List<Producer> producers) {
         this.id = id;
         this.name = name;
@@ -40,42 +55,92 @@ public class Location {
         this.producers = producers;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets x.
+     *
+     * @return the x
+     */
     public Double getX() {
         return x;
     }
 
+    /**
+     * Sets x.
+     *
+     * @param x the x
+     */
     public void setX(Double x) {
         this.x = x;
     }
 
+    /**
+     * Gets y.
+     *
+     * @return the y
+     */
     public Double getY() {
         return y;
     }
 
+    /**
+     * Sets y.
+     *
+     * @param y the y
+     */
     public void setY(Double y) {
         this.y = y;
     }
 
+    /**
+     * Gets producers.
+     *
+     * @return the producers
+     */
     public List<Producer> getProducers() {
         return producers;
     }
 
+    /**
+     * Sets producers.
+     *
+     * @param producers the producers
+     */
     public void setProducers(List<Producer> producers) {
         this.producers = producers;
     }

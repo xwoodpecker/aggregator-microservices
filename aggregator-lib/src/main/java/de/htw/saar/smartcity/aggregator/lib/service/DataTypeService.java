@@ -37,7 +37,7 @@ public class DataTypeService {
     }
 
     /**
-     * Save data type data type.
+     * Save data type
      *
      * @param dataType the data type
      * @return the data type

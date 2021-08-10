@@ -9,17 +9,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * The type Combinator controller.
+ */
 @RestController
 @RequestMapping(path = "/combinators")
 public class CombinatorController {
 
     private final CombinatorService combinatorService;
 
+    /**
+     * Instantiates a new Combinator controller.
+     *
+     * @param combinatorService the combinator service
+     */
     public CombinatorController(CombinatorService combinatorService) {
 
         this.combinatorService = combinatorService;
     }
 
+    /**
+     * Gets combinators.
+     *
+     * @return the combinators
+     */
     @GetMapping("/")
     public ResponseEntity getCombinators() {
 
@@ -29,6 +42,12 @@ public class CombinatorController {
         );
     }
 
+    /**
+     * Gets combinator.
+     *
+     * @param id the id
+     * @return the combinator
+     */
     @GetMapping("/{id}")
     public ResponseEntity getCombinator(@PathVariable Long id) {
 

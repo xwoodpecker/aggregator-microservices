@@ -1,13 +1,12 @@
 package de.htw.saar.smartcity.aggregator.lib.properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import javax.annotation.PostConstruct;
-
+/**
+ * The type Abstract broker application properties.
+ */
 @Configuration
 @PropertySource("classpath:application.properties")
 public abstract class AbstractBrokerApplicationProperties implements BrokerApplicationProperties{

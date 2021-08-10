@@ -32,7 +32,7 @@ public class GroupService {
     }
 
     /**
-     * Save group group.
+     * Save group
      *
      * @param group the group
      * @return the group
@@ -45,6 +45,12 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
+    /**
+     * Update group
+     *
+     * @param group the group
+     * @return the group
+     */
     public Group updateGroup(Group group) {
 
         return groupRepository.save(group);

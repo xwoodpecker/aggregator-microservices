@@ -18,6 +18,9 @@ import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
+/**
+ * The type Broker utils.
+ */
 public final class BrokerUtils {
 
     private BrokerUtils() { }
@@ -25,9 +28,9 @@ public final class BrokerUtils {
     /**
      * Gets ssl context for given certificates
      *
-     * @param caFile the ca file
+     * @param caFile         the ca file
      * @param clientCertFile the ca file
-     * @param clientKeyFile the client key file
+     * @param clientKeyFile  the client key file
      * @return ssl context
      * @throws Exception the exception
      */
@@ -92,9 +95,9 @@ public final class BrokerUtils {
     /**
      * Gets socket factory for ca certificate.
      *
-     * @param caFile the ca file
+     * @param caFile         the ca file
      * @param clientCertFile the ca file
-     * @param clientKeyFile the client key file
+     * @param clientKeyFile  the client key file
      * @return the socket factory for ca certificate
      * @throws Exception the exception
      */

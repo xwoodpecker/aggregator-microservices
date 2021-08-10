@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+/**
+ * The type Historic aggregator application properties.
+ */
 @Configuration
 @PropertySource("classpath:application.properties")
 public abstract class HistoricAggregatorApplicationProperties implements MinioApplicationProperties {
@@ -16,10 +19,19 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
 
     private String minioSecretKey;
 
+    /**
+     * The Microservice bucket.
+     */
     protected String microserviceBucket;
 
+    /**
+     * The Microservice data type.
+     */
     protected String microserviceDataType;
 
+    /**
+     * The Delete raw measurements.
+     */
     protected boolean deleteRawMeasurements;
 
 
@@ -38,10 +50,25 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
         this.minioSecretKey = minioSecretKey;
     }
 
+    /**
+     * Sets delete raw measurements.
+     *
+     * @param deleteRawMeasurements the delete raw measurements
+     */
     protected abstract void setDeleteRawMeasurements(boolean deleteRawMeasurements);
 
+    /**
+     * Sets microservice bucket.
+     *
+     * @param microserviceBucket the microservice bucket
+     */
     protected abstract void setMicroserviceBucket(String microserviceBucket);
 
+    /**
+     * Sets microservice data type.
+     *
+     * @param microserviceDataType the microservice data type
+     */
     public abstract void setMicroserviceDataType(String microserviceDataType);
 
     public String getMinioEndpoint() {
@@ -60,10 +87,20 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
         return this.microserviceBucket;
     }
 
+    /**
+     * Gets micro service data type.
+     *
+     * @return the micro service data type
+     */
     public String getMicroServiceDataType() {
         return microserviceDataType;
     }
 
+    /**
+     * Gets delete raw measurements.
+     *
+     * @return the delete raw measurements
+     */
     public boolean getDeleteRawMeasurements() {
         return deleteRawMeasurements;
     }

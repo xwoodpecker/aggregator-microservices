@@ -8,6 +8,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Base64;
 
+/**
+ * The type Picture agent.
+ */
 public class PictureAgent extends Agent {
 
     private String encodedPicture;
@@ -15,8 +18,9 @@ public class PictureAgent extends Agent {
     /**
      * Instantiates a new Agent.
      *
-     * @param publisher
+     * @param publisher  the publisher
      * @param sensorName the sensor name
+     * @param interval   the interval
      */
     public PictureAgent(MqttPublisher publisher, String sensorName, Integer interval) {
         super(publisher, sensorName, interval);
