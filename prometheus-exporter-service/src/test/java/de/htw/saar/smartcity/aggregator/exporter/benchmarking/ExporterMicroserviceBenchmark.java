@@ -58,7 +58,7 @@ public class ExporterMicroserviceBenchmark {
 
     @Before
     public void initMemcached() {
-        int expirationTime = 10 * (WARMUP_ITERATIONS+MEASUREMENT_ITERATIONS + 1) * paramCount;
+        int expirationTime = 10 * (WARMUP_ITERATIONS + MEASUREMENT_ITERATIONS + 2) * paramCount;
         for(int i = 1; i <= 100_000; i++) {
             //expiry set slightly higher than the time required for the benchmarking
             memcachedClientWrapper.putObjectWithExpiration(
@@ -102,10 +102,10 @@ public class ExporterMicroserviceBenchmark {
 
 
 
-    //public int paramCount = 3;
-    //@Param({"50000", "75000", "100000"})
-    public int paramCount = 16;
-    @Param({"1", "50", "100", "200", "300", "400", "500", "750", "1000", "2500", "5000", "10000", "25000", "50000", "75000", "100000"}) //, "500000", "1000000"})
+    public int paramCount = 15;
+    @Param({"1", "100", "1000", "2500", "5000", "10000", "20000", "30000", "40000", "50000", "60000", "70000", "80000", "90000", "100000"})
+    //public int paramCount = 16;
+    //@Param({"1", "50", "100", "200", "300", "400", "500", "750", "1000", "2500", "5000", "10000", "25000", "50000", "75000", "100000"})
     public int endID;
 
     @Benchmark
