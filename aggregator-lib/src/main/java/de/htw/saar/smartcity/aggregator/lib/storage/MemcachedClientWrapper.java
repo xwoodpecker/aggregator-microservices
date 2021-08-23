@@ -11,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 
 /**
@@ -93,12 +95,13 @@ public class MemcachedClientWrapper {
      */
     public <T> T getObject(String key) {
 
-        T obj = null;
+        T obj;
         try {
             obj = mcc.get(key);
         } catch (Exception e){
             log.error("Retrieving cached object failed.");
             //e.printStackTrace();
+            return null;
         }
         log.info("Retrieved cached object successfully: " + obj);
         return obj;
@@ -112,12 +115,12 @@ public class MemcachedClientWrapper {
      */
     public boolean deleteObject(String key) {
 
-        boolean deleted = false;
+        boolean deleted;
         try {
             deleted = mcc.delete(key);
         } catch (Exception e){
             log.error("Deleting cached object failed.");
-            //e.printStackTrace();
+            return false;
         }
         log.info("Deleting cached object successfully.");
         return deleted;
@@ -130,16 +133,42 @@ public class MemcachedClientWrapper {
      * @param keys the keys
      * @return the objects
      */
-    public <T> Map<String, T> getObjects(Collection<String> keys) {
+    public <T> Map<String, T> getObjects(List<String> keys) {
 
-        Map<String, T> map = null;
+        int size = keys.size();
+
+        if(size > Constants.MEMCACHED_UPPER_LIMIT_GET_OBJECTS)
+        {
+            int partitionCount = (int) Math.ceil(size / Constants.MEMCACHED_UPPER_LIMIT_GET_OBJECTS);
+            int partitionSize = size / partitionCount;
+            Map<String, T> finalResult = new HashMap<>();
+
+            IntStream.range(0, partitionCount)
+                    .mapToObj(
+                            n -> keys.subList(n * partitionSize, n == partitionCount-1 ? size : (n + 1) * partitionSize)
+                    )
+                    .forEach( k -> {
+                        Map<String, T> map = getObjectsSub(k);
+                        if(map != null) {
+                            finalResult.putAll(map);
+                        }
+                    });
+            return finalResult;
+        } else {
+            return getObjectsSub(keys);
+        }
+    }
+
+    private <T> Map<String, T> getObjectsSub(List<String> keys) {
+        Map<String, T> map;
         try {
-            map = mcc.get(keys);
+            map = mcc.get(keys, 30*1000);
         } catch (Exception e){
             log.error("Retrieving cached object failed.");
             //e.printStackTrace();
+            return null;
         }
-        log.info(Utils.limitLoggedMsg("Retrieved cached objects successfully: " + map, Constants.MAX_LOG_MESSAGE_SIZE));
+        log.info(Utils.limitLoggedMsg("Retrieved " + keys.size() + " cached objects successfully: " + map, Constants.MAX_LOG_MESSAGE_SIZE));
         return map;
     }
 

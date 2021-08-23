@@ -4,8 +4,14 @@ import de.htw.saar.smartcity.aggregator.benchmarking.base.BenchmarkingSetupDataL
 import de.htw.saar.smartcity.aggregator.benchmarking.handler.BenchmarkingRawMeasurementHandler;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.results.format.ResultFormatType;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -40,8 +46,33 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-public class MicroserviceBenchmark extends AbstractBenchmark {
+public class MicroserviceBenchmark {
 
+
+    private final static Integer WARMUP_ITERATIONS = 2;
+    private final static Integer MEASUREMENT_ITERATIONS = 10;
+
+    @Test
+    public void executeJmhRunner() throws RunnerException {
+        Options jmhRunnerOptions = new OptionsBuilder()
+                // set the class name regex for benchmarks to search for to the current class
+                .include("\\." + this.getClass().getSimpleName() + "\\.")
+                .warmupIterations(WARMUP_ITERATIONS)
+                .measurementIterations(MEASUREMENT_ITERATIONS)
+                // do not use forking or the benchmark methods will not see references stored within its class
+                .forks(0)
+                // multiple threads
+                .threads(1)
+                .shouldDoGC(true)
+                .shouldFailOnError(true)
+                .resultFormat(ResultFormatType.JSON)
+                .result("/out/result.json") // filename for report
+                .jvmArgs("-server")
+                .build();
+
+        new Runner(jmhRunnerOptions).run();
+    }
+    
     private static BenchmarkingSetupDataLoader benchmarkingSetupDataLoader;
     private static StorageWrapper storageWrapper;
 

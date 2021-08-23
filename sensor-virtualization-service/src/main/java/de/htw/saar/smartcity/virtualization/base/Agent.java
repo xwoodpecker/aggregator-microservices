@@ -1,6 +1,6 @@
-package de.htw.saar.smartcity.virtualization.broker;
+package de.htw.saar.smartcity.virtualization.base;
 
-import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
+import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisherRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public abstract class Agent implements IAgent {
     /**
      * The Publisher
      */
-    private MqttPublisher publisher;
+    private MqttPublisherRunner publisher;
 
     /**
      * The Sensor name.
@@ -46,7 +46,7 @@ public abstract class Agent implements IAgent {
      * @param sensorName the sensor name
      * @param interval   the interval
      */
-    public Agent(MqttPublisher publisher, String sensorName, Integer interval){
+    public Agent(MqttPublisherRunner publisher, String sensorName, Integer interval){
         this.publisher = publisher;
         this.sensorName = sensorName;
         this.interval =  interval;

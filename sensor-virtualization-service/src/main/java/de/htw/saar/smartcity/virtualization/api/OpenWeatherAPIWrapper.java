@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.virtualization.broker;
+package de.htw.saar.smartcity.virtualization.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

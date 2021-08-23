@@ -69,7 +69,7 @@ public class MinioClientWrapper {
      */
     public String getPresignedObjectUrl(String name) {
 
-        String url = null;
+        String url;
         try {
             url = minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
@@ -82,6 +82,7 @@ public class MinioClientWrapper {
         } catch (Exception e){
             log.error("Url generation failed.");
             //e.printStackTrace();
+            return null;
         }
         log.info("Url to object: " + url);
 
@@ -132,7 +133,7 @@ public class MinioClientWrapper {
      */
     public <T> T getObject(String name, Class<T> target) {
 
-        T object = null;
+        T object;
         try {
             try(InputStream is = minioClient.getObject(
                     GetObjectArgs.builder()
@@ -145,10 +146,12 @@ public class MinioClientWrapper {
 
         } catch (ErrorResponseException ere) {
             log.info("No Object with name found in object store.");
+            return null;
 
         } catch (Exception e) {
             log.error("GetObject from object store failed.");
             //e.printStackTrace();
+            return null;
         }
         log.info("GetObject from object store: " + object);
         return object;

@@ -45,4 +45,8 @@ public final class Constants {
      */
     public static final String COLLECTOR_KEYWORD_NONE = "NONE";
 
+    /**
+     * The constant MEMCACHED_UPPER_LIMIT_GET_OBJECTS. - Upper limit for the number of objects read in one call
+     */
+    public static final double MEMCACHED_UPPER_LIMIT_GET_OBJECTS = 100_000.0;
 }

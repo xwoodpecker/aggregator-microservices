@@ -8,8 +8,6 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
-
 /**
  * The type Mqtt publisher.
  */
@@ -29,7 +27,7 @@ public abstract class MqttPublisher {
 
 
     /**
-     * Instantiates a new Mqtt subscriber.
+     * Instantiates a new Mqtt publisher.
      *
      * @param applicationProperties the application properties
      * @throws Exception the exception
@@ -39,13 +37,6 @@ public abstract class MqttPublisher {
 
         this.mqttClient = configMqttClient();
     }
-
-
-    /**
-     * start the Publisher routine
-     */
-    @PostConstruct
-    protected abstract void start();
 
 
     /**

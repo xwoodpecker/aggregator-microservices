@@ -1,6 +1,7 @@
-package de.htw.saar.smartcity.virtualization.broker;
+package de.htw.saar.smartcity.virtualization.api;
 
-import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
+import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisherRunner;
+import de.htw.saar.smartcity.virtualization.base.IAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,14 +13,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * The type Real temperature humidity agent.
  */
-public class RealWeatherAgent implements IAgent{
+public class RealWeatherAgent implements IAgent {
 
     private static final Logger log = LoggerFactory.getLogger(RealWeatherAgent.class);
 
     /**
      * The Publisher
      */
-    private MqttPublisher publisher;
+    private MqttPublisherRunner publisher;
 
     /**
      * The Temperature sensor name.
@@ -65,7 +66,7 @@ public class RealWeatherAgent implements IAgent{
      * @param interval              the interval
      * @param cityId                the city id
      */
-    public RealWeatherAgent(MqttPublisher publisher,
+    public RealWeatherAgent(MqttPublisherRunner publisher,
                             String temperatureSensorName,
                             String humiditySensorName,
                             String waterSensorName,

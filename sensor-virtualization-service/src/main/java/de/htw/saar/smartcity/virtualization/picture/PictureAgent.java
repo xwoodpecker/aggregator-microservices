@@ -1,6 +1,7 @@
-package de.htw.saar.smartcity.virtualization.broker;
+package de.htw.saar.smartcity.virtualization.picture;
 
-import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
+import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisherRunner;
+import de.htw.saar.smartcity.virtualization.base.Agent;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class PictureAgent extends Agent {
      * @param sensorName the sensor name
      * @param interval   the interval
      */
-    public PictureAgent(MqttPublisher publisher, String sensorName, Integer interval) {
+    public PictureAgent(MqttPublisherRunner publisher, String sensorName, Integer interval) {
         super(publisher, sensorName, interval);
 
         try {

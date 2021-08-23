@@ -1,7 +1,10 @@
 package de.htw.saar.smartcity.virtualization.broker;
 
 
-import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
+import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisherRunner;
+import de.htw.saar.smartcity.virtualization.api.OpenWeatherAPIWrapper;
+import de.htw.saar.smartcity.virtualization.api.RealWeatherAgent;
+import de.htw.saar.smartcity.virtualization.base.IAgent;
 import de.htw.saar.smartcity.virtualization.properties.VirtualizationApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +18,10 @@ import java.util.stream.Collectors;
  * The type Mqtt publisher.
  */
 @Component
-public class MqttPublisherImpl extends MqttPublisher {
+public class MqttPublisherRunnerImpl extends MqttPublisherRunner {
 
 
-    private static final Logger log = LoggerFactory.getLogger(MqttPublisherImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(MqttPublisherRunnerImpl.class);
 
     private final static String PREFIX = "data/aggregator";
     private final static String TEMPERATURE_PREFIX = PREFIX + "/temperature";
@@ -36,7 +39,7 @@ public class MqttPublisherImpl extends MqttPublisher {
      * @param applicationProperties the application properties
      * @throws Exception the exception
      */
-    public MqttPublisherImpl(VirtualizationApplicationProperties applicationProperties) throws Exception {
+    public MqttPublisherRunnerImpl(VirtualizationApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);
         OpenWeatherAPIWrapper.setApiKey(applicationProperties.getOpenWeatherAPIKey());
         cities = applicationProperties.getOpenWeatherAPICities().stream().map(Integer::parseInt).collect(Collectors.toList());

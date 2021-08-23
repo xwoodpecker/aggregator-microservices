@@ -176,7 +176,7 @@ public abstract class CustomCollector extends Collector {
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
         Map<String, Object> objects = getObjectsForKeys(sensors.stream().map(Sensor::getName).collect(Collectors.toList()));
-        
+
         if(objects != null && !objects.isEmpty()) {
             sensors.removeIf(s -> !objects.containsKey(Constants.MEMCACHED_MEASUREMENT_PREFIX + s.getName()));
             Map<String, List<Sensor>> byDataTypeName = sensors.stream().collect(Collectors.groupingBy(s -> s.getDataType().getName()));

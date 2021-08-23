@@ -1,6 +1,7 @@
-package de.htw.saar.smartcity.virtualization.broker;
+package de.htw.saar.smartcity.virtualization.temperature;
 
-import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisher;
+import de.htw.saar.smartcity.aggregator.lib.broker.MqttPublisherRunner;
+import de.htw.saar.smartcity.virtualization.base.Agent;
 
 import java.util.Random;
 
@@ -18,7 +19,7 @@ public class TemperatureAgent extends Agent {
      * @param sensorName the sensor name
      * @param interval   the interval
      */
-    public TemperatureAgent(MqttPublisher publisher, String sensorName, Integer interval) {
+    public TemperatureAgent(MqttPublisherRunner publisher, String sensorName, Integer interval) {
         super(publisher, sensorName, interval);
     }
 

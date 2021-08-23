@@ -47,7 +47,7 @@ public class ExporterMicroserviceBenchmark {
 
     private final static Integer WARMUP_ITERATIONS = 2;
 
-    private final static Integer MEASUREMENT_ITERATIONS = 10;
+    private final static Integer MEASUREMENT_ITERATIONS = 50;
 
     private static MemcachedClientWrapper memcachedClientWrapper;
 
@@ -58,8 +58,8 @@ public class ExporterMicroserviceBenchmark {
 
     @Before
     public void initMemcached() {
-        int expirationTime = 10 * (WARMUP_ITERATIONS + MEASUREMENT_ITERATIONS + 2) * paramCount;
-        for(int i = 1; i <= 100_000; i++) {
+        int expirationTime = 10 * (WARMUP_ITERATIONS + MEASUREMENT_ITERATIONS + 2) * paramCount * 2;
+        for(int i = 1; i <= 500_000; i++) {
             //expiry set slightly higher than the time required for the benchmarking
             memcachedClientWrapper.putObjectWithExpiration(
                     Constants.MEMCACHED_MEASUREMENT_PREFIX + "data/aggregator/benchmarking/exporter/sensor" + i,
@@ -102,10 +102,18 @@ public class ExporterMicroserviceBenchmark {
 
 
 
-    public int paramCount = 15;
-    @Param({"1", "100", "1000", "2500", "5000", "10000", "20000", "30000", "40000", "50000", "60000", "70000", "80000", "90000", "100000"})
+    //public int paramCount = 15;
+    //@Param({"1", "100", "1000", "2500", "5000", "10000", "20000", "30000", "40000", "50000", "60000", "70000", "80000", "90000", "100000"})
     //public int paramCount = 16;
     //@Param({"1", "50", "100", "200", "300", "400", "500", "750", "1000", "2500", "5000", "10000", "25000", "50000", "75000", "100000"})
+    //public int paramCount = 9;
+    //@Param({"50000", "75000", "100000", "125000", "150000", "175000", "200000", "225000", "250000"})
+    //public int paramCount = 5;
+    //@Param({"350000", "400000", "450000", "500000"})
+    //public int paramCount = 21;
+    //@Param({"1", "25000", "50000", "75000", "100000", "125000", "150000", "175000", "200000", "225000", "250000", "275000", "300000", "325000", "350000", "375000", "400000", "425000", "450000", "475000", "500000"})
+    public int paramCount = 21;
+    @Param({"1", "25000", "50000", "75000", "100000", "125000", "150000", "175000", "200000", "225000", "250000", "275000", "300000", "325000", "350000", "375000", "400000", "425000", "450000", "475000", "500000"})
     public int endID;
 
     @Benchmark

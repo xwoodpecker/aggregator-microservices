@@ -1,4 +1,4 @@
-package de.htw.saar.smartcity.virtualization.broker;
+package de.htw.saar.smartcity.virtualization.base;
 
 /**
  * The interface Agent.
