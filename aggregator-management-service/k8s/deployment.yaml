@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aggregator-management-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aggregator-management-ms
+  template:
+    metadata:
+      labels:
+        app: aggregator-management-ms
+    spec:
+      containers:
+        - name: aggregator-management-ms
+          image: xwoodpecker/aggregator-management-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: aggregator-management-service
+  labels:
+    app: aggregator-management-ms
+spec:
+  type: NodePort
+  selector:
+    app: aggregator-management-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+
