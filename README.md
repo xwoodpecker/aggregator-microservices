@@ -225,8 +225,29 @@ Die schnellste Möglichkeit das Dashboard hinzuzufügen, ist der Import über di
 https://grafana.com/grafana/dashboards/4279
 ````
 
-
 Die Deployments der einzelnen Microservices werden in den jeweiligen README-Dateien erläutert.
+
+## Konfiguration
+Sämtliche Konfigurationseigenschaften können entweder in den jeweiligen `src/main/resources/application.properties` eingetragen oder in der zentralen ConifgMap beziehungsweise den Secrets definiert werden.
+Die wichtigsten Konfigurationseigenschaften sind:
+* `BROKER_HOST`: Message Broker Hostname
+* `BROKER_PORT_AMQP`: Message Broker Port für das AMQP Protokoll
+* `BROKER_PORT_MQTT`: Message Broker Port für das MQTT Protokoll
+* `BROKER_USERNAME`: Username für die Verbindung zum Message Broker
+* `BROKER_PASSWORD`: Passwort für die Verbindung zum Message Broker
+* `CA_FILE`: CA Zertifikatdatei als Text
+* `CLIENT_CERT_FILE`: Client Zertifikatdatei als Text
+* `CLIENT_KEY_FILE`: Client Schlüsseldatei als Text
+* `MINIO_ENDPOINT`: Endpunkt des MinIO Servers
+* `MINIO_ACCESSKEY`: Zugriffsschlüssel für die Verbindung zum MinIO Server
+* `MINIO_SECRETKEY`: Geheimschlüssel für die Verbindung zum MinIO Server
+* `MEMCACHED_HOST`: Memcached Server Hostname
+* `MEMCACHED_PORT`: Memcached Server Port
+* `spring.datasource.url`: Datenbank URL (hier MySQL Server URL)
+* `spring.datasource.username`: Datenbank Username (hier MySQL Server Username)
+* `spring.datasource.password`: Datenbank Passwort (hier MySQL Server Passwort)
+
+Die spezifischen Konfigurationen können in den README-Dateien der entsprechenden Microservices nachvollzogen werden.
 
 ## Built With
 * [Spring Boot](https://spring.io/projects/spring-boot) - Framework für Microservices
