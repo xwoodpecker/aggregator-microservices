@@ -7,7 +7,7 @@ ausgewertet und aggregiert werden, um zusätzliches Wissen zu gewinnen. Das Proj
 befasst sich mit der Erstellung eines erweiterbaren Service, der Rohdaten speichert, Aggregate
 bildet und die gewonnen Informationen zur Anzeige bereitstellt.
 
-#Anforderungen und Ziele
+# Anforderungen und Ziele
 
 ![](_markdown-images/architecture.png)
 
