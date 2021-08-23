@@ -9,7 +9,7 @@ bildet und die gewonnen Informationen zur Anzeige bereitstellt.
 
 # Anforderungen und Ziele
 
-![](_markdown-images/architecture.png)
+![](_markdown-images/architecture.pdf)
 
 Die Model City ist mit Sensoren
 ausgestattet, welche Messwerte liefern. Dazu werden GrovePi Sensoren mit einem
