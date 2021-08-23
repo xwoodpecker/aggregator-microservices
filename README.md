@@ -19,6 +19,7 @@ erstmals einzusetzenden Sensortypen sind Temperatur- und Luftfeuchtigkeits-, Was
 Luftqualitätssensoren. Eine Kernanforderung ist es beliebige Sensortypen zu unterstützen und
 möglichst unkompliziert anbinden zu können. Die Implementierung von
 virtuellen Sensoren kann genutzt werden, um die Erweiterbarkeit zu testen.
+
 Das Backend soll in einem Kubernetes Cluster bereitgestellt werden. Eine zentrale
 Komponente des Backends ist der Message Broker. Hier wird ein RabbitMQ Server eingesetzt.
 Dieser empfängt und verteilt die Sensordaten. Dazu verwendet er ein Publish-
@@ -36,6 +37,7 @@ Luftqualitätsindex zusammengefasst werden. Des Weiteren soll eine Routine ablau
 die für längere Zeiträume Aggregate berechnet, wie beispielsweise am Tages-, Wochen- oder
 Monatsende. Alle gemessenen und berechneten Daten sollen über eine REST API
 zur Verfügung gestellt werden.
+
 Eine zentrale Anforderung ist das möglichst flexible Hinzufügen neuer Sensoren. Dazu
 soll eine Microservices-Architektur verwendet werden. Es wird eine Code-Basis bereitgestellt,
 welche lediglich Funktionalität in Form von Schnittstellen bietet. Die Verarbeitung
@@ -47,6 +49,7 @@ diese wiederum auf dem Message Broker publiziert. Andere Microservices können d
 Referenzen dann empfangen und daraus weitere Aggregate bilden. Ein Microservice
 zur Verwaltung der Stammdaten, wie Sensorinformationen und Gruppen muss ebenso
 implementiert werden.
+
 Eine Anbindung verschiedenster Frontend-Lösungen wird durch eine Datenbereitstellung
 mittels REST realisiert. Im Zuge des Projekts soll eine Visualisierung, bzw. ein
 Monitoring mittels Prometheus und Grafana realisiert werden. Hiermit kann man ein
@@ -58,23 +61,23 @@ Dashboard gestalten, um die erfassten Daten über den Browser auszulesen.
 ### Funktionale Anforderungen
 
 #### Must-Have
-* Flexible Anbindung von neuen Sensortypen: Die Anbindung muss unabhängig vom
+* **Flexible Anbindung von neuen Sensortypen:** Die Anbindung muss unabhängig vom
   Aufbau der Sensordaten sein. Für jeden Sensor müssen die Rohdaten gesammelt
   und gespeichert werden.
-* Stamm- und Metadaten verwalten: Es muss zudem möglich sein, Metadaten zu Sensoren
+* **Stamm- und Metadaten verwalten:** Es muss zudem möglich sein, Metadaten zu Sensoren
   einzupflegen. Eine Gruppierung von Sensoren zwecks Berechnung von Aggregaten
   muss ebenso realisiert werden. Hierbei ist die Verwaltung diverser Stammdaten
   nötig.
-* Echtzeitdatenverarbeitung: Einige Aggregate sollen in Echtzeit berechnet werden. Dazu
+* **Echtzeitdatenverarbeitung:** Einige Aggregate sollen in Echtzeit berechnet werden. Dazu
   zählen Gruppierungen, also Zusammenschlüsse von Sensoren gleichen Typs.
   Hier ist es angedacht, eine Durchschnittsbildung sowie eine Findung von Minima
   und Maxima durchzuführen. Es ist zudem die Möglichkeit offenzuhalten, andere
   Berechnungen auszuführen.
-* Historische Daten verarbeiten: Historische Daten sollen ebenfalls verarbeitet werden.
+* **Historische Daten verarbeiten:** Historische Daten sollen ebenfalls verarbeitet werden.
   Dazu soll eine separate Routine geschaffen werden, die beispielsweise am Tages-,
   Monats- oder Jahresende alle Daten analysiert und neue zusammengefassteWerte
   berechnet.
-* Sensoranbindung: Es sollen die vorhandenen GrovePi-Sensoren angebunden werden. Dabei
+* **Sensoranbindung:** Es sollen die vorhandenen GrovePi-Sensoren angebunden werden. Dabei
   handelt es sich um die Modelle Temperature&Humidity, Water und Airquality. Zur
   Anbindung soll der bereitgestellte Raspberry Pi verwendet werden. Dieser kann mit
   den Sensoren verknüpft werden und so Daten auslesen. Aufseiten des Raspberry Pi
@@ -82,10 +85,10 @@ Dashboard gestalten, um die erfassten Daten über den Browser auszulesen.
   über MQTT an den Message Broker senden. Für alle vorhandenen Sensoren
   sind aufbauend auf der erweiterbaren Architektur und der Basismodule Microservices
   zu erstellen, die diese Sensordaten verarbeiten.
-* Bereitstellung der Daten: Die Rohdaten und verarbeiteten Daten müssen bereitgestellt
+* **Bereitstellung der Daten:** Die Rohdaten und verarbeiteten Daten müssen bereitgestellt
   werden, damit sie in einem Dashboard visualisiert werden können.
 #### Should-Have
-* Echtzeitdatenverarbeitung: Es sollen Gruppen verschiedener Sensortypen gebildet werden 
+* **Echtzeitdatenverarbeitung:** Es sollen Gruppen verschiedener Sensortypen gebildet werden 
   können. Ein Beispiel wäre hier eine Gruppierung von Temperatur- und Luftfeuchtigkeitsdaten
   zu Tauwerten. Dazu muss immer jeweils ein Temperatur- und
   Luftfeuchtigkeitssensor zu einer Gruppe zusammengefasst werden. Liegen zu beiden
@@ -93,35 +96,35 @@ Dashboard gestalten, um die erfassten Daten über den Browser auszulesen.
   Code-Basis zu implementieren, welche das Erstellen neuer Microservices dieser Art
   möglichst einfach und flexibel gestaltet.
 #### Nice-To-Have
-* Komplexe Aggregate: Eine Abbildung komplexer Aggregate mit mehreren Sensortypen
+* **Komplexe Aggregate:** Eine Abbildung komplexer Aggregate mit mehreren Sensortypen
   gleicher und unterschiedlicher Art sowie einer Verrechnung in Formeln könnte realisiert
 werden.
-* Monitoring: Ein Monitoring der einzelnen Microservices sowie die Benachrichtigung im
+* **Monitoring:** Ein Monitoring der einzelnen Microservices sowie die Benachrichtigung im
   Fehlerfall, bei falschen Messwerten, ausfallenden Sensoren oder Ähnlichem wäre
   eine sinnvolle Erweiterung.
   
 ### Nichtfunktionale Anforderungen
 
 #### Must-Have
-* Flexibel neue Funktionalität anbinden: Neue Implementierungen sollen mit geringem
+* **Flexibel neue Funktionalität anbinden:** Neue Implementierungen sollen mit geringem
   Aufwand realisierbar sein. Neue Funktionalität soll in die bestehende Architektur
   flexibel integriert werden können.
-* Bereitstellung mit Kubernetes: Die Anwendungen sind für das DSL-Cluster der Hochschule
+* **Bereitstellung mit Kubernetes:** Die Anwendungen sind für das DSL-Cluster der Hochschule
   für Technik und Wirtschaft des Saarlandes bereitzustellen.
-* Zustandslosigkeit: Die Anwendungen sind zustandslos zu implementieren, damit eine
+* **Zustandslosigkeit:** Die Anwendungen sind zustandslos zu implementieren, damit eine
   horizontale Skalierung möglich ist.
-* Ausgelagerte Konfiguration: Die Konfiguration muss ausgelagert, beispielsweise über
+* **Ausgelagerte Konfiguration** Die Konfiguration muss ausgelagert, beispielsweise über
   Umgebungsvariablen erfolgen. Dadurch wird ermöglicht, dass die Anwendungen
   über Kubernetes konfigurierbar sind. Die Konfiguration wird zentralisiert durch
   Kubernetes verwaltet. Ändern sich Adressen oder Ports von abhängigen Anwendungen,
   so kann der Aufwand einer Anpassung gering gehalten werden.
-* Dashboard: Das Dashboard soll nach Möglichkeit mittels Prometheus und Grafana erstellt
+* **Dashboard:** Das Dashboard soll nach Möglichkeit mittels Prometheus und Grafana erstellt
   werden. Dazu müssen Metriken über eine REST-API bereitgestellt werden.
   
 #### Should-Have
-* Auto-Scaling: Es könnten je nach Bedarf mehr Anwendungen gestartet werden. Dieser
-Vorgang kann automatisiert erfolgen. Es wird die Auslastung beobachtet. Je nach
-Aktivitätsgrad wird die Anzahl an Programminstanzen erhöht oder reduziert.
+* **Auto-Scaling:** Es könnten je nach Bedarf mehr Anwendungen gestartet werden. Dieser
+  Vorgang kann automatisiert erfolgen. Es wird die Auslastung beobachtet. Je nach
+  Aktivitätsgrad wird die Anzahl an Programminstanzen erhöht oder reduziert.
   
 # Lösungsstrategie
 Zur Lösung wurde ein multi-modulares Projekt erstellt. Zur Implementierung wurde Java 14 eingesetzt.
@@ -143,12 +146,12 @@ Anschließend kann das Projekt in einer beliebigen IDE bearbeitet werden.
 
 Möchte man das Projekt in einer lokalen Testumgebung starten, so wird die Verwendung von [minikube](https://minikube.sigs.k8s.io/docs/start/) empfohlen.
 Die folgenden Anwendungen müssten anschließend über Kubernetes bereitgestellt werden:
-* RabbitMQ: Unten wird beschrieben, wie ein eigenes Deployment durchgeführt werden kann.
-* Memcached: Über eigenen helm Chart
+* **RabbitMQ:** Unten wird beschrieben, wie ein eigenes Deployment durchgeführt werden kann.
+* **Memcached:** Über eigenen helm Chart
 ````
 helm install my-memcached bitnami/memcached
 ````
-* MySQL: Über eigenen helm Chart
+* **MySQL:** Über eigenen helm Chart
 ````
 helm install my-mysql bitnami/mysql
 ````
@@ -158,7 +161,7 @@ Der Nutzername ist stets *user*.
 kubectl get secret --namespace default my-mysql -o jsonpath="{.data.mysql-root-password}"
 ````
 Es stehen im Verzeichnis [_db-exports](/_db-exports) Datenbank-Dumps, die bereits Testdaten beinhalten.
-* MinIO: Über eigenen helm Chart
+* **MinIO:** Über eigenen helm Chart
 ````
 helm install my-minio bitnami/minio
 ````
@@ -167,7 +170,7 @@ Hier kann ebenfalls der Nutzername und das Passwort ausgelesen werden. Diese sin
 kubectl get secret --namespace default my-minio -o jsonpath="{.data.access-key}"
 kubectl get secret --namespace default my-minio -o jsonpath="{.data.secret-key}"
 ````
-* Prometheus und Grafana: Über helm Chart des kube-prometheus-stack
+* **Prometheus und Grafana:** Über helm Chart des kube-prometheus-stack
 ````
 helm install my-prom prometheus-community/kube-prometheus-stack
 ````
@@ -180,7 +183,7 @@ kubectl get secret my-prom-grafana -o jsonpath="{.data.admin-user}"
 Durch editieren der Deployments können, wenn dies gewünscht ist, die Services auch als NodePort konfiguriert werden.
 Damit wird die direkte Ansteuerung möglich. Dadurch kann ein Port-Forwarding erspart bleiben.
 
-* Prometheus Adapter: Über eigenen helm Chart
+* **Prometheus Adapter:** Über eigenen helm Chart
 ````
 helm install my-prom-adapter prometheus-community/prometheus-adapter
 ````
