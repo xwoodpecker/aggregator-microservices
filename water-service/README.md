@@ -7,6 +7,7 @@ Er kann aber auch für andere Sensoren genutzt werden.
 Zuerst ist in das Verzeichnis des Microservices zu navigieren.
 Dann muss das Docker Image erstellt und auf Docker Hub publiziert werden.
 ```
+mvn clean install
 docker build -t user/water-ms .
 docker push user/water-ms
 ```
