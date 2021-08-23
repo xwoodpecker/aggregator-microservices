@@ -80,11 +80,12 @@ Die Handler-Klassen übernehmen die Verarbeitung der Nachrichten.
 ### Paket Storage
 Das Paket Storage umfasst alle Klassen, die eine Datenhaltung realisieren.
 Hier wird die Kommunikation mit dem Memcached- und dem Minio-Server über Client-Implementierungen realisiert.
-![](../_markdown-images/package-storage.png)
+![](../_markdown-images/package-storage-wide.png)
 
 ### Paket Model
 Dieses Paket kapselt alle Modell-Klassen. Sie dienen beispielsweise der Abbildung von Messwerten oder von Funktionen zur Aggregatbildung.
-![](../_markdown-images/package-model.png)
+![](../_markdown-images/package-model-p1.png)
+![](../_markdown-images/package-model-p2.png)
 
 ### Paket Exporter
 Das Paket Exporter beinhaltet alle Klassen, welche für die Implementierung eines Microservice zum Datenexport an Prometheus dienen.
