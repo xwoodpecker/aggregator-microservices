@@ -4,9 +4,9 @@ Sie stellt Funktionalität für alle weiteren Microservices bereit.
 Zudem bietet sie Möglichkeiten der Erweiterung und Modifikation.
 Dadurch wird der Implementierungsaufwand neuer Services minimiert.
 
-#Statisches Modell
+# Statisches Modell
 
-##Verteilungssicht
+## Verteilungssicht
 Zuerst wurde die Anbindung der Sensoren, sowie die Verarbeitung der Sensordaten konzipiert.
 In diesem Kontext musste der Datenfluss festgelegt werden. Insbesondere wie Daten vom Message Broker konsumiert werden.
 Es wurde auch ein Konzept zur Aggregatbildung erstellt. Die folgende Grafik stellt die unterschiedliche Verarbeitung
@@ -18,7 +18,7 @@ Hier wird abgebildet, wie die Exchanges, Queues und Bindings von RabbitMQ einges
 Die Daten werden dann durch den Prometheus Exporter als Metriken aufbereitet, indem sie aus dem Cache gelesen werden.
 Wie diese Logik funktioniert kann in der entsprechenden [README-Datei](/../prometheus-exporter-service) nachvollzogen werden.
 
-##Bausteinsicht
+## Bausteinsicht
 Anschließend musste der Aufbau der Microservices festgelegt werden. Dazu wurde auf ein Schichtenmodell zurückgegriffen.
 Die verschiedenen Schichten sind in folgender Abbildung dargestellt.
 
@@ -90,7 +90,7 @@ Dieses Paket kapselt alle Modell-Klassen. Sie dienen beispielsweise der Abbildun
 Das Paket Exporter beinhaltet alle Klassen, welche für die Implementierung eines Microservice zum Datenexport an Prometheus dienen.
 ![](/../_markdown-images/package-exporter.png)
 
-#Dynamisches Modell
+# Dynamisches Modell
 
 Das dynamische Modell kann anhand folgender Abbildung nachvollzogen werden.
 Die erfolgte Umsetzung weicht geringfügig von der Darstellung ab. Da während der Umsetzung auffiel,
