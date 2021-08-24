@@ -8,6 +8,7 @@ Dieses Modul ermöglicht darüber hinaus die Visualisierung der Sensormesswerte.
 Dazu werden die letzten zum Export markierten Messungen aus dem Cache gelesen.
 Anschließend werden diese mit Metadaten angereichert und dann bereitgestellt.
 Die folgende Abbildung visualisiert den Ablauf nochmals.
+
 ![](../_markdown-images/prom-exporter.png)
 
 # Getting started
