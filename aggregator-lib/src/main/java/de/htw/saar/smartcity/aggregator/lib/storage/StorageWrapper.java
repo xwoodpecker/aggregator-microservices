@@ -11,7 +11,9 @@ import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The type Storage wrapper.
@@ -28,7 +30,7 @@ public abstract class StorageWrapper {
 
     private final MinioClientWrapper minioClientWrapper;
 
-    private MemcachedClientWrapper memcachedClientWrapper = null;
+    private MemcachedClientWrapper memcachedClientWrapper;
 
     /**
      * Instantiates a new Storage wrapper.
@@ -83,6 +85,34 @@ public abstract class StorageWrapper {
                 m.getTime().getSecond());
 
         return minioClientWrapper.putObject(m, objName) ? objName : null;
+    }
+
+    /**
+     * Put measurement string.
+     *
+     * @param name the name
+     * @param m    the m
+     * @return the string
+     */
+    public String putMeasurementCheckCompression(String name, Measurement m) {
+
+        String objName = String.format("%s/%d/%d/%d/%d/%d:%d",
+                name,
+                m.getTime().getYear(),
+                m.getTime().getMonthValue(),
+                m.getTime().getDayOfMonth(),
+                m.getTime().getHour(),
+                m.getTime().getMinute(),
+                m.getTime().getSecond());
+
+        if(applicationProperties.getOnlySaveMeasurementValue()) {
+            Set<String> set = new HashSet<>();
+            set.add("time");
+            return minioClientWrapper.putObjectExcludeFields(m, objName, set) ? objName : null;
+        }
+        else {
+            return minioClientWrapper.putObject(m, objName) ? objName : null;
+        }
     }
 
     /**

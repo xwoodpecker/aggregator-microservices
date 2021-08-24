@@ -15,32 +15,29 @@
             
     <module>aggregator-lib</module>
             
-    <module>aggregator-groups-service</module>
+    <module>aggregator-management-service</module>
             
-    <module>temperature-service</module>
-            
-    <module>humidity-service</module>
-            
-    <module>dewpoint-service</module>
-            
-    <module>heatflux-service</module>
+    <module>raw-ms/temperature-service</module>
+    <module>raw-ms/humidity-service</module>
+    <module>raw-ms/water-service</module>
+    <module>raw-ms/picture-service</module>
+    <module>raw-ms/airquality-service</module>
+
+    <module>group-ms/dewpoint-service</module>
+    <module>group-ms/heatflux-service</module>
+    <module>group-ms/airquality-aggregator-service</module>
+    <module>group-ms/humidity-aggregator-service</module>
+    <module>group-ms/water-aggregator-service</module>
+    <module>group-ms/temperature-aggregator-service</module>
 
     <module>prometheus-exporter-service</module>
-            
+
     <module>sensor-virtualization-service</module>
 
-    <module>water-service</module>
-
-    <module>picture-service</module>
-
-    <module>historic-temperature-aggregator-service</module>
-      <module>humidity-aggregator-service</module>
-      <module>water-aggregator-service</module>
-      <module>airquality-service</module>
-      <module>historic-humidity-aggregator-service</module>
-    <module>historic-dewpoint-aggregator-service</module>
-    <module>historic-airquality-aggregator-service</module>
-    <module>airquality-aggregator-service</module>
+    <module>historic-ms/historic-temperature-aggregator-service</module>
+    <module>historic-ms/historic-humidity-aggregator-service</module>
+    <module>historic-ms/historic-dewpoint-aggregator-service</module>
+    <module>historic-ms/historic-airquality-aggregator-service</module>
 
   </modules>
       

@@ -1,6 +1,9 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import de.htw.saar.smartcity.aggregator.lib.properties.MinioApplicationProperties;
 import io.minio.*;
 import io.minio.errors.ErrorResponseException;
@@ -15,6 +18,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -101,6 +105,45 @@ public class MinioClientWrapper {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+                objectMapper.writeValue(byteArrayOutputStream, o);
+                try(InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray())) {
+                    minioClient.putObject(
+                            PutObjectArgs.builder()
+                                    .bucket(applicationProperties.getMicroserviceBucket())
+                                    .object(name)
+                                    .stream(is, -1, 10485760)
+                                    //.contentType()
+                                    .build());
+                }
+            }
+
+        } catch (Exception e){
+            log.error("Upload to object store failed.");
+            //e.printStackTrace();
+            return false;
+        }
+        log.info("Upload to object store successful: " + o);
+        return true;
+    }
+
+
+    /**
+     * Put object exclude fields boolean.
+     *
+     * @param o          the o
+     * @param name       the name
+     * @param fieldNames the field names
+     * @return the boolean
+     */
+    public boolean putObjectExcludeFields(Object o, String name, Set<String> fieldNames) {
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+                FilterProvider filterProvider = new SimpleFilterProvider()
+                        .addFilter("filter by field name",
+                                SimpleBeanPropertyFilter.serializeAllExcept(fieldNames));
+                objectMapper.setFilterProvider(filterProvider);
                 objectMapper.writeValue(byteArrayOutputStream, o);
                 try(InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray())) {
                     minioClient.putObject(

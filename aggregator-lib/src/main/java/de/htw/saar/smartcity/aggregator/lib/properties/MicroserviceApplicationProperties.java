@@ -1,10 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-
-import javax.annotation.PostConstruct;
 
 /**
  * The type Microservice application properties.
@@ -38,6 +34,8 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
     private String minioAccessKey;
 
     private String minioSecretKey;
+
+    private Boolean onlySaveMeasurementValue;
 
     /**
      * The Microservice queue.
@@ -131,6 +129,16 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
     }
 
     /**
+     * Sets only save measurement value.
+     *
+     * @param onlySaveMeasurementValue the only save measurement value
+     */
+    @Value("${ONLY_SAVE_MEASUREMENT_VALUE}")
+    public void setOnlySaveMeasurementValue(Boolean onlySaveMeasurementValue) {
+        this.onlySaveMeasurementValue = onlySaveMeasurementValue;
+    }
+
+    /**
      * Sets microservice queue.
      *
      * @param microserviceQueue the microservice queue
@@ -206,6 +214,15 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
 
     public String getMinioSecretKey() {
         return minioSecretKey;
+    }
+
+    /**
+     * Gets only save measurement value.
+     *
+     * @return the only save measurement value
+     */
+    public Boolean getOnlySaveMeasurementValue() {
+        return onlySaveMeasurementValue;
     }
 
     /**
