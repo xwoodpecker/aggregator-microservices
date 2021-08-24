@@ -26,5 +26,5 @@ Die für den Temperature Microservice spezifischen Konfigurationseinträge sind:
 * `TEMPERATURE_QUEUE`: Name der Queue, die auf dem Message Broker erzeugt wird
 * `TEMPERATURE_TOPICS`: Topics, die in die Queue umgeleitet werden über ein Binding
 * `TEMPERATURE_BUCKET`: Bucket im Object Storage, in dem die Daten persistiert werden sollen
-* `TEMPERATURE_SENSOR_TYPE`: Name des Sensortyps zur Identifikation von Wassermesswerten
+* `TEMPERATURE_SENSOR_TYPE`: Name des Sensortyps zur Identifikation von Temperaturmesswerten
 * `EXPORT_TEMPERATURE_DATA_AS_METRIC`: true/false, je nachdem ob ein Export ins Monitoring erfolgen soll

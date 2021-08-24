@@ -26,5 +26,5 @@ Die für den Picture Microservice spezifischen Konfigurationseinträge sind:
 * `PICTURE_QUEUE`: Name der Queue, die auf dem Message Broker erzeugt wird
 * `PICTURE_TOPICS`: Topics, die in die Queue umgeleitet werden über ein Binding
 * `PICTURE_BUCKET`: Bucket im Object Storage, in dem die Daten persistiert werden sollen
-* `PICTURE_SENSOR_TYPE`: Name des Sensortyps zur Identifikation von Wassermesswerten
+* `PICTURE_SENSOR_TYPE`: Name des Sensortyps zur Identifikation von Messungen des Bildtyps
 * `EXPORT_PICTURE_DATA_AS_METRIC`: false, Bilddaten können nicht exportiert werden

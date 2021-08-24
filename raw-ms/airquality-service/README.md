@@ -26,5 +26,5 @@ Die für den Airquality Microservice spezifischen Konfigurationseinträge sind:
 * `AIRQUALITY_QUEUE`: Name der Queue, die auf dem Message Broker erzeugt wird
 * `AIRQUALITY_TOPICS`: Topics, die in die Queue umgeleitet werden über ein Binding
 * `AIRQUALITY_BUCKET`: Bucket im Object Storage, in dem die Daten persistiert werden sollen
-* `AIRQUALITY_SENSOR_TYPE`: Name des Sensortyps zur Identifikation von Wassermesswerten
+* `AIRQUALITY_SENSOR_TYPE`: Name des Sensortyps zur Identifikation von Luftqualitätsmesswerten
 * `EXPORT_AIRQUALITY_DATA_AS_METRIC`: true/false, je nachdem ob ein Export ins Monitoring erfolgen soll

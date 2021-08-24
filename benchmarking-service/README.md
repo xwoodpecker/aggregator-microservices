@@ -8,19 +8,7 @@ Dadurch kann ermittelt werden, was die Grundlast zur Datenverarbeitung ist und
 wie die Verarbeitungszeit mit ansteigender Größe wächst.
 
 # Getting started
-Zuerst ist in das Verzeichnis des Microservices zu navigieren.
-Dann muss das Docker Image erstellt und auf Docker Hub publiziert werden.
-```
-mvn clean install
-docker build -t user/virtualization-ms .
-docker push user/virtualization-ms
-```
-Anschließend müssen die YAML-Datei für den Microservice ausgeführt werden.
-Dadurch wird das Deployment erzeugt.
-````
-kubectl apply -f ./k8s/deployment.yaml
-````
-Möchte man das Benchmarking des Microservice durchführen, so kann dies durch dies mit den folgenden Befehlen durchgeführt werden.
+Möchte man den Benchmarking-Microservice bereitstellen, so kann dies durch dies mit den folgenden Befehlen durchgeführt werden.
 Hierbei ist zu beachten, dass das Benchmarking im Produktivsystem ausgeführt werden sollte, also im DSL-Cluster.
 ````
 mvn clean install

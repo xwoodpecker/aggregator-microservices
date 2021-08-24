@@ -1,6 +1,6 @@
 # Anwendung
 Dieser Microservice aggregiert Messungen des [Airquality-Service](../../raw-ms/airquality-service).
-Es werden historisch Aggregate erzeugt. Dies erfolgt stunden-, tages-, monats- und jahresweise.
+Es werden historische Aggregate erzeugt. Dies erfolgt stunden-, tages-, monats- und jahresweise.
 Die Aggregate stehen anschließend im Object Storage in der Verzeichnisstruktur bereit.
 
 # Getting Started

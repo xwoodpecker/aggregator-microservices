@@ -1,5 +1,5 @@
 # Lösungsstrategie
-Dieses Modul stellt nur eine konzeptionelle Lösung dar. In Zukunft soll ein weiteres Projekt eine Stammdatenverwaltung
+Dieses Modul stellt eine konzeptionelle Lösung dar. In Zukunft soll ein weiteres Projekt eine Stammdatenverwaltung
 für Sensoren und Aktoren im Smart City Testfeld abbilden. Diese Implementierung dient nur als Hilfe zur Anlage der Metadaten,
 die für die Funktionalität benötigt werden. Dazu wird eine REST-API bereitgestellt, welche durch die Integration von Swagger beziehungsweise dem OpenAPI 3.0 Standard bedient werden kann.
 Ein Aufbau auf dieser Lösung für eine zukünftige Entwicklung kann ebenfalls realisiert werden. Eine Erweiterung oder die Implementierung einer grafischen Oberfläche wäre denkbar. 

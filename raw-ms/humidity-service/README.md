@@ -26,5 +26,5 @@ Die für den Humidity Microservice spezifischen Konfigurationseinträge sind:
 * `HUMIDITY_QUEUE`: Name der Queue, die auf dem Message Broker erzeugt wird
 * `HUMIDITY_TOPICS`: Topics, die in die Queue umgeleitet werden über ein Binding
 * `HUMIDITY_BUCKET`: Bucket im Object Storage, in dem die Daten persistiert werden sollen
-* `HUMIDITY_SENSOR_TYPE`: Name des Sensortyps zur Identifikation von Wassermesswerten
+* `HUMIDITY_SENSOR_TYPE`: Name des Sensortyps zur Identifikation von Luftfeuchtigkeitsmesswerten
 * `EXPORT_HUMIDITY_DATA_AS_METRIC`: true/false, je nachdem ob ein Export ins Monitoring erfolgen soll
