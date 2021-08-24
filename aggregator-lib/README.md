@@ -58,8 +58,18 @@ einen neuen Messwert generiert.
 Im Folgenden ist die Übersicht über die Pakete zu sehen.
 ![](../_markdown-images/package-overview.png)
 
+todo: andere pakete erklären
+
 ## Klassendiagramme
 Es werden die Klassendiagramme der wichtigsten Pakete abgebildet.
+Nicht extra dargestellt sind:
+* **Package factory**: Beinhaltet sind Klassen zur Erstellung von Messwerten aus Nachrichten für die Rohdatenverarbeitung.
+* **Package controller**: Dieses Paket umfasst Klassen für die REST-APIs, die die Metriken für Prometheus anbieten.
+* **Package base**: Hier wird grundlegende Logik abgebildet. Zum Beispiel die SetupDataLoader-Klassen, welche für eine Existenz von Stammdaten beim Programmstart sorgen.
+* **Package repository**: Hier sind die JPARepositories implementiert, welche für die Datenbankabfragen genutzt werden.
+* **Package service**: Dieses Paket dient der zusätzlichen Abstraktion. Aufbauend auf den Repositories werden die Abfragen mit zusätzlicher Logik versehen, wie beispielsweise Plausibilitätsprüfungen.
+* **Package exception**: Beinhaltet sind alle Fehlerklassen für eine eigene Fehlerbehandlung.
+* **Package utils**: In diesem Paket sind alle Hilfsklassen und Hilfsfunktionen zu finden.
 
 ### Paket Properties
 Die inbegriffenen Klassen sind zur Abbildung der Konfigurationen der Microservices gedacht.

@@ -59,7 +59,7 @@ public class DewpointGroupMeasurementHandler extends GroupMeasurementHandler {
 
             Double temperatureValue = newMap.get(temperatureProducer).getValue();
             Double humidityValue = newMap.get(humidityProducer).getValue();
-            Double alpha = Math.log(humidityValue/100) + A * temperatureValue / (B + temperatureValue);
+            Double alpha = Math.log(humidityValue / 100) + A * temperatureValue / (B + temperatureValue);
             Double dewpointValue = B * alpha / (A - alpha);
             return Math.round(dewpointValue * 100) / 100.0;
         };

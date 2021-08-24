@@ -231,7 +231,7 @@ Die Deployments der einzelnen Microservices werden in den jeweiligen README-Date
 Sämtliche Konfigurationseigenschaften können entweder in den jeweiligen `src/main/resources/application.properties` eingetragen oder in der zentralen ConifgMap beziehungsweise den Secrets definiert werden.
 Die wichtigsten Konfigurationseigenschaften sind:
 * `BROKER_HOST`: Message Broker Hostname
-* `BROKER_PORT_AMQP`: Message Broker Port für das AMQP Protokoll
+* `BROKER_PORT_AMQP`: Message Broker Port für das AMQP Protokoll 
 * `BROKER_PORT_MQTT`: Message Broker Port für das MQTT Protokoll
 * `BROKER_USERNAME`: Username für die Verbindung zum Message Broker
 * `BROKER_PASSWORD`: Passwort für die Verbindung zum Message Broker

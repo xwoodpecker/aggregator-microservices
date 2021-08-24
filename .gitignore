@@ -1,5 +1,10 @@
 /.idea/
 /*/target/
+/*/*/target/
 /*/*.iml
+/*/*/*.iml
 /*/jmh-result.json
+/*/*/jmh-result.json
 /aggregator-microservices.iml
+/prometheus-exporter-service/benchmarks/
+/benchmarking-service/benchmarks/

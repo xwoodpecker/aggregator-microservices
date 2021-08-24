@@ -1,5 +1,5 @@
 # Anwendung
-Dieser Microservice bereitet Messungen auf, die angeben ob etwas nass ist.
+Dieser Microservice bereitet Messungen auf, die angeben, ob der Sensor nass ist.
 Er wurde für die Verarbeitung von Messungen der GrovePi Water Sensoren implementiert.
 Er kann aber auch für andere Sensoren genutzt werden.
 
