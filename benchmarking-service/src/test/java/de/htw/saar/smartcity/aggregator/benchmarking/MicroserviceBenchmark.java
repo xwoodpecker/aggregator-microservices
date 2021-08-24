@@ -79,8 +79,7 @@ public class MicroserviceBenchmark {
 
     private static int i = 0;
 
-    @Param({"1", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "200", "300", "400", "500"})
-    //@Param({"750", "1000"})
+    @Param({"1", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "200", "300", "400", "500", "750", "1000"})
     public int sizeInKB;
 
 
@@ -106,10 +105,10 @@ public class MicroserviceBenchmark {
         benchmarkWithMessage(generateMessageOfSize(sizeInKB * 1024));
     }
 
-    /**@TearDown(Level.Iteration)
+    @TearDown(Level.Iteration)
     public void doTearDown() {
         storageWrapper.deleteObjectsByPrefixRecursive("data/");
-    }**/
+    }
 
 
     public void benchmarkWithMessage(String message) {
