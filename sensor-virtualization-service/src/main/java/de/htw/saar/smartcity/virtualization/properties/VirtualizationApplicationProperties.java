@@ -12,6 +12,18 @@ import java.util.List;
 @Configuration
 public class VirtualizationApplicationProperties extends AbstractBrokerApplicationProperties {
 
+    private Integer temperatureAgentCount;
+
+    private Integer humidityAgentCount;
+
+    private Integer pictureAgentCount;
+
+    private Integer waterAgentCount;
+
+    private Integer airqualityAgentCount;
+
+    private Integer interval;
+
     private String openWeatherAPIKey;
 
     private List<String> openWeatherAPICities;
@@ -47,5 +59,120 @@ public class VirtualizationApplicationProperties extends AbstractBrokerApplicati
      */
     public List<String> getOpenWeatherAPICities() {
         return openWeatherAPICities;
+    }
+
+
+    /**
+     * Gets temperature agent count.
+     *
+     * @return the temperature agent count
+     */
+    public Integer getTemperatureAgentCount() {
+        return temperatureAgentCount;
+    }
+
+    /**
+     * Sets temperature agent count.
+     *
+     * @param temperatureAgentCount the temperature agent count
+     */
+    @Value("#{new Integer('${TEMPERATURE_AGENT_COUNT}')}")
+    public void setTemperatureAgentCount(Integer temperatureAgentCount) {
+        this.temperatureAgentCount = temperatureAgentCount;
+    }
+
+    /**
+     * Gets humidity agent count.
+     *
+     * @return the humidity agent count
+     */
+    public Integer getHumidityAgentCount() {
+        return humidityAgentCount;
+    }
+
+    /**
+     * Sets humidity agent count.
+     *
+     * @param humidityAgentCount the humidity agent count
+     */
+    @Value("#{new Integer('${HUMIDITY_AGENT_COUNT}')}")
+    public void setHumidityAgentCount(Integer humidityAgentCount) {
+        this.humidityAgentCount = humidityAgentCount;
+    }
+
+    /**
+     * Gets picture agent count.
+     *
+     * @return the picture agent count
+     */
+    public Integer getPictureAgentCount() {
+        return pictureAgentCount;
+    }
+
+    /**
+     * Sets picture agent count.
+     *
+     * @param pictureAgentCount the picture agent count
+     */
+    @Value("#{new Integer('${PICTURE_AGENT_COUNT}')}")
+    public void setPictureAgentCount(Integer pictureAgentCount) {
+        this.pictureAgentCount = pictureAgentCount;
+    }
+
+    /**
+     * Gets water agent count.
+     *
+     * @return the water agent count
+     */
+    public Integer getWaterAgentCount() {
+        return waterAgentCount;
+    }
+
+    /**
+     * Sets water agent count.
+     *
+     * @param waterAgentCount the water agent count
+     */
+    @Value("#{new Integer('${WATER_AGENT_COUNT}')}")
+    public void setWaterAgentCount(Integer waterAgentCount) {
+        this.waterAgentCount = waterAgentCount;
+    }
+
+    /**
+     * Gets airquality agent count.
+     *
+     * @return the airquality agent count
+     */
+    public Integer getAirqualityAgentCount() {
+        return airqualityAgentCount;
+    }
+
+    /**
+     * Sets airquality agent count.
+     *
+     * @param airqualityAgentCount the airquality agent count
+     */
+    @Value("#{new Integer('${AIRQUALITY_AGENT_COUNT}')}")
+    public void setAirqualityAgentCount(Integer airqualityAgentCount) {
+        this.airqualityAgentCount = airqualityAgentCount;
+    }
+
+    /**
+     * Gets interval.
+     *
+     * @return the interval
+     */
+    public Integer getInterval() {
+        return interval;
+    }
+
+    /**
+     * Sets interval.
+     *
+     * @param interval the interval
+     */
+    @Value("#{new Integer('${SIMULATION_INTERVAL}')}")
+    public void setInterval(Integer interval) {
+        this.interval = interval;
     }
 }

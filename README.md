@@ -129,10 +129,11 @@ werden.
 # Lösungsstrategie
 Zur Lösung wurde ein multi-modulares Projekt erstellt. Zur Implementierung wurde Java 14 eingesetzt.
 Das Projekt beinhaltet eine erweiterbare [Code-Basis](/aggregator-lib) und Microservices, die diese abstrahieren.
+Dazu zählen [Microservices zur Rohdatenverarbeitung](/raw-ms) und [Microservices zur Aggregatbildung](/group-ms).
+Aggregate über längere Zeiträume werden durch die [historischen Microservices](/historic-ms) realisiert.
 Um eine Visualisierung durch Prometheus und Grafana zu ermöglichen, wird das [Exportmodul](/prometheus-exporter-service) benötigt.
 Zudem ist eine Anwendung zur [Anbindung der GrovePi-Sensoren](/sensor-applications) für die Raspberry Pi 4 Computer vorhanden.
-Zwei Hilfsmodule sind ebenso verfügbar. Es steht ein [Simulationsmodul](/sensor-virtualization-service) bereit,
-mit dem Sensoren virtualisiert werden können.
+Zwei Hilfsmodule sind ebenso verfügbar. Es steht ein [Simulationsmodul](/sensor-virtualization-service) bereit, mit dem Sensoren virtualisiert werden können.
 Des Weiteren können Metadaten zu den Entitäten, wie den Sensoren und den Gruppen eingepflegt werden.
 Dies wird durch ein [Verwaltungsmodul](/aggregator-management-service) ermöglicht, welches eine REST-Schnittstelle zur Verfügung stellt.
 Erklärungen und Modelle zu den Unterprojekten sind in den entsprechenden README-Dateien zu finden.
@@ -140,7 +141,7 @@ Erklärungen und Modelle zu den Unterprojekten sind in den entsprechenden README
 # Getting started
 Um dieses Projekt lokal aufzusetzen, muss zuerst dieses Git-Repository geklont werden:
 ````
-git clone https://github.com/htw-saar/SmartCityAggregatorService.git
+git clone https://github.com/htw-saar/BachelorthesisMaverickStuder.git
 ````
 Anschließend kann das Projekt in einer beliebigen IDE bearbeitet werden.
 
