@@ -3,7 +3,7 @@ Die Lösung stellt ein Proof-Of-Concept dar. Das Modul dient dem Export der Micr
 Dazu werden diese als Metriken im Format von Prometheus aufbereitet.
 Prometheus fragt in regelmäßigen Zeitabständen, dem sogenannten Scrape-Intervall die REST-Schnittstellen der Microservices ab.
 Ein Microservice wird über den ServiceMonitor zum Monitoring markiert. Durch den gemeinsamen Monitor reicht hierbei
-das Setzen des Labels monitoring auf true beim jeweiligen Microservice. Dadurch können die Performance-Metriken eingepflegt werden.
+das Setzen des Labels *monitoring* auf *true* beim jeweiligen Microservice. Dadurch können die Performance-Metriken eingepflegt werden.
 Dieses Modul ermöglicht darüber hinaus die Visualisierung der Sensormesswerte. 
 Dazu werden die letzten zum Export markierten Messungen aus dem Cache gelesen.
 Anschließend werden diese mit Metadaten angereichert und dann bereitgestellt.
