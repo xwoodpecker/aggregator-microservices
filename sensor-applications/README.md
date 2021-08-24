@@ -16,7 +16,7 @@ Die JAR kann dann direkt ausgeführt werden mit:
 ````
 java -jar sensorDemo-1.0-SNAPSHOT.jar  >./log.txt 2>&1 &
 ````
-Oder über ein eigenes oder vordefiniertes Shell-Skript beim Systemstart ausgeführt werden. 
+Oder über ein eigenes oder [vordefiniertes](src/main/resources) Shell-Skript beim Systemstart ausgeführt werden. 
 
 ## Konfiguration
 Die wichtigsten Konfigurationseigenschaften sind:
