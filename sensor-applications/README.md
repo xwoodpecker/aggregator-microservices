@@ -24,7 +24,7 @@ Die wichtigsten Konfigurationseigenschaften sind:
 * `HUMIDITY_SENSOR_NAME`: Name des Topics des Luftfeuchtigkeitssensors
 * `AIRQUALITY_SENSOR_NAME`: Name des Topics des Luftqualitätssensors
 * `WATER_SENSOR_NAME`: Name des Topics des Wassersensors
-* `TEMPERATURE_AND_HUMIDITY_SENSOR_PIN`: Anschluss-PIN des Temperatur- und Luffeuchtigkeitssensors
+* `TEMPERATURE_AND_HUMIDITY_SENSOR_PIN`: Anschluss-PIN des Temperatur- und Luftfeuchtigkeitssensors
 * `AIRQUALITY_SENSOR_PIN`: Anschluss-PIN des Luftqualitätssensors
 * `WATER_SENSOR_PIN`: Anschluss-PIN des Wassersensors
 * `INTERVAL`: Intervall der Abfrage und des Publish
