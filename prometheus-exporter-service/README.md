@@ -16,8 +16,8 @@ Zuerst ist in das Verzeichnis des Microservices zu navigieren.
 Dann muss das Docker Image erstellt und auf Docker Hub publiziert werden.
 ```
 mvn clean install
-docker build -t user/virtualization-ms .
-docker push user/virtualization-ms
+docker build -t user/prom-exporter-ms .
+docker push user/prom-exporter-ms
 ```
 Anschließend müssen die YAML-Datei für den Microservice ausgeführt werden.
 Dadurch wird das Deployment erzeugt.
