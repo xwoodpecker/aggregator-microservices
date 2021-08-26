@@ -46,8 +46,8 @@ public class ActivityManager {
     // deprecated, no need for adding Scheduled-Annotation just for QoL
     //@Scheduled(cron="* * * * * *")
     private void reset() {
-        int i = (int)(System.currentTimeMillis() / 1000) % 60;
-
+        int i = (int)((System.currentTimeMillis() + 1000) / 1000) % 60;
+        //System.out.println("Reset slot: " + (int)((System.currentTimeMillis() + 1000) / 1000) % 60 + " -> 0ms");
         arr.set(i, 0);
     }
 
@@ -65,10 +65,12 @@ public class ActivityManager {
 
         for(long s = 1; s <= seconds; s++) {
             arr.addAndGet((int) (i - s) % 60, 1000);
+            //System.out.println("Added slot: " + (int) (i - s) % 60 + " -> 1000ms");
         }
 
         if(millis > 0) {
             arr.addAndGet((int) i % 60, millis);
+            //System.out.println("Added slot: " + (int) i % 60 + " -> " + millis + "ms");
         }
     }
 

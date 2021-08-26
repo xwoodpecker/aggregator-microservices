@@ -12,12 +12,13 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.properties")
 public abstract class HistoricAggregatorApplicationProperties implements MinioApplicationProperties {
 
-
     private String minioEndpoint;
 
     private String minioAccessKey;
 
     private String minioSecretKey;
+
+    private Boolean onlySaveMeasurementValue;
 
     /**
      * The Microservice bucket.
@@ -56,6 +57,16 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
      * @param deleteRawMeasurements the delete raw measurements
      */
     protected abstract void setDeleteRawMeasurements(boolean deleteRawMeasurements);
+
+    /**
+     * Sets only save measurement value.
+     *
+     * @param onlySaveMeasurementValue the only save measurement value
+     */
+    @Value("${ONLY_SAVE_MEASUREMENT_VALUE}")
+    public void setOnlySaveMeasurementValue(Boolean onlySaveMeasurementValue) {
+        this.onlySaveMeasurementValue = onlySaveMeasurementValue;
+    }
 
     /**
      * Sets microservice bucket.
@@ -103,6 +114,11 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
      */
     public boolean getDeleteRawMeasurements() {
         return deleteRawMeasurements;
+    }
+
+    @Override
+    public Boolean getOnlySaveMeasurementValue() {
+        return onlySaveMeasurementValue;
     }
 
     /**@PostConstruct

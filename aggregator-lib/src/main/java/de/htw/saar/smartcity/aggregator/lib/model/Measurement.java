@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
  *
  * @param <T> the type parameter of the underlying value
  */
+@JsonFilter("filter by field name")
 public class Measurement<T> implements Serializable {
 
     /**

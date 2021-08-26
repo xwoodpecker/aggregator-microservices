@@ -25,6 +25,6 @@ public class TemperatureAgent extends Agent {
 
     @Override
     protected Double getNextValue() {
-        return Double.valueOf(rand.nextInt(50) - 10);
+        return Math.round((rand.nextDouble() * 50 - 10) * 100) / 100.0;
     }
 }

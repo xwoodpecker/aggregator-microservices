@@ -44,7 +44,7 @@ public abstract class MeasurementHandler {
      */
     protected void processMeasurement(Producer producer, String path, Measurement m) {
 
-        final String objName = storageWrapper.putMeasurement(path, m);
+        final String objName = storageWrapper.putMeasurementCheckCompression(path, m);
 
         if(producer.getExportAsMetric())
             storageWrapper.cacheMeasurement(path, m);

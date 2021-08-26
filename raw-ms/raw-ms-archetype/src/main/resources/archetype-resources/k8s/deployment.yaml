@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-ms
+  template:
+    metadata:
+      labels:
+        app: my-ms
+    spec:
+      containers:
+        - name: my-ms
+          image: user/my-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  labels:
+    app: my-ms
+    monitoring: "true"
+spec:
+  type: ClusterIP
+  selector:
+    app: my-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+
+
+

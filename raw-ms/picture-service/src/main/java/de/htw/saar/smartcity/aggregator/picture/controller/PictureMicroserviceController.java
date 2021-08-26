@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class PictureMicroserviceController extends ActivityMicroserviceController {
-    
+
     public PictureMicroserviceController(ActivityManager activityManager) {
         super(activityManager);
     }

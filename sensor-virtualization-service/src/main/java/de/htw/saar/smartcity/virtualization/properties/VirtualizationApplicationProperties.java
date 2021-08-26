@@ -28,7 +28,7 @@ public class VirtualizationApplicationProperties extends AbstractBrokerApplicati
 
     private List<String> openWeatherAPICities;
 
-    @Value("${OPEN_WEATHER_API_KEY}")
+    @Value("${OPEN_WEATHER_API_KEY:#{null}}")
     private void setOpenWeatherAPIKey(String openWeatherAPIKey) {
         this.openWeatherAPIKey = openWeatherAPIKey;
     }
@@ -47,7 +47,7 @@ public class VirtualizationApplicationProperties extends AbstractBrokerApplicati
      *
      * @param openWeatherAPICities the open weather api cities
      */
-    @Value("#{'${OPEN_WEATHER_API_CITIES}'.split(',')}")
+    @Value("#{'${OPEN_WEATHER_API_CITIES:}'.split(',')}")
     public void setOpenWeatherAPICities(List<String> openWeatherAPICities) {
         this.openWeatherAPICities = openWeatherAPICities;
     }

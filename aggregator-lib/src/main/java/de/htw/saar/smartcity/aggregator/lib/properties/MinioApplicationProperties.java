@@ -34,6 +34,12 @@ public interface MinioApplicationProperties {
      */
     String getMicroserviceBucket();
 
+    /**
+     * Gets only save measurement value.
+     *
+     * @return the only save measurement value
+     */
+    Boolean getOnlySaveMeasurementValue();
 
 
 }

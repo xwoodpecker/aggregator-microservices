@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-aggregator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-aggregator-ms
+  template:
+    metadata:
+      labels:
+        app: my-aggregator-ms
+    spec:
+      containers:
+        - name: my-aggregator-ms
+          image: user/my-aggregator-ms
+          envFrom:
+            - configMapRef:
+                name: general-config
+            - secretRef:
+                name: general-secrets
+          ports:
+            - containerPort: 8080
+              name: http
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-aggregator-service
+  labels:
+    app: my-aggregator-ms
+    monitoring: "true"
+spec:
+  type: ClusterIP
+  selector:
+    app: my-aggregator-ms
+  ports:
+    - port: 8080
+      name: http
+
+
+

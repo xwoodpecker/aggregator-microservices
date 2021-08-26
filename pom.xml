@@ -38,6 +38,7 @@
     <module>historic-ms/historic-humidity-aggregator-service</module>
     <module>historic-ms/historic-dewpoint-aggregator-service</module>
     <module>historic-ms/historic-airquality-aggregator-service</module>
+      <module>aggregator-archetype</module>
 
   </modules>
       

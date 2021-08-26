@@ -194,7 +194,7 @@ public abstract class HistoricAggregatorScheduler {
             if(measurements.size() > 0) {
                 for (HistoricCombinatorModel historicCombinatorModel : historicCombinatorModels) {
 
-                    storageWrapper.putHistoricMeasurement(
+                    storageWrapper.putHistoricMeasurementCheckCompression(
                             parent(objectsPath) + "/historic/" + historicCombinatorModel.getName() + "/" + lastDir(objectsPath),
                             getMeasurement(historicCombinatorModel, measurements)
                     );
@@ -242,7 +242,7 @@ public abstract class HistoricAggregatorScheduler {
                 List<Measurement> measurements = storageWrapper.getMeasurementsByPrefix(objectsPath);
 
                 if(measurements.size() > 0) {
-                    storageWrapper.putHistoricMeasurement(
+                    storageWrapper.putHistoricMeasurementCheckCompression(
                             parent(basePath) + "/historic/" + historicCombinatorModel.getName() + "/" + lastDir(basePath),
                             getMeasurement(historicCombinatorModel, measurements)
                     );

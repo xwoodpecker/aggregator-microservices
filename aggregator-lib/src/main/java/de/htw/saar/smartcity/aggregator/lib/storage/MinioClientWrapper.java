@@ -1,7 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import de.htw.saar.smartcity.aggregator.lib.properties.MinioApplicationProperties;
@@ -140,11 +139,14 @@ public class MinioClientWrapper {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-                FilterProvider filterProvider = new SimpleFilterProvider()
+                SimpleFilterProvider filterProvider = new SimpleFilterProvider()
                         .addFilter("filter by field name",
                                 SimpleBeanPropertyFilter.serializeAllExcept(fieldNames));
-                objectMapper.setFilterProvider(filterProvider);
-                objectMapper.writeValue(byteArrayOutputStream, o);
+
+                final String test = objectMapper.writer(filterProvider)
+                        .writeValueAsString(o);
+
+                objectMapper.writer(filterProvider).writeValue(byteArrayOutputStream, o);
                 try(InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray())) {
                     minioClient.putObject(
                             PutObjectArgs.builder()

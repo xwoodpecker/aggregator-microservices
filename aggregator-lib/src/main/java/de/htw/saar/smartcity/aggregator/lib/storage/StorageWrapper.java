@@ -51,42 +51,6 @@ public abstract class StorageWrapper {
         this.memcachedClientWrapper = new MemcachedClientWrapper(applicationProperties);
     }
 
-
-    /**
-     * Put measurement and cache string.
-     *
-     * @param name the name
-     * @param m    the m
-     * @return the string
-     */
-    public String putMeasurementAndCache(String name, Measurement m) {
-
-        String objectStorePath = putMeasurement(name, m);
-        cacheMeasurement(name, m);
-        return objectStorePath;
-    }
-
-    /**
-     * Put measurement string.
-     *
-     * @param name the name
-     * @param m    the m
-     * @return the string
-     */
-    public String putMeasurement(String name, Measurement m) {
-
-        String objName = String.format("%s/%d/%d/%d/%d/%d:%d",
-                name,
-                m.getTime().getYear(),
-                m.getTime().getMonthValue(),
-                m.getTime().getDayOfMonth(),
-                m.getTime().getHour(),
-                m.getTime().getMinute(),
-                m.getTime().getSecond());
-
-        return minioClientWrapper.putObject(m, objName) ? objName : null;
-    }
-
     /**
      * Put measurement string.
      *

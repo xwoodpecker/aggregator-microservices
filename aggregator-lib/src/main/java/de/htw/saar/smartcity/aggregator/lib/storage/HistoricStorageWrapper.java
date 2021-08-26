@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The type Historic storage wrapper.
@@ -15,16 +17,22 @@ public abstract class HistoricStorageWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(HistoricStorageWrapper.class);
 
+    private final MinioApplicationProperties applicationProperties;
+
     private final MinioClientWrapper minioClientWrapper;
+
 
 
     /**
      * Instantiates a new Historic storage wrapper.
      *
+     *
      * @param applicationProperties the application properties
      * @throws Exception the exception
      */
     public HistoricStorageWrapper(MinioApplicationProperties applicationProperties) throws Exception {
+
+        this.applicationProperties = applicationProperties;
 
         this.minioClientWrapper = new MinioClientWrapper(applicationProperties);
     }
@@ -47,9 +55,16 @@ public abstract class HistoricStorageWrapper {
      * @param m       the m
      * @return the string
      */
-    public String putHistoricMeasurement(String objName, Measurement m) {
+    public String putHistoricMeasurementCheckCompression(String objName, Measurement m) {
 
-        return minioClientWrapper.putObject(m, objName) ? objName : null;
+        if(applicationProperties.getOnlySaveMeasurementValue()) {
+            Set<String> set = new HashSet<>();
+            set.add("time");
+            return minioClientWrapper.putObjectExcludeFields(m, objName, set) ? objName : null;
+        }
+        else {
+            return minioClientWrapper.putObject(m, objName) ? objName : null;
+        }
     }
 
 
