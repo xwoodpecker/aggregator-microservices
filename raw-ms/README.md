@@ -19,7 +19,7 @@ Dazu muss im Nachgang nur folgender Befehl ausgeführt und entsprechend modifizi
 ````
 mvn archetype:generate -DarchetypeGroupId=de.htw.saar.smartcity -DarchetypeArtifactId=raw-ms-archetype -DarchetypeVersion=0.0.1-SNAPSHOT -DgroupId=de.htw.saar.smartcity -DartifactId=new-raw-ms -Dversion=0.0.1.-SNAPSHOT -Dpackage=de.htw.saar.smartcity.newpackage
 ````
-Zur Änderung gedacht sind die Parameter:
+Zur Änderung gedacht, sind die Parameter:
 * `-DgroupId`: Die Gruppen-ID des Projekts
 * `-DartifactId`: Die Artefakt-ID des Projekts
 * `-Dversion`: Die initiale Version des Projekts
