@@ -4,6 +4,7 @@ import de.htw.saar.smartcity.sensor.app.base.Monitor;
 import de.htw.saar.smartcity.sensor.app.base.SensorAgent;
 import de.htw.saar.smartcity.sensor.app.broker.MqttPublisherImpl;
 import org.iot.raspberry.grovepi.GrovePi;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -12,6 +13,9 @@ import java.io.IOException;
  * The type Water sensor.
  */
 public class WaterSensor implements SensorAgent {
+
+
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(WaterSensor.class);
 
     private int pin;
     private int interval;
@@ -36,7 +40,7 @@ public class WaterSensor implements SensorAgent {
         while (monitor.isRunning()) {
             try {
                 boolean water = w.get();
-                System.out.println(topic + " : " + water);
+                log.info(topic + " : " + water);
                 publisher.publish(topic, String.valueOf(water));
                 Thread.sleep(interval);
             } catch (IOException ex) {

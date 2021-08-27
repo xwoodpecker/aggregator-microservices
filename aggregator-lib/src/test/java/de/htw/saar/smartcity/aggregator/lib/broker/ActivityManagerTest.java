@@ -2,6 +2,7 @@ package de.htw.saar.smartcity.aggregator.lib.broker;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -12,6 +13,8 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = de.htw.saar.smartcity.aggregator.lib.broker.ActivityManager.class)
 public class ActivityManagerTest {
+
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ActivityManagerTest.class);
 
     @Autowired
     private ActivityManager activityManager;
@@ -26,7 +29,7 @@ public class ActivityManagerTest {
 
         Double activity = activityManager.getActivity();
         Double minimum = (999*58.0)/(1000*60.0);
-        System.out.println("real: " + activity + " min: " + minimum);
+        log.info("real: " + activity + " min: " + minimum);
         assertThat(activity, greaterThan(minimum));
     }
 
@@ -40,7 +43,7 @@ public class ActivityManagerTest {
 
         Double activity = activityManager.getActivity();
         Double minimum = (999*58.0)/(1000*60.0);
-        System.out.println("real: " + activity + " min: " + minimum);
+        log.info("real: " + activity + " min: " + minimum);
         assertThat(activity, greaterThan(minimum));
     }
 
@@ -55,7 +58,7 @@ public class ActivityManagerTest {
 
         Double activity = activityManager.getActivity();
         Double minimum = (499*58.0)/(1000*60.0);
-        System.out.println("real: " + activity + " min: " + minimum);
+        log.info("real: " + activity + " min: " + minimum);
         assertThat(activity, greaterThan(minimum));
     }
 }

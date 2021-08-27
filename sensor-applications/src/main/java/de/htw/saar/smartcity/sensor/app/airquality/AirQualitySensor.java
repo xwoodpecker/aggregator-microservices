@@ -4,6 +4,8 @@ import de.htw.saar.smartcity.sensor.app.base.Monitor;
 import de.htw.saar.smartcity.sensor.app.base.SensorAgent;
 import de.htw.saar.smartcity.sensor.app.broker.MqttPublisherImpl;
 import org.iot.raspberry.grovepi.GrovePi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -11,6 +13,9 @@ import java.io.IOException;
  * The type Air quality sensor.
  */
 public class AirQualitySensor implements SensorAgent {
+
+
+    private static final Logger log = LoggerFactory.getLogger(AirQualitySensor.class);
 
     private int pin;
     private int interval;
@@ -36,7 +41,7 @@ public class AirQualitySensor implements SensorAgent {
         while (monitor.isRunning()) {
             try {
                 Integer airQuality = airQualityInputDevice.get();
-                System.out.println(topic + " : " + airQuality);
+                log.info(topic + " : " + airQuality);
                 publisher.publish(topic, String.valueOf(airQuality));
                 Thread.sleep(interval);
             } catch (IOException ex) {

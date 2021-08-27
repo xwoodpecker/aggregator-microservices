@@ -7,14 +7,14 @@ Anschließend werden die Messungen je nach Konfiguration über MQTT an den Messa
 
 # Getting started
 Die JAR-Datei kann direkt auf dem PI gebaut werden. Durch die nachfolgenden Kommandos kann die JAR auf dem lokalen System gebaut werden
-und anschließend durch Verbindung mit dem PI rüberkopiert werden.
+und anschließend durch Verbindung mit dem PI rüberkopiert werden. Dazu ist wichtig zu beachten, dass hierfür die JDK 11 benötigt wird.
 ````
 mvn clean install
-scp ./target/sensorDemo-1.0-SNAPSHOT.jar pi@192.168.178.41:/home/pi/javaSensorDemo/sensorDemo-1.0-SNAPSHOT.jar
+scp ./target/*.jar pi@192.168.178.41:/home/pi/javaSensorDemo/sensors.jar
 ````
 Die JAR kann dann direkt ausgeführt werden mit:
 ````
-java -jar sensorDemo-1.0-SNAPSHOT.jar  >./log.txt 2>&1 &
+java -jar sensors.jar  >./log.txt 2>&1 &
 ````
 Oder über ein eigenes oder [vordefiniertes](src/main/resources) Shell-Skript beim Systemstart ausgeführt werden. 
 

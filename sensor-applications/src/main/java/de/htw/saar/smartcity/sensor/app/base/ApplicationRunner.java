@@ -8,6 +8,7 @@ import de.htw.saar.smartcity.sensor.app.temperatureandhumidity.TemperatureAndHum
 import de.htw.saar.smartcity.sensor.app.water.WaterSensor;
 import org.iot.raspberry.grovepi.GrovePi;
 import org.iot.raspberry.grovepi.pi4j.GrovePi4J;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,8 @@ import java.util.logging.Logger;
  */
 @Component
 public class ApplicationRunner {
+
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ApplicationRunner.class);
 
     private final SensorApplicationProperties sensorApplicationProperties;
 
@@ -68,7 +71,7 @@ public class ApplicationRunner {
         if (control.exists()) {
             // control : stop already running application
             control.delete();
-            System.out.println("Stopping execution of already running application ");
+            log.info("Stopping execution of already running application ");
             System.exit(SpringApplication.exit(context));
         }
 
@@ -78,7 +81,7 @@ public class ApplicationRunner {
         GrovePi grovePi = new GrovePi4J();
 
 
-        System.out.println("RUNNING SENSORS - USING: PI4J");
+        log.info("RUNNING SENSORS - USING: PI4J");
         final ExecutorService runner = Executors.newCachedThreadPool();
         final ExecutorService fileMonitor = Executors.newSingleThreadExecutor();
         final Monitor monitor = new Monitor();

@@ -2,11 +2,12 @@ package de.htw.saar.smartcity.sensor.app.temperatureandhumidity;
 
 import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
 import de.htw.saar.smartcity.sensor.app.base.Monitor;
-import de.htw.saar.smartcity.sensor.app.broker.MqttPublisherImpl;
 import de.htw.saar.smartcity.sensor.app.base.SensorAgent;
+import de.htw.saar.smartcity.sensor.app.broker.MqttPublisherImpl;
 import org.iot.raspberry.grovepi.GrovePi;
 import org.iot.raspberry.grovepi.devices.GroveTemperatureAndHumiditySensor;
 import org.iot.raspberry.grovepi.devices.GroveTemperatureAndHumidityValue;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -14,6 +15,8 @@ import java.io.IOException;
  * The type Temperature and humidity sensor.
  */
 public class TemperatureAndHumiditySensor implements SensorAgent {
+
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TemperatureAndHumiditySensor.class);
 
     private int pin;
     private int interval;
@@ -43,12 +46,12 @@ public class TemperatureAndHumiditySensor implements SensorAgent {
                 GroveTemperatureAndHumidityValue groveTemperatureAndHumidityValue = dht.get();
                 if(!Utils.isBlankOrNull(humidityTopic)) {
                     double humidity = groveTemperatureAndHumidityValue.getHumidity();
-                    System.out.println(humidityTopic + " : " + humidity);
+                    log.info(humidityTopic + " : " + humidity);
                     publisher.publish(humidityTopic, String.valueOf(humidity));
                 }
                 if(!Utils.isBlankOrNull(temperatureTopic)) {
                     double temperature = groveTemperatureAndHumidityValue.getTemperature();
-                    System.out.println(temperatureTopic + " : " + temperature);
+                    log.info(temperatureTopic + " : " + temperature);
                     publisher.publish(temperatureTopic, String.valueOf(temperature));
                 }
                 Thread.sleep(interval);
