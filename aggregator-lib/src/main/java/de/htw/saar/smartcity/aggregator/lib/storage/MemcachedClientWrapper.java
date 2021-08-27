@@ -168,7 +168,7 @@ public class MemcachedClientWrapper {
             //e.printStackTrace();
             return null;
         }
-        log.info(Utils.limitLoggedMsg("Retrieved " + keys.size() + " cached objects successfully: " + map, Constants.MAX_LOG_MESSAGE_SIZE));
+        log.info(Utils.limitLoggedMsg("Retrieved " +  ((map == null) ? "0" : map.size()) + " cached objects successfully: " + map, Constants.MAX_LOG_MESSAGE_SIZE));
         return map;
     }
 

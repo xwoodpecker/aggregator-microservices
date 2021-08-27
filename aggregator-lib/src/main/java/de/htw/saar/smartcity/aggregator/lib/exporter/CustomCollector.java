@@ -37,6 +37,8 @@ public abstract class CustomCollector extends Collector {
 
     private final ActivityManager activityManager;
 
+
+
     /**
      * Instantiates a new Custom collector.
      *

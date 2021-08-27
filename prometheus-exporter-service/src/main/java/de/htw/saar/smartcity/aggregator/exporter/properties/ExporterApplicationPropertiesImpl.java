@@ -17,7 +17,6 @@ public class ExporterApplicationPropertiesImpl extends ExporterApplicationProper
     @Value("${EXPORT_AGGREGATOR_DATA_TYPES:#{null}}")
     protected void setExportedAggregatorDataTypes(String[] exportedAggregatorDataTypes) {
         this.exportedAggregatorDataTypes = exportedAggregatorDataTypes;
-
     }
 
     @Override

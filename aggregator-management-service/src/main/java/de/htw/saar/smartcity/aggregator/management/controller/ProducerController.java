@@ -1,12 +1,14 @@
 package de.htw.saar.smartcity.aggregator.management.controller;
 
-import de.htw.saar.smartcity.aggregator.management.exception.ProducerNotFoundException;
-import de.htw.saar.smartcity.aggregator.management.exception.TagNotFoundException;
+import de.htw.saar.smartcity.aggregator.lib.entity.Location;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.entity.Tag;
 import de.htw.saar.smartcity.aggregator.lib.service.LocationService;
 import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
 import de.htw.saar.smartcity.aggregator.lib.service.TagService;
+import de.htw.saar.smartcity.aggregator.management.exception.LocationNotFoundException;
+import de.htw.saar.smartcity.aggregator.management.exception.ProducerNotFoundException;
+import de.htw.saar.smartcity.aggregator.management.exception.TagNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -86,7 +88,7 @@ public class ProducerController {
         return new ResponseEntity(producer, HttpStatus.OK);
     }
 
-    /**@PutMapping("/{producerId}/location/{locationId}")
+    @PutMapping("/{producerId}/location/{locationId}")
     public ResponseEntity putLocation(@PathVariable Long producerId, @PathVariable Long locationId) {
 
         Producer producer = producerService.findProducerById(producerId)
@@ -120,6 +122,6 @@ public class ProducerController {
         producer = producerService.saveProducer(producer);
 
         return new ResponseEntity(producer, HttpStatus.OK);
-    }**/
+    }
 
 }
