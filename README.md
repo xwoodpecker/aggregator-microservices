@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Szenario
 Die htw saar beschäftigt sich mit der Erforschung und dem Einsatz von IoT-Technologien.
 In diesem Rahmen wurde das Smart City Testfeld ins Leben gerufen, welches dazu
@@ -287,3 +288,6 @@ This project is licensed under the GNU General Public License v3.0
 * [Autoscaling Spring Boot with the Horizontal Pod Autoscaler and custom metrics on Kubernetes](https://github.com/learnk8s/spring-boot-k8s-hpa) - Referenz zur Umsetzung der automatischen Skalierung
 * [Stackoverflow](https://stackoverflow.com/) - Bringt Licht ins Dunkle
 
+=======
+# BachelorthesisMaverickStuder
+>>>>>>> 6e2a85d7eed37816063afe2117363f44ac6d130d
