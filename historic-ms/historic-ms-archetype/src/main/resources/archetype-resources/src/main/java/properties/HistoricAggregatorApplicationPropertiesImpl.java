@@ -1,8 +1,8 @@
-package ${package}.properties;
-
-import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
+package $ import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+
+{package}.properties;
 
 @Configuration
 public class HistoricAggregatorApplicationPropertiesImpl extends HistoricAggregatorApplicationProperties {

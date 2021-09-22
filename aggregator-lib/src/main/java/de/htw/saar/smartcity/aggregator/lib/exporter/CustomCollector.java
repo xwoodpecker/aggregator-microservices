@@ -259,7 +259,9 @@ public abstract class CustomCollector extends Collector {
         List<GaugeMetricFamily> gauges = new ArrayList<>();
 
         Map<String, Object> objects = getObjectsForKeys(aggregators.stream()
-                .map(a -> a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()).collect(Collectors.toList()));
+                .filter(a -> a.getOwnerGroup() != null && a.getCombinator() != null)
+                .map(a -> a.getOwnerGroup().getName() + "/" + a.getCombinator().getName())
+                .collect(Collectors.toList()));
 
         if(objects != null && !objects.isEmpty()) {
             aggregators.removeIf(a -> !objects.containsKey(Constants.MEMCACHED_MEASUREMENT_PREFIX + a.getOwnerGroup().getName() + "/" + a.getCombinator().getName()));

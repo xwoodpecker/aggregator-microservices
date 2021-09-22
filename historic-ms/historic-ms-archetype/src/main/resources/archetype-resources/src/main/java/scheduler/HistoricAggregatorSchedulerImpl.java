@@ -1,6 +1,4 @@
-package ${package}.scheduler;
-
-import de.htw.saar.smartcity.aggregator.lib.model.HistoricCombinatorModels;
+package $ import de.htw.saar.smartcity.aggregator.lib.model.HistoricCombinatorModels;
 import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.scheduler.HistoricAggregatorScheduler;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
@@ -8,6 +6,8 @@ import de.htw.saar.smartcity.aggregator.lib.service.HistoricCombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
 import de.htw.saar.smartcity.aggregator.lib.storage.HistoricStorageWrapper;
 import org.springframework.stereotype.Component;
+
+{package}.scheduler;
 
 @Component
 public class HistoricAggregatorSchedulerImpl extends HistoricAggregatorScheduler {
