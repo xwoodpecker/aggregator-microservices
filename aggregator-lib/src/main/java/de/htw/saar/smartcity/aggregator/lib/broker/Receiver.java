@@ -57,6 +57,8 @@ public abstract class Receiver extends BrokerConnection {
 
             long startTime = System.currentTimeMillis();
             processMessage(delivery.getEnvelope().getRoutingKey(), new String(delivery.getBody(), "UTF-8"));
+
+            //set multi-ack to true, so we can ack all fetched messages
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), true);
             long stopTime = System.currentTimeMillis();
             this.activityManager.addTime(stopTime, stopTime - startTime);
