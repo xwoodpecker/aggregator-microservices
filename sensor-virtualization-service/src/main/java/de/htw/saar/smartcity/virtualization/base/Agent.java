@@ -61,7 +61,7 @@ public abstract class Agent implements IAgent {
         executorService.scheduleAtFixedRate(() -> {
             try {
                 publisher.publish(sensorName, String.valueOf(getNextValue()));
-            } catch (Exception e) {
+            } catch (Throwable t) {
                 log.error("Exception during publish.");
                 //e.printStackTrace();
             }
