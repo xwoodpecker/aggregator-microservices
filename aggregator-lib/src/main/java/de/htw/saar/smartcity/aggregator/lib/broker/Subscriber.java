@@ -109,7 +109,7 @@ public abstract class Subscriber implements MqttCallback {
         if (!Utils.isBlankOrNull(applicationProperties.getBrokerPassword())) {
             connectionOptions.setPassword(applicationProperties.getBrokerPassword().toCharArray());
         }
-        if (!Utils.isBlankOrNull(applicationProperties.getCaFile()) && !Utils.isBlankOrNull(applicationProperties.getClientCertFile()) && !Utils.isBlankOrNull(applicationProperties.getClientCertFile())) {
+        if (!Utils.isBlankOrNull(applicationProperties.getCaFile()) && !Utils.isBlankOrNull(applicationProperties.getClientCertFile()) && !Utils.isBlankOrNull(applicationProperties.getClientKeyFile())) {
             connectionOptions.setSocketFactory(BrokerUtils.getSSLSocketFactory(applicationProperties.getCaFile(), applicationProperties.getClientCertFile(), applicationProperties.getClientKeyFile()));
         }
 
