@@ -7,7 +7,7 @@ import de.htw.saar.smartcity.aggregator.lib.exception.MeasurementException;
 import de.htw.saar.smartcity.aggregator.lib.factory.MeasurementFactory;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.SensorMeasurement;
-import de.htw.saar.smartcity.aggregator.lib.properties.RawBasicApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.RawMeasurementHandlerProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.storage.StorageWrapper;
 import de.htw.saar.smartcity.aggregator.lib.utils.Utils;
@@ -24,23 +24,25 @@ public abstract class RawMeasurementHandler extends MeasurementHandler {
      */
     protected static final Logger log = LoggerFactory.getLogger(RawMeasurementHandler.class);
 
-    private final RawBasicApplicationProperties rawBasicApplicationProperties;
+    private final RawMeasurementHandlerProperties rawMeasurementHandlerProperties;
     private final DataTypeService dataTypeService;
     private final MeasurementFactory measurementFactory;
     private final StorageWrapper storageWrapper;
     private final Publisher publisher;
 
+
     /**
      * Instantiates a new Raw measurement handler.
-     * @param rawBasicApplicationProperties        the basic application properties
-     * @param storageWrapper                       the storage wrapper
-     * @param publisher                            the publisher
-     * @param dataTypeService                      the data type service
-     * @param measurementFactory                   the measurement factory
+     *
+     * @param storageWrapper                  the storage wrapper
+     * @param publisher                       the publisher
+     * @param rawMeasurementHandlerProperties the raw measurement handler properties
+     * @param dataTypeService                 the data type service
+     * @param measurementFactory              the measurement factory
      */
-    protected RawMeasurementHandler(StorageWrapper storageWrapper, Publisher publisher, RawBasicApplicationProperties rawBasicApplicationProperties, DataTypeService dataTypeService, MeasurementFactory measurementFactory) {
+    protected RawMeasurementHandler(StorageWrapper storageWrapper, Publisher publisher, RawMeasurementHandlerProperties rawMeasurementHandlerProperties, DataTypeService dataTypeService, MeasurementFactory measurementFactory) {
         super(storageWrapper, publisher);
-        this.rawBasicApplicationProperties = rawBasicApplicationProperties;
+        this.rawMeasurementHandlerProperties = rawMeasurementHandlerProperties;
         this.dataTypeService = dataTypeService;
         this.measurementFactory = measurementFactory;
         this.storageWrapper = storageWrapper;
@@ -75,10 +77,10 @@ public abstract class RawMeasurementHandler extends MeasurementHandler {
                 sensor = new Sensor();
                 sensor.setName(sensorName);
                 sensor.setObjectStorePath(sensorName);
-                String dataTypeName = rawBasicApplicationProperties.getApplicationDataType();
+                String dataTypeName = rawMeasurementHandlerProperties.getApplicationDataType();
                 DataType dataType = dataTypeService.findDataTypeByName(dataTypeName);
                 sensor.setDataType(dataType);
-                sensor.setExportAsMetric(rawBasicApplicationProperties.getExportSensorDataAsMetric());
+                sensor.setExportAsMetric(rawMeasurementHandlerProperties.getExportSensorDataAsMetric());
                 storageWrapper.putSensor(sensor);
                 log.info("Sensor saved");
             }

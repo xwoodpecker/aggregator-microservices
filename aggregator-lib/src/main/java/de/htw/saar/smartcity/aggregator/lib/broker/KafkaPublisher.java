@@ -1,6 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
-public class KafkaPublisher implements Publisher {
+public abstract class KafkaPublisher implements Publisher {
 
     //todo
 

@@ -1,9 +1,11 @@
 package de.htw.saar.smartcity.aggregator.lib.model;
 
+import java.io.Serializable;
+
 /**
  * The type Sensor measurement - encapsulates raw measurements
  */
-public class SensorMeasurement {
+public class SensorMeasurement implements Serializable {
 
     private String sensorName;
 
