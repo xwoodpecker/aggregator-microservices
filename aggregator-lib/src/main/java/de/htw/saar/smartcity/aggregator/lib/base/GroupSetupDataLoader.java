@@ -54,7 +54,7 @@ public abstract class GroupSetupDataLoader extends SetupDataLoader {
             return;
 
         createGroupTypeIfNotFound(groupMicroserviceApplicationProperties.getMicroserviceGroupTypeName());
-        createDataTypeIfNotFound(groupMicroserviceApplicationProperties.getMicroserviceDataTypeName());
+        createDataTypeIfNotFound(groupMicroserviceApplicationProperties.getApplicationDataType());
 
         alreadySetup = true;
     }

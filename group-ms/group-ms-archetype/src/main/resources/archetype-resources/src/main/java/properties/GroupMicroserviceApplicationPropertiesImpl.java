@@ -21,14 +21,14 @@ public class GroupMicroserviceApplicationPropertiesImpl extends GroupMicroservic
 
     @Override
     @Value("${MY_SENSOR_TYPE}")
-    public void setMicroserviceDataTypeName(String microserviceDataTypeName) {
-        this.microserviceDataTypeName = microserviceDataTypeName;
+    public void setApplicationDataType(String applicationDataType) {
+        this.applicationDataType = applicationDataType;
     }
 
     @Override
     @Value("${MY_AGGREGATOR_MICROSERVICE_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucketName(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
 

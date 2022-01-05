@@ -21,14 +21,14 @@ public class TemperatureApplicationProperties  extends RawMicroserviceApplicatio
 
     @Override
     @Value("${TEMPERATURE_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucket(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
     @Override
     @Value("${TEMPERATURE_SENSOR_TYPE}")
-    public void setMicroserviceDataType(String microserviceDataType) {
-        this.microserviceDataType = microserviceDataType;
+    public void setApplicationDataType(String applicationDataType) {
+        this.applicationDataType = applicationDataType;
     }
 
     @Override

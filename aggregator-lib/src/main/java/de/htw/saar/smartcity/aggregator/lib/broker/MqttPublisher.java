@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The type Mqtt publisher.
  */
-public abstract class MqttPublisher {
+public abstract class MqttPublisher implements Publisher{
 
     private static final Logger log = LoggerFactory.getLogger(MqttPublisher.class);
 
@@ -46,10 +46,14 @@ public abstract class MqttPublisher {
      * @param message the message
      * @throws MqttException the mqtt exception
      */
-    public void publish(String topic, String message) throws MqttException {
+    public void publish(String topic, String message)  {
 
         final MqttTopic mqttTopic = mqttClient.getTopic(topic);
-        mqttTopic.publish(new MqttMessage(message.getBytes()));
+        try {
+            mqttTopic.publish(new MqttMessage(message.getBytes()));
+        } catch (MqttException e) {
+            log.error("Exception during publish.");
+        }
 
         log.info("Published data. Topic: " + mqttTopic.getName() + "  Message: " + Utils.limitLoggedMsg(message, Constants.MAX_LOG_MESSAGE_SIZE));
     }

@@ -1,42 +1,6 @@
 package de.htw.saar.smartcity.aggregator.lib.broker;
 
-import de.htw.saar.smartcity.aggregator.lib.base.Constants;
-import de.htw.saar.smartcity.aggregator.lib.properties.BrokerApplicationProperties;
+public interface Publisher {
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-/**
- * The type Publisher.
- */
-public abstract class Publisher extends BrokerConnection {
-
-    /**
-     * Instantiates a new Publisher.
-     *
-     * @param applicationProperties the application properties
-     * @throws Exception the exception
-     */
-    public Publisher(BrokerApplicationProperties applicationProperties) throws Exception {
-
-        super(applicationProperties);
-
-        channel.exchangeDeclare(Constants.GROUP_EXCHANGE, "topic");
-    }
-
-    /**
-     * Publish.
-     *
-     * @param routingKey the routing key
-     * @param message    the message
-     */
-    public void publish (String routingKey, String message)  {
-        try {
-            channel.basicPublish(Constants.GROUP_EXCHANGE, routingKey, null, message.getBytes(StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            log.error("Error during publish on group_exchange");
-            //e.printStackTrace();
-        }
-    }
-
+    void publish(String topic, String message);
 }

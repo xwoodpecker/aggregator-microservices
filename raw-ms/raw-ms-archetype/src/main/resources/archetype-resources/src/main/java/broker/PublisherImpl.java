@@ -5,7 +5,7 @@ import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationPr
 import org.springframework.stereotype.Component;
 
 @Component
-public class PublisherImpl extends Publisher {
+public class PublisherImpl extends AMQPPublisher {
 
     public PublisherImpl(MicroserviceApplicationProperties applicationProperties) throws Exception {
         super(applicationProperties);

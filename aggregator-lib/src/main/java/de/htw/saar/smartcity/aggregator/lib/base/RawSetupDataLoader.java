@@ -44,7 +44,7 @@ public abstract class RawSetupDataLoader extends SetupDataLoader {
         if(alreadySetup)
             return;
 
-        createDataTypeIfNotFound(rawMicroserviceApplicationProperties.getMicroServiceDataType());
+        createDataTypeIfNotFound(rawMicroserviceApplicationProperties.getApplicationDataType());
 
         alreadySetup = true;
     }

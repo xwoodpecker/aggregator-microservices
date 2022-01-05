@@ -21,14 +21,14 @@ public class WaterApplicationProperties extends RawMicroserviceApplicationProper
 
     @Override
     @Value("${WATER_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucket(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
     @Override
     @Value("${WATER_SENSOR_TYPE}")
-    public void setMicroserviceDataType(String microserviceDataType) {
-        this.microserviceDataType = microserviceDataType;
+    public void setApplicationDataType(String applicationDataType) {
+        this.applicationDataType = applicationDataType;
     }
 
     @Override
@@ -36,6 +36,5 @@ public class WaterApplicationProperties extends RawMicroserviceApplicationProper
     public void setExportSensorDataAsMetric(boolean exportSensorDataAsMetric) {
         this.exportSensorDataAsMetric = exportSensorDataAsMetric;
     }
-
 
 }

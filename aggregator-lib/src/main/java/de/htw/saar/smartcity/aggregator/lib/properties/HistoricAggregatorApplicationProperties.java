@@ -23,7 +23,7 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
     /**
      * The Microservice bucket.
      */
-    protected String microserviceBucket;
+    protected String minioBucketName;
 
     /**
      * The Microservice data type.
@@ -71,9 +71,9 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
     /**
      * Sets microservice bucket.
      *
-     * @param microserviceBucket the microservice bucket
+     * @param minioBucketName the microservice bucket
      */
-    protected abstract void setMicroserviceBucket(String microserviceBucket);
+    protected abstract void setMinioBucketName(String minioBucketName);
 
     /**
      * Sets microservice data type.
@@ -94,8 +94,8 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
         return minioSecretKey;
     }
 
-    public String getMicroserviceBucket() {
-        return this.microserviceBucket;
+    public String getMinioBucketName() {
+        return this.minioBucketName;
     }
 
     /**

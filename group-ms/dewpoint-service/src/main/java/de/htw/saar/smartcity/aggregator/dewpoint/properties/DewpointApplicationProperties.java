@@ -11,8 +11,8 @@ public class DewpointApplicationProperties extends GroupMicroserviceApplicationP
 
     @Override
     @Value("${DEWPOINT_MICROSERVICE_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucket(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
     @Override
@@ -23,8 +23,8 @@ public class DewpointApplicationProperties extends GroupMicroserviceApplicationP
 
     @Override
     @Value("${DEWPOINT_DATA_TYPE}")
-    public void setMicroserviceDataTypeName(String microserviceDataTypeName) {
-        this.microserviceDataTypeName = microserviceDataTypeName;
+    public void setApplicationDataType(String applicationDataType) {
+        this.applicationDataType = applicationDataType;
 
     }
 

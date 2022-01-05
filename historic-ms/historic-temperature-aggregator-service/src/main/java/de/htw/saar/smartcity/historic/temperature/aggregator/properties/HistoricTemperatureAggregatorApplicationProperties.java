@@ -15,8 +15,8 @@ public class HistoricTemperatureAggregatorApplicationProperties extends Historic
 
     @Override
     @Value("${HISTORIC_TEMPERATURE_AGGREGATOR_MICROSERVICE_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucketName(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
     @Override

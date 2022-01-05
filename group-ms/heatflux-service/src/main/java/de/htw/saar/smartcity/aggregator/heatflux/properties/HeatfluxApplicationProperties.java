@@ -23,14 +23,14 @@ public class HeatfluxApplicationProperties extends GroupMicroserviceApplicationP
 
     @Override
     @Value("${HEATFLUX_MICROSERVICE_DATA_TYPE_NAME}")
-    public void setMicroserviceDataTypeName(String microserviceDataTypeName) {
-        this.microserviceDataTypeName = microserviceDataTypeName;
+    public void setApplicationDataType(String applicationDataType) {
+        this.applicationDataType = applicationDataType;
     }
 
     @Override
     @Value("${HEATFLUX_MICROSERVICE_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucket(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
     private String temperatureDataTypeName;

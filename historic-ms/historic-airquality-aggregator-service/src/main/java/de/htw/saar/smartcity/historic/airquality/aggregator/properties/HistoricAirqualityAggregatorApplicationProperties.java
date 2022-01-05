@@ -16,8 +16,8 @@ public class HistoricAirqualityAggregatorApplicationProperties extends HistoricA
 
     @Override
     @Value("${HISTORIC_AIRQUALITY_AGGREGATOR_MICROSERVICE_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucketName(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
     @Override

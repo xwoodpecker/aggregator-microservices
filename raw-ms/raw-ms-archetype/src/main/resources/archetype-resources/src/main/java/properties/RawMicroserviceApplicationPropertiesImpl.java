@@ -23,8 +23,8 @@ public class RawMicroserviceApplicationPropertiesImpl  extends RawMicroserviceAp
 
     @Override
     @Value("${MY_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucketName(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
     @Override

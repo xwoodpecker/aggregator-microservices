@@ -51,13 +51,13 @@ public class MinioClientWrapper {
         boolean found;
         found = this.minioClient.bucketExists(
                 BucketExistsArgs.builder()
-                        .bucket(this.applicationProperties.getMicroserviceBucket())
+                        .bucket(this.applicationProperties.getMinioBucketName())
                         .build());
         if (!found) {
             // Create a new bucket
             this.minioClient.makeBucket(
                     MakeBucketArgs.builder()
-                            .bucket(this.applicationProperties.getMicroserviceBucket())
+                            .bucket(this.applicationProperties.getMinioBucketName())
                             .build());
         } else {
             log.info("Bucket already exists.");
@@ -77,7 +77,7 @@ public class MinioClientWrapper {
             url = minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
                             .method(Method.GET)
-                            .bucket(applicationProperties.getMicroserviceBucket())
+                            .bucket(applicationProperties.getMinioBucketName())
                             .object(name)
                             .expiry(2, TimeUnit.MINUTES) //todo: align with message durability in queue?
                             .build());
@@ -108,7 +108,7 @@ public class MinioClientWrapper {
                 try(InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray())) {
                     minioClient.putObject(
                             PutObjectArgs.builder()
-                                    .bucket(applicationProperties.getMicroserviceBucket())
+                                    .bucket(applicationProperties.getMinioBucketName())
                                     .object(name)
                                     .stream(is, -1, 10485760)
                                     //.contentType()
@@ -150,7 +150,7 @@ public class MinioClientWrapper {
                 try(InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray())) {
                     minioClient.putObject(
                             PutObjectArgs.builder()
-                                    .bucket(applicationProperties.getMicroserviceBucket())
+                                    .bucket(applicationProperties.getMinioBucketName())
                                     .object(name)
                                     .stream(is, -1, 10485760)
                                     //.contentType()
@@ -182,7 +182,7 @@ public class MinioClientWrapper {
         try {
             try(InputStream is = minioClient.getObject(
                     GetObjectArgs.builder()
-                            .bucket(applicationProperties.getMicroserviceBucket())
+                            .bucket(applicationProperties.getMinioBucketName())
                             .object(name)
                             .build())) {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -214,7 +214,7 @@ public class MinioClientWrapper {
         try {
             minioClient.removeObject(
                     RemoveObjectArgs.builder()
-                            .bucket(applicationProperties.getMicroserviceBucket())
+                            .bucket(applicationProperties.getMinioBucketName())
                             .object(name)
                             .build());
 
@@ -245,7 +245,7 @@ public class MinioClientWrapper {
         List<T> results = new ArrayList<>();
         Iterator<Result<Item>> iterator = minioClient.listObjects(
                 ListObjectsArgs.builder()
-                        .bucket(applicationProperties.getMicroserviceBucket())
+                        .bucket(applicationProperties.getMinioBucketName())
                         .prefix(prefix)
                         .recursive(false) //only get measurements in the folder not in sub folders
                         //.maxKeys(100)
@@ -278,7 +278,7 @@ public class MinioClientWrapper {
         List<String> results = new ArrayList<>();
         Iterator<Result<Item>> iterator = minioClient.listObjects(
                 ListObjectsArgs.builder()
-                        .bucket(applicationProperties.getMicroserviceBucket())
+                        .bucket(applicationProperties.getMinioBucketName())
                         .prefix(prefix)
                         .recursive(recursive)
                         //.maxKeys(100)

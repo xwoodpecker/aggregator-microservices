@@ -17,8 +17,8 @@ public class HistoricAggregatorApplicationPropertiesImpl extends HistoricAggrega
 
     @Override
     @Value("${MY_HISTORIC_MICROSERVICE_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucketName(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
     @Override

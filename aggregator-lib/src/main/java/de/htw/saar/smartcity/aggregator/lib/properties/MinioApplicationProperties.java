@@ -32,7 +32,7 @@ public interface MinioApplicationProperties {
      *
      * @return the microservice bucket
      */
-    String getMicroserviceBucket();
+    String getMinioBucketName();
 
     /**
      * Gets only save measurement value.

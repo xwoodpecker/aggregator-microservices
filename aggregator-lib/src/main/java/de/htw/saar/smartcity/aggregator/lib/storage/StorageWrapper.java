@@ -5,7 +5,7 @@ import de.htw.saar.smartcity.aggregator.lib.entity.Aggregator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Sensor;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
 import de.htw.saar.smartcity.aggregator.lib.model.TempGroupMeasurement;
-import de.htw.saar.smartcity.aggregator.lib.properties.MicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.BasicApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.AggregatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.SensorService;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public abstract class StorageWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(StorageWrapper.class);
 
-    private final MicroserviceApplicationProperties applicationProperties;
+    private final BasicApplicationProperties applicationProperties;
 
     private final SensorService sensorService;
 
@@ -40,7 +40,7 @@ public abstract class StorageWrapper {
      * @param aggregatorService     the aggregator service
      * @throws Exception the exception
      */
-    public StorageWrapper(MicroserviceApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws Exception {
+    public StorageWrapper(BasicApplicationProperties applicationProperties, SensorService sensorService, AggregatorService aggregatorService) throws Exception {
 
         this.applicationProperties = applicationProperties;
         this.sensorService = sensorService;

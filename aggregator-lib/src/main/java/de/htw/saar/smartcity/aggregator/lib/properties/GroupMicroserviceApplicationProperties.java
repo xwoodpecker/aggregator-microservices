@@ -11,11 +11,6 @@ public abstract class GroupMicroserviceApplicationProperties extends Microservic
     protected String microserviceGroupTypeName;
 
     /**
-     * The Microservice data type name.
-     */
-    protected String microserviceDataTypeName;
-
-    /**
      * Sets microservice group type name.
      *
      * @param microserviceGroupTypeName the microservice group type name
@@ -34,28 +29,24 @@ public abstract class GroupMicroserviceApplicationProperties extends Microservic
     /**
      * Sets microservice data type name.
      *
-     * @param microserviceDataTypeName the microservice data type name
+     * @param applicationDataType the microservice data type name
      */
-    public abstract void setMicroserviceDataTypeName(String microserviceDataTypeName);
+    public abstract void setApplicationDataType(String applicationDataType);
 
-    /**
-     * Gets microservice data type name.
-     *
-     * @return the microservice data type name
-     */
-    public String getMicroserviceDataTypeName() {
-        return microserviceDataTypeName;
-    }
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("GroupMicroserviceApplicationProperties{");
-        sb.append("microserviceQueue='").append(microserviceQueue).append('\'');
-        sb.append(", microserviceBucket='").append(microserviceBucket).append('\'');
+        sb.append("minioEndpoint='").append(minioEndpoint).append('\'');
+        sb.append(", minioAccessKey='").append(minioAccessKey).append('\'');
+        sb.append(", minioSecretKey='").append(minioSecretKey).append('\'');
+        sb.append(", onlySaveMeasurementValue=").append(onlySaveMeasurementValue);
+        sb.append(", minioBucketName='").append(minioBucketName).append('\'');
         sb.append(", memcachedHost='").append(memcachedHost).append('\'');
         sb.append(", memcachedPort='").append(memcachedPort).append('\'');
+        sb.append(", applicationDataType='").append(applicationDataType).append('\'');
         sb.append(", microserviceGroupTypeName='").append(microserviceGroupTypeName).append('\'');
-        sb.append(", microserviceDataTypeName='").append(microserviceDataTypeName).append('\'');
+        sb.append(", microserviceQueue='").append(microserviceQueue).append('\'');
         sb.append('}');
         return sb.toString();
     }

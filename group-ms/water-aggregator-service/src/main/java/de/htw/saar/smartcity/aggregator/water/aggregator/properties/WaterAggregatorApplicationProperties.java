@@ -21,14 +21,14 @@ public class WaterAggregatorApplicationProperties extends GroupMicroserviceAppli
 
     @Override
     @Value("${WATER_AGGREGATOR_MICROSERVICE_DATA_TYPE_NAME}")
-    public void setMicroserviceDataTypeName(String microserviceDataTypeName) {
-        this.microserviceDataTypeName = microserviceDataTypeName;
+    public void setApplicationDataType(String applicationDataType) {
+        this.applicationDataType = applicationDataType;
     }
 
     @Override
     @Value("${WATER_AGGREGATOR_MICROSERVICE_BUCKET}")
-    public void setMicroserviceBucket(String microserviceBucket) {
-        this.microserviceBucket = microserviceBucket;
+    public void setMinioBucket(String minioBucketName) {
+        this.minioBucketName = minioBucketName;
     }
 
 

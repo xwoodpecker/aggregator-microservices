@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 /**
  * The type Microservice application properties.
  */
-public abstract class MicroserviceApplicationProperties implements BrokerApplicationProperties, MinioApplicationProperties, MemcachedApplicationProperties {
+public abstract class MicroserviceApplicationProperties extends BasicApplicationProperties implements BrokerApplicationProperties, MinioApplicationProperties, MemcachedApplicationProperties {
 
     private String brokerTopic;
 
@@ -29,33 +29,11 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
 
     private String clientKeyFile;
 
-    private String minioEndpoint;
-
-    private String minioAccessKey;
-
-    private String minioSecretKey;
-
-    private Boolean onlySaveMeasurementValue;
-
     /**
      * The Microservice queue.
      */
     protected String microserviceQueue;
 
-    /**
-     * The Microservice bucket.
-     */
-    protected String microserviceBucket;
-
-    /**
-     * The Memcached host.
-     */
-    protected String memcachedHost;
-
-    /**
-     * The Memcached port.
-     */
-    protected String memcachedPort;
 
     //@Value("${BROKER_TOPIC}")
     private void setBrokerTopic(String BrokerTopic) {
@@ -148,9 +126,9 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
     /**
      * Sets microservice bucket.
      *
-     * @param microserviceBucket the microservice bucket
+     * @param minioBucketName the microservice bucket
      */
-    protected abstract void setMicroserviceBucket(String microserviceBucket);
+    protected abstract void setMinioBucket(String minioBucketName);
 
     @Value("${MEMCACHED_HOST}")
     private void setMemcachedHost(String memcachedHost) {
@@ -234,8 +212,8 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         return microserviceQueue;
     }
 
-    public String getMicroserviceBucket() {
-        return this.microserviceBucket;
+    public String getMinioBucketName() {
+        return this.minioBucketName;
     }
 
 
@@ -281,7 +259,7 @@ public abstract class MicroserviceApplicationProperties implements BrokerApplica
         sb.append(", minioAccessKey='").append(minioAccessKey).append('\'');
         sb.append(", minioSecretKey='").append(minioSecretKey).append('\'');
         sb.append(", microserviceQueue='").append(microserviceQueue).append('\'');
-        sb.append(", microserviceBucket='").append(microserviceBucket).append('\'');
+        sb.append(", minioBucketName='").append(minioBucketName).append('\'');
         sb.append(", memcachedHost='").append(memcachedHost).append('\'');
         sb.append(", memcachedPort='").append(memcachedPort).append('\'');
         sb.append('}');
