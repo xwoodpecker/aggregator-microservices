@@ -1,8 +1,8 @@
-package ${package}.properties;
-
-import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
+package $ import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+
+{package}.properties;
 
 @Configuration
 public class RawMicroserviceApplicationPropertiesImpl  extends RawMicroserviceApplicationProperties {
