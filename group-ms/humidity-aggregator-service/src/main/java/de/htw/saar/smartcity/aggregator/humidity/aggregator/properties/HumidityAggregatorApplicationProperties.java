@@ -9,8 +9,8 @@ public class HumidityAggregatorApplicationProperties extends GroupMicroserviceAp
 
     @Override
     @Value("${HUMIDITY_AGGREGATOR_MICROSERVICE_GROUP_TYPE_NAME}")
-    public void setMicroserviceQueue(String microserviceQueue) {
-        this.microserviceQueue = microserviceQueue;
+    public void setMicroserviceTopicName(String microserviceTopicName) {
+        this.microserviceTopicName = microserviceTopicName;
     }
 
     @Override

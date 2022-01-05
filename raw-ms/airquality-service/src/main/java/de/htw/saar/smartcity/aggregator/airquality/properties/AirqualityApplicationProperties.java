@@ -9,8 +9,8 @@ public class AirqualityApplicationProperties  extends RawMicroserviceApplication
 
     @Override
     @Value("${AIRQUALITY_QUEUE}")
-    public void setMicroserviceQueue(String microserviceQueue) {
-        this.microserviceQueue = microserviceQueue;
+    public void setMicroserviceTopicName(String microserviceTopicName) {
+        this.microserviceTopicName = microserviceTopicName;
     }
 
     @Override

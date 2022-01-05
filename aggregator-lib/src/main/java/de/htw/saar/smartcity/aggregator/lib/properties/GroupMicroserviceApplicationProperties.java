@@ -46,7 +46,7 @@ public abstract class GroupMicroserviceApplicationProperties extends Microservic
         sb.append(", memcachedPort='").append(memcachedPort).append('\'');
         sb.append(", applicationDataType='").append(applicationDataType).append('\'');
         sb.append(", microserviceGroupTypeName='").append(microserviceGroupTypeName).append('\'');
-        sb.append(", microserviceQueue='").append(microserviceQueue).append('\'');
+        sb.append(", microserviceQueue='").append(microserviceTopicName).append('\'');
         sb.append('}');
         return sb.toString();
     }

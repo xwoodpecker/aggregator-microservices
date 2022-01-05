@@ -11,8 +11,8 @@ public class HeatfluxApplicationProperties extends GroupMicroserviceApplicationP
 
     @Override
     @Value("${HEATFLUX_MICROSERVICE_QUEUE}")
-    public void setMicroserviceQueue(String microserviceQueue) {
-        this.microserviceQueue = microserviceQueue;
+    public void setMicroserviceTopicName(String microserviceTopicName) {
+        this.microserviceTopicName = microserviceTopicName;
     }
 
     @Override

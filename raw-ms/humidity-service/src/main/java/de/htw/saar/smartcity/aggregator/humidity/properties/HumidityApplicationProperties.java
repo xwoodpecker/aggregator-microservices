@@ -10,8 +10,8 @@ public class HumidityApplicationProperties extends RawMicroserviceApplicationPro
 
     @Override
     @Value("${HUMIDITY_QUEUE}")
-    public void setMicroserviceQueue(String microserviceQueue) {
-        this.microserviceQueue = microserviceQueue;
+    public void setMicroserviceTopicName(String microserviceTopicName) {
+        this.microserviceTopicName = microserviceTopicName;
     }
 
     @Override

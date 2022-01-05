@@ -63,7 +63,7 @@ public abstract class MicroserviceController {
                 applicationProperties.getBrokerHost(),
                 applicationProperties.getBrokerManagementPort())
                 + "api/queues/%2F/"
-                + applicationProperties.getMicroserviceQueue();
+                + applicationProperties.getMicroserviceTopicName();
 
         String credentials = applicationProperties.getBrokerUserName() + ":" + applicationProperties.getBrokerPassword();
         String base64String = null;

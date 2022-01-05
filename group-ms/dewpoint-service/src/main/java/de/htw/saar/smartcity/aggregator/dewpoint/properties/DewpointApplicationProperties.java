@@ -3,7 +3,6 @@ package de.htw.saar.smartcity.aggregator.dewpoint.properties;
 import de.htw.saar.smartcity.aggregator.lib.properties.GroupMicroserviceApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 
 @Configuration
@@ -30,8 +29,8 @@ public class DewpointApplicationProperties extends GroupMicroserviceApplicationP
 
     @Override
     @Value("${DEWPOINT_MICROSERVICE_QUEUE}")
-    public void setMicroserviceQueue(String microserviceQueue) {
-        this.microserviceQueue = microserviceQueue;
+    public void setMicroserviceTopicName(String microserviceTopicName) {
+        this.microserviceTopicName = microserviceTopicName;
     }
 
     private String temperatureDataTypeName;

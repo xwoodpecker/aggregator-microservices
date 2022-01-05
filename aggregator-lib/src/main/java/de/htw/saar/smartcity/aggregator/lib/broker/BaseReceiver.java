@@ -34,7 +34,7 @@ public abstract class BaseReceiver extends Receiver {
         for(String topic : applicationProperties.getMicroserviceTopics()) {
 
             String routingKey = topic.replaceAll("/", ".");
-            channel.queueBind(applicationProperties.getMicroserviceQueue(), "amq.topic", routingKey);
+            channel.queueBind(applicationProperties.getMicroserviceTopicName(), "amq.topic", routingKey);
         }
     }
 

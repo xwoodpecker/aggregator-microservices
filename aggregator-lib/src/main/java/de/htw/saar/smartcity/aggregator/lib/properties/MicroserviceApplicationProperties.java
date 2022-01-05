@@ -32,7 +32,7 @@ public abstract class MicroserviceApplicationProperties extends BasicApplication
     /**
      * The Microservice queue.
      */
-    protected String microserviceQueue;
+    protected String microserviceTopicName;
 
 
     //@Value("${BROKER_TOPIC}")
@@ -119,9 +119,9 @@ public abstract class MicroserviceApplicationProperties extends BasicApplication
     /**
      * Sets microservice queue.
      *
-     * @param microserviceQueue the microservice queue
+     * @param microserviceTopicName the microservice queue
      */
-    protected abstract void setMicroserviceQueue(String microserviceQueue);
+    protected abstract void setMicroserviceTopicName(String microserviceTopicName);
 
     /**
      * Sets microservice bucket.
@@ -208,8 +208,8 @@ public abstract class MicroserviceApplicationProperties extends BasicApplication
      *
      * @return the microservice queue
      */
-    public String getMicroserviceQueue() {
-        return microserviceQueue;
+    public String getMicroserviceTopicName() {
+        return microserviceTopicName;
     }
 
     public String getMinioBucketName() {
@@ -258,7 +258,7 @@ public abstract class MicroserviceApplicationProperties extends BasicApplication
         sb.append(", minioEndpoint='").append(minioEndpoint).append('\'');
         sb.append(", minioAccessKey='").append(minioAccessKey).append('\'');
         sb.append(", minioSecretKey='").append(minioSecretKey).append('\'');
-        sb.append(", microserviceQueue='").append(microserviceQueue).append('\'');
+        sb.append(", microserviceQueue='").append(microserviceTopicName).append('\'');
         sb.append(", minioBucketName='").append(minioBucketName).append('\'');
         sb.append(", memcachedHost='").append(memcachedHost).append('\'');
         sb.append(", memcachedPort='").append(memcachedPort).append('\'');

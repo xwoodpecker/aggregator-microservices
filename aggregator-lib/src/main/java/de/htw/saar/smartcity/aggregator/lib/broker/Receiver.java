@@ -37,7 +37,7 @@ public abstract class Receiver extends BrokerConnection {
         this.activityManager = activityManager;
 
         // durable: true, exclusive: false, autoDelete: false
-        channel.queueDeclare(applicationProperties.getMicroserviceQueue(), true, false, false, null);
+        channel.queueDeclare(applicationProperties.getMicroserviceTopicName(), true, false, false, null);
         // set prefetch count for limiting the amount of messages taken from the queue
         channel.basicQos(Constants.PREFETCH_COUNT, false);
 
@@ -65,7 +65,7 @@ public abstract class Receiver extends BrokerConnection {
         };
 
         // messages get manually acknowledged so, autoAck is set to false
-        channel.basicConsume(microserviceApplicationProperties.getMicroserviceQueue(), false, deliverCallback, consumerTag -> {});
+        channel.basicConsume(microserviceApplicationProperties.getMicroserviceTopicName(), false, deliverCallback, consumerTag -> {});
     }
 
     /**
