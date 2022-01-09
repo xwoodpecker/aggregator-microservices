@@ -2,10 +2,12 @@ package de.htw.saar.smartcity.aggregator.lib.broker;
 
 import de.htw.saar.smartcity.aggregator.lib.properties.KafkaApplicationProperties;
 import org.apache.kafka.clients.producer.*;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.UUID;
 
 /**
  * The type Kafka publisher.
@@ -32,6 +34,9 @@ public abstract class KafkaPublisher implements Publisher {
 
         this.kafkaProducerProperties = new Properties();
         this.kafkaProducerProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, applicationProperties.getKafkaHost());
+        this.kafkaProducerProperties.put(ProducerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString());
+        this.kafkaProducerProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        this.kafkaProducerProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         this.kafkaProducer = new KafkaProducer<>(kafkaProducerProperties);
     }
 
