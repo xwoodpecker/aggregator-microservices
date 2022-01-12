@@ -1,5 +1,4 @@
-package $ import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
-import org.springframework.beans.factory.annotation.Value;
+package $ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 {package}.properties;

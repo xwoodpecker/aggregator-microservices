@@ -1,5 +1,4 @@
 package $ import de.htw.saar.smartcity.aggregator.lib.model.HistoricCombinatorModels;
-import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.scheduler.HistoricAggregatorScheduler;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.service.HistoricCombinatorService;
