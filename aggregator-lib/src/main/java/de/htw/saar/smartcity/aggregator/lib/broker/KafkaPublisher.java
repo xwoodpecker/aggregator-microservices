@@ -34,7 +34,7 @@ public abstract class KafkaPublisher implements Publisher {
 
         this.kafkaProducerProperties = new Properties();
         this.kafkaProducerProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, applicationProperties.getKafkaHost());
-        this.kafkaProducerProperties.put(ProducerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString());
+        this.kafkaProducerProperties.put(ProducerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString()); //todo: use a valid client id that can be reused
         this.kafkaProducerProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         this.kafkaProducerProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         this.kafkaProducer = new KafkaProducer<>(kafkaProducerProperties);
