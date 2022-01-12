@@ -1,11 +1,11 @@
 package de.htw.saar.smartcity.historic.humidity.aggregator.properties;
 
-import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.HistoricMicroserviceAggregatorApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class HistoricHumidityAggregatorApplicationProperties extends HistoricAggregatorApplicationProperties {
+public class HistoricHumidityAggregatorApplicationProperties extends HistoricMicroserviceAggregatorApplicationProperties {
 
 
     @Override

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 {package}.properties;
 
 @Configuration
-public class HistoricAggregatorApplicationPropertiesImpl extends HistoricAggregatorApplicationProperties {
+public class HistoricAggregatorApplicationPropertiesImpl extends HistoricMicroserviceAggregatorApplicationProperties {
 
     //todo: change keys
 

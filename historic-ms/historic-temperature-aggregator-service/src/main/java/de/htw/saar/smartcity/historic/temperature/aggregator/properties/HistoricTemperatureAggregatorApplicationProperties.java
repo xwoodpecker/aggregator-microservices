@@ -1,11 +1,11 @@
 package de.htw.saar.smartcity.historic.temperature.aggregator.properties;
 
-import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.HistoricMicroserviceAggregatorApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class HistoricTemperatureAggregatorApplicationProperties extends HistoricAggregatorApplicationProperties {
+public class HistoricTemperatureAggregatorApplicationProperties extends HistoricMicroserviceAggregatorApplicationProperties {
 
     @Override
     @Value("${DELETE_RAW_TEMPERATURE_MEASUREMENTS}")

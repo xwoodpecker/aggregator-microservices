@@ -5,7 +5,7 @@ import de.htw.saar.smartcity.aggregator.lib.entity.HistoricCombinator;
 import de.htw.saar.smartcity.aggregator.lib.entity.Producer;
 import de.htw.saar.smartcity.aggregator.lib.model.HistoricCombinatorModel;
 import de.htw.saar.smartcity.aggregator.lib.model.Measurement;
-import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.HistoricMicroserviceAggregatorApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.service.HistoricCombinatorService;
 import de.htw.saar.smartcity.aggregator.lib.service.ProducerService;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 public abstract class HistoricAggregatorScheduler {
 
-    private final HistoricAggregatorApplicationProperties applicationProperties;
+    private final HistoricMicroserviceAggregatorApplicationProperties applicationProperties;
 
     private static final Logger log = LoggerFactory.getLogger(HistoricAggregatorScheduler.class);
 
@@ -52,7 +52,7 @@ public abstract class HistoricAggregatorScheduler {
      * @param historicCombinatorService the historic combinator service
      * @param storageWrapper            the storage wrapper
      */
-    public HistoricAggregatorScheduler(HistoricAggregatorApplicationProperties applicationProperties,
+    public HistoricAggregatorScheduler(HistoricMicroserviceAggregatorApplicationProperties applicationProperties,
                                        DataTypeService dataTypeService,
                                        ProducerService producerService,
                                        HistoricCombinatorService historicCombinatorService,

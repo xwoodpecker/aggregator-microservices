@@ -1,11 +1,11 @@
 package de.htw.saar.smartcity.historic.dewpoint.aggregator.properties;
 
-import de.htw.saar.smartcity.aggregator.lib.properties.HistoricAggregatorApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.HistoricMicroserviceAggregatorApplicationProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class HistoricDewpointAggregatorApplicationProperties extends HistoricAggregatorApplicationProperties {
+public class HistoricDewpointAggregatorApplicationProperties extends HistoricMicroserviceAggregatorApplicationProperties {
 
 
     @Override

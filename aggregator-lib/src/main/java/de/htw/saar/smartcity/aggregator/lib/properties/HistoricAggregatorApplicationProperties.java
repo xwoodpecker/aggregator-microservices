@@ -30,10 +30,6 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
      */
     protected String microserviceDataType;
 
-    /**
-     * The Delete raw measurements.
-     */
-    protected boolean deleteRawMeasurements;
 
 
     @Value("${MINIO_ENDPOINT}")
@@ -51,12 +47,6 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
         this.minioSecretKey = minioSecretKey;
     }
 
-    /**
-     * Sets delete raw measurements.
-     *
-     * @param deleteRawMeasurements the delete raw measurements
-     */
-    protected abstract void setDeleteRawMeasurements(boolean deleteRawMeasurements);
 
     /**
      * Sets only save measurement value.
@@ -107,24 +97,10 @@ public abstract class HistoricAggregatorApplicationProperties implements MinioAp
         return microserviceDataType;
     }
 
-    /**
-     * Gets delete raw measurements.
-     *
-     * @return the delete raw measurements
-     */
-    public boolean getDeleteRawMeasurements() {
-        return deleteRawMeasurements;
-    }
 
     @Override
     public Boolean getOnlySaveMeasurementValue() {
         return onlySaveMeasurementValue;
     }
 
-    /**@PostConstruct
-    public void printProperties() {
-        final Logger log = LoggerFactory.getLogger(MicroserviceApplicationProperties.class);
-        log.info(this.toString());
-
-    }**/
 }

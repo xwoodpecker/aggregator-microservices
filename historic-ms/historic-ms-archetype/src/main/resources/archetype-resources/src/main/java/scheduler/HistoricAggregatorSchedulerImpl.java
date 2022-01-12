@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class HistoricAggregatorSchedulerImpl extends HistoricAggregatorScheduler {
 
 
-    public HistoricAggregatorSchedulerImpl(HistoricAggregatorApplicationProperties applicationProperties,
+    public HistoricAggregatorSchedulerImpl(HistoricMicroserviceAggregatorApplicationProperties applicationProperties,
                                            DataTypeService dataTypeService,
                                            ProducerService producerService,
                                            HistoricCombinatorService historicCombinatorService,
