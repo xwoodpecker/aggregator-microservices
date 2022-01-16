@@ -3,7 +3,7 @@ package de.htw.saar.smartcity.aggregator.lib.properties;
 /**
  * The type Group microservice application properties.
  */
-public abstract class GroupMicroserviceApplicationProperties extends MicroserviceApplicationProperties {
+public abstract class GroupMicroserviceApplicationProperties extends MicroserviceApplicationProperties implements GroupApplicationProperties {
 
     /**
      * The Microservice group type name.
@@ -15,23 +15,17 @@ public abstract class GroupMicroserviceApplicationProperties extends Microservic
      *
      * @param microserviceGroupTypeName the microservice group type name
      */
-    public abstract void setMicroserviceGroupTypeName(String microserviceGroupTypeName);
+    public abstract void setGroupTypeName(String microserviceGroupTypeName);
 
     /**
      * Gets microservice group type name.
      *
      * @return the microservice group type name
      */
-    public String getMicroserviceGroupTypeName() {
+    @Override
+    public String getGroupTypeName() {
         return microserviceGroupTypeName;
     }
-
-    /**
-     * Sets microservice data type name.
-     *
-     * @param applicationDataType the microservice data type name
-     */
-    public abstract void setApplicationDataType(String applicationDataType);
 
 
     @Override

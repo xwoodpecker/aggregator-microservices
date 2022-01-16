@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HistoricAirqualityAggregatorApplicationProperties extends HistoricMicroserviceAggregatorApplicationProperties {
 
-
     @Override
     @Value("${DELETE_RAW_AIRQUALITY_MEASUREMENTS}")
     public void setDeleteRawMeasurements(boolean deleteRawMeasurements) {

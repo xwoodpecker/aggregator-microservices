@@ -2,7 +2,7 @@ package de.htw.saar.smartcity.aggregator.lib.base;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
 import de.htw.saar.smartcity.aggregator.lib.entity.GroupType;
-import de.htw.saar.smartcity.aggregator.lib.properties.GroupMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.GroupApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import de.htw.saar.smartcity.aggregator.lib.service.GroupTypeService;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,7 +16,7 @@ public abstract class GroupSetupDataLoader extends SetupDataLoader {
     /**
      * The Group microservice application properties.
      */
-    protected final GroupMicroserviceApplicationProperties groupMicroserviceApplicationProperties;
+    protected final GroupApplicationProperties applicationProperties;
     /**
      * The Group type service.
      */
@@ -29,15 +29,15 @@ public abstract class GroupSetupDataLoader extends SetupDataLoader {
     /**
      * Instantiates a new Group setup data loader.
      *
-     * @param groupMicroserviceApplicationProperties the group microservice application properties
+     * @param applicationProperties the group microservice application properties
      * @param groupTypeService                       the group type service
      * @param dataTypeService                        the data type service
      */
-    public GroupSetupDataLoader(GroupMicroserviceApplicationProperties groupMicroserviceApplicationProperties,
-                                     GroupTypeService groupTypeService,
-                                     DataTypeService dataTypeService) {
+    public GroupSetupDataLoader(GroupApplicationProperties applicationProperties,
+                                GroupTypeService groupTypeService,
+                                DataTypeService dataTypeService) {
 
-        this.groupMicroserviceApplicationProperties = groupMicroserviceApplicationProperties;
+        this.applicationProperties = applicationProperties;
         this.groupTypeService = groupTypeService;
         this.dataTypeService = dataTypeService;
     }
@@ -53,8 +53,8 @@ public abstract class GroupSetupDataLoader extends SetupDataLoader {
         if(alreadySetup)
             return;
 
-        createGroupTypeIfNotFound(groupMicroserviceApplicationProperties.getMicroserviceGroupTypeName());
-        createDataTypeIfNotFound(groupMicroserviceApplicationProperties.getApplicationDataType());
+        createGroupTypeIfNotFound(applicationProperties.getGroupTypeName());
+        createDataTypeIfNotFound(applicationProperties.getApplicationDataType());
 
         alreadySetup = true;
     }

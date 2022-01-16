@@ -15,7 +15,7 @@ public class GroupMicroserviceApplicationPropertiesImpl extends GroupMicroservic
 
     @Override
     @Value("${MY_AGGREGATOR_MICROSERVICE_GROUP_TYPE_NAME}")
-    public void setMicroserviceGroupTypeName(String microserviceGroupTypeName) {
+    public void setGroupTypeName(String microserviceGroupTypeName) {
         this.microserviceGroupTypeName = microserviceGroupTypeName;
     }
 

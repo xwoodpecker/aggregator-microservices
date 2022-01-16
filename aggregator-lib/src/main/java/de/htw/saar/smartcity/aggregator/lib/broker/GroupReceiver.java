@@ -37,7 +37,7 @@ public abstract class GroupReceiver extends Receiver {
         super(applicationProperties, activityManager);
         this.groupMeasurementHandler = groupMeasurementHandler;
 
-        String groupTypeName = applicationProperties.getMicroserviceGroupTypeName();
+        String groupTypeName = applicationProperties.getGroupTypeName();
         channel.queueBind(applicationProperties.getMicroserviceTopicName(), Constants.GROUP_EXCHANGE, groupTypeName + ".#");
     }
 

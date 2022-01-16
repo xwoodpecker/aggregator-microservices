@@ -17,7 +17,7 @@ public class HeatfluxApplicationProperties extends GroupMicroserviceApplicationP
 
     @Override
     @Value("${HEATFLUX_MICROSERVICE_GROUP_TYPE_NAME}")
-    public void setMicroserviceGroupTypeName(String microserviceGroupTypeName) {
+    public void setGroupTypeName(String microserviceGroupTypeName) {
         this.microserviceGroupTypeName = microserviceGroupTypeName;
     }
 
