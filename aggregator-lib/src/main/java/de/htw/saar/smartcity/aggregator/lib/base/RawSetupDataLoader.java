@@ -1,7 +1,7 @@
 package de.htw.saar.smartcity.aggregator.lib.base;
 
 import de.htw.saar.smartcity.aggregator.lib.entity.DataType;
-import de.htw.saar.smartcity.aggregator.lib.properties.RawMicroserviceApplicationProperties;
+import de.htw.saar.smartcity.aggregator.lib.properties.BasicApplicationProperties;
 import de.htw.saar.smartcity.aggregator.lib.service.DataTypeService;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ public abstract class RawSetupDataLoader extends SetupDataLoader {
     /**
      * the application settings for raw microservices
      */
-    private final RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties;
+    private final BasicApplicationProperties basicApplicationProperties;
     /**
      * the data type service
      */
@@ -24,13 +24,13 @@ public abstract class RawSetupDataLoader extends SetupDataLoader {
      * Instantiates a new Raw setup data loader.
      *
      * @param dataTypeService                      the data type service
-     * @param rawMicroserviceApplicationProperties the raw microservice application properties
+     * @param basicApplicationProperties           the basic application properties
      */
     public RawSetupDataLoader(DataTypeService dataTypeService,
-                              RawMicroserviceApplicationProperties rawMicroserviceApplicationProperties) {
+                              BasicApplicationProperties basicApplicationProperties) {
 
         this.dataTypeService = dataTypeService;
-        this.rawMicroserviceApplicationProperties = rawMicroserviceApplicationProperties;
+        this.basicApplicationProperties = basicApplicationProperties;
     }
 
     /**
@@ -44,7 +44,7 @@ public abstract class RawSetupDataLoader extends SetupDataLoader {
         if(alreadySetup)
             return;
 
-        createDataTypeIfNotFound(rawMicroserviceApplicationProperties.getApplicationDataType());
+        createDataTypeIfNotFound(basicApplicationProperties.getApplicationDataType());
 
         alreadySetup = true;
     }
